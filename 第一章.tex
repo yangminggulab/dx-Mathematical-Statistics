@@ -1,0 +1,552 @@
+\chapter{第一章基础知识}
+\begin{definition}[偏度系数 Skewness Coefficient]设随机变量 $X$ 的均值为 $\mu$，标准差为 $\sigma$，其总体偏度 $\gamma_1$ 定义为三阶标准化矩：$$ \gamma_1 = E\left[ \left( \frac{X - \mu}{\sigma} \right)^3 \right] = \frac{E[(X - \mu)^3]}{\sigma^3} $$对于样本 $x_1, x_2, \dots, x_n$，样本偏度 $g_1$ 定义为：$$ g_1 = \frac{\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^3}{\left[ \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2 \right]^{3/2}} $$当 $\gamma_1 > 0$ 时，分布为右偏；当 $\gamma_1 < 0$ 时，分布为左偏；对于对称分布，若其三阶中心矩存在，则 $\gamma_1 = 0$。\end{definition}
+\begin{dxtips}
+    一阶中心矩永远等于 0,二阶会抹杀正负号无法看见方向此外，三次方对离均值较远的“尾部”更加敏感。在统计学中，偏度主要关心的就是那个“尾巴”有多长。三次方能把远离均值的极端值权重放大，从而更准确地捕捉到分布的倾斜趋势。
+\end{dxtips}
+\begin{example}
+设某种电子元件的寿命 $X$ 服从指数分布 $\mathcal{E}(\lambda)$，其概率密度为
+\[
+f(x; \lambda) = 
+\begin{cases} 
+\frac{1}{\lambda} e^{-\frac{x}{\lambda}}, & x > 0; \\
+0, & \text{其他},
+\end{cases}
+\]
+其中 $\lambda > 0$。求样本 $(X_1, X_2, \cdots, X_n)^{\mathrm{T}}$ 的概率分布。
+\end{example}
+
+\begin{solution}
+依题意有 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim f(x, \lambda)$，故所求的概率分布为
+\[
+\prod_{i=1}^{n} f(x_i; \lambda) = 
+\begin{cases}
+\frac{1}{\lambda^n} \exp \left( -\frac{1}{\lambda} \sum_{i=1}^{n} x_i \right), & x_1, x_2, \cdots, x_n > 0; \\
+0, & \text{其他}.
+\end{cases}
+\]
+\end{solution}
+
+\begin{definition}
+设 $(X_{1}, X_{2}, \cdots, X_{n})^{\mathrm{T}}$ 是来自总体 $X$ 的一个样本，$f(x; \theta)$ 为总体的概率密度函数（或分布律）。由于样本中的每个观测值 $X_{1}, X_{2}, \cdots, X_{n}$ 相互独立且与总体同分布（i.i.d.），则称它们的联合概率密度函数（或联合分布律）为该样本的概率分布，记为：
+\[
+L(x_{1}, x_{2}, \cdots, x_{n}; \theta) = \prod_{i=1}^{n} f(x_{i}; \theta)
+\]
+其中，$x_{1}, x_{2}, \cdots, x_{n}$ 为样本观测值，$\theta$ 为待估参数。
+\end{definition}
+
+\begin{note}
+关于“联合分布连乘积”意义的直观理解：黑箱摸球实验
+
+为了理解为什么需要将 $n$ 个样本的密度函数相乘，我们可以设定如下实验场景：
+
+\begin{itemize}
+    \item 场景设定：假设一个黑箱中的纸条数字服从指数分布 $\mathcal{E}(\lambda)$，但参数 $\lambda$ 未知。我们独立抽样得到三张纸条，数字分别为 $x_1=1, x_2=2, x_3=3$。
+    
+    \item 连乘的逻辑：
+    \begin{itemize}
+        \item 抽到 1 的可能性由 $f(1; \lambda)$ 决定；
+        \item 抽到 2 的可能性由 $f(2; \lambda)$ 决定；
+        \item 抽到 3 的可能性由 $f(3; \lambda)$ 决定。
+    \end{itemize}
+    由于抽样是独立的，这三个数字“同时出现”的总可能性（联合密度）就是它们各自可能性的乘积：
+    \[ L(\lambda) = f(1; \lambda) \times f(2; \lambda) \times f(3; \lambda) \]
+
+    \item 公式推导的意义：
+    \begin{itemize}
+        \item 评估证据：如果我们代入不同的 $\lambda$（如 $\lambda=1$ 和 $\lambda=5$），连乘积结果更大的那个 $\lambda$，在逻辑上就更像是产生这组数据的“真相”。
+        \item 信息压缩：通过连乘，我们发现所有的样本信息最终都浓缩在了 $\sum x_i$（样本总和）中。
+        \item 决策基础：这个连乘得到的“联合分布”式子，是后续进行极大似然估计（寻找最优参数）的唯一数学依据。
+    \end{itemize}
+\end{itemize}
+
+结论：连乘积不是单纯的数学堆砌，它是将分散的观测数据（证词）汇聚成统一逻辑证据（结案报告）的过程。
+\end{note}
+\section*{2.2}
+\begin{definition}{顺序统计量}
+    设 $X_1, X_2, \cdots, X_n$ 是来自总体 $X$ 的样本，将 $X_1, X_2, \cdots, X_n$ 按从小到大的顺序排列为
+    \[ X_{(1)} \leqslant X_{(2)} \leqslant \cdots \leqslant X_{(n)}, \]
+    称 $(X_{(1)}, X_{(2)}, \cdots, X_{(n)})$ 为 $X_1, X_2, \cdots, X_n$ 的\textbf{顺序统计量}；称 $X_{(r)}$ 为\textbf{第 $r$ 个顺序统计量}。
+    
+    显见 $X_{(1)} = \min_{1 \leqslant i \leqslant n} \{X_i\}$ 是样本中的最小值，而 $X_{(n)} = \max_{1 \leqslant i \leqslant n} \{X_i\}$ 是最大值。
+    对第 $r$ 个顺序统计量 $X_{(r)}$ 的分布有如下结论。
+\end{definition}
+\begin{example}{灯泡寿命与顺序统计量}
+为了直观理解这些抽象符号，我们看一个生活中的“灯泡寿命”例子。
+
+\textbf{1. 什么是 $X_1, X_2, \dots, X_n$？（原始样本）} \\
+想象你买了 3 个型号完全一样的灯泡（此时 $n=3$），装在客厅的吊灯里。
+\begin{itemize}
+    \item $X_1$：第 1 个灯泡实际亮了多少小时。
+    \item $X_2$：第 2 个灯泡实际亮了多少小时。
+    \item $X_3$：第 3 个灯泡实际亮了多少小时。
+\end{itemize}
+当你还没拆封时，它们每个人的寿命都服从厂家给出的分布 $F(x)$。比如厂家说“平均寿命 1000 小时”，这就是总体分布。
+
+\textbf{2. 什么是 $X_{(1)}, X_{(2)}, \dots, X_{(n)}$？（排序后的统计量）} \\
+等你把这 3 个灯泡用坏了，你会得到三个具体的数，比如：$X_1 = 1200$ 小时，$X_2 = 800$ 小时，$X_3 = 1050$ 小时。顺序统计量就是把这些数按从小到大重新排队：
+\begin{itemize}
+    \item $X_{(1)} = 800$：这是第一个坏掉的灯泡寿命（最小值）。
+    \item $X_{(2)} = 1050$：这是第二个坏掉的灯泡寿命（中位数）。
+    \item $X_{(3)} = 1200$：这是最后一个坏掉的灯泡寿命（最大值）。
+\end{itemize}
+
+\textbf{3. 公式 (2.2.2) 在说什么？（直观推导）} \\
+公式 $f_{(r)}(x) = r C_n^r F^{r-1}(x) [1 - F(x)]^{n-r} f(x)$ 看着吓人，其实在讲一个排列组合的故事。假设你想求“第二个灯泡在 $x=1000$ 小时准时坏掉”的概率密度，这意味着在那一时刻：
+\begin{itemize}
+    \item 正好有 1 个灯泡寿命就是 $1000$（对应 $f(x)$）。
+    \item 有 $r-1$ 个（即 1 个）灯泡比 $1000$ 短，已经先坏了（对应 $F(x)^{r-1}$）。
+    \item 有 $n-r$ 个（即 1 个）灯泡比 $1000$ 长，还在亮着（对应 $[1-F(x)]^{n-r}$）。
+    \item $r C_n^r$（也就是 $\frac{n!}{(r-1)!(n-r)!}$）：是因为你并不关心到底是哪一只灯泡先坏，哪一只后坏，所以要算上所有的排列组合情况。
+\end{itemize}
+
+\textbf{总结} \\
+\begin{itemize}
+    \item $X_i$ 是杂乱无章的原始数据（比如班里随机 10 个人的身高）。
+    \item $X_{(r)}$ 是排好序的数据（比如这 10 个人里身高排第 3 的那个人）。
+\end{itemize}
+在可靠性工程里，如果你把灯泡串联，$X_{(1)}$（第一个坏的）就决定了电路什么时候断；如果你是并联备份，$X_{(n)}$（最后一个坏的）才决定了系统什么时候彻底瘫痪。
+\end{example}
+\begin{theorem}{顺序统计量的分布}
+    设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim F(x)$，$(X_{(1)}, X_{(2)}, \cdots, X_{(n)})$ 是相应的顺序统计量，则对 $1 \leqslant r \leqslant n$ 有
+    \begin{equation}
+        P\{X_{(r)} \leqslant x\} = r C_n^r \int_0^{F(x)} t^{r-1}(1-t)^{n-r} \mathrm{d}t. \tag{2.2.1}
+    \end{equation}
+    若 $F(x)$ 具有概率密度 $f(x)$，则 $X_{(r)}$ 也有概率密度
+    \begin{equation}
+        f_{(r)}(x) = r C_n^r F^{r-1}(x)[1 - F(x)]^{n-r} f(x). \tag{2.2.2}
+    \end{equation}
+\end{theorem}
+\begin{note}{顺序统计量与二项分布的关系}
+这个积分的物理意义来自于一个著名的恒等式。第 $r$ 个顺序统计量 $X_{(r)} \leqslant x$ 等价于“至少有 $r$ 个样本落在了 $x$ 的左边”。用二项分布来写就是：
+$$P\{X_{(r)} \leqslant x\} = \sum_{k=r}^n C_n^k [F(x)]^k [1-F(x)]^{n-k}$$
+数学家们发现，这个离散的求和公式，竟然可以完美地写成一个连续积分的形式：
+$$\sum_{k=r}^n C_n^k p^k (1-p)^{n-k} = \frac{n!}{(r-1)!(n-r)!} \int_0^p t^{r-1}(1-t)^{n-r} \mathrm{d}t$$
+这里 $p = F(x)$。所以，这个积分的数学意义就是\textbf{“累积概率的连续化表达”}。
+\end{note}
+\begin{dxtips}[学习新公式都要把他拆成几个部分]
+    回忆一下F（X）=P（x小于等于X），积分区域其实就是每一个点都要带入自变量位置然后乘上他那个点的微元也就是dt再累加。F上面是r-1代表前面的r-1个，n-r代表r后面的n-r个。n-r+1+r-1=n
+\end{dxtips}
+\begin{dxtips}
+ 有c几几自然想到排列组合。   上面P以求导，F（x）自然替换t的位置就成了下面。\textbf{1. 代数上的等价} \\
+首先，你要知道 $r C_n^r$ 其实只是多项式系数（Multinomial Coefficient）的另一种写法：
+$$r C_n^r = r \cdot \frac{n!}{r!(n-r)!} = r \cdot \frac{n!}{r \cdot (r-1)!(n-r)!} = \frac{n!}{(r-1)! 1! (n-r)!}$$
+这个公式的右边非常直观，它代表把 $n$ 个不同的样本分成了三组：
+\begin{itemize}
+    \item \textbf{第一组}：有 $r-1$ 个样本，它们都小于 $x$；
+    \item \textbf{第二组}：有 $1$ 个样本，它恰好等于 $x$（这就是我们要找的第 $r$ 个）；
+    \item \textbf{第三组}：有 $n-r$ 个样本，它们都大于 $x$。
+\end{itemize}
+\end{dxtips}
+\begin{example}{班级考试成绩与分位数}
+为了帮你透彻理解这些定义，我们用一个“班级考试成绩”的例子来拆解。假设一个班级有 $n$ 个学生，他们的分数就是样本 $X_1, X_2, \dots, X_n$。
+
+\textbf{1. 样本中位数 (Sample Median) —— 找“最中间”的人} \\
+中位数的规则很简单：如果人数是奇数，就取正中间那个；如果是偶数，就取中间两个人的平均分。
+\begin{itemize}
+    \item \textbf{场景 A：人数为奇数 ($n=5$)}：假设成绩排序后是：$60, 70, \mathbf{75}, 85, 90$。这里 $n=2k+1=5$，所以 $k=2$。中位数 $M = X_{(k+1)} = X_{(3)} = 75$ 分。
+    \item \textbf{场景 B：人数为偶数 ($n=6$)}：假设成绩排序后是：$60, 70, \mathbf{75, 80}, 85, 90$。这里 $n=2k=6$，所以 $k=3$。中位数 $M = \frac{1}{2}(X_{(3)} + X_{(4)}) = \frac{75+80}{2} = 77.5$ 分。
+\end{itemize}
+
+\textbf{2. 样本上 $\alpha$ 分位数 —— 找“前 $10\%$”的门槛} \\
+“上 $\alpha$ 分位数”其实就是：从高往低数，排在前面那 $\alpha$ 比例的门槛。
+\begin{itemize}
+    \item \textbf{例子：$n=10$ 个人，想找上 $\alpha = 0.2$ 分位数（即前 $20\%$ 的分数线）}
+    \item 计算索引：$[n(1-\alpha)+0.5] = [10(1-0.2)+0.5] = [8.5] = 8$。
+    \item 结论：排序后的第 8 个数 $X_{(8)}$ 就是上 $0.2$ 分位数。
+    \item \textbf{直观理解}：总共 10 个人，第 8、9、10 名是前 $30\%$。第 8 名正好是跨入“前 $20\%$”梯队的那个守门员。
+\end{itemize}
+
+\textbf{3. 总体分位数 ($x_\alpha$) —— 理想状态的“及格线”} \\
+总体分位数是针对整个分布（比如全国所有考生的理想模型）来说的。
+\begin{itemize}
+    \item \textbf{例子：假设全国成绩服从 $0$ 到 $100$ 的均匀分布 $U[0, 100]$}
+    \item 分布函数 $F(x) = \frac{x}{100}$（对于 $0 \le x \le 100$）。
+    \item \textbf{求上 $\alpha=0.1$ 分位数}（即前 $10\%$ 的分数线）：根据定义，我们要找 $x_\alpha$ 使得 $F(x_\alpha) \geqslant 1 - 0.1 = 0.9$。$\frac{x}{100} = 0.9 \implies x = 90$。
+    \item \textbf{物理意义}：在理想模型中，只要你考到 90 分，你就超过了 $90\%$ 的人，成功挤进前 $10\%$。
+\end{itemize}
+
+\textbf{4. 为什么定义里要用 $\inf$ (下确界)？} \\
+这是为了处理那些“不连续”的情况（比如掷骰子）。
+\begin{itemize}
+    \item 假设你想找掷骰子点数的“上 $0.5$ 分位数”（中位数）。点数的分布函数是阶梯状的。当 $x=3$ 时，$F(3)=0.5$；当 $x$ 稍微大一点点，概率可能就跳上去了。
+    \item \textbf{$\inf$ 的作用}：它像一个自动定位装置，即便分布函数在某个地方有断层或平台，它也能帮你精准锁定第一个“达标”（$\geqslant 1-\alpha$）的那个点。
+\end{itemize}
+
+\textbf{总结} \\
+\begin{itemize}
+    \item $M$ (中位数) 是为了看“大众水平”。
+    \item $x_\alpha$ (上分位数) 是为了看“优秀水平”的门槛。
+    \item 样本分位数就是用你手头这几个具体的数，去估算那个理想中的“门槛”。
+\end{itemize}
+\end{example}
+\begin{definition}{分位数与中位数}
+    对于分布函数 $F(x)$ 以及给定的数 $\alpha \in (0,1)$，定义 $x_\alpha$ 为
+    \[ x_\alpha = \inf\{x : F(x) \geqslant 1 - \alpha\}, \]
+    称其为该分布的\textbf{上 $\alpha$ 分位数}（或者下 $1-\alpha$ 分位数）。分布 $F$ 的\textbf{中位数}定义为
+    \[ M_F = \frac{1}{2}\left(\sup\{x : F(x) \leqslant 0.5\} + \inf\{x : F(x) \geqslant 0.5\}\right). \]
+    设 $X_1, X_2, \cdots, X_n$ 是来自分布函数为 $F(x)$ 之分布的简单随机样本。样本的\textbf{上 $\alpha$ 分位数}定义为 $X_{([n(1-\alpha)+0.5])}$。样本\textbf{中位数}定义为
+    \[ M = \begin{cases} 
+        X_{(k+1)}, & n = 2k + 1; \\ 
+        \frac{1}{2}(X_{(k)} + X_{(k+1)}), & n = 2k, 
+    \end{cases} \]
+    其中 $k$ 为正整数。
+
+    由定义有 $F(x_\alpha) \geqslant 1 - \alpha$ 且 $F(x_\alpha - 0) \leqslant 1 - \alpha$；对于连续型分布，有 $F(x_\alpha) = 1 - \alpha$。$X_{([n(1-\alpha)+0.5])}$ 和 $M$ 分别是与总体量 $x_\alpha$ 和 $M_F$ 对应的统计量。由顺序统计量可以引入经验分布函数的概念。
+\end{definition}
+\begin{dxtips}
+    看到inf也就是下极限，还有sup也就是知道他的出现只是为了解决离散的点或者极限不在集合里面比如x ∈（0，1）他没有最大值但是有上界
+\end{dxtips}
+\begin{note}{指示函数 $I$ 的直观理解}
+指示函数（Indicator Function）是数学中用来表达“逻辑判断”的工具。我们可以把它想象成一个\textbf{“检测开关”}或一个\textbf{“投票器”}。其核心规则只有一条：\textbf{“满足条件就投 1 票，不满足就投 0 票。”}
+
+针对公式中的符号 $I_{[X_i, \infty)}(x)$，我们可以将其拆解为以下三个部分：
+\begin{itemize}
+    \item \textbf{$x$}：是你现在手里拿着的那个“尺子”或观测点（比如 $x=2$）；
+    \item \textbf{$[X_i, \infty)$}：是检测的“合格区间”，表示所有大于等于 $X_i$ 的范围；
+    \item \textbf{$I$}：是执行检测的程序逻辑。
+\end{itemize}
+
+\textbf{具体运行逻辑如下：}
+\begin{itemize}
+    \item 如果你的尺子 $x$ 掉进了区间 $[X_i, \infty)$ 里面（即 $x \geqslant X_i$），那么这个 $I$ 就输出 \textbf{1}；
+    \item 如果你的尺子 $x$ 还没够到 $X_i$（即 $x < X_i$），那么这个 $I$ 就输出 \textbf{0}。
+\end{itemize}
+
+在经验分布函数 $F_n(x) = \frac{1}{n} \sum_{i=1}^n I_{[X_i, \infty)}(x)$ 中，这个 $I$ 就在为每一个样本点 $X_i$ 进行检测：凡是那些“躺在 $x$ 左边”的样本，都会让开关变成 1，从而被计入总数中。
+\end{note}
+\begin{example}{奶茶店等待时间与经验分布函数}
+假设你在奶茶店随机观测了 $n=5$ 个人的等待时间（单位：分钟），排序后为：
+\[ X_{(1)}=5, \quad X_{(2)}=10, \quad X_{(3)}=12, \quad X_{(4)}=15, \quad X_{(5)}=25 \]
+
+\textbf{1. 为什么要用指示函数加和再平均？} \\
+我们要计算 $F_5(13)$，即等待时间小于 13 分钟的概率。公式为：
+\[ F_5(13) = \frac{1}{5} \sum_{i=1}^5 I_{[X_i, \infty)}(13) \]
+这里的每一项都在投票：
+\begin{itemize}
+    \item $X_1=5 \leqslant 13$，投 1 票；
+    \item $X_2=10 \leqslant 13$，投 1 票；
+    \item $X_3=12 \leqslant 13$，投 1 票；
+    \item $X_4=15 > 13$，投 0 票；
+    \item $X_5=25 > 13$，投 0 票。
+\end{itemize}
+总票数为 3，平均票数为 $3/5 = 0.6$。这就是我们利用样本对总体概率的“平均估计”。
+
+\textbf{2. 现实意义总结} \\
+\begin{itemize}
+    \item \textbf{估算真相}：在不知道奶茶店排队规律（总体分布）的情况下，$0.6$ 是我们根据现有数据能给出的最合理答案。
+    \item \textbf{动态更新}：如果你再多测几个人，分母 $n$ 变大，分子也会更新，这个估计会越来越准。
+\end{itemize}
+
+\textbf{3. 数学意义总结} \\
+经验分布函数将离散的观测转化为一个右连续的阶梯函数。根据格列汶科定理，当 $n \to \infty$ 时，这种基于“求平均”得来的经验估计，将以概率 1 一致地收敛于真正的自然规律。
+\end{example}
+\begin{definition}{经验分布函数}
+    设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim F(x)$，对任意实数 $x$，定义
+    \begin{equation}
+        F_n(x) = \frac{1}{n} \sum_{i=1}^n I_{[X_i, \infty)}(x) = \frac{1}{n} \{X_i : X_i \leqslant x, i = 1, 2, \cdots, n\}^\#, \tag{2.2.6}
+    \end{equation}
+    称函数 $F_n(x)$ 为 $X_1, X_2, \cdots, X_n$ 的\textbf{经验分布函数}，式中 $I_A(x)$ 表示集合 $A$ 的\textbf{指示函数}：当 $x \in A$ 时，$I_A(x) = 1$，否则 $I_A(x) = 0$。
+
+    易见，经验分布函数也可写成
+    \begin{equation}
+        F_n(x) = \begin{cases} 
+            0, & x < X_{(1)}; \\ 
+            k/n, & X_{(k)} \leqslant x < X_{(k+1)}, k = 1, 2, \cdots, n - 1; \\ 
+            1, & x \geqslant X_{(n)}. 
+        \end{cases} \tag{2.2.7}
+    \end{equation}
+\end{definition}
+\begin{theorem}{经验分布函数的性质}
+    设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim F(x)$，$F_n(x)$ 为其经验分布函数。则对于任意实数 $x$，有
+    \begin{enumerate}
+        \item $P\left\{\lim_{n \to \infty} F_n(x) = F(x)\right\} = 1$.
+        \item $\lim_{n \to \infty} P \left\{ \frac{\sqrt{n}(F_n(x) - F(x))}{\sqrt{F(x)[1 - F(x)]}} \leqslant y \right\} = \int_{-\infty}^{y} \phi(u) \mathrm{d}u$，其中 $\phi(u) = \frac{1}{\sqrt{2\pi}} e^{-\frac{u^2}{2}}$ 为 $N(0,1)$ 的概率密度函数。
+    \end{enumerate}
+\end{theorem}
+\begin{note}{公式 (2.2.2) 的构造逻辑}
+该公式的左侧实际上是对经验分布函数 $F_n(x)$ 进行的\textbf{标准化（Standardization）}处理。
+
+\textbf{1. 统计背景} \\
+由于 $n F_n(x)$ 服从二项分布 $B(n, p)$，其中 $p = F(x)$，根据二项分布的性质：
+\begin{itemize}
+    \item 均值 $E[F_n(x)] = p = F(x)$
+    \item 方差 $Var(F_n(x)) = \frac{p(1-p)}{n} = \frac{F(x)[1-F(x)]}{n} $
+\end{itemize}
+
+\textbf{2. 构造标准化变量} \\
+根据中心极限定理（CLT），一个随机变量减去期望再除以其标准差，当 $n \to \infty$ 时服从标准正态分布：
+\[ \frac{F_n(x) - E[F_n(x)]}{\sqrt{Var(F_n(x))}} = \frac{F_n(x) - F(x)}{\sqrt{F(x)[1-F(x)] / n}} = \frac{\sqrt{n}(F_n(x) - F(x))}{\sqrt{F(x)[1 - F(x)]}} \]
+
+\textbf{3. 与高斯分布的联系} \\
+等式右侧的 $\int_{-\infty}^y \phi(u) \mathrm{d}u$ 正是标准正态分布（高斯分布）的累积分布函数 $\Phi(y)$。这表明经验分布函数的点收敛速度是 $\frac{1}{\sqrt{n}}$ 阶的。
+\end{note}
+\begin{theorem}{格列汶科 (Glivenko) 定理}
+    设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim F(x)$，$F_n(x)$ 为其经验分布函数，记 $D_n = \sup_{-\infty < x < \infty} |F_n(x) - F(x)|$，则有
+    \[ P\left\{ \lim_{n \to \infty} D_n = 0 \right\} = 1. \]
+\end{theorem}
+\begin{note}
+    $D_n = \sup |F_n(x) - F(x)|$：
+
+这是 $F_n(x)$ 和 $F(x)$ 之间最大的垂直偏差。之所以用 $\sup$（上确界），是因为我们要确保在 $x$ 轴的任何一个点上，两者都要足够接近。
+
+$P\{\lim_{n \to \infty} D_n = 0\} = 1$：
+
+这意味着这种收敛是“几乎处处收敛”的。无论真实的分布 $F(x)$ 是正态分布、均匀分布还是某种奇怪的分布，只要样本量够大，样本就能百分之百代表总体。
+\end{note}
+\section*{2.3}
+\begin{definition}{卡方分布，那个像x的就念卡}
+设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(0,1)$。令 $\xi = \sum_{i=1}^{n} X_i^2$，则称 $\xi$ 的分布为具有自由度 $n$ 的 $\chi^2$ 分布。记作 $\xi \sim \chi^2(n)$。
+\end{definition}
+\begin{dxtips}
+    卡方是一个具体的值他是由每一次所有的xi的平方和算出来的。从1到10随机抽五个数。每抽一次都可以算出一个卡方。然后把每抽五次当成一个动作，抽100次这样卡也有分布了他服从的技术自由度为5的卡方分布。只要对于一个量或者一个设计求出的值，只要每一次结果不一样他的值就会有分布。但这里有一个问题1到10是均匀分布到，要求正太分布的话可以换成从100000个人里面抽五个人记录他们的身高。还要进行标准正态化。
+\end{dxtips}
+\begin{note}
+\textbf{1. 理论定义与背景} \\
+若 $n$ 个随机变量 $X_i \sim N(0,1)$ 且相互独立，则其平方和 $\xi = \sum_{i=1}^{n} X_{i}^{2}$ 服从自由度为 $n$ 的卡方分布，记作 $\xi \sim \chi^{2}(n)$。它是衡量观察值与理论值偏离程度的核心工具。
+
+\textbf{2. 理论模型与皮尔逊统计量} \\
+\begin{itemize}
+    \item \textbf{理论原型：} $\chi^{2} = \sum X_{i}^{2}$，基于理想的标准正态变量。
+    \item \textbf{应用工具：} 皮尔逊统计量 $\chi^{2} = \sum \frac{(O-E)^{2}}{E}$。该公式通过分母 $E$ 进行归一化，使观测偏差在数学特性上趋近于理想卡方分布。
+\end{itemize}
+
+\textbf{3. 与样本方差的“桥梁”关系} \\
+样本方差 $s^{2}$ 与卡方分布通过以下标准化公式紧密相连：
+$$\frac{(n-1)s^{2}}{\sigma^{2}} \sim \chi^{2}(n-1)$$
+两者本质皆为\textbf{“平方和”}：$\chi^{2}$ 是均值为 0、方差为 1 的理论平方和；而样本方差是经离差标准化与缩放后的现实平方和。由此，卡方分布成为了推断总体方差、进行区间估计的数学依据。
+\end{note}
+\begin{theorem}
+    设 $\xi \sim \chi^2(n)$，则 $\xi$ 的概率密度为
+    \begin{equation}
+        f(x) = \begin{cases}
+            \frac{1}{2^{\frac{n}{2}}\Gamma\left(\frac{n}{2}\right)} \mathrm{e}^{-\frac{x}{2}} x^{\frac{n}{2}-1}, & x > 0; \\
+            0, & x \le 0.
+        \end{cases}
+    \end{equation}
+\end{theorem}
+\textbf{伽马函数 (Gamma Function)} \\
+伽马函数是阶乘函数在复数域上的扩展，其积分定义为：
+\begin{equation}
+    \Gamma(z) = \int_{0}^{\infty} t^{z-1} e^{-t} dt \quad (\text{Re}(z) > 0)
+\end{equation}
+\begin{dxtips}
+    所以分母上2的n次方上为了和x配凑出x/2的形式。而陪完了以后积分就是n/2-1+1=拉姆达n/2
+\end{dxtips}
+\begin{note}
+    \textbf{1. 结构拆解：三位一体} \\
+我们可以把这个概率密度函数看作是一个\textbf{“核心部件”装在一个“标准化外壳”}里：
+
+\begin{equation}
+    f(x) = \underbrace{\frac{1}{2^{n/2} \Gamma(n/2)}}_{\text{归一化常数}} \cdot \underbrace{e^{-x/2}}_{\text{指数衰减项}} \cdot \underbrace{x^{n/2-1}}_{\text{形状调节项}}
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{形状调节项 ($x^{n/2-1}$)}：决定了函数在 $x \to 0$ 时的形态。若 $n = 2$，该项为 $1$，曲线从纵轴出发；若 $n > 2$，它决定了曲线从原点爬升的速度。
+    \item \textbf{指数衰减项 ($e^{-x/2}$)}：源自正态分布的“基因”，负责让概率在 $x$ 增大时快速收敛，防止概率“飘走”。
+    \item \textbf{归一化常数}：它的唯一作用是确保曲线下方的总面积（全概率）恒等于 $1$。
+\end{itemize}
+\begin{theorem}[n个平方和加m个平方和加起来自然是m+n个平方和，就是这两个得独立]
+设 $\xi \sim \chi^2(m)$，$\eta \sim \chi^2(n)$，$\xi$ 与 $\eta$ 相互独立，则有
+\[
+\xi + \eta \sim \chi^2(m+n).
+\]
+\end{theorem}
+\end{note}
+\begin{lemma}
+设 $X_1,X_2,\cdots,X_n$ 相互独立，且
+\[
+X_i\sim N(\mu_i,\sigma^2),\qquad i=1,2,\cdots,n.
+\]
+设 $A=(a_{ij})_{n\times n}$ 为一个 $n\times n$ 正交矩阵，记
+\[
+X=(X_1,X_2,\cdots,X_n)^{\mathrm T},\qquad Y=AX.
+\]
+则 $Y$ 的各分量 $Y_1,Y_2,\cdots,Y_n$ 相互独立，且
+\[
+Y_i\sim N\left(\sum_{k=1}^n a_{ik}\mu_k,\sigma^2\right),\qquad i=1,2,\cdots,n.
+\]
+\end{lemma}
+\begin{enumerate}
+    \item \textbf{独立性保持：}原始变量 $X_1,\cdots,X_n$ 是相互独立的。经过正交矩阵 $A$ 变换后，新生成的变量 $Y_1,\cdots,Y_n$ 依然保持相互独立。
+    
+    \item \textbf{分布形式与方差不变：}每个 $Y_i$ 依然服从正态分布。最关键的是，方差 $\sigma^2$ 保持不变，只有均值发生了线性变换（变为 $\sum_{k=1}^n a_{ik}\mu_k$）。
+\end{enumerate}
+\begin{theorem}[柯赫伦（Cochran）定理]
+设 $X_1,X_2,\cdots,X_n$ i.i.d.，且 $X_1\sim N(0,1)$，又设 $A_1,A_2,\cdots,A_k$ 为非负定的 $n\times n$ 矩阵，记
+\[
+X=(X_1,X_2,\cdots,X_n)^{\mathrm T},
+\]
+\[
+Q_i=X^{\mathrm T}A_iX,\qquad i=1,2,\cdots,k.
+\]
+若
+\[
+Q_1+Q_2+\cdots+Q_k=\sum_{i=1}^n X_i^2,
+\]
+且
+\[
+\operatorname{rank}(A_i)=n_i,\qquad i=1,2,\cdots,k,
+\]
+则 $Q_1,Q_2,\cdots,Q_k$ 相互独立且分别有
+\[
+Q_i\sim \chi^2(n_i)
+\]
+的充要条件为
+\[
+n=\sum_{i=1}^k n_i.
+\]
+\end{theorem}
+
+\begin{note}[柯赫伦（Cochran）定理：平方和的“拆分艺术”]
+\begin{itemize}
+    \item 这个定理（定理 1.6）在数理统计中具有奠基性的地位，它本质上回答了一个核心问题：什么时候我们可以把一个总平方和拆成几个相互独立的卡方分布？
+    
+    \item \textbf{1. 定理背景} 假设你有 $n$ 个相互独立且服从标准正态分布 $N(0,1)$ 的随机变量 $X_1,X_2,\dots,X_n$。它们的总平方和 $\sum_{i=1}^n X_i^2$ 本身就是一个自由度为 $n$ 的卡方分布 $\chi^2(n)$。
+    
+    \item \textbf{2. 定理的核心逻辑} 如果你试图将这个总平方和拆解为 $k$ 个二次型之和，即 $Q_1+Q_2+\dots+Q_k=\sum_{i=1}^n X_i^2$，其中每个 $Q_i=X^T A_i X$，且 $\operatorname{rank}(A_i)=n_i$。
+    
+    \item 定理给出了一个充分必要条件：当且仅当这些矩阵的秩之和正好等于变量的总个数时，即 $n=\sum_{i=1}^k n_i$，这 $k$ 个拆分出来的部分 $Q_i$ 就会具备极好的数学性质：
+    \begin{itemize}
+        \item \textbf{相互独立：}它们之间互不影响，没有冗余的信息交叉。
+        \item \textbf{服从卡方分布：}每一个 $Q_i$ 都服从自由度为 $n_i$ 的卡方分布，即 $Q_i\sim \chi^2(n_i)$。
+    \end{itemize}
+\end{itemize}
+\end{note}
+\begin{definition}[t分布- student分布]
+设随机变量 $X,Y$ 相互独立，$X\sim N(0,1)$，$Y\sim \chi^2(n)$。令
+\[
+\xi=\frac{X}{\sqrt{Y/n}},
+\]
+则 $\xi$ 的分布称为具有自由度 $n$ 的 $t$ 分布，记作 $\xi\sim t(n)$。
+\end{definition}
+\begin{enumerate}
+    \item \textbf{为什么要这么构造？（解决“未知方差”的痛点）}
+
+    在理想状态下，我们算标准分
+    \[
+    Z=\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}
+    \]
+    时，需要知道总体的标准差 $\sigma$。但在现实的生物统计或实验中，我们根本不知道真正的 $\sigma$。
+
+    \begin{itemize}
+        \item 我们只能用样本标准差 $S$ 来代替 $\sigma$。
+        \item 当你把 $\sigma$ 换成 $S$ 后，这个统计量就不再服从正态分布了，因为它分母上的 $S$ 也是一个带有随机性的变量。
+        \item 于是数学家构造了 $\xi=\dfrac{X}{\sqrt{Y/n}}$：
+        \begin{itemize}
+            \item \textbf{分子 $X$：}对应标准正态分布 $N(0,1)$。
+            \item \textbf{分母 $Y/n$：}对应样本方差的分布（即卡方分布除以自由度）。
+            \item \textbf{独立性：}分子分母相互独立。
+        \end{itemize}
+    \end{itemize}
+
+    这样构造出来的结果，就是一个专门处理小样本、且总体方差未知情形的分布。
+\end{enumerate}
+
+\begin{theorem}
+设 $\xi\sim t(n)$，则 $\xi$ 的概率密度为
+\[
+f(x)=\frac{\Gamma\!\left(\dfrac{n+1}{2}\right)}
+{\sqrt{n\pi}\,\Gamma\!\left(\dfrac{n}{2}\right)}
+\left(1+\frac{x^2}{n}\right)^{-\frac{n+1}{2}},
+\qquad -\infty<x<\infty.
+\]
+\end{theorem}
+\begin{dxtips}[$t$ 分布密度公式的拆解]
+\begin{itemize}
+    \item 咱们得把这个公式拆成 \textbf{核（Kernel）} 和 \textbf{归一化常数（Coefficient）} 两部分，用逻辑去“拼”出它。
+    
+    \item \textbf{1. 先抓“灵魂”：核部分} \(\left(1+\frac{x^2}{n}\right)^{-\frac{n+1}{2}}\)。
+
+    \item 这是决定分布形状的部分。
+
+    \item 底数 \(\left(1+\frac{x^2}{n}\right)\)：你可以把它看作是正态分布 \(e^{-x^2/2}\) 的一种“变体”。当 \(n\to\infty\) 时，根据重要极限公式 \((1+1/n)^n\to e\)，这个底数最终会变回正态分布。
+
+    \item 指数 \(-\frac{n+1}{2}\)：这里的 \(n\) 代表分母里卡方变量的自由度，\(1\) 代表分子里标准正态变量的自由度。两者加起来除以 \(2\)，就是总体的“能量分配”。
+
+    \item \textbf{2. 再配“外壳”：系数部分} \(\dfrac{\Gamma\left(\frac{n+1}{2}\right)}{\sqrt{n\pi}\Gamma\left(\frac{n}{2}\right)}\)。
+
+    \item 这部分的唯一目的就是让全域积分等于 \(1\)。
+
+    \item Gamma 的位次：分子永远是“大的”，即核里那个指数的正值 \(\frac{n+1}{2}\)；分母是“小的”，即原始自由度的一半 \(\frac{n}{2}\)。
+
+    \item 常数项 \(\sqrt{n\pi}\)：\(\sqrt{\pi}\) 是正态分布带出来的，\(\sqrt{n}\) 是为了抵消核里那个 \(x^2/n\) 带来的缩放。
+\end{itemize}
+\end{dxtips}
+\begin{definition}[费希尔-斯内德克分布（Fisher-Snedecor distribution）。]
+设随机变量 $X,Y$ 相互独立，$X\sim \chi^2(m)$，$Y\sim \chi^2(n)$，令
+\[
+\xi=\frac{X/m}{Y/n},
+\]
+则 $\xi$ 的分布称为具有自由度 $m$ 和 $n$ 的 $F$ 分布，记作 $\xi\sim F(m,n)$。
+\end{definition}
+\begin{note}
+    \begin{enumerate}
+    \item \textbf{它是怎么构造出来的？}
+
+    你可以把它理解为“比率的比率”。
+
+    正如图片中定义的，如果你有两个相互独立的随机变量 $X$ 和 $Y$，它们分别服从自由度为 $m$ 和 $n$ 的卡方分布，那么它们的“单位贡献比”
+    \[
+    \xi=\frac{X/m}{Y/n}
+    \]
+    就服从自由度为 $(m,n)$ 的 $F$ 分布。
+
+    \item \textbf{它有什么核心作用？}
+
+    在数学和数据分析实践中，$F$ 分布主要用来干这三件事：
+    \begin{itemize}
+        \item \textbf{比较方差（方差齐性检验）：}用来判断两组独立数据的波动程度（方差）是否显著不同。如果 $F$ 值很大，说明分子的波动远大于分母。
+        \item \textbf{方差分析（ANOVA）：}这是它最出名的舞台。通过比较“组间差异”与“组内差异”的比值，来判断多个样本均值之间是否存在显著差异。这在你感兴趣的生物统计研究中极其常用。
+        \item \textbf{线性回归的显著性检验：}用来判断你建立的整个回归模型是否真的有效，还是仅仅是随机噪声凑出来的。
+    \end{itemize}
+\end{enumerate}
+\end{note}
+\begin{theorem}[F的概率密度]
+设 $\xi\sim F(m,n)$，则 $\xi$ 的概率密度为
+\[
+f(x)=
+\begin{cases}
+\dfrac{\Gamma\left(\frac{m+n}{2}\right)}{\Gamma\left(\frac{m}{2}\right)\Gamma\left(\frac{n}{2}\right)}
+m^{\frac{m}{2}}n^{\frac{n}{2}}x^{\frac{m}{2}-1}(n+mx)^{-\frac{m+n}{2}},
+& x>0,\\[1em]
+0, & x\le 0.
+\end{cases}
+\]
+\end{theorem}
+\begin{theorem}[正态总体样本均值与样本方差的分布定理]
+设 $X_1,X_2,\cdots,X_n$ i.i.d.，$X_1\sim N(\mu,\sigma^2)$，$\overline{X}=\dfrac{1}{n}\sum_{i=1}^n X_i$，
+\[
+s^2=\frac{1}{n-1}\sum_{i=1}^n (X_i-\overline{X})^2,
+\]
+则
+\begin{enumerate}
+    \item $\overline{X}\sim N(\mu,\sigma^2/n)$；
+    \item $\dfrac{(n-1)s^2}{\sigma^2}\sim \chi^2(n-1)$；
+    \item $\overline{X}$ 与 $s^2$ 相互独立。
+\end{enumerate}
+\end{theorem}
+\begin{enumerate}
+    \item \textbf{样本均值的分布}
+    
+    \[
+    \overline{X}\sim N\left(\mu,\frac{\sigma^2}{n}\right)
+    \]
+    
+    说明从正态总体抽样后，样本均值仍然服从正态分布，且波动变小到了 $\sigma^2/n$。也就是：\textbf{均值的估计越来越稳定。}
+    
+    \item \textbf{样本方差的分布}
+    
+    \[
+    \frac{(n-1)s^2}{\sigma^2}\sim \chi^2(n-1)
+    \]
+    
+    说明样本方差经过标准化后服从卡方分布。也就是：\textbf{方差也有明确的抽样分布，所以才能做方差估计和区间推断。}
+    
+    \item \textbf{样本均值与样本方差相互独立}
+    
+    \[
+    \overline{X}\ \text{与}\ s^2\ \text{相互独立}
+    \]
+    
+    这是正态总体下非常特殊、非常重要的性质。也就是：\textbf{位置信息（均值）和离散程度信息（方差）彼此分开，不互相干扰。}
+\end{enumerate}
