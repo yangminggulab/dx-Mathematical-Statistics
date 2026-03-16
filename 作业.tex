@@ -1,5 +1,5 @@
 \chapter{作业}
-\section{第一次作业}
+\section{第一周作业}
 \begin{homework}{3}
     汽车制造商的生产记录表明了每个班的产品数量（每个班的最大产量是 720 辆汽车）。
     \begin{center}
@@ -84,6 +84,296 @@
  
 \end{center}
 \begin{solution}使用 R 语言绘制血清胆固醇含量的箱线图（见上图），并结合图形特征对总体分布形状进行分析：\begin{itemize}\item \textbf{对称性分析}：从图中可以看出，中位数（箱体中的黑实线）位置稍稍偏向箱体的右侧（靠近上四分位数 $Q_3$），且左侧的须线（whisker）相对于右侧须线略长。\item \textbf{偏态说明}：结合上题计算结果，均值 ($\bar{x} = 195.5$) 小于中位数 ($M = 196.5$)。箱线图呈现出左侧间距（最小值到中位数）略大于右侧间距（最大值到中位数）的特征，这表明总体分布呈现轻微的\textbf{左偏（负偏态）}分布。\item \textbf{离群值判断}：在箱线图的上下须线之外未发现孤立的点，说明在该样本数据中不存在明显的异常值（离群点）。\end{itemize}\end{solution}
+\subsection*{page44}
+
+\begin{homework}[3]
+设 $X_1, X_2, \cdots, X_n$ i.i.d., $X_1 \sim N(\mu,\sigma^2)$，其中 $\mu$ 是已知数，而 $\sigma^2$ 是未知的，指出下列各量哪些是统计量，哪些不是统计量，并说明理由：
+\[
+\sum_{i=1}^n X_i,\qquad
+X_1+2\mu,\qquad
+\max_{1\le i\le n}\{X_i\},\qquad
+\sum_{i=1}^n \frac{(X_i-\mu)^2}{\sigma^2},\qquad
+\sum_{i=1}^n (X_i-\mu)^2.
+\]
+\end{homework}
+\begin{dxtips}
+统计量只能由样本 $X_1,\dots,X_n$ 和已知常数构成
+\end{dxtips}
+\begin{solution}
+    是，是，是，不是，是
+\end{solution}
+\begin{note}
+统计量就是：拿到一组真实样本数据后，对这些数据做具体运算得到的结果。
+
+例如测得
+\[
+x_1,x_2,\dots,x_n,
+\]
+则相加、取平均、取最大值、排序、求平方和等得到的量，通常都是统计量。
+\end{note}
+\begin{homework}[4]
+某机床加工出的零件的直径服从正态分布 $N(\mu,\sigma^2)$，$\mu,\sigma^2$ 未知。为对 $\mu,\sigma^2$ 作出估计，随机选取加工出来的 $n$ 个零件进行测量，得到 $n$ 个数据
+\[
+x_1,x_2,\cdots,x_n.
+\]
+试写出该问题的统计模型（即参数空间和样本分布族）。
+\end{homework}
+\begin{solution}
+设
+\[
+X_1,X_2,\cdots,X_n
+\]
+为随机选取的 $n$ 个零件直径，由题意可知
+\[
+X_1,X_2,\cdots,X_n \overset{\text{i.i.d.}}{\sim} N(\mu,\sigma^2),
+\]
+其中参数 $\mu,\sigma^2$ 均未知。
+
+因此，该问题的统计模型可写为：
+\begin{itemize}
+    \item 参数空间为
+    \[
+    \Theta=\{(\mu,\sigma^2):\mu\in\mathbb{R},\ \sigma^2>0\}.
+    \]
+
+    \item 样本分布族为：样本 $(X_1,X_2,\cdots,X_n)$ 的联合概率密度为
+    \[
+    f(x_1,x_2,\cdots,x_n;\mu,\sigma^2)
+    =\prod_{i=1}^n \frac{1}{\sqrt{2\pi}\sigma}
+    \exp\!\left[-\frac{(x_i-\mu)^2}{2\sigma^2}\right],
+    \qquad (\mu,\sigma^2)\in\Theta.
+    \]
+\end{itemize}
+
+故该问题的统计模型就是由参数空间
+\[
+\Theta=\{(\mu,\sigma^2):\mu\in\mathbb{R},\ \sigma^2>0\}
+\]
+和样本分布族
+\[
+\left\{
+P_{\mu,\sigma^2}:(X_1,\dots,X_n)\overset{\text{i.i.d.}}{\sim}N(\mu,\sigma^2),
+\ (\mu,\sigma^2)\in\Theta
+\right\}
+\]
+所组成的统计模型。
+\end{solution}
+\begin{homework}[6]
+（柯西分布）设 $X_1,X_2,\cdots,X_n$ i.i.d.，$X_1$ 服从柯西分布，概率密度为
+\[
+f(x,\sigma)=\frac{1}{\pi\sigma}\frac{1}{1+(x/\sigma)^2},\qquad -\infty<x<\infty,
+\]
+求
+\[
+\overline{X}=\frac{1}{n}\sum_{i=1}^n X_i
+\]
+的抽样分布。
+\end{homework}
+\begin{solution}
+设每个样本的特征函数为
+\[
+\varphi_X(t)=E(e^{itX}).
+\]
+由柯西分布的已知结论，
+\[
+X_i\sim \mathrm{Cauchy}(0,\sigma)
+\quad\Longrightarrow\quad
+\varphi_{X_i}(t)=e^{-\sigma|t|}.
+\]
+
+由于 $X_1,X_2,\cdots,X_n$ 相互独立，故
+\[
+\varphi_{\overline X}(t)
+=
+E\!\left(e^{it\overline X}\right)
+=
+E\!\left(e^{it\frac{1}{n}\sum_{i=1}^n X_i}\right)
+=
+\prod_{i=1}^n E\!\left(e^{i(t/n)X_i}\right).
+\]
+于是
+\[
+\varphi_{\overline X}(t)
+=
+\prod_{i=1}^n \varphi_{X_i}\!\left(\frac tn\right)
+=
+\left(e^{-\sigma|t|/n}\right)^n
+=
+e^{-\sigma|t|}.
+\]
+
+这正是参数为 $\sigma$ 的柯西分布的特征函数，因此
+\[
+\overline X \sim \mathrm{Cauchy}(0,\sigma).
+\]
+
+故 $\overline X$ 的抽样分布仍为柯西分布，其概率密度为
+\[
+f_{\overline X}(x)
+=
+\frac{1}{\pi\sigma}\frac{1}{1+(x/\sigma)^2},
+\qquad -\infty<x<\infty.
+\]
+\end{solution}
+\subsection*{page45}
+
+\begin{homework}[1]
+证明 $(2.2.3)$ 式。
+\end{homework}
+\begin{solution}
+设
+\[
+S(p)=\sum_{k=r}^{n} C_n^k p^k(1-p)^{n-k}.
+\]
+对 \(p\) 求导，得
+\[
+S'(p)=\sum_{k=r}^{n} C_n^k \Bigl[kp^{k-1}(1-p)^{n-k}-(n-k)p^k(1-p)^{n-k-1}\Bigr].
+\]
+利用组合恒等式
+\[
+kC_n^k=nC_{n-1}^{k-1},\qquad (n-k)C_n^k=nC_{n-1}^k,
+\]
+可化为
+\[
+S'(p)
+=
+n\sum_{k=r}^{n} C_{n-1}^{k-1} p^{k-1}(1-p)^{n-k}
+-
+n\sum_{k=r}^{n} C_{n-1}^k p^k(1-p)^{n-k-1}.
+\]
+在第一项中令 \(j=k-1\)，则
+\[
+S'(p)
+=
+n\sum_{j=r-1}^{n-1} C_{n-1}^j p^j(1-p)^{n-1-j}
+-
+n\sum_{k=r}^{n-1} C_{n-1}^k p^k(1-p)^{n-1-k}.
+\]
+两项相消后只剩下首项
+\[
+S'(p)=nC_{n-1}^{r-1}p^{r-1}(1-p)^{n-r}.
+\]
+再利用
+\[
+nC_{n-1}^{r-1}=rC_n^r,
+\]
+得
+\[
+S'(p)=rC_n^r p^{r-1}(1-p)^{n-r}.
+\]
+
+于是两边从 \(0\) 到 \(p\) 积分，
+\[
+S(p)-S(0)=rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
+\]
+当 \(r\ge 1\) 时，
+\[
+S(0)=\sum_{k=r}^{n} C_n^k 0^k(1-0)^{n-k}=0.
+\]
+故
+\[
+S(p)=rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
+\]
+即
+\[
+\sum_{k=r}^{n} C_n^k p^k(1-p)^{n-k}
+=
+rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
+\]
+证毕。
+\end{solution}
+\begin{homework}[2]
+（几何分布）设总体 $X$ 服从几何分布
+\[
+P\{X=k\}=p(1-p)^{k-1},\qquad k=1,2,\cdots,
+\]
+$X_1,X_2,\cdots,X_n$ 是抽自 $X$ 的简单随机样本，求 $X_{(1)},X_{(n)}$ 的分布。
+\end{homework}
+\begin{solution}
+设
+\[
+q=1-p,\qquad X_{(1)}=\min\{X_1,\dots,X_n\},\qquad X_{(n)}=\max\{X_1,\dots,X_n\}.
+\]
+
+由于总体服从几何分布，
+\[
+P(X=k)=pq^{k-1},\qquad k=1,2,\dots,
+\]
+故分布函数为
+\[
+F(x)=P(X\le x)=1-q^{[x]},\qquad x\ge 1,
+\]
+其中当 \(m=1,2,\dots\) 时，
+\[
+P(X>m)=q^m.
+\]
+
+\begin{itemize}
+    \item 先求 \(X_{(1)}\) 的分布。对任意 \(m=1,2,\dots\)，有
+    \[
+    P\bigl(X_{(1)}>m\bigr)=P(X_1>m,\dots,X_n>m)=\bigl(P(X>m)\bigr)^n=q^{mn}.
+    \]
+    因此
+    \[
+    P\bigl(X_{(1)}\le m\bigr)=1-q^{mn},
+    \]
+    从而
+    \[
+    P\bigl(X_{(1)}=m\bigr)
+    =
+    P\bigl(X_{(1)}>m-1\bigr)-P\bigl(X_{(1)}>m\bigr)
+    =
+    q^{(m-1)n}-q^{mn}
+    =
+    (1-q^n)q^{(m-1)n}.
+    \]
+    所以
+    \[
+    X_{(1)}\sim \text{几何分布}(1-q^n),
+    \]
+    即
+    \[
+    P\bigl(X_{(1)}=m\bigr)=(1-q^n)q^{(m-1)n},\qquad m=1,2,\dots.
+    \]
+
+    \item 再求 \(X_{(n)}\) 的分布。对任意 \(m=1,2,\dots\)，有
+    \[
+    P\bigl(X_{(n)}\le m\bigr)=P(X_1\le m,\dots,X_n\le m)=\bigl(P(X\le m)\bigr)^n=(1-q^m)^n.
+    \]
+    因此其分布函数为
+    \[
+    F_{X_{(n)}}(m)=P\bigl(X_{(n)}\le m\bigr)=(1-q^m)^n,\qquad m=1,2,\dots.
+    \]
+    进而其概率分布列为
+    \[
+    P\bigl(X_{(n)}=m\bigr)
+    =
+    P\bigl(X_{(n)}\le m\bigr)-P\bigl(X_{(n)}\le m-1\bigr)
+    =
+    (1-q^m)^n-(1-q^{m-1})^n,
+    \]
+    其中 \(m=1,2,\dots\).
+\end{itemize}
+
+综上，
+\[
+P\bigl(X_{(1)}=m\bigr)=(1-q^n)q^{(m-1)n},\qquad m=1,2,\dots,
+\]
+而
+\[
+P\bigl(X_{(n)}\le m\bigr)=(1-q^m)^n,\qquad m=1,2,\dots,
+\]
+并且
+\[
+P\bigl(X_{(n)}=m\bigr)=(1-q^m)^n-(1-q^{m-1})^n,\qquad m=1,2,\dots.
+\]
+\end{solution}
+\begin{homework}[3]
+（均匀分布）设 $X_1,X_2,\cdots,X_n$ i.i.d., $X_1\sim U\!\left[\theta-\frac12,\theta+\frac12\right]$，试分别求出 $X_{(1)}$ 和 $X_{(n)}$ 的概率密度。
+\end{homework}
+\section{第二次作业}
+
+\subsection{45,3,4,6}
 \begin{homework}{3}
 设 $X_1, X_2, \cdots, X_n$ i.i.d., $X_1 \sim U\left[\theta - \frac{1}{2}, \theta + \frac{1}{2}\right]$, 试分别求出 $X_{(1)}$ 和 $X_{(n)}$ 的概率密度。
 \end{homework}
@@ -303,6 +593,7 @@ z_\alpha=\mu+\sigma u_\alpha.
 
 故证。
 \end{proof}
+\subsection{46,1,2,3}ection{}
 \begin{homework}{1}
 设 $X \sim \chi^2(n)$，证明：
 $$E(X^k) = 2^k \left(\frac{n}{2} + k - 1\right)\left(\frac{n}{2} + k - 2\right) \cdots \frac{n}{2}, \quad k = 1, 2, \cdots.$$
