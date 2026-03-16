@@ -1,4 +1,4 @@
-\chapter{第一章}
+\chapter{纯作业}
 \begin{homework}{6}
 证明：正态分布 $N(\mu, \sigma^2)$ 的上 $\alpha$ ($0 < \alpha < 1$) 分位数 $z_\alpha$ 与标准正态分布的上 $\alpha$ 分位数 $u_\alpha$ 之间有以下关系：
 $$z_\alpha = \mu + \sigma u_\alpha$$
@@ -21,4 +21,50 @@ n^{\frac{k}{2}} \frac{\Gamma\left(\frac{k+1}{2}\right)\Gamma\left(\frac{n-k}{2}\
 
 \begin{homework}{3}
 设 $X_1 \sim \chi^2(m), X_2 \sim \chi^2(n)$，$X_1, X_2$ 相互独立，则 $X_1 + X_2$ 与 $X_1/X_2$ 相互独立。
+\end{homework}
+\section{第二周作业}
+\begin{homework}[4]
+设 $X_1,X_2,\cdots,X_n$ i.i.d., $X_1 \sim F(x)$, $F(x)$ 有概率密度 $f(x)$, 求：
+\begin{enumerate}
+    \item $X_{(1)}$ 和 $X_{(n)}$ 的联合分布函数及联合概率密度；
+    \item $R=X_{(n)}-X_{(1)}$ 的分布函数及概率密度。
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[5]
+从某总体抽取一个容量为 $5$ 的样本：$-2.8,\,-1,\,1.5,\,2.1,\,3.4$。写出该样本的经验分布函数并画出它的图形。
+\end{homework}
+
+\begin{homework}[6]
+证明：正态分布 $N(\mu,\sigma^2)$ 的上 $\alpha$（$0<\alpha<1$）分位数 $z_\alpha$ 与标准正态分布的上 $\alpha$ 分位数 $u_\alpha$ 之间有以下关系：
+\[
+z_\alpha=\mu+\sigma u_\alpha.
+\]
+\end{homework}
+\begin{homework}[1]
+($\chi^2$ 分布) 设 $X\sim\chi^2(n)$，证明：
+\[
+E(X^k)=2^k\left(\frac{n}{2}+k-1\right)\left(\frac{n}{2}+k-2\right)\cdots\frac{n}{2},
+\qquad k=1,2,\cdots .
+\]
+特别地，有 $E(X)=n,\ \mathrm{Var}(X)=2n$。
+\end{homework}
+
+\begin{homework}[2]
+($t$ 分布) 设 $X\sim t(n)$，则当 $k<n$ 时，$E(X^k)$ 存在且有
+\[
+E(X^k)=
+\begin{cases}
+0, & \text{当 $k$ 为奇数},\\[6pt]
+n^{k/2}\dfrac{\Gamma\!\left(\frac{k+1}{2}\right)\Gamma\!\left(\frac{n-k}{2}\right)}
+{\sqrt{\pi}\,\Gamma\!\left(\frac{n}{2}\right)}, & \text{当 $k$ 为偶数}.
+\end{cases}
+\]
+
+当 $k\ge n$ 时，$E(X^k)$ 是否存在？
+\end{homework}
+
+\begin{homework}[3]
+($\chi^2$ 分布) 设 $X_1\sim\chi^2(m)$，$X_2\sim\chi^2(n)$，且 $X_1,X_2$ 相互独立，
+则 $X_1+X_2$ 与 $X_1/X_2$ 相互独立。
 \end{homework}
