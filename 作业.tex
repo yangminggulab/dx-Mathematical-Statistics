@@ -215,6 +215,17 @@ f_{\overline X}(x)
 \qquad -\infty<x<\infty.
 \]
 \end{solution}
+\begin{dxtips}
+    题目要求样本均值
+\[
+\overline{X}=\frac{1}{n}\sum_{i=1}^{n}X_i
+\]
+的抽样分布，即确定 \(\overline{X}\) 服从什么分布并求出其密度函数。
+
+由于直接由密度求 \(\overline{X}\) 的分布需要进行多重卷积，计算较为繁琐，因此转而先求 \(\overline{X}\) 的特征函数，再由特征函数来确定其分布。
+
+求得 \(\overline{X}\) 的特征函数后，将其与已知分布的特征函数进行比较，识别出 \(\overline{X}\) 所服从的分布，进而写出其密度函数，从而得到所求的抽样分布。
+\end{dxtips}
 \subsection*{page45}
 
 \begin{homework}[1]
@@ -225,62 +236,42 @@ f_{\overline X}(x)
 \[
 S(p)=\sum_{k=r}^{n} C_n^k p^k(1-p)^{n-k}.
 \]
-对 \(p\) 求导，得
-\[
-S'(p)=\sum_{k=r}^{n} C_n^k \Bigl[kp^{k-1}(1-p)^{n-k}-(n-k)p^k(1-p)^{n-k-1}\Bigr].
-\]
-利用组合恒等式
+对 \(p\) 求导，并利用
 \[
 kC_n^k=nC_{n-1}^{k-1},\qquad (n-k)C_n^k=nC_{n-1}^k,
 \]
-可化为
-\[
+得
+\begin{align*}
 S'(p)
-=
-n\sum_{k=r}^{n} C_{n-1}^{k-1} p^{k-1}(1-p)^{n-k}
--
-n\sum_{k=r}^{n} C_{n-1}^k p^k(1-p)^{n-k-1}.
-\]
+&=\sum_{k=r}^{n} C_n^k \Bigl[kp^{k-1}(1-p)^{n-k}-(n-k)p^k(1-p)^{n-k-1}\Bigr] \\
+&=n\sum_{k=r}^{n} C_{n-1}^{k-1} p^{k-1}(1-p)^{n-k}
+-n\sum_{k=r}^{n} C_{n-1}^k p^k(1-p)^{n-k-1}.
+\end{align*}
 在第一项中令 \(j=k-1\)，则
 \[
 S'(p)
-=
-n\sum_{j=r-1}^{n-1} C_{n-1}^j p^j(1-p)^{n-1-j}
--
-n\sum_{k=r}^{n-1} C_{n-1}^k p^k(1-p)^{n-1-k}.
+=n\sum_{j=r-1}^{n-1} C_{n-1}^j p^j(1-p)^{n-1-j}
+-n\sum_{k=r}^{n-1} C_{n-1}^k p^k(1-p)^{n-1-k}
+=nC_{n-1}^{r-1}p^{r-1}(1-p)^{n-r}.
 \]
-两项相消后只剩下首项
+再由
 \[
-S'(p)=nC_{n-1}^{r-1}p^{r-1}(1-p)^{n-r}.
+nC_{n-1}^{r-1}=rC_n^r
 \]
-再利用
-\[
-nC_{n-1}^{r-1}=rC_n^r,
-\]
-得
+可得
 \[
 S'(p)=rC_n^r p^{r-1}(1-p)^{n-r}.
 \]
-
-于是两边从 \(0\) 到 \(p\) 积分，
-\[
-S(p)-S(0)=rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
-\]
-当 \(r\ge 1\) 时，
-\[
-S(0)=\sum_{k=r}^{n} C_n^k 0^k(1-0)^{n-k}=0.
-\]
-故
+两边从 \(0\) 到 \(p\) 积分，并注意 \(S(0)=0\)，于是
 \[
 S(p)=rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
 \]
-即
+故
 \[
 \sum_{k=r}^{n} C_n^k p^k(1-p)^{n-k}
 =
 rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
 \]
-证毕。
 \end{solution}
 \begin{homework}[2]
 （几何分布）设总体 $X$ 服从几何分布

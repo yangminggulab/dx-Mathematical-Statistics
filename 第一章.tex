@@ -77,7 +77,14 @@ L(x_{1}, x_{2}, \cdots, x_{n}; \theta) = \prod_{i=1}^{n} f(x_{i}; \theta)
 \]
 称为\textbf{样本观察值}。其中 \(n\) 称为\textbf{样本大小}，也称\textbf{样本容量}。
 \end{definition}
+\begin{dxtips}[概率论里面学的都是总体]
+  
+\begin{enumerate}
+    \item 概率论里，通常先给定随机变量 \(X\) 的分布，再研究它的性质；
+    \item 数理统计里，则把研究对象的某个指标记为 \(X\)，把它的分布看作总体分布，再根据样本去反推这个分布中的未知信息。
+\end{enumerate}
 
+\end{dxtips}
 \begin{definition}[简单随机样本]
 若样本 \(X_1,X_2,\cdots,X_n\) 满足：
 \begin{itemize}
@@ -93,7 +100,36 @@ X_1,X_2,\cdots,X_n \text{ i.i.d.}
 X_1\sim F(x)\qquad (\text{或 }X_1\sim f(x)).
 \]
 \end{definition}
+\begin{dxtips}
+    从X中选取具体的X1就是抽样，一次抽样并不意味着只得到一个数；一次抽样可以抽取 \(n\) 个个体，从而得到一个容量为 \(n\) 的样本
+\[
+X_1,X_2,\dots,X_n.
+\]
+其中每个 \(X_i\) 是样本观察值，而整组数据才称为一个样本。
+\end{dxtips}
+\begin{example}
+设总体 \(X\sim E(\lambda)\)，其概率密度为
+\[
+f(x;\lambda)=
+\begin{cases}
+\dfrac{1}{\lambda}e^{-x/\lambda}, & x>0,\\[0.5em]
+0, & \text{其他}.
+\end{cases}
+\]
+若 \(X_1,X_2,\cdots,X_n\) 为来自该总体的简单随机样本，则样本分布为
+\[
+\prod_{i=1}^n f(x_i;\lambda)
+=
+\begin{cases}
+\dfrac{1}{\lambda^n}\exp\!\left(-\dfrac{1}{\lambda}\sum_{i=1}^n x_i\right), & x_1,x_2,\cdots,x_n>0,\\[0.8em]
+0, & \text{其他}.
+\end{cases}
+\]
+\end{example}
 
+\begin{note}
+所以这个概率分布就是一次抽样抽到这个样本的概率对吗也就是100个观测值概率的乘积；若总体是连续型，这里写出的则是联合概率密度，而不是单点概率。
+\end{note}
 \begin{definition}[参数、参数空间与分布族]
 总体分布中出现的常数称为\textbf{参数}；若有多个参数，它们组成的向量称为\textbf{参数向量}；其值未知时称为\textbf{未知参数}。  
 参数所有可能取值构成的集合称为\textbf{参数空间}，常记为 \(\Theta\)。
@@ -112,7 +148,13 @@ f(x;\theta),\qquad \theta\in\Theta,
 \]
 称为\textbf{样本分布族}。
 \end{definition}
-
+\begin{note}
+在数理统计中，未知的通常不是样本本身，而是总体分布中的参数。比如正态总体 \(N(\mu,\sigma^2)\) 中未知的是 \(\mu,\sigma^2\)，指数分布 \(E(\lambda)\) 中未知的是 \(\lambda\)，二项分布 \(B(n,p)\) 中未知的是 \(p\)。因此把总体写成
+\[
+f(x;\theta)
+\]
+就是在说明：分布的形式已知，但其中参数 \(\theta\) 的真实取值未知。这样一来，问题就从“研究一个模糊的总体”转化为“研究未知参数 \(\theta\)”。
+\end{note}
 \begin{definition}[统计模型与参数统计问题]
 样本分布族称为\textbf{统计模型}。  
 若总体分布形式已知，只需对其中未知参数作出推断，则称这类问题为\textbf{参数统计问题}。
