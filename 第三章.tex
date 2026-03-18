@@ -1,1 +1,86 @@
 \chapter{参数估计}
+\begin{example}
+设总体 \(X\sim N(\mu,4)\)，其中 \(\mu\) 未知，记 \(\theta=\mu\)，\(\Theta=\mathbb{R}\)。对总体作 \(4\) 次观测，得样本 \(X=(X_1,X_2,X_3,X_4)^{\mathrm T}\)。若观测值为 \(x=(8,9,11,10)^{\mathrm T}\)，则：
+\begin{enumerate}
+    \item \textbf{估计量：} 取样本均值作为 \(\mu\) 的点估计量，即 \(\hat{\mu}(X)=\bar X=\frac{1}{4}(X_1+X_2+X_3+X_4)\)。
+
+    \item \textbf{估计值：} 将样本观测值代入估计量，得 \(\hat{\mu}(x)=\bar x=\frac{8+9+11+10}{4}=9.5\)。
+
+    \item \textbf{置信区间：} 由于 \(\bar X\sim N\left(\mu,\frac{4}{4}\right)=N(\mu,1)\)，取置信水平 \(95\%\)，由 \(z_{0.975}=1.96\)，得 \(\mu\) 的 \(95\%\) 置信区间为 \([\bar X-1.96\frac{2}{\sqrt{4}},\ \bar X+1.96\frac{2}{\sqrt{4}}]=[\bar X-1.96,\ \bar X+1.96]\)。代入 \(\bar x=9.5\)，得 \([9.5-1.96,\ 9.5+1.96]=[7.54,11.46]\)。
+\end{enumerate}
+因此，本例中估计量为 \(\hat{\mu}(X)=\bar X\)，估计值为 \(\hat{\mu}(x)=9.5\)，\(95\%\) 置信区间为 \([7.54,11.46]\)。
+\end{example}
+\begin{definition}[样本中心矩]
+设 \(X_1,X_2,\cdots,X_n\) i.i.d.，是抽自总体 \(X\) 的一个样本，则称 \(\hat{\alpha}_k\) 为总体 \(X\) 的 \(k\) 阶样本原点矩，\(\hat{\beta}_k\) 为总体 \(X\) 的 \(k\) 阶样本中心矩。
+\end{definition}
+\begin{note}
+    \begin{itemize}
+    \item 二阶样本中心矩：\(\hat{\beta}_2=\frac{1}{n}\sum_{i=1}^n (X_i-\bar X)^2\)，用来描述样本的离散程度，也就是数据围绕样本均值的波动大小。它与样本方差本质上是同一个东西，只差一个修正系数。
+
+    \item 三阶样本中心矩：\(\hat{\beta}_3=\frac{1}{n}\sum_{i=1}^n (X_i-\bar X)^3\)，用来描述样本分布的偏斜程度。若它大于 \(0\)，通常表示分布右偏；若小于 \(0\)，通常表示分布左偏；若接近 \(0\)，通常表示分布较对称。
+
+    \item 四阶样本中心矩：\(\hat{\beta}_4=\frac{1}{n}\sum_{i=1}^n (X_i-\bar X)^4\)，用来描述样本分布的峰态，反映数据分布是更尖、更平，或者尾部是否更厚。
+\end{itemize}
+\end{note}
+\begin{note}
+\(X\sim F_\theta(x)\) 表示随机变量 \(X\) 服从一个由参数 \(\theta\) 决定的分布，也就是说 \(X\) 的分布函数为 \(F_\theta(x)\)。其中 \(\theta\) 取不同的值，就对应这一族分布中的不同具体分布。F（x）可以是正态分布可以是均匀分布这个只是抽象的表示。
+\end{note}
+\begin{example}
+设总体均值为 \(\mu\)，现不直接估计 \(\mu\)，而是要估计参数
+\(\theta=\mu^2\)。令 \(\alpha=\mu\)，则 \(\theta\) 可写为
+\(\theta=\theta(\alpha)=\alpha^2\)。又因为 \(\mu\) 的一个自然估计量是样本均值
+\(\alpha(X)=\bar X\)，故由代入估计法，将 \(\theta(\alpha)=\alpha^2\) 中的 \(\alpha\) 用 \(\alpha(X)=\bar X\) 代替，得到 \(\theta\) 的估计量为
+\[
+\theta(\alpha(X))=(\bar X)^2.
+\]
+因此，\(\mu^2\) 的代入估计量为 \(\bar X^2\)。
+\end{example}
+\begin{dxtips}
+    矩阵就是用来同时解方程的
+\end{dxtips}
+\begin{note}
+上述方法称为\textbf{矩估计法}。其基本思想是：若总体分布中含有 \(k\) 个未知参数
+\(\theta=(\theta_1,\theta_2,\dots,\theta_k)^{\mathrm T}\)，则选取总体的前 \(k\) 个原点矩
+\(\alpha_1,\alpha_2,\dots,\alpha_k\)，并将它们表示为参数的函数，即
+\(\alpha_l=\alpha_l(\theta_1,\theta_2,\dots,\theta_k)\), \(l=1,\dots,k\)。再用相应的样本原点矩
+\(\frac{1}{n}\sum_{i=1}^n X_i,\frac{1}{n}\sum_{i=1}^n X_i^2,\dots,\frac{1}{n}\sum_{i=1}^n X_i^k\)
+分别代替总体原点矩，得到关于 \(\theta_1,\theta_2,\dots,\theta_k\) 的方程组
+\[
+\begin{cases}
+\alpha_1(\theta_1,\theta_2,\dots,\theta_k)=\frac{1}{n}\sum_{i=1}^n X_i,\\
+\alpha_2(\theta_1,\theta_2,\dots,\theta_k)=\frac{1}{n}\sum_{i=1}^n X_i^2,\\
+\qquad\vdots\\
+\alpha_k(\theta_1,\theta_2,\dots,\theta_k)=\frac{1}{n}\sum_{i=1}^n X_i^k.
+\end{cases}
+\]
+把该方程组的解 \(\hat\theta=(\hat\theta_1,\hat\theta_2,\dots,\hat\theta_k)^{\mathrm T}\) 作为参数 \(\theta\) 的估计量，称为\textbf{矩估计量}。
+\end{note}
+
+\begin{example}
+设总体 \(X\sim N(\mu,\sigma^2)\)，其中 \(\mu,\sigma^2\) 都未知。现用矩估计法估计参数 \(\mu\) 与 \(\sigma^2\)。
+
+总体的一阶原点矩与二阶原点矩分别为 \(E(X)=\mu\) 与 \(E(X^2)=\mu^2+\sigma^2\)。用样本原点矩 \(\bar X=\frac{1}{n}\sum_{i=1}^n X_i\) 和 \(\frac{1}{n}\sum_{i=1}^n X_i^2\) 分别代替它们，得到方程组
+\[
+\mu=\bar X,\qquad \mu^2+\sigma^2=\frac{1}{n}\sum_{i=1}^n X_i^2.
+\]
+解得
+\[
+\hat\mu=\bar X,\qquad \hat\sigma^2=\frac{1}{n}\sum_{i=1}^n X_i^2-\bar X^2.
+\]
+因此，\(\mu\) 与 \(\sigma^2\) 的矩估计量分别为 \(\bar X\) 和 \(\frac{1}{n}\sum_{i=1}^n X_i^2-\bar X^2\)。
+\end{example}
+\begin{definition}[3.2.2]
+设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x;\theta)\)，\(\theta\in\Theta\)。令
+\[
+L(\theta;x)=L(\theta;x_1,x_2,\cdots,x_n)=\prod_{i=1}^n f(x_i;\theta)
+\]
+为样本 \(X=(X_1,\cdots,X_n)^{\mathrm T}\) 的概率密度（或概率函数），视其为 \(\theta\) 的函数，称为相应于样本 \(X\) 的似然函数；也称 \(L(\theta;X)\) 为相应于样本 \(X\) 的似然函数。
+\end{definition}
+
+\begin{definition}[3.2.3]
+设相应于样本 \(X=(X_1,X_2,\cdots,X_n)^{\mathrm T}\) 的似然函数为 \(L(\theta;x)\)。若 \(\hat{\theta}(x)=\hat{\theta}(x_1,x_2,\cdots,x_n)\) 满足
+\[
+L(\hat{\theta}(x);x)=\max_{\theta\in\Theta} L(\theta;x),
+\]
+则称 \(\hat{\theta}(X)\) 为 \(\theta\) 的最大似然估计量，简记为 MLE（Maximum likelihood estimator）。
+\end{definition}
