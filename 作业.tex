@@ -201,7 +201,9 @@ E\!\left(e^{it\frac{1}{n}\sum_{i=1}^n X_i}\right)
 =
 e^{-\sigma|t|}.
 \]
-
+\begin{dxtips}
+\text{independent and identically distributed}相互独立而且同分布所以第二行能写成n次方，第一行只是把加号从指数取下来变成了乘法
+\end{dxtips}
 这正是参数为 $\sigma$ 的柯西分布的特征函数，因此
 \[
 \overline X \sim \mathrm{Cauchy}(0,\sigma).
@@ -236,7 +238,7 @@ f_{\overline X}(x)
 \[
 S(p)=\sum_{k=r}^{n} C_n^k p^k(1-p)^{n-k}.
 \]
-对 \(p\) 求导，并利用
+对 \(p\) 求导，并利用\textcolor{red}{重点等式}
 \[
 kC_n^k=nC_{n-1}^{k-1},\qquad (n-k)C_n^k=nC_{n-1}^k,
 \]
@@ -273,6 +275,9 @@ S(p)=rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
 rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
 \]
 \end{solution}
+\begin{dxtips}
+    这个证明一边有积分一边没积分就应该想导是对左边求导然后再从0到p积分
+\end{dxtips}
 \begin{homework}[2]
 （几何分布）设总体 $X$ 服从几何分布
 \[
@@ -285,79 +290,54 @@ $X_1,X_2,\cdots,X_n$ 是抽自 $X$ 的简单随机样本，求 $X_{(1)},X_{(n)}$
 \[
 q=1-p,\qquad X_{(1)}=\min\{X_1,\dots,X_n\},\qquad X_{(n)}=\max\{X_1,\dots,X_n\}.
 \]
-
 由于总体服从几何分布，
 \[
 P(X=k)=pq^{k-1},\qquad k=1,2,\dots,
 \]
-故分布函数为
+故对任意 \(m=1,2,\dots\)，有
 \[
-F(x)=P(X\le x)=1-q^{[x]},\qquad x\ge 1,
-\]
-其中当 \(m=1,2,\dots\) 时，
-\[
-P(X>m)=q^m.
+P(X>m)=q^m,\qquad P(X\le m)=1-q^m.
 \]
 
-\begin{itemize}
-    \item 先求 \(X_{(1)}\) 的分布。对任意 \(m=1,2,\dots\)，有
-    \[
-    P\bigl(X_{(1)}>m\bigr)=P(X_1>m,\dots,X_n>m)=\bigl(P(X>m)\bigr)^n=q^{mn}.
-    \]
-    因此
-    \[
-    P\bigl(X_{(1)}\le m\bigr)=1-q^{mn},
-    \]
-    从而
-    \[
-    P\bigl(X_{(1)}=m\bigr)
-    =
-    P\bigl(X_{(1)}>m-1\bigr)-P\bigl(X_{(1)}>m\bigr)
-    =
-    q^{(m-1)n}-q^{mn}
-    =
-    (1-q^n)q^{(m-1)n}.
-    \]
-    所以
-    \[
-    X_{(1)}\sim \text{几何分布}(1-q^n),
-    \]
-    即
-    \[
-    P\bigl(X_{(1)}=m\bigr)=(1-q^n)q^{(m-1)n},\qquad m=1,2,\dots.
-    \]
+\textbf{1. 求 \(X_{(1)}\) 的分布}
 
-    \item 再求 \(X_{(n)}\) 的分布。对任意 \(m=1,2,\dots\)，有
-    \[
-    P\bigl(X_{(n)}\le m\bigr)=P(X_1\le m,\dots,X_n\le m)=\bigl(P(X\le m)\bigr)^n=(1-q^m)^n.
-    \]
-    因此其分布函数为
-    \[
-    F_{X_{(n)}}(m)=P\bigl(X_{(n)}\le m\bigr)=(1-q^m)^n,\qquad m=1,2,\dots.
-    \]
-    进而其概率分布列为
-    \[
-    P\bigl(X_{(n)}=m\bigr)
-    =
-    P\bigl(X_{(n)}\le m\bigr)-P\bigl(X_{(n)}\le m-1\bigr)
-    =
-    (1-q^m)^n-(1-q^{m-1})^n,
-    \]
-    其中 \(m=1,2,\dots\).
-\end{itemize}
+由次序统计量的分布公式，
+\[
+P\bigl(X_{(1)}>m\bigr)=P(X_1>m,\dots,X_n>m)=\bigl(P(X>m)\bigr)^n=q^{mn},
+\]
+因此
+\[
+P\bigl(X_{(1)}\le m\bigr)=1-q^{mn}.
+\]
+从而
+\[
+P\bigl(X_{(1)}=m\bigr)
+=
+P\bigl(X_{(1)}>m-1\bigr)-P\bigl(X_{(1)}>m\bigr)
+=
+q^{(m-1)n}-q^{mn}
+=
+(1-q^n)q^{(m-1)n},
+\]
+其中 \(m=1,2,\dots\).
+\begin{dxtips}
+    分布函数所有人都有就是小于等于m的概率。分布列只有离散型有就是P（X=x），概率密度函数只有连续型有因为只有连续型的分布函数才能求导。最大最小值求的时候不是只有他大于m的概率而是他能要求其他元素也满足这个条件。
+\end{dxtips}
+\textbf{2. 求 \(X_{(n)}\) 的分布}
 
-综上，
+由次序统计量的分布公式，
 \[
-P\bigl(X_{(1)}=m\bigr)=(1-q^n)q^{(m-1)n},\qquad m=1,2,\dots,
+P\bigl(X_{(n)}\le m\bigr)=P(X_1\le m,\dots,X_n\le m)=\bigl(P(X\le m)\bigr)^n=(1-q^m)^n,
 \]
-而
+因此
 \[
-P\bigl(X_{(n)}\le m\bigr)=(1-q^m)^n,\qquad m=1,2,\dots,
+P\bigl(X_{(n)}=m\bigr)
+=
+P\bigl(X_{(n)}\le m\bigr)-P\bigl(X_{(n)}\le m-1\bigr)
+=
+(1-q^m)^n-(1-q^{m-1})^n,
 \]
-并且
-\[
-P\bigl(X_{(n)}=m\bigr)=(1-q^m)^n-(1-q^{m-1})^n,\qquad m=1,2,\dots.
-\]
+其中 \(m=1,2,\dots\).
 \end{solution}
 \begin{homework}[3]
 （均匀分布）设 $X_1,X_2,\cdots,X_n$ i.i.d., $X_1\sim U\!\left[\theta-\frac12,\theta+\frac12\right]$，试分别求出 $X_{(1)}$ 和 $X_{(n)}$ 的概率密度。
