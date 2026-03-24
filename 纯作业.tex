@@ -136,3 +136,50 @@ A^2=A,
 \operatorname{rank}(A)=r.
 \]
 \end{homework}
+\section{第三周}
+\begin{homework}
+设 \(X_1,\dots,X_n\) i.i.d., \(X_i\sim N(\mu,\sigma^2)\)，又设 \(X_{n+1}\sim N(\mu,\sigma^2)\)，且与 \(X_1,\dots,X_n\) 相互独立。记
+\[
+\bar X=\frac1n\sum_{i=1}^n X_i,\qquad
+s^2=\frac1{n-1}\sum_{i=1}^n (X_i-\bar X)^2.
+\]
+证明
+\[
+T=\sqrt{\frac{n}{n+1}}\frac{\bar X-X_{n+1}}{s}\sim t(n-1).
+\]
+\end{homework}
+\begin{homework}[2.4第1题]
+设 \(X_1,\ldots,X_n\) i.i.d.，\(X_1\sim N(0,1)\)，
+\[
+s^2=\frac{1}{n-1}\sum_{i=1}^n (X_i-\overline{X})^2,
+\]
+求 \(\mathrm{Var}(s^2)\)。
+\end{homework}
+
+\begin{homework}[2.4第2题]
+设 \(X_1,\ldots,X_m\) i.i.d.，\(X_1\sim N(\mu_1,\sigma^2)\)；\(Y_1,\ldots,Y_n\) i.i.d.，\(Y_1\sim N(\mu_2,\sigma^2)\)，且这两组随机变量相互独立。记
+\[
+s_1^2=\frac{1}{m-1}\sum_{i=1}^m (X_i-\overline{X})^2,\qquad
+s_2^2=\frac{1}{n-1}\sum_{i=1}^n (Y_i-\overline{Y})^2.
+\]
+\begin{enumerate}
+    \item 求
+    \[
+    \frac{(m-1)s_1^2+(n-1)s_2^2}{\sigma^2}
+    \]
+    的分布；
+    \item 比较 \(s_1^2\) 与
+    \[
+    \frac{(m-1)s_1^2+(n-1)s_2^2}{m+n-2}
+    \]
+    的方差。
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[2.4第3题]
+设 \(X_1,\ldots,X_n\) i.i.d.，\(X_1\sim N(0,1)\)，求
+\[
+Z=\frac{\sum_{i=1}^{n-1}X_i}{X_n}
+\]
+的分布。
+\end{homework}
