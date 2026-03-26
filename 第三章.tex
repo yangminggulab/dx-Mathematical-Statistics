@@ -69,18 +69,156 @@
 \]
 因此，\(\mu\) 与 \(\sigma^2\) 的矩估计量分别为 \(\bar X\) 和 \(\frac{1}{n}\sum_{i=1}^n X_i^2-\bar X^2\)。
 \end{example}
-\begin{definition}[3.2.2]
+\begin{definition}[似然函数likelihood function，要求互相独立服从一种类型的分布]
 设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x;\theta)\)，\(\theta\in\Theta\)。令
 \[
 L(\theta;x)=L(\theta;x_1,x_2,\cdots,x_n)=\prod_{i=1}^n f(x_i;\theta)
 \]
 为样本 \(X=(X_1,\cdots,X_n)^{\mathrm T}\) 的概率密度（或概率函数），视其为 \(\theta\) 的函数，称为相应于样本 \(X\) 的似然函数；也称 \(L(\theta;X)\) 为相应于样本 \(X\) 的似然函数。
 \end{definition}
-
-\begin{definition}[3.2.3]
+\begin{dxtips}
+似然就是想通过这个函数确定参数的大小    
+\end{dxtips}
+\begin{definition}[MLE用来确定参数的]
 设相应于样本 \(X=(X_1,X_2,\cdots,X_n)^{\mathrm T}\) 的似然函数为 \(L(\theta;x)\)。若 \(\hat{\theta}(x)=\hat{\theta}(x_1,x_2,\cdots,x_n)\) 满足
 \[
 L(\hat{\theta}(x);x)=\max_{\theta\in\Theta} L(\theta;x),
 \]
 则称 \(\hat{\theta}(X)\) 为 \(\theta\) 的最大似然估计量，简记为 MLE（Maximum likelihood estimator）。
 \end{definition}
+\begin{theorem}[求最大似然估计量的三种常见情形]
+设似然函数为 \(L(\theta;x)\)，则求最大似然估计量时，常见有以下三种情形：
+\begin{itemize}
+    \item 若 \(L(\theta;x)\) 关于 \(\theta\) 连续可导，且 \(\Theta\) 为开区域，则通常先解似然方程组
+    \[
+    \frac{\partial L(\theta;x)}{\partial \theta_j}=0,
+    \qquad j=1,2,\dots,k,
+    \]
+    或等价地解对数似然方程组
+    \[
+    \frac{\partial \ln L(\theta;x)}{\partial \theta_j}=0,
+    \qquad j=1,2,\dots,k.
+    \]
+
+    \item 若 \(L(\theta;x)\) 关于 \(\theta\) 有间断点，则不能直接用似然方程，需结合似然函数的具体形式分段讨论，在定义域内直接比较其大小。
+
+    \item 若参数 \(\theta\) 取离散值，则常通过比较相邻参数值处似然函数的大小，来确定使 \(L(\theta;x)\) 取得最大值的参数。
+\end{itemize}
+\end{theorem}
+\begin{theorem}[最大似然估计在一一变换下会“跟着变过去”]
+设 \(X\sim f(x;\theta)\), \(\theta\in\Theta\), \(X\) 是来自于该分布的一个样本，\(\hat{\theta}(X)\) 是 \(\theta\) 的最大似然估计量。设 \(\eta=g(\theta)\) 是由 \(\Theta\) 到 \(\hat{\Theta}\) 上的一一映射，则 \(g(\hat{\theta}(X))\) 是 \(\eta\) 的最大似然估计量。
+\end{theorem}
+\begin{note}
+  可以让整个最大的θ可以不止一个
+\end{note}
+\begin{definition}[M估计]
+设样本为 \(X_1,\dots,X_n\)，参数为 \(\theta\)。若 \(\hat{\theta}\) 是通过最小化
+\[
+\sum_{i=1}^n \rho(X_i,\theta)
+\]
+得到的估计，其中 \(\rho\) 是关于误差的某个对称凸函数，则称 \(\hat{\theta}\) 为参数 \(\theta\) 的一个 \textbf{M估计}。
+
+等价地，若 \(\hat{\theta}\) 满足估计方程
+\[
+\sum_{i=1}^n \psi(X_i,\theta)=0,
+\]
+其中 \(\psi\) 常可看作某个函数 \(\rho\) 的导数，则由该方程得到的估计也称为 \textbf{M估计}。
+\end{definition}
+\begin{dxtips}
+    很多 M 估计就是为了减弱离群点的影响
+\end{dxtips}
+\begin{example}
+设样本为
+\[
+x_1=1,\quad x_2=2,\quad x_3=10,
+\]
+现用 M 估计来估计位置参数 \(\theta\)。
+
+\begin{enumerate}
+    \item 若取
+    \[
+    \rho(u)=u^2,
+    \]
+    则对应的 M 估计为最小化
+    \[
+    \sum_{i=1}^3 \rho(x_i-\theta)
+    =(1-\theta)^2+(2-\theta)^2+(10-\theta)^2.
+    \]
+    解得
+    \[
+    \hat{\theta}=\frac{1+2+10}{3}=\frac{13}{3}.
+    \]
+    此时得到的就是样本均值。
+
+    \item 若取
+    \[
+    \rho(u)=|u|,
+    \]
+    则对应的 M 估计为最小化
+    \[
+    \sum_{i=1}^3 \rho(x_i-\theta)
+    =|1-\theta|+|2-\theta|+|10-\theta|.
+    \]
+    解得
+    \[
+    \hat{\theta}=2.
+    \]
+    此时得到的就是样本中位数。
+\end{enumerate}
+
+这说明：M 估计的核心思想是先选定损失函数 \(\rho\)，再令总损失最小；不同的 \(\rho\) 会导出不同的估计量。
+\end{example}
+\begin{definition}[Bayes估计]
+设样本 \(X=(X_1,X_2,\dots,X_n)^{\mathrm T}\) 来自条件分布 \(f(x\mid\theta)\)，参数 \(\theta\) 的先验分布为 \(\pi(\theta)\)。在给定样本 \(X\) 后，由贝叶斯公式，\(\theta\) 的后验分布为
+\[
+p(\theta\mid X)=\frac{f(X\mid\theta)\pi(\theta)}{\int_{\Theta} f(X\mid\theta)\pi(\theta)\,d\theta}.
+\]
+
+对于待估参数函数 \(g(\theta)\)，若以其在后验分布下的均值
+\[
+\hat g(X)=\int_{\Theta} g(\theta)p(\theta\mid X)\,d\theta
+=\frac{\int_{\Theta} g(\theta)f(X\mid\theta)\pi(\theta)\,d\theta}{\int_{\Theta} f(X\mid\theta)\pi(\theta)\,d\theta}
+\]
+作为 \(g(\theta)\) 的点估计，则称 \(\hat g(X)\) 为 \(g(\theta)\) 的 \textbf{Bayes估计}，也称为\textbf{后验均值估计}。
+\end{definition}
+\begin{note}
+Bayes估计的优点主要有以下几点：
+\begin{enumerate}
+    \item 能利用已有经验。它不只依赖这一次样本，还可以把过去的信息通过先验分布纳入估计。
+    \item 样本少时更稳定。小样本情形下，一些传统估计波动较大，而Bayes估计往往更平滑。
+    \item 结果更直观。它给出的不仅是一个点估计，还能通过后验分布描述参数落在某一区间的可能性大小。
+    \item 方便估计参数函数。对于 \(g(\theta)\) 这样的参数函数，常可直接用后验均值作为估计。
+    \item 适合连续更新。当有新数据加入时，可以在原有后验分布的基础上继续修正估计结果。
+\end{enumerate}
+\end{note}
+\begin{example}
+某工厂过去经验认为次品率大约在 \(10\%\) 左右，于是取先验分布
+\[
+\theta \sim \mathrm{Beta}(2,18),
+\]
+其先验均值为
+\[
+E(\theta)=\frac{2}{2+18}=0.1.
+\]
+
+现在抽查 \(10\) 件产品，发现其中有 \(3\) 件次品。设
+\[
+X\mid \theta \sim \mathrm{Bin}(10,\theta).
+\]
+则后验分布为
+\[
+\theta\mid X \sim \mathrm{Beta}(2+3,\,18+7)=\mathrm{Beta}(5,25).
+\]
+
+因此，\(\theta\) 的 Bayes 估计（后验均值）为
+\[
+\hat{\theta}_B=E(\theta\mid X)=\frac{5}{5+25}=\frac{1}{6}\approx 0.167.
+\]
+
+而样本频率估计为
+\[
+\hat{\theta}=\frac{3}{10}=0.3.
+\]
+可见 Bayes 估计结合了过去经验与当前样本，因此比 \(0.3\) 更平稳。
+\end{example}
+\section{3.3点估计量评价}

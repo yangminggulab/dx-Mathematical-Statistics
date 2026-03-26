@@ -1291,3 +1291,60 @@ Z\sim C\!\left(0,\sqrt{n-1}\right).
 
 所以 \(Z\) 的分布为参数为 \(0\) 和 \(\sqrt{n-1}\) 的柯西分布。
 \end{solution}
+\begin{homework}[1]
+（泊松分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim P(\lambda)\)，分别用一阶矩和二阶矩求 \(\lambda\) 的矩估计量。
+\end{homework}
+\begin{solution}
+设总体服从泊松分布 \(P(\lambda)\)。
+
+由泊松分布的性质，
+\[
+E(X)=\lambda,\qquad E(X^2)=\lambda^2+\lambda.
+\]
+
+\begin{enumerate}
+    \item 用一阶矩求矩估计量
+
+    由矩估计法，令样本一阶原点矩等于总体一阶原点矩，即
+    \[
+    \bar X=E(X)=\lambda.
+    \]
+    因而 \(\lambda\) 的一阶矩估计量为
+    \[
+    \hat\lambda_1=\bar X.
+    \]
+
+    \item 用二阶矩求矩估计量
+
+    令样本二阶原点矩等于总体二阶原点矩，即
+    \[
+    \frac{1}{n}\sum_{i=1}^n X_i^2=E(X^2)=\lambda^2+\lambda.
+    \]
+    于是 \(\lambda\) 满足方程
+    \[
+    \lambda^2+\lambda-\frac{1}{n}\sum_{i=1}^n X_i^2=0.
+    \]
+    解得
+    \[
+    \hat\lambda_2=\frac{-1+\sqrt{1+4\left(\frac{1}{n}\sum_{i=1}^n X_i^2\right)}}{2}.
+    \]
+    由于 \(\lambda>0\)，舍去负根。
+\end{enumerate}
+\end{solution}
+\begin{homework}[2]
+（二项分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim B(k,p)\)，求 \(p\) 的矩估计量。
+\end{homework}
+
+\begin{homework}[3]
+（均匀分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim U(\theta_1,\theta_2)\)，求 \(\theta_1,\theta_2\) 的矩估计量。
+\end{homework}
+
+
+
+\begin{homework}[5]
+（双边指数分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim f(x)\)，
+\[
+f(x)=\frac{1}{2\sigma}\exp\!\left(-\frac{|x|}{\sigma}\right),
+\]
+求 \(\sigma\) 的矩估计量。
+\end{homework}
