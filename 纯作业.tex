@@ -204,3 +204,63 @@ f(x)=\frac{1}{2\sigma}\exp\!\left(-\frac{|x|}{\sigma}\right),
 \]
 求 \(\sigma\) 的矩估计量。
 \end{homework}
+\section{第五周作业}
+\begin{homework}[7]
+设 \(X_1,X_2,\cdots,X_n\) i.i.d.，试分别求下列总体中 \(\theta\) 的最大似然估计量。
+
+\begin{enumerate}
+    \setcounter{enumi}{1}
+    \item （韦布尔分布）\(f(x;\theta)=\dfrac{x}{\theta^2}e^{-x^2/\theta^2},\ x>0,\ \theta>0.\)
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[8]
+（均匀分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim U\left(\theta-\dfrac{1}{2},\theta+\dfrac{1}{2}\right)\)，证明任意
+\[
+T\in \left[X_{(n)}-\frac{1}{2},\,X_{(1)}+\frac{1}{2}\right]
+\]
+都是 \(\theta\) 的最大似然估计量。
+\end{homework}
+\begin{homework}[10]
+（双参数指数分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x;\alpha,\beta)\)，
+\[
+f(x;\alpha,\beta)=
+\begin{cases}
+\beta \exp\{-\beta(x-\alpha)\}, & x\ge \alpha,\\
+0, & \text{其他},
+\end{cases}
+\]
+其中 \(\beta>0\)。试求 \(\alpha,\beta\) 的最大似然估计量。
+\end{homework}
+
+\begin{homework}[11]
+（截尾几何分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，为来自截尾几何分布总体 \(X\) 的样本：
+\[
+P\{X=k\}=\theta^{k-1}(1-\theta),\qquad k=1,2,\cdots,r;
+\]
+\[
+P\{X=r+1\}=\theta^r.
+\]
+记
+\[
+M=\#\{\,i: X_i=r+1,\ i=1,2,\cdots,n\,\},
+\]
+试证明 \(\theta\) 的 MLE 为
+\[
+\hat{\theta}
+=
+\frac{\sum_{i=1}^n X_i-n}{\sum_{i=1}^n X_i-M}.
+\]
+\end{homework}
+
+\begin{homework}[12]
+设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x,\theta_1,\theta_2)\)，
+\[
+f(x,\theta_1,\theta_2)=
+\begin{cases}
+\dfrac{\theta_1}{\theta_2}x^{\theta_1-1}\exp\!\left(-\dfrac{x^{\theta_1}}{\theta_2}\right), & x\ge 0,\\[1ex]
+0, & \text{其他},
+\end{cases}
+\]
+其中 \(\theta_1\) 已知，求 \(\theta_2\) 的最大似然估计量。
+\end{homework}

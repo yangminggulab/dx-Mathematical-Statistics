@@ -168,57 +168,187 @@ x_1=1,\quad x_2=2,\quad x_3=10,
 
 这说明：M 估计的核心思想是先选定损失函数 \(\rho\)，再令总损失最小；不同的 \(\rho\) 会导出不同的估计量。
 \end{example}
-\begin{definition}[Bayes估计]
-设样本 \(X=(X_1,X_2,\dots,X_n)^{\mathrm T}\) 来自条件分布 \(f(x\mid\theta)\)，参数 \(\theta\) 的先验分布为 \(\pi(\theta)\)。在给定样本 \(X\) 后，由贝叶斯公式，\(\theta\) 的后验分布为
-\[
-p(\theta\mid X)=\frac{f(X\mid\theta)\pi(\theta)}{\int_{\Theta} f(X\mid\theta)\pi(\theta)\,d\theta}.
-\]
 
-对于待估参数函数 \(g(\theta)\)，若以其在后验分布下的均值
+\begin{definition}[Bayes 估计]
+设样本 $X = (X_1, X_2, \ldots, X_n)^\mathrm{T}$ 来自条件分布 $f(x \mid \theta)$，参数 $\theta$ 的先验分布为 $\pi(\theta)$。在给定样本 $X$ 后，由贝叶斯公式，$\theta$ 的后验分布为
 \[
-\hat g(X)=\int_{\Theta} g(\theta)p(\theta\mid X)\,d\theta
-=\frac{\int_{\Theta} g(\theta)f(X\mid\theta)\pi(\theta)\,d\theta}{\int_{\Theta} f(X\mid\theta)\pi(\theta)\,d\theta}
+  p(\theta \mid X) = \frac{f(X \mid \theta)\,\pi(\theta)}{\displaystyle\int_{\Theta} f(X \mid \theta)\,\pi(\theta)\,\mathrm{d}\theta}.
 \]
-作为 \(g(\theta)\) 的点估计，则称 \(\hat g(X)\) 为 \(g(\theta)\) 的 \textbf{Bayes估计}，也称为\textbf{后验均值估计}。
+对于待估参数函数 $g(\theta)$，若以其后验均值
+\[
+  \hat{g}(X) = \int_{\Theta} g(\theta)\,p(\theta \mid X)\,\mathrm{d}\theta
+             = \frac{\displaystyle\int_{\Theta} g(\theta)\,f(X \mid \theta)\,\pi(\theta)\,\mathrm{d}\theta}
+                    {\displaystyle\int_{\Theta} f(X \mid \theta)\,\pi(\theta)\,\mathrm{d}\theta}
+\]
+作为点估计，则称 $\hat{g}(X)$ 为 $g(\theta)$ 的 \textbf{Bayes 估计}，也称\textbf{后验均值估计}。
 \end{definition}
 \begin{note}
-Bayes估计的优点主要有以下几点：
+三个关键概念：
 \begin{enumerate}
-    \item 能利用已有经验。它不只依赖这一次样本，还可以把过去的信息通过先验分布纳入估计。
-    \item 样本少时更稳定。小样本情形下，一些传统估计波动较大，而Bayes估计往往更平滑。
-    \item 结果更直观。它给出的不仅是一个点估计，还能通过后验分布描述参数落在某一区间的可能性大小。
-    \item 方便估计参数函数。对于 \(g(\theta)\) 这样的参数函数，常可直接用后验均值作为估计。
-    \item 适合连续更新。当有新数据加入时，可以在原有后验分布的基础上继续修正估计结果。
+  \item \textbf{先验分布 $\pi(\theta)$}：在看到数据之前，你对 $\theta$ 的主观判断。比如你觉得一枚硬币正面概率大概在 $0.5$ 左右，这就是先验。
+  \item \textbf{似然函数 $f(X\mid\theta)$}：给定参数 $\theta$，观测到样本 $X$ 的概率。这是数据给你的信息。
+  \item \textbf{后验分布 $p(\theta\mid X)$}：看到数据 $X$ 之后，对 $\theta$ 的更新判断：
+\[
+  p(\theta \mid X) = \frac{f(X \mid \theta)\,\pi(\theta)}{\displaystyle\int_{\Theta} f(X \mid \theta)\,\pi(\theta)\,\mathrm{d}\theta}
+\]
+简单说就是：后验 $\propto$ 似然 $\times$ 先验，分母只是归一化常数让概率加起来等于 $1$。
 \end{enumerate}
 \end{note}
-\begin{example}
-某工厂过去经验认为次品率大约在 \(10\%\) 左右，于是取先验分布
+\begin{example}[抛硬币的 Bayes 估计]
+设正面概率 $\theta$ 的先验为 $\pi(\theta) \sim \text{Beta}(2,2)$，抛硬币 $10$ 次观测到 $7$ 次正面。由 Beta-Binomial 共轭，后验为
 \[
-\theta \sim \mathrm{Beta}(2,18),
+  \theta \mid X \sim \text{Beta}(2+7,\ 2+3) = \text{Beta}(9,5),
 \]
-其先验均值为
-\[
-E(\theta)=\frac{2}{2+18}=0.1.
-\]
-
-现在抽查 \(10\) 件产品，发现其中有 \(3\) 件次品。设
-\[
-X\mid \theta \sim \mathrm{Bin}(10,\theta).
-\]
-则后验分布为
-\[
-\theta\mid X \sim \mathrm{Beta}(2+3,\,18+7)=\mathrm{Beta}(5,25).
-\]
-
-因此，\(\theta\) 的 Bayes 估计（后验均值）为
-\[
-\hat{\theta}_B=E(\theta\mid X)=\frac{5}{5+25}=\frac{1}{6}\approx 0.167.
-\]
-
-而样本频率估计为
-\[
-\hat{\theta}=\frac{3}{10}=0.3.
-\]
-可见 Bayes 估计结合了过去经验与当前样本，因此比 \(0.3\) 更平稳。
+Bayes 估计（后验均值）为 $\hat{\theta} = \frac{9}{14} \approx 0.643$，相比频率派 MLE $\hat{\theta}_{\text{MLE}} = 0.7$，结果被先验适当拉向 $0.5$。
 \end{example}
 \section{3.3点估计量评价}
+\begin{definition}{$g(\boldsymbol{\theta})$ 的无偏估计量}{def:unbiased}
+设 $\hat{g}(\boldsymbol{X})$ 是 $g(\boldsymbol{\theta})$ 的估计量，若对于任意 $\boldsymbol{\theta} \in \Theta$ 都有
+\[
+E_{\boldsymbol{\theta}}(\hat{g}(\boldsymbol{X})) = g(\boldsymbol{\theta}),
+\]
+则称 $\hat{g}(\boldsymbol{X})$ 为 $g(\boldsymbol{\theta})$ 的\textbf{无偏估计量}。
+\end{definition}
+\begin{note}
+    我们想用样本数据 $\boldsymbol{X}$ 来估计某个未知的总体参数 $\theta$（比如均值、方差等）。
+但我们实际想估的不一定是 $\theta$ 本身，而是关于 $\theta$ 的某个函数 $g(\theta)$（比如 $\theta^2$、$1/\theta$ 之类的）。
+于是我们构造一个估计量 $\hat{g}(\boldsymbol{X})$，用它来猜 $g(\theta)$ 的值。
+``无偏''的意思就是：这个估计量的期望值恰好等于真实值 $g(\theta)$，也就是说平均来讲它不会系统性地偏高或偏低，是``不偏不倚''的。
+\end{note}
+\begin{example}
+设总体 $X \sim N(\mu, \sigma^2)$，其中 $\mu$ 未知，现抽取样本 $X_1, X_2, X_3$，
+试验证样本均值 $\bar{X}$ 是总体均值 $\mu$ 的无偏估计量。
+
+\textbf{解：} 构造估计量
+\[
+\hat{g}(\boldsymbol{X}) = \bar{X} = \frac{X_1 + X_2 + X_3}{3},
+\]
+计算其期望：
+\[
+E(\bar{X}) = E\left(\frac{X_1 + X_2 + X_3}{3}\right) = \frac{E(X_1) + E(X_2) + E(X_3)}{3} = \frac{\mu + \mu + \mu}{3} = \mu.
+\]
+因此 $E(\bar{X}) = \mu$，即对任意 $\mu$ 都有 $E(\bar{X}) = g(\mu)$，
+故 $\bar{X}$ 是总体均值 $\mu$ 的无偏估计量。
+\end{example}
+\begin{definition}{有效估计量}{def:efficient}
+设 $\hat{g}(\boldsymbol{X})$ 和 $\tilde{g}(\boldsymbol{X})$ 都是 $g(\theta)$ 的无偏估计量，若
+\[
+\operatorname{Var}_{\theta}(\tilde{g}(\boldsymbol{X})) \geq \operatorname{Var}_{\theta}(\hat{g}(\boldsymbol{X})), \quad \forall \theta \in \Theta,
+\]
+且大于号至少在某个 $\theta \in \Theta$ 成立，则称 $\hat{g}(\boldsymbol{X})$ 比 $\tilde{g}(\boldsymbol{X})$ \textbf{有效}。
+比值
+\[
+e = \frac{\operatorname{Var}_{\theta}(\hat{g}(\boldsymbol{X}))}{\operatorname{Var}_{\theta}(\tilde{g}(\boldsymbol{X}))}
+\]
+称为 $\tilde{g}(\boldsymbol{X})$ 相对于 $\hat{g}(\boldsymbol{X})$ 的\textbf{效率}。
+\end{definition}
+
+\begin{example}
+设总体 $X \sim N(\mu, \sigma^2)$，其中 $\mu$ 未知，$\sigma^2$ 已知，抽取样本 $X_1, X_2, X_3$。
+考虑两个 $\mu$ 的无偏估计量：
+\[
+\hat{g}(\boldsymbol{X}) = \bar{X} = \frac{X_1+X_2+X_3}{3}, \quad \tilde{g}(\boldsymbol{X}) = \frac{X_1+X_2}{2}.
+\]
+验证两者均为无偏估计量，并比较其有效性。
+
+首先验证无偏性：由于 $E(\bar{X}) = \mu$ 且 $E\!\left(\frac{X_1+X_2}{2}\right) = \frac{\mu+\mu}{2} = \mu$，
+故两者均为 $\mu$ 的无偏估计量。
+
+计算两者的方差：
+\[
+\operatorname{Var}(\hat{g}(\boldsymbol{X})) = \frac{\sigma^2}{3}, \quad \operatorname{Var}(\tilde{g}(\boldsymbol{X})) = \frac{\sigma^2}{2}.
+\]
+由于 $\frac{\sigma^2}{2} \geq \frac{\sigma^2}{3}$ 对一切 $\sigma^2 > 0$ 成立，故 $\hat{g}(\boldsymbol{X}) = \bar{X}$
+比 $\tilde{g}(\boldsymbol{X})$ \textbf{有效}，其效率为
+\[
+e = \frac{\operatorname{Var}(\hat{g}(\boldsymbol{X}))}{\operatorname{Var}(\tilde{g}(\boldsymbol{X}))} = \frac{\sigma^2/3}{\sigma^2/2} = \frac{2}{3}.
+\]
+即用全部三个样本的均值估计 $\mu$ 比只用两个样本更有效。
+\end{example}
+\begin{definition}{一致最小方差无偏估计量}{def:UMVUE}
+设 $\hat{g}(\boldsymbol{X})$ 是 $g(\theta)$ 的一个无偏估计量，且 $\operatorname{Var}_{\theta}(\hat{g}(\boldsymbol{X})) < \infty$。
+若对 $g(\theta)$ 的任意无偏估计量 $g^*(\boldsymbol{X})$，都有
+\[
+\operatorname{Var}_{\theta}(\hat{g}(\boldsymbol{X})) \leq \operatorname{Var}_{\theta}(g^*(\boldsymbol{X})), \quad \forall \theta \in \Theta,
+\]
+则称 $\hat{g}(\boldsymbol{X})$ 为 $g(\theta)$ 的\textbf{一致最小方差无偏估计量}，简记作 UMVUE
+(Uniformly minimum variance unbiased estimator)。
+\end{definition}
+\begin{note}
+    前面定义 3.3.1 告诉我们什么是无偏估计量，但无偏估计量可以有很多个。
+比如上面例子里，$\bar{X}$ 和 $\frac{X_1+X_2}{2}$ 都是 $\mu$ 的无偏估计量。
+定义 3.3.2 告诉我们可以两两比较谁更有效，但如果有几十个无偏估计量，难道要两两都比一遍吗？
+所以就需要 UMVUE——直接找出那个``天花板''级别的估计量，它比所有无偏估计量都好，不需要再比了。
+\end{note}
+\begin{theorem}{UMVUE 的充要条件}{thm:UMVUE}
+设 $\mathcal{U}$ 非空，则 $\delta(\boldsymbol{X}) \in \mathcal{U}$ 为 $g(\theta)$ 的 UMVUE 的充要条件是：
+对任意 $\delta_0(\boldsymbol{X}) \in \mathcal{U}_0$，有
+\[
+E_{\theta}(\delta(\boldsymbol{X})\delta_0(\boldsymbol{X})) = 0, \quad \forall\, \theta \in \Theta.
+\]
+\end{theorem}
+\begin{note}
+    该定理说：$\delta(\boldsymbol{X})$ 是 UMVUE 当且仅当它和所有``零无偏估计量'' $\delta_0(\boldsymbol{X})$ 都\textbf{不相关}（内积为 0）。
+\end{note}
+UMVUE 如果存在，则在以概率 1 相等的意义下是唯一的，这就是下面的定理。
+
+\begin{theorem}{UMVUE 的唯一性}{thm:UMVUE_unique}
+设 $\delta(\boldsymbol{X})$，$\delta'(\boldsymbol{X})$ 都是 $g(\boldsymbol{\theta})$ 的 UMVUE，则
+\[
+P_{\theta}(\delta(\boldsymbol{X}) = \delta'(\boldsymbol{X})) = 1, \quad \forall\, \theta \in \Theta.
+\]
+\end{theorem}
+\begin{definition}{正则条件}{def:regular}
+设分布族为 $\{f(x;\theta): \theta \in \Theta\}$，其中 $\theta$ 为一维未知参数，所谓正则条件是指：
+\begin{enumerate}
+    \item $\Theta$ 为开区间；
+    \item 分布族有共同支撑，即支撑集 $A = \{x: f(x;\theta) > 0\}$ 与 $\theta$ 无关；
+    \item $\forall x \in A$，$\frac{\partial f(x,\theta)}{\partial \theta}$ 在 $\Theta$ 上存在，且满足
+    $E_{\theta}\!\left(\frac{\partial \ln f(x;\theta)}{\partial \theta}\right) = 0$，$\forall \theta \in \Theta$；
+    \item Fischer 信息量
+    \[
+    I(\theta) = E_{\theta}\left[\left(\frac{\partial \ln f(x;\theta)}{\partial \theta}\right)^2\right]
+    = \int_A \left(\frac{\partial \ln f(x;\theta)}{\partial \theta}\right)^2 f(x;\theta)\mathrm{d}x > 0, \quad \forall\, \theta \in \Theta.
+    \]
+\end{enumerate}
+\end{definition}
+\begin{note}
+\begin{enumerate}
+    \item 条件 1 要求参数空间 $\Theta$ 没有边界点，保证可以对 $\theta$ 求导。
+    \item 条件 2 要求分布的支撑集不随 $\theta$ 变化，从而保证积分与求导可以交换顺序。
+    例如均匀分布 $U(0,\theta)$ 的支撑集为 $(0,\theta)$，随 $\theta$ 变化，故不满足此条件。
+    \item 条件 3 要求得分函数 $\frac{\partial \ln f(x;\theta)}{\partial \theta}$ 的期望为零，
+    即在真实参数处``往左偏''与``往右偏''的倾向平均抵消，无系统性偏差。
+    \item 条件 4 要求 Fisher 信息量 $I(\theta) > 0$，它衡量样本中含有多少关于 $\theta$ 的信息，
+    $I(\theta)$ 越大说明数据对参数越敏感，估计越精准，且保证后续 Cramér-Rao 下界有意义。
+\end{enumerate}
+\end{note}
+\begin{theorem}{Cramér-Rao 不等式}
+设总体分布族 $\{f(x;\theta): \theta \in \Theta\}$ 满足正则条件 1—4，待估函数 $g(\theta)$ 有一阶导数
+$g'(\theta)$。$\boldsymbol{X} = (X_1, X_2, \cdots, X_n)^{\mathrm{T}}$ 是抽自总体的一个样本，
+$\hat{g}(\boldsymbol{X}) = \hat{g}(X_1, X_2, \cdots, X_n)$ 是 $g(\theta)$ 的无偏估计量，且满足
+\[
+\frac{\partial}{\partial \theta} \int_{A^n} \hat{g}(x_1, \cdots, x_n) \prod_{i=1}^n f(x_i; \theta)
+\mathrm{d}x_1 \cdots \mathrm{d}x_n
+= \int_{A^n} \hat{g}(x_1, \cdots, x_n) \frac{\partial}{\partial \theta}
+\left(\prod_{i=1}^n f(x_i; \theta)\right) \mathrm{d}x_1 \cdots \mathrm{d}x_n,
+\]
+[需要满足积分顺序可交换]
+则有
+\begin{equation}
+\operatorname{Var}_{\theta}(\hat{g}(\boldsymbol{X})) \geq \frac{(g'(\theta))^2}{nI(\theta)}, \quad \forall\, \theta \in \Theta.
+\end{equation}
+\end{theorem}
+\begin{note}
+该定理给出了任意无偏估计量方差的下界 $\frac{(g'(\theta))^2}{nI(\theta)}$，
+称为 \textbf{C-R 下界}，无论构造多么巧妙的无偏估计量，其方差都不可能低于此值。下界由三部分决定：
+\begin{enumerate}
+    \item $(g'(\theta))^2$：待估函数本身的复杂程度，$g(\theta)$ 变化越剧烈，下界越大；
+    \item $I(\theta)$：Fisher 信息量，反映总体模型本身所含的信息量，$I(\theta)$ 越大，
+    参数越容易估计准确；$I(\theta)$ 可视作大小为 1 的样本所提供的信息量；
+    \item $n$：样本量越大，下界越小，估计越精准；$nI(\theta)$ 称为样本的
+    \textbf{Fisher 信息量}，反映样本 $(X_1, X_2, \cdots, X_n)^{\mathrm{T}}$ 所提供的总信息。
+\end{enumerate}
+若某无偏估计量的方差恰好等于 C-R 下界，则它已达到最优，必为 UMVUE，无法再改进；
+若方差远大于下界，则说明仍有改进空间。
+\end{note}

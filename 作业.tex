@@ -1146,7 +1146,7 @@ s^2=\frac{1}{n-1}\sum_{i=1}^n (X_i-\overline{X})^2,
 求 \(\mathrm{Var}(s^2)\)。
 \end{homework}
 \begin{dxtips}
-   要先让s²乘n-1/σ²让他服从卡方分布算完了再把乘的这个再弄掉
+   要先让s²乘n-1/σ²让他服从卡方分布算完了再把乘的这个再弄掉，n-1是常数方差求的时候直接平方就行了
 \end{dxtips}
 \begin{solution}
 由于总体 \(X_1,\ldots,X_n\) 来自正态分布 \(N(0,1)\)，故 \(\sigma^2=1\)。由正态总体样本方差的性质，
@@ -1330,21 +1330,168 @@ E(X)=\lambda,\qquad E(X^2)=\lambda^2+\lambda.
     \]
     由于 \(\lambda>0\)，舍去负根。
 \end{enumerate}
+\begin{dxtips}
+    也就是解方程把应该的期望与方差与实际的期望也就是平均数和方差也就是平方和建立等式然后解方程xi都可以视作已经知道的。	•	
+\end{dxtips}
 \end{solution}
 \begin{homework}[2]
 （二项分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim B(k,p)\)，求 \(p\) 的矩估计量。
 \end{homework}
-
+\begin{solution}
+由 \(X_1\sim B(k,p)\) 知
+\[
+E(X)=kp.
+\]
+由矩估计法，令样本一阶原点矩等于总体一阶原点矩，即
+\[
+\bar X=kp.
+\]
+解得 \(p\) 的矩估计量为
+\[
+\hat p=\frac{\bar X}{k}.
+\]
+\end{solution}
+\begin{dxtips}
+    有几个参数列几个方程其实k是已经知道的就p一个未知数
+\end{dxtips}
 \begin{homework}[3]
 （均匀分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim U(\theta_1,\theta_2)\)，求 \(\theta_1,\theta_2\) 的矩估计量。
 \end{homework}
 
+\begin{solution}
+由 \(X_1\sim U(\theta_1,\theta_2)\) 知
+\[
+E(X)=\frac{\theta_1+\theta_2}{2},\qquad E(X^2)=\frac{\theta_1^2+\theta_1\theta_2+\theta_2^2}{3}.
+\]
+由矩估计法，令样本一阶、二阶原点矩分别等于总体一阶、二阶原点矩，即
+\[
+\bar X=\frac{\theta_1+\theta_2}{2},\qquad \frac{1}{n}\sum_{i=1}^n X_i^2=\frac{\theta_1^2+\theta_1\theta_2+\theta_2^2}{3}.
+\]
+记
+\[
+m_2=\frac{1}{n}\sum_{i=1}^n X_i^2,
+\]
+则
+\[
+\theta_1+\theta_2=2\bar X,\qquad \theta_1^2+\theta_1\theta_2+\theta_2^2=3m_2.
+\]
+又因为
+\[
+(\theta_1+\theta_2)^2=\theta_1^2+2\theta_1\theta_2+\theta_2^2,
+\]
+故
+\[
+\theta_1\theta_2=(\theta_1+\theta_2)^2-(\theta_1^2+\theta_1\theta_2+\theta_2^2)=4\bar X^2-3m_2.
+\]
+于是 \(\theta_1,\theta_2\) 是方程
+\[
+t^2-2\bar Xt+(4\bar X^2-3m_2)=0
+\]
+的两根，解得矩估计量
+\[
+\hat\theta_1=\bar X-\sqrt{3\left(m_2-\bar X^2\right)},\qquad
+\hat\theta_2=\bar X+\sqrt{3\left(m_2-\bar X^2\right)}.
+\]
+\end{solution}
+\begin{note}
+用的是一元二次方程的根与系数关系，也叫\textbf{韦达定理}。
 
-
+如果
+\[
+t^2-St+P=0
+\]
+的两根是 \(r_1,r_2\)，那么
+\[
+r_1+r_2=S,\qquad r_1r_2=P.
+\]
+\end{note}
 \begin{homework}[5]
 （双边指数分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim f(x)\)，
 \[
 f(x)=\frac{1}{2\sigma}\exp\!\left(-\frac{|x|}{\sigma}\right),
 \]
 求 \(\sigma\) 的矩估计量。
+\end{homework}
+\begin{solution}
+由密度函数
+\[
+f(x)=\frac{1}{2\sigma}\exp\!\left(-\frac{|x|}{\sigma}\right)
+\]
+可知该分布关于 \(0\) 对称，且
+\[
+E(X)=0,\qquad E(X^2)=2\sigma^2.
+\]
+由于 \(E(X)\) 不含参数 \(\sigma\)，故取二阶原点矩作矩估计。令
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2=E(X^2)=2\sigma^2,
+\]
+解得
+\[
+\hat{\sigma}
+=\sqrt{\frac{1}{2n}\sum_{i=1}^n X_i^2 }.
+\]
+故 \(\sigma\) 的矩估计量为
+\[
+\hat{\sigma}=\sqrt{\frac{1}{2n}\sum_{i=1}^n X_i^2 }.
+\]
+\end{solution}
+\section{第五周作业}
+\begin{homework}[7]
+设 \(X_1,X_2,\cdots,X_n\) i.i.d.，试分别求下列总体中 \(\theta\) 的最大似然估计量。
+
+\begin{enumerate}
+    \setcounter{enumi}{1}
+    \item （韦布尔分布）\(f(x;\theta)=\dfrac{x}{\theta^2}e^{-x^2/\theta^2},\ x>0,\ \theta>0.\)
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[8]
+（均匀分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim U\left(\theta-\dfrac{1}{2},\theta+\dfrac{1}{2}\right)\)，证明任意
+\[
+T\in \left[X_{(n)}-\frac{1}{2},\,X_{(1)}+\frac{1}{2}\right]
+\]
+都是 \(\theta\) 的最大似然估计量。
+\end{homework}
+\begin{homework}[10]
+（双参数指数分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x;\alpha,\beta)\)，
+\[
+f(x;\alpha,\beta)=
+\begin{cases}
+\beta \exp\{-\beta(x-\alpha)\}, & x\ge \alpha,\\
+0, & \text{其他},
+\end{cases}
+\]
+其中 \(\beta>0\)。试求 \(\alpha,\beta\) 的最大似然估计量。
+\end{homework}
+
+\begin{homework}[11]
+（截尾几何分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，为来自截尾几何分布总体 \(X\) 的样本：
+\[
+P\{X=k\}=\theta^{k-1}(1-\theta),\qquad k=1,2,\cdots,r;
+\]
+\[
+P\{X=r+1\}=\theta^r.
+\]
+记
+\[
+M=\#\{\,i: X_i=r+1,\ i=1,2,\cdots,n\,\},
+\]
+试证明 \(\theta\) 的 MLE 为
+\[
+\hat{\theta}
+=
+\frac{\sum_{i=1}^n X_i-n}{\sum_{i=1}^n X_i-M}.
+\]
+\end{homework}
+
+\begin{homework}[12]
+设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x,\theta_1,\theta_2)\)，
+\[
+f(x,\theta_1,\theta_2)=
+\begin{cases}
+\dfrac{\theta_1}{\theta_2}x^{\theta_1-1}\exp\!\left(-\dfrac{x^{\theta_1}}{\theta_2}\right), & x\ge 0,\\[1ex]
+0, & \text{其他},
+\end{cases}
+\]
+其中 \(\theta_1\) 已知，求 \(\theta_2\) 的最大似然估计量。
 \end{homework}
