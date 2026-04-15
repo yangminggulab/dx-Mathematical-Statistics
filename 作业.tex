@@ -1443,8 +1443,20 @@ E(X)=0,\qquad E(X^2)=2\sigma^2.
     \setcounter{enumi}{1}
     \item （韦布尔分布）\(f(x;\theta)=\dfrac{x}{\theta^2}e^{-x^2/\theta^2},\ x>0,\ \theta>0.\)
 \end{enumerate}
+\begin{dxtips}
+    先连乘再去对数，再求导，去对数不影响因为是单增的。
+\end{dxtips}
 \end{homework}
-
+\begin{solution}
+似然函数为
+\[
+L(\theta) = \prod_{i=1}^{n} \frac{x_i}{\theta^2} e^{-x_i^2/\theta^2} = \frac{\prod_{i=1}^n x_i}{\theta^{2n}} \exp\!\left(-\frac{\sum_{i=1}^n x_i^2}{\theta^2}\right)
+\]
+取对数得 $\ln L(\theta) = \sum_{i=1}^n \ln x_i - 2n\ln\theta - \frac{\sum_{i=1}^n x_i^2}{\theta^2}$，对 $\theta$ 求导令其为零得 $-\frac{2n}{\theta} + \frac{2\sum_{i=1}^n x_i^2}{\theta^3} = 0$，化简得 $\sum_{i=1}^n x_i^2 = n\theta^2$，故
+\[
+\hat{\theta} = \sqrt{\frac{1}{n}\sum_{i=1}^n X_i^2}
+\]
+\end{solution}
 \begin{homework}[8]
 （均匀分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim U\left(\theta-\dfrac{1}{2},\theta+\dfrac{1}{2}\right)\)，证明任意
 \[
@@ -1452,6 +1464,17 @@ T\in \left[X_{(n)}-\frac{1}{2},\,X_{(1)}+\frac{1}{2}\right]
 \]
 都是 \(\theta\) 的最大似然估计量。
 \end{homework}
+\begin{proof}
+均匀分布的密度函数为
+\[
+f(x;\theta) = \begin{cases} 1 & \theta - \frac{1}{2} \leq x \leq \theta + \frac{1}{2} \\ 0 & \text{其他} \end{cases}
+\]
+故似然函数为 $L(\theta) = \prod_{i=1}^n f(x_i;\theta)$，当且仅当所有 $x_i$ 均落在 $[\theta-\frac{1}{2},\ \theta+\frac{1}{2}]$ 内时 $L(\theta)=1$，否则 $L(\theta)=0$。上述条件等价于
+\[
+\theta - \frac{1}{2} \leq x_{(1)} \quad \text{且} \quad x_{(n)} \leq \theta + \frac{1}{2}
+\]
+即 $x_{(n)} - \frac{1}{2} \leq \theta \leq x_{(1)} + \frac{1}{2}$，故对任意 $T \in \left[X_{(n)}-\frac{1}{2},\ X_{(1)}+\frac{1}{2}\right]$，均有 $L(T) = 1 = \max_\theta L(\theta)$，即 $T$ 为 $\theta$ 的最大似然估计量。
+\end{proof}
 \begin{homework}[10]
 （双参数指数分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x;\alpha,\beta)\)，
 \[
@@ -1463,7 +1486,23 @@ f(x;\alpha,\beta)=
 \]
 其中 \(\beta>0\)。试求 \(\alpha,\beta\) 的最大似然估计量。
 \end{homework}
-
+\begin{dxtips}
+    我明白了因为关于α是单增的所以压根没有极值点.其实就是为了让似然函数最大然后找极值点或者最大值
+\end{dxtips}
+\begin{solution}
+似然函数为
+\[
+L(\alpha,\beta) = \prod_{i=1}^n \beta e^{-\beta(x_i-\alpha)} \cdot \mathbf{1}(\alpha \leq x_{(1)}) = \beta^n e^{-\beta\sum_{i=1}^n(x_i-\alpha)} \cdot \mathbf{1}(\alpha \leq x_{(1)})
+\]
+固定 $\beta$，由于 $L(\alpha,\beta) \propto e^{n\beta\alpha}$ 关于 $\alpha$ 单调递增，故在约束 $\alpha \leq x_{(1)}$ 下最大值在边界处取得，即 $\hat{\alpha} = X_{(1)}$。将 $\hat{\alpha}$ 代入取对数得
+\[
+\ln L(\beta) = n\ln\beta - \beta\sum_{i=1}^n(x_i - x_{(1)})
+\]
+对 $\beta$ 求导令其为零：$\dfrac{d\ln L}{d\beta} = \dfrac{n}{\beta} - \sum_{i=1}^n(x_i - x_{(1)}) = 0$，解得
+\[
+\hat{\beta} = \frac{n}{\sum_{i=1}^n(X_i - X_{(1)})}
+\]
+\end{solution}
 \begin{homework}[11]
 （截尾几何分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，为来自截尾几何分布总体 \(X\) 的样本：
 \[
@@ -1483,7 +1522,47 @@ M=\#\{\,i: X_i=r+1,\ i=1,2,\cdots,n\,\},
 \frac{\sum_{i=1}^n X_i-n}{\sum_{i=1}^n X_i-M}.
 \]
 \end{homework}
+\begin{dxtips}
+    #代表基数也就后面集合多少个元素
+ 关于 $\sum_{x_i \leq r}(x_i - 1) + rM = \sum_{i=1}^n x_i - n$ 的推导：将求和拆分为
+\[
+\sum_{x_i \leq r}(x_i - 1) = \sum_{i=1}^n(x_i - 1) - \sum_{x_i = r+1}(x_i - 1) = \left(\sum_{i=1}^n x_i - n\right) - rM
+\]
+其中 $\sum_{x_i=r+1}(x_i-1) = (r+1-1)\cdot M = rM$，故
+\[
+\sum_{x_i \leq r}(x_i-1) + rM = \sum_{i=1}^n x_i - n - rM + rM = \sum_{i=1}^n x_i - n
+\]
+    
+\end{dxtips}
 
+
+\begin{proof}
+注意到 $k$ 为 PMF 的哑变量，写似然函数时将 $k$ 替换为实际观测值 $x_i$，似然函数为
+\[
+L(\theta) = \prod_{x_i \leq r} \theta^{x_i-1}(1-\theta) \cdot \prod_{x_i = r+1} \theta^r
+= \theta^{\sum_{x_i \leq r}(x_i-1)}(1-\theta)^{n-M} \cdot \theta^{rM}
+\]
+取对数得
+\[
+\ln L(\theta) = \left[\sum_{x_i \leq r}(x_i-1) + rM\right]\ln\theta + (n-M)\ln(1-\theta)
+\]
+注意到 $\sum_{x_i \leq r}(x_i - 1) + rM = \sum_{i=1}^n x_i - n + (r-r)M + rM - rM$，化简得
+\[
+\sum_{x_i \leq r}(x_i-1) + rM = \sum_{i=1}^n x_i - n - M(r+1-r) + rM = \sum_{i=1}^n x_i - n
+\]
+故
+\[
+\ln L(\theta) = \left(\sum_{i=1}^n x_i - n\right)\ln\theta + (n-M)\ln(1-\theta)
+\]
+对 $\theta$ 求导令其为零：
+\[
+\frac{d\ln L}{d\theta} = \frac{\sum_{i=1}^n x_i - n}{\theta} - \frac{n-M}{1-\theta} = 0
+\]
+解得
+\[
+\hat{\theta} = \frac{\sum_{i=1}^n X_i - n}{\sum_{i=1}^n X_i - M}
+\]
+\end{proof}
 \begin{homework}[12]
 设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x,\theta_1,\theta_2)\)，
 \[
@@ -1495,3 +1574,558 @@ f(x,\theta_1,\theta_2)=
 \]
 其中 \(\theta_1\) 已知，求 \(\theta_2\) 的最大似然估计量。
 \end{homework}
+\begin{dxtips}
+    计算要点就是别着急算连乘不好算就先取对数取完对数还是恶性就是求完到再算先把不相关的像全部删除
+\end{dxtips}
+\begin{solution}
+似然函数为
+\[
+L(\theta_2) = \prod_{i=1}^{n} \frac{\theta_1}{\theta_2} x_i^{\theta_1-1} \exp\!\left(-\frac{x_i^{\theta_1}}{\theta_2}\right)
+\]
+取对数得
+\[
+\ln L(\theta_2) = n\ln\theta_1 - n\ln\theta_2 + (\theta_1-1)\sum_{i=1}^n \ln x_i - \frac{1}{\theta_2}\sum_{i=1}^n x_i^{\theta_1}
+\]
+对 $\theta_2$ 求导并令其为零：
+\[
+\frac{d\ln L}{d\theta_2} = -\frac{n}{\theta_2} + \frac{\sum_{i=1}^n x_i^{\theta_1}}{\theta_2^2} = 0
+\]
+解得 $\theta_2$ 的最大似然估计量为
+\[
+\hat{\theta}_2 = \frac{1}{n}\sum_{i=1}^n X_i^{\theta_1}
+\]
+\end{solution}
+\begin{homework}[18]
+设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim N(\mu,\sigma^2)\)，其中 \(\sigma^2\) 已知，\(\mu\) 的先验分布为 \(N(\nu,\tau^2)\)。
+
+\begin{enumerate}
+    \item 求 \(\mu\) 的后验分布；
+    \item 求 \(\mu\) 的后验均值估计。
+\end{enumerate}
+\end{homework}
+\begin{dxtips}
+所以他本质上就是求条件概率，也就是我认为是 $\mu$，算的是我认为是 $\mu$，现在出现的数据是事实，所以我们要求的是在事实的前提下，我认为的 $\theta$ 是 $\mu$ 的概率：
+\[
+p(\mu|\boldsymbol{X}) = \frac{f(\boldsymbol{X}|\mu)\cdot\pi(\mu)}{f(\boldsymbol{X})} \propto \underbrace{f(\boldsymbol{X}|\mu)}_{\text{似然}} \cdot \underbrace{\pi(\mu)}_{\text{先验}}
+\]这里为什么似然是这个公式，因为似然是我们每一个X1都按照假设的参数$\mu$计算的概率密度乘上的也就是$\mu$就是以知条件
+\end{dxtips}
+\begin{solution}
+似然函数为
+\[
+f(\boldsymbol{X}|\mu) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi}\sigma}\exp\!\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right) \propto \exp\!\left(-\frac{n(\bar{x}-\mu)^2}{2\sigma^2}\right)
+\]
+先验分布为
+\[
+\pi(\mu) \propto \exp\!\left(-\frac{(\mu-\nu)^2}{2\tau^2}\right)
+\]
+后验分布满足 $p(\mu|\boldsymbol{X}) \propto f(\boldsymbol{X}|\mu)\cdot\pi(\mu)$，将指数部分合并：
+\[
+-\frac{n(\bar{x}-\mu)^2}{2\sigma^2} - \frac{(\mu-\nu)^2}{2\tau^2} = -\frac{1}{2}\left(\frac{n}{\sigma^2}+\frac{1}{\tau^2}\right)\left(\mu - \frac{\frac{n\bar{x}}{\sigma^2}+\frac{\nu}{\tau^2}}{\frac{n}{\sigma^2}+\frac{1}{\tau^2}}\right)^2 + \text{常数}
+\]
+令 $\dfrac{1}{\tau_1^2} = \dfrac{n}{\sigma^2}+\dfrac{1}{\tau^2}$，$\mu_1 = \tau_1^2\!\left(\dfrac{n\bar{x}}{\sigma^2}+\dfrac{\nu}{\tau^2}\right)$，则
+
+\textbf{1.} 后验分布为
+\[
+\mu|\boldsymbol{X} \sim N(\mu_1,\ \tau_1^2)
+\]
+
+\textbf{2.} $\mu$ 的后验均值估计（Bayes 估计）为
+\[
+\hat{\mu} = \mu_1 = \frac{\frac{n}{\sigma^2}\bar{X} + \frac{1}{\tau^2}\nu}{\frac{n}{\sigma^2}+\frac{1}{\tau^2}}
+\]
+\end{solution}
+\begin{dxtips}
+  恒等式其实就是裂项，$\bar{x}-\mu$ 求出来。最后我们要求的就是一个 $\mu$ 减一个数的东西，所以我们可以只看 $\mu^2$、$\mu$ 前面的系数再配方，最后变成 $\mu-\mu_1$。分母2旁边那个就是方差
+\end{dxtips}
+\begin{note}
+\textbf{第一步：}利用恒等式
+\[
+\sum_{i=1}^n(x_i-\mu)^2 = n(\bar{x}-\mu)^2 + \sum_{i=1}^n(x_i-\bar{x})^2
+\]
+右边第二项与 $\mu$ 无关，用 $\propto$ 略去；前置系数 $\frac{1}{\sqrt{2\pi}\sigma}$ 同理略去，故
+\[
+f(\boldsymbol{X}|\mu) \propto \exp\!\left(-\frac{n(\bar{x}-\mu)^2}{2\sigma^2}\right)
+\]
+
+\textbf{第二步：}将两个指数合并后，对 $\mu$ 做代数配方（无需任何定理，与高中配方 $ax^2+bx+c$ 本质相同），凑成
+\[
+-\frac{n(\bar{x}-\mu)^2}{2\sigma^2} - \frac{(\mu-\nu)^2}{2\tau^2} = -\frac{1}{2\tau_1^2}(\mu-\mu_1)^2 + \text{常数}
+\]
+其中常数项与 $\mu$ 无关，用 $\propto$ 略去。
+\end{note}
+\begin{homework}[20]
+（帕雷托（Pareto）分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim U(0,\theta)\)，其中 \(\theta\) 的先验分布为 \(\mathrm{Pareto}(a,b)\)，其概率密度为
+\[
+\pi(\theta)=\frac{ba^b}{\theta^{b+1}},\qquad a<\theta<\infty,\ a>0,\ b>0.
+\]
+
+\begin{enumerate}
+    \item 求 \(\theta\) 的后验分布；
+    \item 求 \(\theta\) 的后验均值估计。
+\end{enumerate}
+\begin{solution}
+似然函数为
+\[
+f(\boldsymbol{X}|\theta) = \prod_{i=1}^n \frac{1}{\theta}\cdot\mathbf{1}(\theta \geq x_{(n)}) = \theta^{-n}\cdot\mathbf{1}(\theta \geq x_{(n)})
+\]
+先验分布为 $\pi(\theta) \propto \theta^{-(b+1)}\cdot\mathbf{1}(\theta > a)$，后验分布满足
+\[
+p(\theta|\boldsymbol{X}) \propto \theta^{-n}\cdot\theta^{-(b+1)}\cdot\mathbf{1}(\theta \geq \max(x_{(n)},a)) = \theta^{-(n+b+1)}\cdot\mathbf{1}(\theta \geq \max(x_{(n)},a))
+\]
+对比帕累托分布标准形式，令 $a' = \max(x_{(n)},a)$，$b' = n+b$，则
+
+\textbf{1.} 后验分布为
+\[
+\theta|\boldsymbol{X} \sim \mathrm{Pareto}\!\left(\max(x_{(n)},a),\ n+b\right)
+\]
+
+\textbf{2.} $\theta$ 的后验均值估计（Bayes 估计）为
+\[
+\hat{\theta} = \frac{(n+b)\max(X_{(n)},a)}{n+b-1}
+\]
+\end{solution}
+\end{homework}
+\begin{definition}[帕累托分布]
+若随机变量 $\theta$ 的概率密度函数为
+\[
+\pi(\theta) = \frac{ba^b}{\theta^{b+1}}, \quad \theta > a,\ a > 0,\ b > 0
+\]
+则称 $\theta$ 服从参数为 $(a,b)$ 的帕累托分布，记为 $\theta \sim \mathrm{Pareto}(a, b)$。其直觉来源于"二八定律"，是一种重尾分布。$a$、$b$ 的含义：
+\begin{itemize}
+  \item $a$：帕累托分布的最小值，$\theta$ 只能取 $\theta > a$ 的值
+  \item $b$：形状参数，控制尾巴有多重，$b$ 越小尾巴越重
+\end{itemize}
+在本题中 $a, b$ 是先验的已知参数，就像正态先验里的 $\nu, \tau^2$ 一样，是出发前对 $\theta$ 的主观判断的量化。
+帕累托分布 $\mathrm{Pareto}(a', b')$ 的均值公式为
+\[
+E[\theta] = \frac{b'a'}{b'-1}, \quad b' > 1
+\]
+代入 $a' = \max(x_{(n)}, a)$，$b' = n+b$：
+\[
+\hat{\theta} = \frac{(n+b)\max(x_{(n)}, a)}{n+b-1}
+\]
+\end{definition}
+
+\begin{note}[共轭先验 Conjugate Prior]
+\textbf{定义：}先验和后验属于同一分布族，参数可以不同。这是数学上可以证明的结论，实际使用时记住配对直接用。
+
+常用共轭先验配对：
+\begin{center}
+\begin{tabular}{cc}
+\hline
+似然 & 共轭先验 \\
+\hline
+正态（方差已知） & 正态 \\
+均匀 $U(0,\theta)$ & 帕累托 \\
+二项 & Beta \\
+泊松 & Gamma \\
+指数 & Gamma \\
+\hline
+\end{tabular}
+\end{center}
+
+看见什么似然就条件反射想到对应的先验，这是贝叶斯计算的基本功。看见均匀似然 + 帕累托先验，直接知道后验还是帕累托，只需要找新参数就行了。
+\end{note}
+\begin{homework}{1}
+（泊松分布）设 $X \sim P(\lambda)$，试求样本量为 $1$ 时 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量，并说明该估计的不合理性。
+\end{homework}
+\begin{solution}
+设 $\hat{g}(X)$ 为 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量，需满足
+\[
+E[\hat{g}(X)] = \sum_{k=0}^{\infty} \hat{g}(k) \cdot \frac{\lambda^k e^{-\lambda}}{k!} = e^{-2\lambda}
+\]
+求期望只是把权重从X变成了g（X）其他的不变
+\[
+E[h(X)] = \sum_{k=0}^{\infty} h(k) \cdot P(X=k) = \sum_{k=0}^{\infty} h(k) \cdot \frac{\lambda^k e^{-\lambda}}{k!}
+\]
+注意到 $e^{-2\lambda} = e^{-\lambda} \cdot e^{-\lambda}$，而泊松分布中 $k=0$ 时 $P(X=0) = e^{-\lambda}$，故令
+\[
+\hat{g}(k) = (-1)^k
+\]
+验证：
+\[
+E[(-1)^X] = \sum_{k=0}^{\infty} (-1)^k \frac{\lambda^k e^{-\lambda}}{k!} = e^{-\lambda}\sum_{k=0}^{\infty} \frac{(-\lambda)^k}{k!} = e^{-\lambda} \cdot e^{-\lambda} = e^{-2\lambda} \checkmark
+\]
+故 $\hat{g}(X) = (-1)^X$ 是 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量。
+
+\textbf{不合理性：}$g(\lambda) = e^{-2\lambda} \in (0,1)$，而估计量 $(-1)^X$ 的取值只有 $\pm 1$，当 $X$ 为奇数时估计值为 $-1 < 0$，与 $g(\lambda)$ 的真实范围完全不符，因此该估计虽无偏但实际意义很差。
+\end{solution}
+\begin{note}
+    P(x=0)是确定的
+\end{note}
+\begin{dxtips}[看见阶乘求和的时候就要想e]
+上面k次方是为了求k次导自动变成第一项1也就是e永远展开的第一项.$
+e^x = \sum_{k=0}^{\infty} \frac{x^k}{k!}$
+\end{dxtips}
+\begin{homework}{2}
+（二项分布）设 $X \sim B(n,p)$，证明 $g(p) = \dfrac{1}{1+p^2}$ 不存在无偏估计量。
+\end{homework}
+\begin{solution}
+假设存在 $g(p) = \dfrac{1}{1+p^2}$ 的无偏估计量 $\hat{g}(X)$，则需满足
+\[
+E[\hat{g}(X)] = \sum_{k=0}^{n} \hat{g}(k)\binom{n}{k}p^k(1-p)^{n-k} = \frac{1}{1+p^2}
+\]
+对所有 $p \in (0,1)$ 成立。但左边展开后是关于 $p$ 的次数不超过 $n$ 的\textbf{多项式}，而右边 $\dfrac{1}{1+p^2}$ 不是多项式，两者不可能恒等，矛盾。故 $g(p) = \dfrac{1}{1+p^2}$ 不存在无偏估计量。
+\end{solution}
+\begin{dxtips}
+    分母含参数就不是多项式
+\end{dxtips}
+\begin{note}[不存在无偏估计量的证明套路]
+用\textbf{反证法}：假设存在无偏估计量 $\hat{g}(\boldsymbol{X})$，则
+\[
+E[\hat{g}(\boldsymbol{X})] = g(\theta), \quad \forall\,\theta
+\]
+分析左边（期望）关于 $\theta$ 的函数性质：
+\begin{itemize}
+  \item \textbf{离散分布}（如二项）：左边展开后是关于参数的\textbf{多项式}，若 $g(\theta)$ 不是多项式则矛盾
+  \item \textbf{连续分布}（如正态）：分析左边关于 $\theta$ 的解析性质，与 $g(\theta)$ 的性质对比得矛盾
+\end{itemize}
+核心：左边的函数类型有限制，若 $g(\theta)$ 不满足该限制，则不存在无偏估计量。
+\end{note}
+\begin{homework}{3}
+设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(\mu, 1)$，证明 $g(\mu) = |\mu|$ 没有无偏估计量。
+\end{homework}
+\begin{solution}
+假设存在 $g(\mu) = |\mu|$ 的无偏估计量 $\hat{g}(\boldsymbol{X})$，则需满足
+\[
+E[\hat{g}(\boldsymbol{X})] = |\mu|, \quad \forall\,\mu \in \mathbb{R}
+\]
+注意到正态分布的期望
+\[
+E[\hat{g}(\boldsymbol{X})] = \int_{-\infty}^{\infty} \hat{g}(x) \frac{1}{\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2}}\,dx
+\]
+右边作为 $\mu$ 的函数，可以验证它关于 $\mu$ 是\textbf{解析函数}（光滑且可展开为幂级数）。但 $|\mu|$ 在 $\mu = 0$ 处\textbf{不可导}，因此不是解析函数，矛盾。故 $g(\mu) = |\mu|$ 没有无偏估计量。
+\end{solution}
+\begin{homework}{4}
+（均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(\theta_1, \theta_2)$，求 $\theta_1, \theta_2$ 的无偏估计量。
+\end{homework}
+\begin{solution}
+均匀分布 $U(\theta_1, \theta_2)$ 的顺序统计量期望为
+\[
+E[X_{(1)}] = \frac{n\theta_1 + \theta_2}{n+1}, \quad E[X_{(n)}] = \frac{\theta_1 + n\theta_2}{n+1}
+\]
+联立解得
+\[
+\theta_1 = \frac{nE[X_{(1)}] - E[X_{(n)}]}{n-1}, \quad \theta_2 = \frac{nE[X_{(n)}] - E[X_{(1)}]}{n-1}
+\]
+故 $\theta_1, \theta_2$ 的无偏估计量为
+\[
+\hat{\theta}_1 = \frac{nX_{(1)} - X_{(n)}}{n-1}, \quad \hat{\theta}_2 = \frac{nX_{(n)} - X_{(1)}}{n-1}
+\]
+\end{solution}
+
+\begin{dxtips}[均匀分布必记]
+\[
+f(x) = \frac{1}{\theta_2-\theta_1}, \quad F(x) = \frac{x-\theta_1}{\theta_2-\theta_1}
+\]
+\[
+E[X_{(1)}] = \frac{n\theta_1+\theta_2}{n+1}, \quad E[X_{(n)}] = \frac{\theta_1+n\theta_2}{n+1}
+\]
+\end{dxtips}
+\begin{note}
+将期望 $E[X_{(1)}]$ 和 $E[X_{(n)}]$ 直接替换为样本观测值 $X_{(1)}$ 和 $X_{(n)}$，即可得到无偏估计量。本质上就是用样本值替换期望值，这是构造无偏估计量的标准操作。
+\end{note}
+\begin{homework}{5}
+设 $\hat{\theta}$ 和 $\theta^*$ 为 $\theta$ 的无偏估计量，若 $\tilde{\theta} = a\hat{\theta} + b\theta^*$，问：$a, b$ 满足什么条件时，$\tilde{\theta}$ 也是 $\theta$ 的无偏估计量？
+\end{homework}
+\begin{solution}
+由期望的线性性质：
+\[
+E[\tilde{\theta}] = E[a\hat{\theta} + b\theta^*] = aE[\hat{\theta}] + bE[\theta^*] = a\theta + b\theta = (a+b)\theta
+\]
+要使 $\tilde{\theta}$ 也是 $\theta$ 的无偏估计量，需 $E[\tilde{\theta}] = \theta$，故条件为
+\[
+a + b = 1
+\]
+\end{solution}
+\begin{homework}{6}
+设 $X \sim U(0,\theta)$，$X_1, X_2, \cdots, X_n$ i.i.d. 为来自 $X$ 的样本，试分别求 $\theta^2, \theta^{-1}$ 的无偏估计量。
+\end{homework}
+\begin{solution}
+$X \sim U(0,\theta)$ 的顺序统计量最大值期望为 $E[X_{(n)}] = \dfrac{n\theta}{n+1}$，故
+\[
+E\!\left[\frac{n+1}{n}X_{(n)}\right] = \theta
+\]
+即 $\hat{\theta} = \dfrac{n+1}{n}X_{(n)}$ 是 $\theta$ 的无偏估计量。
+
+\textbf{求 $\theta^2$ 的无偏估计量：}
+
+需要 $E[X_{(n)}^2]$，利用 $U(0,\theta)$ 的顺序统计量密度 $f_{(n)}(x) = \dfrac{nx^{n-1}}{\theta^n}$：
+\[
+E[X_{(n)}^2] = \int_0^\theta x^2 \cdot \frac{nx^{n-1}}{\theta^n}dx = \frac{n\theta^2}{n+2}
+\]
+故 $\theta^2$ 的无偏估计量为
+\[
+\hat{\theta}^2 = \frac{n+2}{n}X_{(n)}^2
+\]
+
+\textbf{求 $\theta^{-1}$ 的无偏估计量：}
+
+\[
+E[X_{(n)}^{-1}] = \int_0^\theta x^{-1} \cdot \frac{nx^{n-1}}{\theta^n}dx = \frac{n}{\theta(n-1)}
+\]
+故 $\theta^{-1}$ 的无偏估计量为
+\[
+\widehat{\theta^{-1}} = \frac{n-1}{n}X_{(n)}^{-1} = \frac{n-1}{nX_{(n)}}
+\]
+\end{solution}
+\begin{dxtips}[$U(0,\theta)$ 顺序统计量矩公式]
+$U(0,\theta)$ 的 $X_{(n)}$ 密度为 $f_{(n)}(x) = \dfrac{nx^{n-1}}{\theta^n}$，求 $E[X_{(n)}^k]$ 有通用公式：
+\[
+E[X_{(n)}^k] = \int_0^\theta x^k \cdot \frac{nx^{n-1}}{\theta^n}dx = \frac{n}{\theta^n}\int_0^\theta x^{n+k-1}dx = \frac{n}{\theta^n}\cdot\frac{\theta^{n+k}}{n+k} = \frac{n\theta^k}{n+k}
+\]
+记住这一个公式就够了：
+\[
+E[X_{(n)}^k] = \frac{n\theta^k}{n+k}
+\]
+代入不同的 $k$：
+\begin{itemize}
+  \item $k=1$：$E[X_{(n)}] = \dfrac{n\theta}{n+1}$
+  \item $k=2$：$E[X_{(n)}^2] = \dfrac{n\theta^2}{n+2}$
+  \item $k=-1$：$E[X_{(n)}^{-1}] = \dfrac{n\theta^{-1}}{n-1}$
+\end{itemize}
+\end{dxtips}
+\begin{homework}{1}
+证明：
+\[
+I(\theta) = \operatorname{Var}\left(\frac{\partial}{\partial\theta}\ln f(X;\theta)\right) = -E\left(\frac{\partial^2}{\partial\theta^2}\ln f(X;\theta)\right)
+\]
+\end{homework}
+\begin{proof}
+记 $S(X;\theta) = \dfrac{\partial}{\partial\theta}\ln f(X;\theta)$，称为\textbf{得分函数}。
+
+\textbf{第一步：证明 $E[S(X;\theta)] = 0$。}
+
+由于 $\displaystyle\int f(x;\theta)\,\mathrm{d}x = 1$，两边对 $\theta$ 求导并交换积分与求导顺序，得
+\[
+\int \frac{\partial}{\partial\theta} f(x;\theta)\,\mathrm{d}x = 0.
+\]
+注意到
+\[
+\frac{\partial}{\partial\theta} f(x;\theta) = f(x;\theta)\cdot S(x;\theta),
+\]
+故 $E[S(X;\theta)] = 0$。
+
+\textbf{第二步：对 $\displaystyle\int S(x;\theta) f(x;\theta)\,\mathrm{d}x = 0$ 再次对 $\theta$ 求导：}
+\[
+\int \left(\frac{\partial^2}{\partial\theta^2}\ln f\cdot f + S^2\cdot f\right)\mathrm{d}x = 0,
+\]
+即
+\[
+E\left(\frac{\partial^2}{\partial\theta^2}\ln f(X;\theta)\right) + E\left(S^2\right) = 0.
+\]
+
+\textbf{第三步：}由 $E[S]=0$ 得 $\operatorname{Var}(S) = E(S^2)$，故
+\[
+I(\theta) = \operatorname{Var}\left(\frac{\partial}{\partial\theta}\ln f(X;\theta)\right) = -E\left(\frac{\partial^2}{\partial\theta^2}\ln f(X;\theta)\right).
+\]
+\end{proof}
+\begin{dxtips}
+    $I\theta=\mathrm{var}$是确定的，其实这里就是要巧妙利用$E(S)$的期望是0，他期望是0的原因就是因为导数和积分可以交换位置然后概率密度积分永远是1，然后$\ln S$求导总有一个$1/s$所以此才会有有$f\cdot S=f/d\theta$。求期望就是要乘$f$的所以这里的积分最后都能写成期望
+\end{dxtips}
+\section{第七周作业}
+\begin{homework}[7]
+设 $W$ 是 $\theta$ 的无偏估计量，若 $W$ 满足
+\begin{enumerate}[(1)]
+    \item $W$ 是观察值（样本）的线性函数；
+    \item $E_\theta W = \theta, \forall \theta \in \Theta$；
+    \item 若对任意一个满足 (1),(2) 的估计 $W^*$，有
+    \[
+    \mathrm{Var}_\theta(W) \leq \mathrm{Var}_\theta(W^*), \quad \forall \theta \in \Theta,
+    \]
+\end{enumerate}
+则称 $W$ 是 $\theta$ 的最优线性无偏估计量。如总体 $X \sim N(\mu, \sigma^2)$，$(\mu, \sigma^2) \in \Theta = \{(\mu, \sigma^2) : -\infty < \mu < \infty, \sigma^2 > 0\}$。证明 $\overline{X} = \dfrac{1}{n}\sum_{i=1}^{n} X_i$ 是 $\mu$ 的最优线性无偏估计量。该结论只对正态总体正确吗？
+\end{homework}
+\begin{solution}
+\textbf{验证条件 (1)：} $\overline{X} = \dfrac{1}{n}\sum_{i=1}^n X_i$ 是观察值的线性函数，条件 (1) 成立。
+
+\textbf{验证条件 (2)：} 由于 $X \sim N(\mu, \sigma^2)$，
+$$
+E_\mu \overline{X} = \frac{1}{n}\sum_{i=1}^n EX_i = \frac{1}{n} \cdot n\mu = \mu, \quad \forall (\mu,\sigma^2) \in \Theta,
+$$
+故 $\overline{X}$ 是 $\mu$ 的无偏估计，条件 (2) 成立。
+
+\textbf{验证条件 (3)：} 设 $W^* = \sum_{i=1}^n c_i X_i$ 是任意满足条件 (1)(2) 的估计量，则由无偏性：
+$$
+E W^* = \sum_{i=1}^n c_i \mu = \mu \cdot \sum_{i=1}^n c_i = \mu,
+$$
+故 $\sum_{i=1}^n c_i = 1$。又由于 $X_1,\ldots,X_n$ 独立同分布，
+$$
+\mathrm{Var}_\theta(W^*) = \sigma^2 \sum_{i=1}^n c_i^2.
+$$
+由 Cauchy-Schwarz 不等式：
+$$
+\sum_{i=1}^n c_i^2 \geq \frac{\left(\sum_{i=1}^n c_i\right)^2}{n} = \frac{1}{n},
+$$
+等号当且仅当 $c_1 = \cdots = c_n = \dfrac{1}{n}$ 时成立，即 $W^* = \overline{X}$。故
+$$
+\mathrm{Var}_\theta(W^*) \geq \frac{\sigma^2}{n} = \mathrm{Var}_\theta(\overline{X}), \quad \forall \theta \in \Theta.
+$$
+条件 (3) 成立，$\overline{X}$ 是 $\mu$ 的最优线性无偏估计量。
+
+\textbf{该结论只对正态总体正确吗？} 不是。上述证明中仅用到了 $X_i$ 独立同分布、$EX_i = \mu$、$\mathrm{Var}(X_i) = \sigma^2 < \infty$，并未用到正态性。由 Gauss-Markov 定理，对任意有限方差的总体，$\overline{X}$ 都是 $\mu$ 的最优线性无偏估计量（BLUE）。
+\end{solution}
+\begin{dxtips}
+   
+这是一个新定义的题，先验证条件 (1)，再验证无偏（即期望是参数），然后验证方差最小。
+
+验证方差最小时，任意取一个满足条件的估计量 $W^*$。题目规定了线性函数无偏只能写成 $W^* = \sum_{i=1}^n c_i X_i$ 的形式。注意这里
+$$
+EW^* = \sum_{i=1}^n c_i E(X_i),
+$$
+每个 $E(X_i)$ 都等于 $\mu$，所以整个 $EW^* = \mu \cdot \sum_{i=1}^n c_i$。又因为无偏要求期望等于参数 $\mu$，故 $\sum_{i=1}^n c_i = 1$。
+
+要让 $\mathrm{Var}_\theta(W^*)$ 最小，由于 $X_1,\ldots,X_n$ 独立，协方差项全为 $0$，直接提系数平方出来：
+$$
+\mathrm{Var}_\theta(W^*) = \sigma^2 \sum_{i=1}^n c_i^2.
+$$
+
+\end{dxtips}
+\begin{theorem}[Cauchy-Schwarz 不等式]
+设 $a_1, \ldots, a_n,\ b_1, \ldots, b_n \in \mathbb{R}$，则
+$$
+\left(\sum_{i=1}^n a_i b_i\right)^2 \leq \left(\sum_{i=1}^n a_i^2\right)\left(\sum_{i=1}^n b_i^2\right),
+$$
+等号当且仅当 $\dfrac{a_1}{b_1} = \cdots = \dfrac{a_n}{b_n}$（即 $a_i$ 与 $b_i$ 成比例）时成立。即两向量内积不超过模长之积，等号当两向量平行时取到。$|\mathbf{a} \cdot \mathbf{b}| \leq |\mathbf{a}||\mathbf{b}|$
+\end{theorem}
+
+\begin{homework}[11]
+（泊松分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim P(\lambda)$，证明：
+\begin{enumerate}[(1)]
+    \item $\overline{X}$ 是 $\lambda$ 的 UMVUE；
+    \item $\tilde{\lambda}^2 = \dfrac{1}{n}\sum_{i=1}^{n} X_i^2 - \overline{X}$ 为 $\lambda^2$ 的无偏估计量。该估计是 UMVUE 吗？
+\end{enumerate}
+\end{homework}
+\begin{dxtips}[fisher函数和似然函数的关系]
+    
+似然函数与 Fisher 信息量的关系。对数似然函数为
+$$
+\ell(\theta) = \sum_{i=1}^n \ln f(x_i;\theta),
+$$
+对 $\theta$ 求二阶导：
+$$
+\frac{\partial^2 \ell}{\partial\theta^2} = \sum_{i=1}^n \frac{\partial^2}{\partial\theta^2}\ln f(x_i;\theta).
+$$
+由于 $X_1,\ldots,X_n$ 独立同分布，取期望后每一项相同，故
+$$
+-E\left[\frac{\partial^2 \ell}{\partial\theta^2}\right] = -\sum_{i=1}^n E\left[\frac{\partial^2}{\partial\theta^2}\ln f(X_i;\theta)\right] = nI(\theta).
+$$
+即 $n$ 个样本的总 Fisher 信息量是单个样本的 $n$ 倍，C-R 下界 $\dfrac{1}{nI(\theta)}$ 中的 $n$ 由此而来。
+
+\end{dxtips}
+\begin{homework}[12]
+设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(\mu, \sigma^2)$，已知 $\overline{X} = \dfrac{1}{n}\sum_{i=1}^{n} X_i$ 和 $s^2 = \dfrac{1}{n-1}\sum_{i=1}^{n}(X_i - \overline{X})^2$ 分别是 $\mu$ 和 $\sigma^2$ 的 UMVUE。计算 $\mu$ 和 $\sigma^2$ 的 C-R 下界。
+\end{homework}
+\begin{dxtips}[得分函数和fisher函数的关系]
+
+得分取对数是为了让 $L(\theta)$ 连乘变连加，而且对 $\ln$ 求导自然出现 $\dfrac{1}{f}$，直接完成归一化。
+
+$\dfrac{\partial}{\partial\theta}\ln f$ 叫做\textbf{得分函数（score function）}，它衡量的是：当 $\theta$ 变化时，观测到当前数据 $X$ 的"惊讶程度"变化有多快。
+
+$I(\theta)$$fisher$函数 就是这个得分函数的方差也是二阶矩（因为可以证明得分函数期望为 $0$，所以它的二阶矩就等于方差）。
+\end{dxtips}
+\begin{solution}
+正态总体 $X \sim N(\mu, \sigma^2)$ 的对数密度为
+$$
+\ln f(x;\mu,\sigma^2) = -\frac{1}{2}\ln(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}.
+$$
+\begin{dxtips}
+    因为有两个参数既可以对$\mu$求导也能对$\sigma$求导
+\end{dxtips}
+\textbf{计算 $\mu$ 的 C-R 下界：} 将 $\sigma^2$ 视为已知，对 $\mu$ 求导：
+$$
+\frac{\partial}{\partial \mu}\ln f = \frac{x - \mu}{\sigma^2}.
+$$
+Fisher 信息量为
+$$
+I(\mu) = E\left[\left(\frac{\partial}{\partial \mu}\ln f\right)^2\right] = E\left[\frac{(X-\mu)^2}{\sigma^4}\right] = \frac{\sigma^2}{\sigma^4} = \frac{1}{\sigma^2}.
+$$
+故 $\mu$ 的 C-R 下界为
+$$
+\frac{1}{nI(\mu)} = \frac{\sigma^2}{n}.
+$$
+而 $\mathrm{Var}(\overline{X}) = \dfrac{\sigma^2}{n}$，达到 C-R 下界，故 $\overline{X}$ 是 $\mu$ 的 UMVUE。
+
+\textbf{计算 $\sigma^2$ 的 C-R 下界：} 将 $\mu$ 视为已知，令 $\lambda = \sigma^2$，对 $\lambda$ 求导：
+$$
+\frac{\partial}{\partial \lambda}\ln f = -\frac{1}{2\lambda} + \frac{(x-\mu)^2}{2\lambda^2}.
+$$
+Fisher 信息量为
+$$
+I(\lambda) = E\left[\left(-\frac{1}{2\lambda} + \frac{(X-\mu)^2}{2\lambda^2}\right)^2\right].
+$$
+展开并利用 $(X-\mu)^2 \sim \lambda\chi^2(1)$，即 $E(X-\mu)^2 = \lambda$，$E(X-\mu)^4 = 3\lambda^2$：
+$$
+I(\lambda) = \frac{1}{4\lambda^2} - \frac{E(X-\mu)^2}{2\lambda^3} + \frac{E(X-\mu)^4}{4\lambda^4} = \frac{1}{4\lambda^2} - \frac{1}{2\lambda^2} + \frac{3}{4\lambda^2} = \frac{1}{2\lambda^2} = \frac{1}{2\sigma^4}.
+$$
+故 $\sigma^2$ 的 C-R 下界为
+$$
+\frac{1}{nI(\sigma^2)} = \frac{2\sigma^4}{n}.
+$$
+而 $\mathrm{Var}(s^2) = \dfrac{2\sigma^4}{n-1} > \dfrac{2\sigma^4}{n}$，故 $s^2$ 未达到 C-R 下界，但仍是 $\sigma^2$ 的 UMVUE。
+\end{solution}
+\begin{dxtips}
+    因为 UMVUE 是针对某个特定参数定义的——方差最小的无偏估计量，不同参数当然对应不同的估计量。C-R 下界是所有无偏估计方差的一个\textbf{充分条件}，不是必要条件——达到下界一定是 UMVUE，但 UMVUE 不一定达到下界。因为 $2\pi$ 是常数，$\ln(2\pi\lambda) = \ln(2\pi) + \ln\lambda$，对 $\lambda$ 求导时 $\ln(2\pi)$ 直接消掉，只剩 $\dfrac{1}{\lambda}$。
+\end{dxtips}
+\begin{homework}[14]
+在定理 3.3.3 的条件下，若 $\hat{g}(X_1, X_2, \cdots, X_n)$ 是 $g(\theta)$ 的估计量，满足
+\[
+E_\theta \hat{g}(X_1, X_2, \cdots, X_n) = g(\theta) + b(\theta), \quad \forall \theta \in \Theta \subset \mathbf{R},
+\]
+$b(\theta)$ 为估计的偏差，则有
+\[
+\mathrm{Var}_\theta(\hat{g}(X_1, X_2, \cdots, X_n)) \geq [b'(\theta) + g'(\theta)]^2 / nI(\theta).
+\]
+\end{homework}
+
+\begin{homework}[15]
+设 $\hat{g}_1(\boldsymbol{X})$ 和 $\hat{g}_2(\boldsymbol{X})$ 都是 $g(\theta)$ 的无偏估计量，并且 $\hat{g}_1(\boldsymbol{X})$ 还是 $g(\theta)$ 的 UMVUE，证明：$\hat{g}_1(\boldsymbol{X})$ 与 $\hat{g}_2(\boldsymbol{X})$ 的相关系数非负。
+\end{homework}
+[例 3.2.12（0-1 分布）]
+设 $X_1,X_2,\cdots,X_n$ i.i.d.，都服从 $(0\text{-}1)$ 分布 $B(1,\theta)$，$\theta$ 的先验分布为 Beta 分布 $\mathrm{Beta}(a,b)$，其概率密度为
+$$
+\pi(\theta) = \begin{cases} \dfrac{1}{\mathrm{B}(a,b)}\theta^{a-1}(1-\theta)^{b-1}, & \theta \in (0,1); \\ 0, & \theta \notin (0,1), \end{cases}
+$$
+其中 $a>0,b>0$ 为给定的常数，$\mathrm{B}(a,b)$ 为 Beta 函数。求 $\theta$ 的后验均值估计。
+
+\begin{homework}[16]
+（0-1 分布）考虑例 3.2.12 中的贝叶斯估计量，其中 $\theta$ 的贝叶斯估计量为
+$$
+\hat{\theta} = \frac{\sum_{i=1}^n X_i + a}{n + a + b}.
+$$
+\begin{enumerate}[(1)]
+    \item 求该估计量的均方误差。
+\end{enumerate}
+\end{homework}
+\begin{solution}
+令 $S = \sum_{i=1}^n X_i \sim B(n,\theta)$，则 $ES = n\theta$，$\mathrm{Var}(S) = n\theta(1-\theta)$。
+
+\textbf{计算偏差：}
+$$
+E\hat{\theta} - \theta = \frac{n\theta + a}{n+a+b} - \theta = \frac{a-(a+b)\theta}{n+a+b}.
+$$
+
+\textbf{计算方差：}
+$$
+\mathrm{Var}(\hat{\theta}) = \frac{\mathrm{Var}(S)}{(n+a+b)^2} = \frac{n\theta(1-\theta)}{(n+a+b)^2}.
+$$
+
+\textbf{均方误差：}
+$$
+\mathrm{MSE}(\hat{\theta}) = \mathrm{Var}(\hat{\theta}) + \left(E\hat{\theta} - \theta\right)^2 = \frac{n\theta(1-\theta) + \left[a-(a+b)\theta\right]^2}{(n+a+b)^2}.
+$$
+\end{solution}
+\begin{dxtips}
+    就是尽量引入期望或者方差因为有固定的公式，也是因为方差和期望是稳定的
+\end{dxtips}
+\begin{note}
+拆分 $(\hat{\theta} - \theta) = (\hat{\theta} - E\hat{\theta}) + (E\hat{\theta} - \theta)$ 是为了把随机波动（方差）和系统误差（偏差）分开，展开后交叉项期望为 $0$，故
+$$
+\mathrm{MSE}(\hat{\theta}) = \mathrm{Var}(\hat{\theta}) + (E\hat{\theta} - \theta)^2.
+$$
+计算时利用 $S \sim B(n,\theta)$ 的结论 $ES = n\theta$，$\mathrm{Var}(S) = n\theta(1-\theta)$，再通过线性变换性质
+$$
+E(cS+d) = cES+d, \quad \mathrm{Var}(cS) = c^2\mathrm{Var}(S)
+$$
+传递到 $\hat{\theta} = \dfrac{S+a}{n+a+b}$，分别算出偏差和方差后相加即得 MSE。
+\end{note}

@@ -182,6 +182,19 @@ x_1=1,\quad x_2=2,\quad x_3=10,
 \]
 作为点估计，则称 $\hat{g}(X)$ 为 $g(\theta)$ 的 \textbf{Bayes 估计}，也称\textbf{后验均值估计}。
 \end{definition}
+\begin{dxtips}[$\propto$ 表示正比于]
+    
+
+（proportional to），$A \propto B$ 即 $A = c \cdot B$，其中 $c$ 为与关心变量无关的常数。在贝叶斯推断中，由于
+\[
+p(\mu|\boldsymbol{X}) = \frac{f(\boldsymbol{X}|\mu)\cdot\pi(\mu)}{f(\boldsymbol{X})}
+\]
+分母 $f(\boldsymbol{X})$ 与 $\mu$ 无关，故直接写
+\[
+p(\mu|\boldsymbol{X}) \propto f(\boldsymbol{X}|\mu)\cdot\pi(\mu)
+\]
+省去分母使计算更简洁，配方完成后自然归一化。
+\end{dxtips}
 \begin{note}
 三个关键概念：
 \begin{enumerate}
@@ -192,8 +205,12 @@ x_1=1,\quad x_2=2,\quad x_3=10,
   p(\theta \mid X) = \frac{f(X \mid \theta)\,\pi(\theta)}{\displaystyle\int_{\Theta} f(X \mid \theta)\,\pi(\theta)\,\mathrm{d}\theta}
 \]
 简单说就是：后验 $\propto$ 似然 $\times$ 先验，分母只是归一化常数让概率加起来等于 $1$。
+\begin{dxtips}
+    然后大公式里面的积分就是归一化常数和条件概率里面分母的累加是一样的这里是积分
+\end{dxtips}
 \end{enumerate}
 \end{note}
+
 \begin{example}[抛硬币的 Bayes 估计]
 设正面概率 $\theta$ 的先验为 $\pi(\theta) \sim \text{Beta}(2,2)$，抛硬币 $10$ 次观测到 $7$ 次正面。由 Beta-Binomial 共轭，后验为
 \[
@@ -209,61 +226,42 @@ E_{\boldsymbol{\theta}}(\hat{g}(\boldsymbol{X})) = g(\boldsymbol{\theta}),
 \]
 则称 $\hat{g}(\boldsymbol{X})$ 为 $g(\boldsymbol{\theta})$ 的\textbf{无偏估计量}。
 \end{definition}
-\begin{note}
-    我们想用样本数据 $\boldsymbol{X}$ 来估计某个未知的总体参数 $\theta$（比如均值、方差等）。
-但我们实际想估的不一定是 $\theta$ 本身，而是关于 $\theta$ 的某个函数 $g(\theta)$（比如 $\theta^2$、$1/\theta$ 之类的）。
-于是我们构造一个估计量 $\hat{g}(\boldsymbol{X})$，用它来猜 $g(\theta)$ 的值。
-``无偏''的意思就是：这个估计量的期望值恰好等于真实值 $g(\theta)$，也就是说平均来讲它不会系统性地偏高或偏低，是``不偏不倚''的。
-\end{note}
-\begin{example}
-设总体 $X \sim N(\mu, \sigma^2)$，其中 $\mu$ 未知，现抽取样本 $X_1, X_2, X_3$，
-试验证样本均值 $\bar{X}$ 是总体均值 $\mu$ 的无偏估计量。
-
-\textbf{解：} 构造估计量
+ 估计量的期望等于真实值，就叫无偏估计
+\begin{example}[样本均值是总体均值的无偏估计]
+设总体均值 $\mu$ 未知，取样本 $X_1, X_2, X_3 = 4, 5, 9$，样本均值为
 \[
-\hat{g}(\boldsymbol{X}) = \bar{X} = \frac{X_1 + X_2 + X_3}{3},
+  \bar{X} = \frac{4+5+9}{3} = 6.
 \]
-计算其期望：
-\[
-E(\bar{X}) = E\left(\frac{X_1 + X_2 + X_3}{3}\right) = \frac{E(X_1) + E(X_2) + E(X_3)}{3} = \frac{\mu + \mu + \mu}{3} = \mu.
-\]
-因此 $E(\bar{X}) = \mu$，即对任意 $\mu$ 都有 $E(\bar{X}) = g(\mu)$，
-故 $\bar{X}$ 是总体均值 $\mu$ 的无偏估计量。
+若真实总体均值 $\mu = 6$，则 $E(\bar{X}) = \mu = 6$，即 $\bar{X}$ 是 $\mu$ 的无偏估计。
 \end{example}
-\begin{definition}{有效估计量}{def:efficient}
+\begin{note}
+无偏性与有效性衡量的是\textbf{估计方法}的好坏，而非样本本身。对同一批样本，不同估计量的优劣由以下两个标准评价：
+\begin{itemize}
+  \item \textbf{无偏性}：估计量的期望等于真实参数，即无系统误差。
+  \item \textbf{有效性}：在所有无偏估计量中，方差最小，即估计结果最稳定。
+\end{itemize}
+「样本取得好不好」对应的是\textbf{抽样方法}（如随机抽样、分层抽样），是独立的概念。
+\end{note}
+\begin{definition}[有效估计量]
 设 $\hat{g}(\boldsymbol{X})$ 和 $\tilde{g}(\boldsymbol{X})$ 都是 $g(\theta)$ 的无偏估计量，若
 \[
-\operatorname{Var}_{\theta}(\tilde{g}(\boldsymbol{X})) \geq \operatorname{Var}_{\theta}(\hat{g}(\boldsymbol{X})), \quad \forall \theta \in \Theta,
+  \mathrm{Var}_\theta(\tilde{g}(\boldsymbol{X})) \geq \mathrm{Var}_\theta(\hat{g}(\boldsymbol{X})), \quad \forall \theta \in \Theta,
 \]
-且大于号至少在某个 $\theta \in \Theta$ 成立，则称 $\hat{g}(\boldsymbol{X})$ 比 $\tilde{g}(\boldsymbol{X})$ \textbf{有效}。
-比值
+且大于号至少在某个 $\theta \in \Theta$ 成立，则称 $\hat{g}(\boldsymbol{X})$ 比 $\tilde{g}(\boldsymbol{X})$ \textbf{有效}。比值
 \[
-e = \frac{\operatorname{Var}_{\theta}(\hat{g}(\boldsymbol{X}))}{\operatorname{Var}_{\theta}(\tilde{g}(\boldsymbol{X}))}
+  e = \frac{\mathrm{Var}_\theta(\hat{g}(\boldsymbol{X}))}{\mathrm{Var}_\theta(\tilde{g}(\boldsymbol{X}))}
 \]
 称为 $\tilde{g}(\boldsymbol{X})$ 相对于 $\hat{g}(\boldsymbol{X})$ 的\textbf{效率}。
 \end{definition}
-
-\begin{example}
-设总体 $X \sim N(\mu, \sigma^2)$，其中 $\mu$ 未知，$\sigma^2$ 已知，抽取样本 $X_1, X_2, X_3$。
-考虑两个 $\mu$ 的无偏估计量：
+\begin{dxtips}
+    g(X)就是对X操作算出一个θ然后，看见Var就知道他要比较稳定性了
+\end{dxtips}
+\begin{example}[样本均值与样本中位数的有效性比较]
+设总体 $X \sim N(\mu, 1)$，取样本量 $n = 5$。样本均值 $\bar{X}$ 与样本中位数 $m$ 都是 $\mu$ 的无偏估计，但
 \[
-\hat{g}(\boldsymbol{X}) = \bar{X} = \frac{X_1+X_2+X_3}{3}, \quad \tilde{g}(\boldsymbol{X}) = \frac{X_1+X_2}{2}.
+  \mathrm{Var}(\bar{X}) = \frac{1}{5} = 0.2, \qquad \mathrm{Var}(m) \approx \frac{\pi}{2 \times 5} \approx 0.314.
 \]
-验证两者均为无偏估计量，并比较其有效性。
-
-首先验证无偏性：由于 $E(\bar{X}) = \mu$ 且 $E\!\left(\frac{X_1+X_2}{2}\right) = \frac{\mu+\mu}{2} = \mu$，
-故两者均为 $\mu$ 的无偏估计量。
-
-计算两者的方差：
-\[
-\operatorname{Var}(\hat{g}(\boldsymbol{X})) = \frac{\sigma^2}{3}, \quad \operatorname{Var}(\tilde{g}(\boldsymbol{X})) = \frac{\sigma^2}{2}.
-\]
-由于 $\frac{\sigma^2}{2} \geq \frac{\sigma^2}{3}$ 对一切 $\sigma^2 > 0$ 成立，故 $\hat{g}(\boldsymbol{X}) = \bar{X}$
-比 $\tilde{g}(\boldsymbol{X})$ \textbf{有效}，其效率为
-\[
-e = \frac{\operatorname{Var}(\hat{g}(\boldsymbol{X}))}{\operatorname{Var}(\tilde{g}(\boldsymbol{X}))} = \frac{\sigma^2/3}{\sigma^2/2} = \frac{2}{3}.
-\]
-即用全部三个样本的均值估计 $\mu$ 比只用两个样本更有效。
+效率为 $e = \dfrac{0.2}{0.314} \approx 0.637$，故 $\bar{X}$ 比 $m$ 更有效。
 \end{example}
 \begin{definition}{一致最小方差无偏估计量}{def:UMVUE}
 设 $\hat{g}(\boldsymbol{X})$ 是 $g(\theta)$ 的一个无偏估计量，且 $\operatorname{Var}_{\theta}(\hat{g}(\boldsymbol{X})) < \infty$。
@@ -274,12 +272,7 @@ e = \frac{\operatorname{Var}(\hat{g}(\boldsymbol{X}))}{\operatorname{Var}(\tilde
 则称 $\hat{g}(\boldsymbol{X})$ 为 $g(\theta)$ 的\textbf{一致最小方差无偏估计量}，简记作 UMVUE
 (Uniformly minimum variance unbiased estimator)。
 \end{definition}
-\begin{note}
-    前面定义 3.3.1 告诉我们什么是无偏估计量，但无偏估计量可以有很多个。
-比如上面例子里，$\bar{X}$ 和 $\frac{X_1+X_2}{2}$ 都是 $\mu$ 的无偏估计量。
-定义 3.3.2 告诉我们可以两两比较谁更有效，但如果有几十个无偏估计量，难道要两两都比一遍吗？
-所以就需要 UMVUE——直接找出那个``天花板''级别的估计量，它比所有无偏估计量都好，不需要再比了。
-\end{note}
+在所有无偏估计里，方差最小的那个就叫 UMVUE。
 \begin{theorem}{UMVUE 的充要条件}{thm:UMVUE}
 设 $\mathcal{U}$ 非空，则 $\delta(\boldsymbol{X}) \in \mathcal{U}$ 为 $g(\theta)$ 的 UMVUE 的充要条件是：
 对任意 $\delta_0(\boldsymbol{X}) \in \mathcal{U}_0$，有
@@ -287,8 +280,21 @@ e = \frac{\operatorname{Var}(\hat{g}(\boldsymbol{X}))}{\operatorname{Var}(\tilde
 E_{\theta}(\delta(\boldsymbol{X})\delta_0(\boldsymbol{X})) = 0, \quad \forall\, \theta \in \Theta.
 \]
 \end{theorem}
+\begin{dxtips}
+    U是所有无偏估计的集合U0就是期望是0的无偏估计的集合
+\end{dxtips}
 \begin{note}
-    该定理说：$\delta(\boldsymbol{X})$ 是 UMVUE 当且仅当它和所有``零无偏估计量'' $\delta_0(\boldsymbol{X})$ 都\textbf{不相关}（内积为 0）。
+符号说明：
+\begin{itemize}
+  \item $\mathcal{U}$：$g(\theta)$ 的所有无偏估计量构成的集合
+  \item $\mathcal{U}_0$：所有零无偏估计量的集合，即满足 $E_\theta(\delta_0(\boldsymbol{X})) = 0$ 的估计量
+  \item $\delta(\boldsymbol{X})$：待验证是否为 UMVUE 的候选估计量
+\end{itemize}
+定理的本质：$\delta(\boldsymbol{X})$ 是 UMVUE $\iff$ 它与所有零无偏估计量正交，即
+\[
+  E_\theta(\delta(\boldsymbol{X})\,\delta_0(\boldsymbol{X})) = 0, \quad \forall\,\theta \in \Theta,\ \forall\,\delta_0 \in \mathcal{U}_0.
+\]
+直觉上，$\delta_0$ 是「纯噪声」（期望为零，不含有效信息）。$\delta$ 与所有噪声正交，说明其中没有掺入任何多余成分，因此方差已达最小。
 \end{note}
 UMVUE 如果存在，则在以概率 1 相等的意义下是唯一的，这就是下面的定理。
 
@@ -313,15 +319,35 @@ P_{\theta}(\delta(\boldsymbol{X}) = \delta'(\boldsymbol{X})) = 1, \quad \forall\
 \end{enumerate}
 \end{definition}
 \begin{note}
-\begin{enumerate}
-    \item 条件 1 要求参数空间 $\Theta$ 没有边界点，保证可以对 $\theta$ 求导。
-    \item 条件 2 要求分布的支撑集不随 $\theta$ 变化，从而保证积分与求导可以交换顺序。
-    例如均匀分布 $U(0,\theta)$ 的支撑集为 $(0,\theta)$，随 $\theta$ 变化，故不满足此条件。
-    \item 条件 3 要求得分函数 $\frac{\partial \ln f(x;\theta)}{\partial \theta}$ 的期望为零，
-    即在真实参数处``往左偏''与``往右偏''的倾向平均抵消，无系统性偏差。
-    \item 条件 4 要求 Fisher 信息量 $I(\theta) > 0$，它衡量样本中含有多少关于 $\theta$ 的信息，
-    $I(\theta)$ 越大说明数据对参数越敏感，估计越精准，且保证后续 Cramér-Rao 下界有意义。
-\end{enumerate}
+正则条件的本质是保证 C-R 下界的推导在数学上成立，每个条件各自排除一类麻烦：
+\begin{itemize}
+  \item \textbf{条件1（$\Theta$ 为开区间）}：保证对 $\theta$ 求导合法，排除参数在边界处导数无意义的情况。
+  \item \textbf{条件2（支撑集与 $\theta$ 无关）}：排除积分上下限随 $\theta$ 变动的情况（如 $U(0,\theta)$），从而保证积分与求导可交换顺序。
+  \item \textbf{条件3（得分函数期望为零）}：即 $E_\theta\!\left(\frac{\partial \ln f(x;\theta)}{\partial \theta}\right) = 0$，是积分与求导交换顺序的直接体现，也是推导 C-R 下界的关键一步。
+  \item \textbf{条件4（$I(\theta) > 0$）}：保证 Fisher 信息量有限且为正，使得 C-R 下界 $\frac{1}{I(\theta)}$ 有实际意义。
+\end{itemize}
+四个条件合在一起，确保对数似然函数关于 $\theta$ 足够光滑，C-R 不等式方可成立。
+\end{note}
+\begin{note}[Fisher 信息量]
+Fisher 信息量 $I(\theta)$ 度量样本 $X$ 中包含的关于参数 $\theta$ 的信息量，定义为
+\[
+I(\theta) = \operatorname{Var}\left(\frac{\partial}{\partial\theta}\ln f(X;\theta)\right).
+\]
+
+\textbf{为什么取对数？}
+取对数是为了归一化：
+\[
+\frac{\partial}{\partial\theta}\ln f = \frac{1}{f}\cdot\frac{\partial f}{\partial\theta},
+\]
+相当于把导数除以 $f$ 本身，变成相对变化率，消除量纲影响。
+
+\textbf{为什么取方差？}
+$S(X;\theta) = \dfrac{\partial}{\partial\theta}\ln f(X;\theta)$ 仍是随机变量，方差是描述其平均波动程度最自然的选择。
+又由 $E[S]=0$，故
+\[
+I(\theta) = \operatorname{Var}(S) = E(S^2),
+\]
+方差等于二阶矩，计算更方便。$I(\theta)$ 越大，$\theta$ 越好估计。
 \end{note}
 \begin{theorem}{Cramér-Rao 不等式}
 设总体分布族 $\{f(x;\theta): \theta \in \Theta\}$ 满足正则条件 1—4，待估函数 $g(\theta)$ 有一阶导数
@@ -351,4 +377,60 @@ $\hat{g}(\boldsymbol{X}) = \hat{g}(X_1, X_2, \cdots, X_n)$ 是 $g(\theta)$ 的�
 \end{enumerate}
 若某无偏估计量的方差恰好等于 C-R 下界，则它已达到最优，必为 UMVUE，无法再改进；
 若方差远大于下界，则说明仍有改进空间。
+\end{note}
+
+\section{估计量的大样本性质}
+\begin{definition}[相合估计量与强相合估计量]
+设 $\hat{g}_n = \hat{g}_n(X_1, X_2, \cdots, X_n)$ 为 $g(\theta)$ 的估计量。
+
+若对任意固定的 $\theta \in \Theta$，对任给的 $\varepsilon > 0$，有
+\[
+\lim_{n \to \infty} P_\theta\{|\hat{g}_n - g(\theta)| > \varepsilon\} = 0,
+\]
+则称 $\hat{g}_n$ 为 $g(\theta)$ 的\textbf{相合估计量}，简记为 $\hat{g}_n \xrightarrow{P} g(\theta)$。
+
+若对任何固定的 $\theta \in \Theta$ 都有
+\[
+P_\theta\left\{\lim_{n \to \infty} \hat{g}_n = g(\theta)\right\} = 1,
+\]
+则称 $\hat{g}_n$ 为 $g(\theta)$ 的\textbf{强相合估计量}，简记为 $\hat{g}_n \xrightarrow{a.s.} g(\theta)$。
+
+强相合估计量必为相合估计量。
+\end{definition}
+\begin{itemize}
+  \item \textbf{弱相合} $\Leftrightarrow$ 依概率收敛（$\xrightarrow{P}$）
+  \item \textbf{强相合} $\Leftrightarrow$ 几乎处处收敛（$\xrightarrow{a.s.}$）almost surely 
+\end{itemize}
+\begin{theorem}[强相合估计量经过连续函数变换后仍然是强相合的。]
+设 $G(\theta_1, \theta_2, \cdots, \theta_k)$ 在参数空间 $\Theta \subset \mathbf{R}^k$ 上连续，$\hat{T}_{in}$ 为 $\theta_i$ 的强相合估计量，$i = 1, 2, \cdots, k$，则 $G(\hat{T}_{1n}, \hat{T}_{2n}, \cdots, \hat{T}_{kn})$ 为 $G(\theta_1, \theta_2, \cdots, \theta_k)$ 的强相合估计量。
+\end{theorem}
+\begin{theorem}[矩估计量的强相合性]
+设总体有直到 $k$（$k \geq 2$）阶的矩 $\alpha_i,\ i = 1,\cdots,k$，$\beta_j,\ j = 2,\cdots,k$。若 $g(\theta)$ 可表示为
+\[
+g(\theta) = G(\alpha_1, \alpha_2, \cdots, \alpha_k, \beta_2, \cdots, \beta_k)
+\]
+且 $G$ 为连续函数，记 $\hat{\alpha}_i$，$\hat{\beta}_j$ 分别为样本原点矩和样本中心矩，则
+\[
+G(\hat{\alpha}_1, \hat{\alpha}_2, \cdots, \hat{\alpha}_k, \hat{\beta}_2, \cdots, \hat{\beta}_k)
+\]
+为 $g(\theta)$ 的强相合估计量。
+\end{theorem}
+\begin{note}
+矩估计量具有强相合性需满足三个条件：
+总体有足够高阶的矩存在；$g(\theta)$ 能写成各阶矩的连续函数；用样本矩替换总体矩。满足这三条，矩估计量就是强相合的。
+\end{note}
+\begin{theorem}[最大似然估计量的存在性与相合性]
+设分布族 $\{f(x;\theta) : \theta \in \Theta\}$ 满足：
+\begin{enumerate}
+    \item $\Theta$ 是有限集；
+    \item 对于不同的参数值 $\theta$ 和 $\theta'$，所对应的分布不同；
+    \item $\{f(x;\theta) : \theta \in \Theta\}$ 有共同支撑，即 $A = \{x : f(x;\theta) > 0\}$ 与 $\theta$ 无关。
+\end{enumerate}
+则对于简单随机样本 $(X_1, X_2, \cdots, X_n)^{\mathrm{T}}$，$\theta$ 的最大似然估计量 $\hat{\theta}_n = \hat{\theta}_n(X_1, X_2, \cdots, X_n)$ 存在，且 $\hat{\theta}_n$ 为 $\theta$ 的相合估计量。
+\end{theorem}
+\begin{note}
+三个条件的直觉如下：
+$\Theta$ 是有限集：$\theta$ 的取值范围不能无限大，保证最大值能取到；
+不同参数对应不同分布：保证参数是"可识别的"，不然两个不同的 $\theta$ 长得一样，根本无法区分；
+共同支撑与 $\theta$ 无关：保证似然函数对 $\theta$ 求导时不会出现支撑集随 $\theta$ 变化的麻烦，数学上处理起来干净。
 \end{note}

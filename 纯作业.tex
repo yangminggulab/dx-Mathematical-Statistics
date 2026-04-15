@@ -264,3 +264,93 @@ f(x,\theta_1,\theta_2)=
 \]
 其中 \(\theta_1\) 已知，求 \(\theta_2\) 的最大似然估计量。
 \end{homework}
+\begin{homework}[18]
+设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim N(\mu,\sigma^2)\)，其中 \(\sigma^2\) 已知，\(\mu\) 的先验分布为 \(N(\nu,\tau^2)\)。
+
+\begin{enumerate}
+    \item 求 \(\mu\) 的后验分布；
+    \item 求 \(\mu\) 的后验均值估计。
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[20]
+（帕雷托（Pareto）分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim U(0,\theta)\)，其中 \(\theta\) 的先验分布为 \(\mathrm{Pareto}(a,b)\)，其概率密度为
+\[
+\pi(\theta)=\frac{ba^b}{\theta^{b+1}},\qquad a<\theta<\infty,\ a>0,\ b>0.
+\]
+
+\begin{enumerate}
+    \item 求 \(\theta\) 的后验分布；
+    \item 求 \(\theta\) 的后验均值估计。
+\end{enumerate}
+\end{homework}
+\begin{homework}[1]
+（泊松分布）设 $X \sim P(\lambda)$，试求样本量为 $1$ 时 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量，并说明该估计的不合理性。
+\end{homework}
+
+\begin{homework}[2]
+（二项分布）设 $X \sim B(n,p)$，证明 $g(p) = \dfrac{1}{1+p^2}$ 不存在无偏估计量。
+\end{homework}
+
+\begin{homework}[3]
+设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(\mu, 1)$，证明 $g(\mu) = |\mu|$ 没有无偏估计量。
+\end{homework}
+
+\begin{homework}[4]
+（均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(\theta_1, \theta_2)$，求 $\theta_1, \theta_2$ 的无偏估计量。
+\end{homework}
+
+\begin{homework}[5]
+设 $\hat{\theta}$ 和 $\theta^*$ 为 $\theta$ 的无偏估计量，若 $\tilde{\theta} = a\hat{\theta} + b\theta^*$，问：$a, b$ 满足什么条件时，$\tilde{\theta}$ 也是 $\theta$ 的无偏估计量？
+\end{homework}
+
+\begin{homework}[6]
+设 $X \sim U(0,\theta)$，$X_1, X_2, \cdots, X_n$ i.i.d. 为来自 $X$ 的样本，试分别求 $\theta^2, \theta^{-1}$ 的无偏估计量。
+\end{homework}
+\section{第七周作业-p100}
+\begin{homework}[7]
+设 $W$ 是 $\theta$ 的无偏估计量，若 $W$ 满足
+\begin{enumerate}[(1)]
+    \item $W$ 是观察值（样本）的线性函数；
+    \item $E_\theta W = \theta, \forall \theta \in \Theta$；
+    \item 若对任意一个满足 (1),(2) 的估计 $W^*$，有
+    \[
+    \mathrm{Var}_\theta(W) \leq \mathrm{Var}_\theta(W^*), \quad \forall \theta \in \Theta,
+    \]
+\end{enumerate}
+则称 $W$ 是 $\theta$ 的最优线性无偏估计量。如总体 $X \sim N(\mu, \sigma^2)$，$(\mu, \sigma^2) \in \Theta = \{(\mu, \sigma^2) : -\infty < \mu < \infty, \sigma^2 > 0\}$。证明 $\overline{X} = \dfrac{1}{n}\sum_{i=1}^{n} X_i$ 是 $\mu$ 的最优线性无偏估计量。该结论只对正态总体正确吗？
+\end{homework}
+
+\begin{homework}[11]
+（泊松分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim P(\lambda)$，证明：
+\begin{enumerate}[(1)]
+    \item $\overline{X}$ 是 $\lambda$ 的 UMVUE；
+    \item $\tilde{\lambda}^2 = \dfrac{1}{n}\sum_{i=1}^{n} X_i^2 - \overline{X}$ 为 $\lambda^2$ 的无偏估计量。该估计是 UMVUE 吗？
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[12]
+设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(\mu, \sigma^2)$，已知 $\overline{X} = \dfrac{1}{n}\sum_{i=1}^{n} X_i$ 和 $s^2 = \dfrac{1}{n-1}\sum_{i=1}^{n}(X_i - \overline{X})^2$ 分别是 $\mu$ 和 $\sigma^2$ 的 UMVUE。计算 $\mu$ 和 $\sigma^2$ 的 C-R 下界。
+\end{homework}
+
+\begin{homework}[14]
+在定理 3.3.3 的条件下，若 $\hat{g}(X_1, X_2, \cdots, X_n)$ 是 $g(\theta)$ 的估计量，满足
+\[
+E_\theta \hat{g}(X_1, X_2, \cdots, X_n) = g(\theta) + b(\theta), \quad \forall \theta \in \Theta \subset \mathbf{R},
+\]
+$b(\theta)$ 为估计的偏差，则有
+\[
+\mathrm{Var}_\theta(\hat{g}(X_1, X_2, \cdots, X_n)) \geq [b'(\theta) + g'(\theta)]^2 / nI(\theta).
+\]
+\end{homework}
+
+\begin{homework}[15]
+设 $\hat{g}_1(\boldsymbol{X})$ 和 $\hat{g}_2(\boldsymbol{X})$ 都是 $g(\theta)$ 的无偏估计量，并且 $\hat{g}_1(\boldsymbol{X})$ 还是 $g(\theta)$ 的 UMVUE，证明：$\hat{g}_1(\boldsymbol{X})$ 与 $\hat{g}_2(\boldsymbol{X})$ 的相关系数非负。
+\end{homework}
+
+\begin{homework}[16]
+（0-1 分布）考虑例 3.2.12 中的贝叶斯估计量。
+\begin{enumerate}[(1)]
+    \item 求该估计量的均方误差；
+\end{enumerate}
+\end{homework}
