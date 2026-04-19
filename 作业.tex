@@ -1996,6 +1996,53 @@ $$
     \item $\tilde{\lambda}^2 = \dfrac{1}{n}\sum_{i=1}^{n} X_i^2 - \overline{X}$ 为 $\lambda^2$ 的无偏估计量。该估计是 UMVUE 吗？
 \end{enumerate}
 \end{homework}
+\begin{solution}
+\textbf{(1)} 泊松分布 $P(\lambda)$ 的概率质量函数为
+\[
+P(X = x) = \frac{\lambda^x e^{-\lambda}}{x!}, \quad x = 0, 1, 2, \cdots
+\]
+可以写成指数族形式，充分完备统计量为 $T = \sum_{i=1}^n X_i$。
+
+$\overline{X}$ 是 $T$ 的函数，且
+\[
+E(\overline{X}) = \frac{1}{n} \sum_{i=1}^n E(X_i) = \lambda,
+\]
+故 $\overline{X}$ 是 $\lambda$ 的无偏估计。由 Lehmann-Scheffé 定理，基于完备充分统计量的无偏估计是 UMVUE，故 $\overline{X}$ 是 $\lambda$ 的 UMVUE。
+
+\textbf{(2)} 首先验证无偏性。对于 $P(\lambda)$，有 $E(X_i) = \lambda$，$\mathrm{Var}(X_i) = \lambda$，故 $E(X_i^2) = \lambda^2 + \lambda$。从而
+\[
+E\!\left(\frac{1}{n}\sum_{i=1}^n X_i^2\right) = \lambda^2 + \lambda,
+\]
+\[
+E(\overline{X}) = \lambda,
+\]
+\[
+E(\tilde{\lambda}^2) = (\lambda^2 + \lambda) - \lambda = \lambda^2.
+\]
+故 $\tilde{\lambda}^2$ 是 $\lambda^2$ 的无偏估计量。
+
+下面判断其是否为 UMVUE。充分完备统计量为 $T = \sum_{i=1}^n X_i \sim P(n\lambda)$。将 $\tilde{\lambda}^2$ 改写为 $T$ 的函数：
+\[
+\tilde{\lambda}^2 = \frac{1}{n}\sum_{i=1}^n X_i^2 - \overline{X}.
+\]
+注意到
+\[
+\sum_{i=1}^n X_i^2 = \sum_{i=1}^n (X_i - \overline{X})^2 + n\overline{X}^2 = (n-1)s_n^2 + \frac{T^2}{n},
+\]
+其中 $s_n^2 = \frac{1}{n-1}\sum_{i=1}^n(X_i - \overline{X})^2$。但 $\tilde{\lambda}^2$ 不能仅由 $T$ 表示（含有 $\sum X_i^2$ 项，依赖样本的更多信息），故 $\tilde{\lambda}^2$ 不是完备充分统计量 $T$ 的函数。
+
+而基于 $T$ 的 $\lambda^2$ 的 UMVUE 应当是 $g(T)$ 满足 $E[g(T)] = \lambda^2$ 的唯一函数。计算可得
+\[
+g(T) = \frac{T(T-1)}{n^2} = \frac{\left(\sum_{i=1}^n X_i\right)\left(\sum_{i=1}^n X_i - 1\right)}{n^2}
+\]
+满足
+\[
+E[g(T)] = \frac{E[T(T-1)]}{n^2} = \frac{n^2\lambda^2}{n^2} = \lambda^2,
+\]
+且 $g(T)$ 是完备充分统计量的函数，故 $g(T)$ 才是 $\lambda^2$ 的 UMVUE。
+
+因此 $\tilde{\lambda}^2$ 不是 $\lambda^2$ 的 UMVUE。
+\end{solution}
 \begin{dxtips}[fisher函数和似然函数的关系]
     
 似然函数与 Fisher 信息量的关系。对数似然函数为
@@ -2077,10 +2124,117 @@ $b(\theta)$ 为估计的偏差，则有
 \mathrm{Var}_\theta(\hat{g}(X_1, X_2, \cdots, X_n)) \geq [b'(\theta) + g'(\theta)]^2 / nI(\theta).
 \]
 \end{homework}
-
+\begin{proof}
+设 $\hat{g} = \hat{g}(X_1, X_2, \cdots, X_n)$，由题设条件，
+\[
+E_\theta \hat{g} = g(\theta) + b(\theta).
+\]
+对两边关于 $\theta$ 求导，在定理 3.3.3 的正则条件下可交换积分与微分，得
+\[
+\frac{d}{d\theta} E_\theta \hat{g} = g'(\theta) + b'(\theta).
+\]
+另一方面，
+\[
+\frac{d}{d\theta} E_\theta \hat{g} = \frac{d}{d\theta} \int \hat{g} \cdot L(\theta; \mathbf{x}) \, d\mathbf{x} = \int \hat{g} \cdot \frac{\partial \ln L(\theta; \mathbf{x})}{\partial \theta} \cdot L(\theta; \mathbf{x}) \, d\mathbf{x} = E_\theta\!\left[\hat{g} \cdot \frac{\partial \ln L}{\partial \theta}\right],
+\]
+其中 $L(\theta; \mathbf{x}) = \prod_{i=1}^n f(x_i; \theta)$ 为似然函数。又由正则条件知
+\[
+E_\theta\!\left[\frac{\partial \ln L}{\partial \theta}\right] = 0,
+\]
+故
+\[
+E_\theta\!\left[\hat{g} \cdot \frac{\partial \ln L}{\partial \theta}\right] = \mathrm{Cov}_\theta\!\left(\hat{g},\, \frac{\partial \ln L}{\partial \theta}\right).
+\]
+因此
+\[
+\mathrm{Cov}_\theta\!\left(\hat{g},\, \frac{\partial \ln L}{\partial \theta}\right) = g'(\theta) + b'(\theta).
+\]
+由 Cauchy-Schwarz 不等式，
+\[
+\left[\mathrm{Cov}_\theta\!\left(\hat{g},\, \frac{\partial \ln L}{\partial \theta}\right)\right]^2 \leq \mathrm{Var}_\theta(\hat{g}) \cdot \mathrm{Var}_\theta\!\left(\frac{\partial \ln L}{\partial \theta}\right).
+\]
+由 Fisher 信息量的定义及 i.i.d. 条件，
+\[
+\mathrm{Var}_\theta\!\left(\frac{\partial \ln L}{\partial \theta}\right) = nI(\theta).
+\]
+将以上各式代入，得
+\[
+[g'(\theta) + b'(\theta)]^2 \leq \mathrm{Var}_\theta(\hat{g}) \cdot nI(\theta),
+\]
+即
+\[
+\mathrm{Var}_\theta(\hat{g}) \geq \frac{[g'(\theta) + b'(\theta)]^2}{nI(\theta)}.
+\]
+\end{proof}
 \begin{homework}[15]
 设 $\hat{g}_1(\boldsymbol{X})$ 和 $\hat{g}_2(\boldsymbol{X})$ 都是 $g(\theta)$ 的无偏估计量，并且 $\hat{g}_1(\boldsymbol{X})$ 还是 $g(\theta)$ 的 UMVUE，证明：$\hat{g}_1(\boldsymbol{X})$ 与 $\hat{g}_2(\boldsymbol{X})$ 的相关系数非负。
 \end{homework}
+\begin{proof}
+设 $\hat{g}_1 = \hat{g}_1(\boldsymbol{X})$，$\hat{g}_2 = \hat{g}_2(\boldsymbol{X})$，对任意 $\alpha \in \mathbf{R}$，令
+\[
+\hat{g}_\alpha = (1-\alpha)\hat{g}_1 + \alpha \hat{g}_2.
+\]
+由 $\hat{g}_1$，$\hat{g}_2$ 均为 $g(\theta)$ 的无偏估计量，得
+\[
+E_\theta(\hat{g}_\alpha) = (1-\alpha)g(\theta) + \alpha g(\theta) = g(\theta),
+\]
+故 $\hat{g}_\alpha$ 也是 $g(\theta)$ 的无偏估计量。因 $\hat{g}_1$ 是 $g(\theta)$ 的 UMVUE，对一切无偏估计量有最小方差，故
+\[
+\mathrm{Var}_\theta(\hat{g}_1) \leq \mathrm{Var}_\theta(\hat{g}_\alpha), \quad \forall \alpha \in \mathbf{R}.
+\]
+展开右边：
+\[
+\mathrm{Var}_\theta(\hat{g}_\alpha) = (1-\alpha)^2 \mathrm{Var}_\theta(\hat{g}_1) + 2\alpha(1-\alpha)\mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2) + \alpha^2 \mathrm{Var}_\theta(\hat{g}_2).
+\]
+令 $D_1 = \mathrm{Var}_\theta(\hat{g}_1)$，$D_2 = \mathrm{Var}_\theta(\hat{g}_2)$，$C = \mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2)$，则条件 $D_1 \leq \mathrm{Var}_\theta(\hat{g}_\alpha)$ 化为
+\[
+D_1 \leq (1-\alpha)^2 D_1 + 2\alpha(1-\alpha)C + \alpha^2 D_2,
+\]
+整理得
+\[
+0 \leq \alpha^2(D_1 - 2C + D_2) - 2\alpha(D_1 - C) + 0,
+\]
+即
+\[
+\varphi(\alpha) := \alpha^2(D_1 - 2C + D_2) - 2\alpha(D_1 - C) \geq 0, \quad \forall \alpha \in \mathbf{R}.
+\]
+$\varphi(\alpha)$ 是关于 $\alpha$ 的二次函数且对一切实数非负，故其判别式满足
+\[
+\Delta = 4(D_1 - C)^2 - 4(D_1 - 2C + D_2)D_1 \leq 0.
+\]
+展开得
+\[
+D_1^2 - 2CD_1 + C^2 - D_1^2 + 2CD_1 - D_1 D_2 \leq 0,
+\]
+\[
+C^2 \leq D_1 D_2,
+\]
+即
+\[
+\mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2)^2 \leq \mathrm{Var}_\theta(\hat{g}_1)\,\mathrm{Var}_\theta(\hat{g}_2).
+\]
+这与 Cauchy-Schwarz 不等式一致。进一步，取 $\alpha = 1$，则 $\hat{g}_\alpha = \hat{g}_2$，条件给出
+\[
+D_1 \leq D_2,
+\]
+取 $\alpha \to 0^+$ 方向分析 $\varphi(\alpha) \geq 0$：$\varphi(\alpha)/\alpha \geq 0$ 对小正 $\alpha$ 成立，即
+\[
+\alpha(D_1 - 2C + D_2) - 2(D_1 - C) \geq 0 \text{ 当 } \alpha \to 0^+,
+\]
+取极限得
+\[
+-2(D_1 - C) \geq 0 \implies C \geq D_1 \geq 0.
+\]
+从而
+\[
+\mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2) \geq D_1 = \mathrm{Var}_\theta(\hat{g}_1) \geq 0.
+\]
+因此相关系数
+\[
+\rho(\hat{g}_1, \hat{g}_2) = \frac{\mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2)}{\sqrt{\mathrm{Var}_\theta(\hat{g}_1)\,\mathrm{Var}_\theta(\hat{g}_2)}} \geq \frac{D_1}{\sqrt{D_1 D_2}} = \sqrt{\frac{D_1}{D_2}} \geq 0.
+\]
+故 $\hat{g}_1(\boldsymbol{X})$ 与 $\hat{g}_2(\boldsymbol{X})$ 的相关系数非负。
+\end{proof}
 [例 3.2.12（0-1 分布）]
 设 $X_1,X_2,\cdots,X_n$ i.i.d.，都服从 $(0\text{-}1)$ 分布 $B(1,\theta)$，$\theta$ 的先验分布为 Beta 分布 $\mathrm{Beta}(a,b)$，其概率密度为
 $$
@@ -2129,3 +2283,150 @@ E(cS+d) = cES+d, \quad \mathrm{Var}(cS) = c^2\mathrm{Var}(S)
 $$
 传递到 $\hat{\theta} = \dfrac{S+a}{n+a+b}$，分别算出偏差和方差后相加即得 MSE。
 \end{note}
+\subsection{3.4}
+\begin{homework}[1]
+设 $X_n \xrightarrow{d} X$，$Y_n \xrightarrow{a.s.} a > 0$，证明：
+\[
+\frac{X_n}{Y_n} \xrightarrow{d} \frac{X}{a}.
+\]
+\end{homework}
+
+\begin{proof}
+因 $Y_n \xrightarrow{a.s.} a$，由依概率收敛与几乎处处收敛的关系，$Y_n \xrightarrow{P} a$，从而
+\[
+\frac{1}{Y_n} \xrightarrow{P} \frac{1}{a}.
+\]
+由 Slutsky 定理，若 $X_n \xrightarrow{d} X$，$Z_n \xrightarrow{P} c$（常数），则 $X_n Z_n \xrightarrow{d} cX$。取 $Z_n = \dfrac{1}{Y_n}$，$c = \dfrac{1}{a}$，得
+\[
+\frac{X_n}{Y_n} = X_n \cdot \frac{1}{Y_n} \xrightarrow{d} \frac{1}{a} \cdot X = \frac{X}{a}.
+\]
+\end{proof}
+\begin{homework}[1]
+若估计序列 $\{\hat{\theta}_n\}$ 满足 $\lim_{n\to\infty} E_\theta(\hat{\theta}_n - \theta)^2 = 0$，$\forall \theta \in \Theta$，则称 $\hat{\theta}_n$ 为 $\theta$ 的均方相合估计量。证明：均方相合估计必是相合估计量。
+\end{homework}
+
+\begin{proof}
+由 Chebyshev 不等式，对任意 $\varepsilon > 0$，
+\[
+P(|\hat{\theta}_n - \theta| \geq \varepsilon) \leq \frac{E_\theta(\hat{\theta}_n - \theta)^2}{\varepsilon^2}.
+\]
+因 $\lim_{n\to\infty} E_\theta(\hat{\theta}_n - \theta)^2 = 0$，故
+\[
+\lim_{n\to\infty} P(|\hat{\theta}_n - \theta| \geq \varepsilon) = 0,
+\]
+即 $\hat{\theta}_n \xrightarrow{P} \theta$，$\hat{\theta}_n$ 是 $\theta$ 的相合估计量。
+\end{proof}
+
+\begin{homework}[2]
+（均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(0, \theta)$，$\hat{\theta}_n = X_{(n)}$ 是 $\theta$ 的均方相合估计量吗？
+\end{homework}
+
+\begin{solution}
+$X_{(n)}$ 的密度函数为
+\[
+f_{X_{(n)}}(x) = \frac{n x^{n-1}}{\theta^n}, \quad 0 < x < \theta.
+\]
+计算期望与二阶矩：
+\[
+E(X_{(n)}) = \int_0^\theta x \cdot \frac{n x^{n-1}}{\theta^n} \, dx = \frac{n}{n+1}\theta,
+\]
+\[
+E(X_{(n)}^2) = \int_0^\theta x^2 \cdot \frac{n x^{n-1}}{\theta^n} \, dx = \frac{n}{n+2}\theta^2.
+\]
+从而
+\[
+E_\theta(X_{(n)} - \theta)^2 = E(X_{(n)}^2) - 2\theta E(X_{(n)}) + \theta^2
+= \frac{n}{n+2}\theta^2 - \frac{2n}{n+1}\theta^2 + \theta^2
+= \frac{2\theta^2}{(n+1)(n+2)} \to 0.
+\]
+故 $X_{(n)}$ 是 $\theta$ 的均方相合估计量。
+\end{solution}
+
+\begin{homework}[4]
+（泊松分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim P(\lambda)$，证明：$\overline{X}$，$s_n^2$ 都是 $\lambda$ 的相合估计量。
+\end{homework}
+
+\begin{proof}
+对于 $P(\lambda)$，有 $E(X_1) = \lambda$，$\mathrm{Var}(X_1) = \lambda$，$E(X_1^2) = \lambda^2 + \lambda$。
+
+\textbf{$\overline{X}$ 的相合性：}由大数定律，$\overline{X} \xrightarrow{P} E(X_1) = \lambda$，故 $\overline{X}$ 是 $\lambda$ 的相合估计量。
+
+\textbf{$s_n^2$ 的相合性：}样本方差
+\[
+s_n^2 = \frac{1}{n}\sum_{i=1}^n X_i^2 - \overline{X}^2.
+\]
+由大数定律，$\frac{1}{n}\sum_{i=1}^n X_i^2 \xrightarrow{P} E(X_1^2) = \lambda^2 + \lambda$，$\overline{X}^2 \xrightarrow{P} \lambda^2$。由连续映射定理，
+\[
+s_n^2 \xrightarrow{P} (\lambda^2 + \lambda) - \lambda^2 = \lambda,
+\]
+故 $s_n^2$ 是 $\lambda$ 的相合估计量。
+\end{proof}
+
+\begin{homework}[5]
+（均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(0,\theta)$，试证
+\[
+T(X_1, X_2, \cdots, X_n) = \sqrt[n]{X_1 X_2 \cdots X_n}
+\]
+为 $g(\theta) = \dfrac{\theta}{\mathrm{e}}$ 的相合估计量。
+\end{homework}
+
+\begin{proof}
+令 $Y_i = \ln X_i$。因 $X_i \sim U(0,\theta)$，故
+\[
+E(Y_i) = \int_0^\theta \ln x \cdot \frac{1}{\theta} \, dx = \ln\theta - 1,
+\]
+\[
+\mathrm{Var}(Y_i) = E(Y_i^2) - (E Y_i)^2 < \infty.
+\]
+由大数定律，
+\[
+\frac{1}{n}\sum_{i=1}^n \ln X_i \xrightarrow{P} \ln\theta - 1 = \ln\frac{\theta}{\mathrm{e}}.
+\]
+因指数函数连续，由连续映射定理，
+\[
+T = \exp\!\left(\frac{1}{n}\sum_{i=1}^n \ln X_i\right) = \sqrt[n]{X_1 X_2 \cdots X_n} \xrightarrow{P} \frac{\theta}{\mathrm{e}} = g(\theta),
+\]
+故 $T$ 是 $g(\theta)$ 的相合估计量。
+\end{proof}
+
+\begin{homework}[6]
+设总体的二阶矩存在，$X_1, X_2, \cdots, X_n$ 是总体的简单随机样本，则
+\[
+T(X_1, X_2, \cdots, X_n) = \frac{2}{n(n+1)} \sum_{i=1}^n i X_i
+\]
+是一阶原点矩的相合估计量。
+\end{homework}
+
+\begin{proof}
+设总体一阶原点矩为 $\mu = E(X_1)$。计算 $T$ 的期望：
+\[
+E(T) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot E(X_i) = \frac{2\mu}{n(n+1)} \sum_{i=1}^n i = \frac{2\mu}{n(n+1)} \cdot \frac{n(n+1)}{2} = \mu.
+\]
+计算 $T$ 的方差，设 $\mathrm{Var}(X_1) = \sigma^2 < \infty$：
+\[
+\mathrm{Var}(T) = \frac{4}{n^2(n+1)^2} \sum_{i=1}^n i^2 \sigma^2 = \frac{4\sigma^2}{n^2(n+1)^2} \cdot \frac{n(n+1)(2n+1)}{6} = \frac{2\sigma^2(2n+1)}{3n(n+1)} \to 0.
+\]
+由 Chebyshev 不等式，$T \xrightarrow{P} \mu$，故 $T$ 是一阶原点矩的相合估计量。
+\end{proof}
+
+\begin{homework}[8]
+（指数分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim f(x,\theta) = \dfrac{1}{\theta}\mathrm{e}^{-x/\theta}$，$x > 0$，试证 $\theta$ 的 MLE 之渐近分布为 $N\!\left(\theta, \dfrac{\theta^2}{n}\right)$。
+\end{homework}
+
+\begin{proof}
+对数似然函数为
+\[
+\ell(\theta) = -n\ln\theta - \frac{1}{\theta}\sum_{i=1}^n X_i.
+\]
+令 $\ell'(\theta) = 0$，解得 MLE 为 $\hat{\theta} = \overline{X}$。
+
+对于指数分布，$E(X_1) = \theta$，$\mathrm{Var}(X_1) = \theta^2$。由中心极限定理，
+\[
+\sqrt{n}(\overline{X} - \theta) \xrightarrow{d} N(0, \theta^2),
+\]
+即
+\[
+\hat{\theta} = \overline{X} \xrightarrow{d} N\!\left(\theta, \frac{\theta^2}{n}\right).
+\]
+故 $\theta$ 的 MLE 的渐近分布为 $N\!\left(\theta, \dfrac{\theta^2}{n}\right)$。
+\end{proof}

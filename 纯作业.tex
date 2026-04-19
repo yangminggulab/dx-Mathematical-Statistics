@@ -307,7 +307,7 @@ f(x,\theta_1,\theta_2)=
 \begin{homework}[6]
 设 $X \sim U(0,\theta)$，$X_1, X_2, \cdots, X_n$ i.i.d. 为来自 $X$ 的样本，试分别求 $\theta^2, \theta^{-1}$ 的无偏估计量。
 \end{homework}
-\section{第七周作业-p100}
+\section{第七周作业}
 \begin{homework}[7]
 设 $W$ 是 $\theta$ 的无偏估计量，若 $W$ 满足
 \begin{enumerate}[(1)]
@@ -349,8 +349,50 @@ $b(\theta)$ 为估计的偏差，则有
 \end{homework}
 
 \begin{homework}[16]
-（0-1 分布）考虑例 3.2.12 中的贝叶斯估计量。
+（0-1 分布）考虑例 3.2.12 中的贝叶斯估计量，其中 $\theta$ 的贝叶斯估计量为
+$$
+\hat{\theta} = \frac{\sum_{i=1}^n X_i + a}{n + a + b}.
+$$
 \begin{enumerate}[(1)]
-    \item 求该估计量的均方误差；
+    \item 求该估计量的均方误差。
 \end{enumerate}
+\end{homework}
+
+\begin{homework}[1]
+设 $X_n \xrightarrow{d} X$，$Y_n \xrightarrow{a.s.} a > 0$，证明：
+\[
+\frac{X_n}{Y_n} \xrightarrow{d} \frac{X}{a}.
+\]
+\end{homework}
+
+\begin{homework}[1]
+若估计序列 $\{\hat{\theta}_n\}$ 满足 $\lim_{n\to\infty} E_\theta(\hat{\theta}_n - \theta)^2 = 0$，$\forall \theta \in \Theta$，则称 $\hat{\theta}_n$ 为 $\theta$ 的均方相合估计量。证明：均方相合估计必是相合估计量。
+\end{homework}
+
+\begin{homework}[2]
+（均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(0, \theta)$，$\hat{\theta}_n = X_{(n)}$ 是 $\theta$ 的均方相合估计量吗？
+\end{homework}
+
+\begin{homework}[4]
+（泊松分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim P(\lambda)$，证明：$\overline{X}$，$s_n^2$ 都是 $\lambda$ 的相合估计量。
+\end{homework}
+
+\begin{homework}[5]
+（均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(0,\theta)$，试证
+\[
+T(X_1, X_2, \cdots, X_n) = \sqrt[n]{X_1 X_2 \cdots X_n}
+\]
+为 $g(\theta) = \dfrac{\theta}{\mathrm{e}}$ 的相合估计量。
+\end{homework}
+
+\begin{homework}[6]
+设总体的二阶矩存在，$X_1, X_2, \cdots, X_n$ 是总体的简单随机样本，则
+\[
+T(X_1, X_2, \cdots, X_n) = \frac{2}{n(n+1)} \sum_{i=1}^n i X_i
+\]
+是一阶原点矩的相合估计量。
+\end{homework}
+
+\begin{homework}[8]
+（指数分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim f(x,\theta) = \dfrac{1}{\theta}\mathrm{e}^{-x/\theta}$，$x > 0$，试证 $\theta$ 的 MLE 之渐近分布为 $N\!\left(\theta, \dfrac{\theta^2}{n}\right)$。
 \end{homework}
