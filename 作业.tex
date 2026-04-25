@@ -2483,7 +2483,33 @@ e\!\left(\overline{X}^2,\ \tilde{\lambda}^2\right) = \frac{4\lambda^3/n}{(4\lamb
 \]
 $V(\theta)$ 是 $\theta$ 的连续函数．证明：$V(\hat{\theta})$ 为 $V(\theta)$ 的相合估计量．
 \end{homework}
-
+\begin{proof}
+由渐近正态条件，$\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{L} N(0, V(\theta))$，注意到
+\[
+\hat{\theta}_n - \theta = \frac{1}{\sqrt{n}} \cdot \sqrt{n}(\hat{\theta}_n - \theta),
+\]
+右边 $\sqrt{n}(\hat{\theta}_n - \theta)$ 依分布收敛到有界的 $N(0, V(\theta))$，再除以 $\sqrt{n} \to \infty$，故
+\[
+\hat{\theta}_n - \theta \xrightarrow{P} 0 \quad \Longrightarrow \quad \hat{\theta}_n \xrightarrow{P} \theta.
+\]
+又因 $V(\theta)$ 是 $\theta$ 的连续函数，由连续映射定理，
+\[
+V(\hat{\theta}_n) \xrightarrow{P} V(\theta).
+\]
+故 $V(\hat{\theta})$ 是 $V(\theta)$ 的相合估计量．
+\end{proof}
+\begin{dxtips}
+    我可不可以这样理解有很多个θn他们距离中心的θ都有一段距离，然后这个距离如果乘√ n了，所有点距离θ服从正态分布。
+\end{dxtips}
+\begin{dxtips}
+    要字幕带θ带函数收敛，最好的就是利用连续函数加里面的瓤是收敛的，瓤是收敛是因为意概率收敛+有界就能依分布收敛，然后整个收敛的下面是∞上面有界的整个趋向于0.
+\end{dxtips}
+\begin{note}
+一般情况下，依分布收敛不能推出依概率收敛，但有一个重要例外：当极限为常数时，二者等价，即
+\[
+\hat{\theta}_n \xrightarrow{L} c \iff \hat{\theta}_n \xrightarrow{P} c.
+\]
+\end{note}
 \begin{homework}[12]
 设在定理 3.4.6 中，$h(\theta)$ 二阶可导并且 $h'(\theta_0) = 0$，$h''(\theta_0) \neq 0$．利用泰勒公式 $h(\hat{\theta}) - h(\theta_0) = \dfrac{1}{2}(\hat{\theta} - \theta_0)^2 (h''(\theta_0) + R)$，证明
 \[
@@ -2492,9 +2518,68 @@ n(h(\hat{\theta}) - h(\theta_0)) \xrightarrow{L} \frac{1}{2} A(\theta_0) h''(\th
 其中 $\chi^2(1)$ 为自由度是 $1$ 的 $\chi^2$ 分布．
 \end{homework}
 \subsection{3.5}
+\begin{definition}[Beta 分布]
+若随机变量 $X$ 的密度函数为
+\[
+f(x; a, b) = \frac{x^{a-1}(1-x)^{b-1}}{B(a,b)}, \quad 0 < x < 1,
+\]
+其中 $a > 0$，$b > 0$，$B(a,b) = \int_0^1 t^{a-1}(1-t)^{b-1}\,\mathrm{d}t$，则称 $X$ 服从参数为 $(a,b)$ 的 Beta 分布，记作 $X \sim \text{Beta}(a,b)$．
+\end{definition}
+
+\begin{note}
+$\text{Beta}(1,n)$ 是 $n$ 个独立 $U(0,1)$ 样本最小值 $Y_{(1)}$ 的分布．设 $Y_i \overset{\text{i.i.d.}}{\sim} U(0,1)$，则
+\[
+P(Y_{(1)} > y) = P(\text{所有} Y_i > y) = (1-y)^n,
+\]
+对 $y$ 求导得密度函数
+\[
+f_{Y_{(1)}}(y) = n(1-y)^{n-1}, \quad 0 < y < 1,
+\]
+恰为 $\text{Beta}(1,n)$ 的密度．对于 $U(\theta, \theta+1)$ 分布，令 $Y_i = X_i - \theta \sim U(0,1)$，则
+\[
+X_{(1)} - \theta = Y_{(1)} \sim \text{Beta}(1,n),
+\]
+该分布与 $\theta$ 无关，故 $X_{(1)} - \theta$ 构成枢轴量．类似地，$n$ 个独立 $U(0,1)$ 样本最大值 $Y_{(n)} \sim \text{Beta}(n,1)$，密度函数为 $f(y) = ny^{n-1}$，$0 < y < 1$．
+\end{note}
 \begin{homework}[1]
 （均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(\theta, \theta+1)$，求 $\theta$ 的置信度为 $100(1-\alpha)\%$ 的置信区间．
 \end{homework}
+\begin{solution}
+设 $X_1, X_2, \ldots, X_n \overset{\text{i.i.d.}}{\sim} U(\theta, \theta+1)$，求 $\theta$ 的置信度为 $100(1-\alpha)\%$ 的置信区间．
+
+\textbf{第一步：选取统计量．}$U(\theta, \theta+1)$ 的充分统计量为极值统计量，取\textcolor{red}{二维向量，二维充分统计量是"信息仓库"，枢轴量是从里面取出来的"一维工具"，计算都在一维层面进行}
+\[
+T = (X_{(1)}, X_{(n)}),
+\]
+其中 $X_{(1)} = \min_i X_i$，$X_{(n)} = \max_i X_i$．
+
+\textbf{第二步：构造枢轴量．}注意到 $X_i - \theta \overset{\text{i.i.d.}}{\sim} U(0,1)$，令
+\[
+G = X_{(1)} - \theta \sim \text{Beta}(1,n),
+\]
+其密度函数为 $f(u) = n(1-u)^{n-1}$，$0 < u < 1$，与 $\theta$ 无关，故 $G$ 为枢轴量．
+
+\textbf{第三步：选取范围 $S$．}选取 $S = [a, b]$ 满足 $P(a \leqslant X_{(1)} - \theta \leqslant b) = 1 - \alpha$．取等尾：
+\[
+P(X_{(1)} - \theta < a) = \frac{\alpha}{2}, \qquad P(X_{(1)} - \theta > b) = \frac{\alpha}{2}.
+\]
+由 $\text{Beta}(1,n)$ 的分布函数 $F(u) = 1-(1-u)^n$，解得
+\[
+a = 1 - \left(1-\frac{\alpha}{2}\right)^{1/n}, \qquad b = 1 - \left(\frac{\alpha}{2}\right)^{1/n}.
+\]
+
+\textbf{第四步：等价变换．}由 $a \leqslant X_{(1)} - \theta \leqslant b$ 反解 $\theta$：
+\[
+X_{(1)} - b \leqslant \theta \leqslant X_{(1)} - a.
+\]
+故 $\theta$ 的置信度为 $100(1-\alpha)\%$ 的置信区间为
+\[
+\left[X_{(1)} - 1 + \left(\frac{\alpha}{2}\right)^{1/n},\ X_{(1)} - 1 + \left(1-\frac{\alpha}{2}\right)^{1/n}\right].
+\]
+\end{solution}
+\begin{dxtips}
+    T的选取，要和分布特点有关，正态分布只要确定平均数也就是峰值对应的x在哪里这个图像就能确定，而平均分布斜率是确定的起始点和终止点就能确定图像的样子
+\end{dxtips}
 
 \begin{homework}[2]
 设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(\mu, \sigma^2)$，$\mu$ 已知，求 $\sigma^2$ 的置信度为 $100(1-\alpha)\%$ 的置信区间．它与 $\mu$ 未知时的区间估计有何差别？
