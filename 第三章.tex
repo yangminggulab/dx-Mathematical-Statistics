@@ -531,3 +531,84 @@ $$
     \item \textbf{一般自助法（非参数自助法）：} $F$ 完全未知，用经验分布函数 $F_n$ 代替 $F_{\hat{c}}$，即在 $\{x_1,x_2,\cdots,x_n\}$ 中\textbf{有放回地}抽取容量为 $n$ 的样本 $B$ 次，计算每组样本下 $T^{(j)}$，再估计方差。优点：无需任何分布假设，适用范围最广；缺点：完全依赖样本，小样本下效果差。
 \end{itemize}
 \end{note}
+\section{渐进相对效率}
+\begin{note}
+    设 $(X_1, X_2, \cdots, X_n)^\mathrm{T}$ 为来自于分布 $F(x,\theta)$ 的样本，$\hat{\theta}_{1n}$ 和 $\hat{\theta}_{2n}$ 为 $\theta$ 的两个不同的估计量，分别满足
+\[
+\sqrt{n}(\hat{\theta}_{1n} - \theta) \xrightarrow{L} N(0, \sigma_1^2), \qquad \sqrt{n}(\hat{\theta}_{2n} - \theta) \xrightarrow{L} N(0, \sigma_2^2),
+\]
+称 $\sigma_1^2/\sigma_2^2$ 为 $\hat{\theta}_{2n}$ 相对于 $\hat{\theta}_{1n}$ 的\textbf{渐近效率}．
+\end{note}
+\begin{theorem}[渐近效率]
+
+
+进一步，设 $\hat{\theta}_n$ 为 $\theta$ 的基于样本 $(X_1, X_2, \cdots, X_n)^\mathrm{T}$ 的估计量，满足 $\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{L} N(0, \sigma_1^2)$．若样本容量 $n$ 的整函数 $m = m(n)$ 满足
+\[
+\lim_{n \to \infty} \frac{m(n)}{n} = \gamma \quad (\gamma > 0),
+\]
+则
+\[
+\sqrt{n}\!\left(\hat{\theta}_{m(n)} - \theta\right) \xrightarrow{L} N\!\left(0,\ \frac{\sigma_1^2}{\gamma}\right).
+\]
+\end{theorem}
+\begin{dxtips}
+    渐近效率本质上是在回答一个问题：两个估计量，谁用更少的数据就能达到同样的精度？
+  
+    \textbf{核心直觉}
+
+$\hat{\theta}_{2n}$ 相对于 $\hat{\theta}_{1n}$ 的渐近效率是 $e = \sigma_1^2/\sigma_2^2$．这个比值的含义是：用 $\hat{\theta}_{1n}$ 需要 $n$ 个样本才能达到的精度，用 $\hat{\theta}_{2n}$ 只需要 $en$ 个样本就够了．定理 3.4.7 正是在严格化这句话——如果把样本量从 $n$ 缩减到 $m(n) \approx \gamma n$，估计量的渐近方差就从 $\sigma_1^2$ 膨胀到 $\sigma_1^2/\gamma$．
+
+\end{dxtips}
+\textbf{典型用途}
+
+\begin{enumerate}
+    \item \textbf{比较两个估计量的优劣．}例如同样估计正态分布的均值 $\mu$：样本均值 $\overline{X}$ 的渐近方差是 $\sigma^2$，样本中位数的渐近方差是 $\pi\sigma^2/2$，故样本中位数相对于 $\overline{X}$ 的渐近效率为 $2/\pi \approx 0.637$，意味着中位数需要多用约 $57\%$ 的样本才能达到均值的精度．
+
+    \item \textbf{衡量估计量离最优有多远．}将 $\hat{\theta}_{1n}$ 取为渐近方差恰好达到 C-R 下界 $1/I(\theta)$ 的估计量（如 MLE），则
+    \[
+        e = \frac{1/I(\theta)}{\sigma_2^2}.
+    \]
+    若 $e = 1$，称 $\hat{\theta}_{2n}$ 是\textbf{渐近有效的}，即大样本下已无法做得更好．
+
+    \item \textbf{在有限资源下做决策．}若收集数据有成本，渐近效率直接告诉我们：换一个效率为 $e$ 的估计量，等价于把样本量乘以 $e$．效率为 $0.8$ 的估计量意味着多花了 $25\%$ 的采样成本．
+\end{enumerate}
+\subsection{区间估计}
+\begin{definition}[置信区间]
+设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim f(x;\theta)$，$\theta \in \Theta$，$0 < \alpha < 1$ 为一个给定的数．若统计量 $\theta_1(\boldsymbol{X}) = \theta_1(X_1, X_2, \cdots, X_n)$，$\theta_2(\boldsymbol{X}) = \theta_2(X_1, X_2, \cdots, X_n)$ 满足 $\theta_1(\boldsymbol{X}) \leqslant \theta_2(\boldsymbol{X})$，并且
+\[
+P_\theta\{\theta_1(\boldsymbol{X}) \leqslant \theta \leqslant \theta_2(\boldsymbol{X})\} \geqslant 1 - \alpha, \quad \forall \theta \in \Theta,
+\]
+则称 $[\theta_1(\boldsymbol{X}), \theta_2(\boldsymbol{X})]$ 是参数 $\theta$ 的置信度为 $100(1-\alpha)\%$ 的\textbf{置信区间}．若
+\[
+P_\theta\{\theta \leqslant \theta_2(\boldsymbol{X})\} \geqslant 1 - \alpha, \quad \forall \theta \in \Theta,
+\]
+则称 $\theta_2(\boldsymbol{X})$ 是参数 $\theta$ 的置信度为 $100(1-\alpha)\%$ 的\textbf{置信上限}．若
+\[
+P_\theta\{\theta \geqslant \theta_1(\boldsymbol{X})\} \geqslant 1 - \alpha, \quad \forall \theta \in \Theta,
+\]
+则称 $\theta_1(\boldsymbol{X})$ 是参数 $\theta$ 的置信度为 $100(1-\alpha)\%$ 的\textbf{置信下限}．
+\end{definition}
+\begin{dxtips}
+    置信区间回答的问题是：能否用数据构造一个区间，使其大概率覆盖未知参数 $\theta$？约可靠需要的区间长度越长，区间长度越长精度就越低
+\end{dxtips}
+\begin{note}
+
+
+$\theta$ 是固定的未知常数，而 $[\theta_1(\boldsymbol{X}), \theta_2(\boldsymbol{X})]$ 是随机的，随样本变化．置信度 $1-\alpha$ 的正确含义是：在相同条件下重复抽样，每次用同样的方法构造区间，其中至少有 $100(1-\alpha)\%$ 的区间会包含真实的 $\theta$．
+
+注意一个常见误解：置信度 $1-\alpha$ \textbf{并非}指"$\theta$ 有 $1-\alpha$ 的概率落在该区间内"——$\theta$ 是常数而非随机变量，随机的是区间本身，而非 $\theta$．
+
+置信上限与置信下限对应单侧约束：置信上限关心 $\theta$ 不超过某值，置信下限关心 $\theta$ 不低于某值，双侧约束即为通常的置信区间．
+\end{note}
+\begin{theorem}[枢轴量方法]
+构造置信区间的枢轴量方法概括如下：
+\begin{enumerate}
+    \item 找一个与被估计量 $\theta$ 有关的统计量 $T = T(\boldsymbol{X})$，通常可选取一个点估计量；
+    \item 构造 $T$ 和被估计量 $\theta$ 的一个函数 $G(T, \theta)$，使得其分布与未知参数无关，$G(T, \theta)$ 称为\textbf{枢轴量}；
+    \item 选取 $G(T, \theta)$ 的一个取值范围 $S$，满足 $P(G(T,\theta) \in S) = 1 - \alpha$，此时 $S$ 与未知参数无关；
+    \item 将 $G(T, \theta) \in S$ 作等价变换，化为 $\theta_1(\boldsymbol{X}) \leqslant \theta \leqslant \theta_2(\boldsymbol{X})$ 的形式，则 $[\theta_1(\boldsymbol{X}), \theta_2(\boldsymbol{X})]$ 即是置信度为 $100(1-\alpha)\%$ 的置信区间．
+\end{enumerate}
+\end{theorem}
+\begin{note}
+``枢轴''的意思是转动的轴心，$G(T,\theta)$ 充当的角色正是如此：它一边连着数据（通过 $\overline{X}$），一边连着未知参数（通过 $\mu$），但它自己的分布是固定已知的．可以把它想象成一个翻译器：左边输入数据，右边输出关于 $\mu$ 的约束，中间的概率计算完全不需要知道 $\mu$．
+\end{note}

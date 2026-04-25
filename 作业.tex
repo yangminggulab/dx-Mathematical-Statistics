@@ -2430,3 +2430,64 @@ E(T) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot E(X_i) = \frac{2\mu}{n(n+1)} \sum_{
 \]
 故 $\theta$ 的 MLE 的渐近分布为 $N\!\left(\theta, \dfrac{\theta^2}{n}\right)$。
 \end{proof}
+\section{第八周作业}
+\begin{homework}[9]
+在习题 3.3.11 中，估计 $\lambda^2$ 时，求 $\overline{X}^2$ 相对于 $\tilde{\lambda}^2$ 的渐近效率．
+\end{homework}
+\begin{solution}
+设 $X_1, X_2, \ldots, X_n \overset{\text{i.i.d.}}{\sim} P(\lambda)$，习题 3.3.11 中 $\lambda^2$ 的 UMVUE 为
+\[
+\tilde{\lambda}^2 = \overline{X}\left(\overline{X} - \frac{1}{n}\right) = \overline{X}^2 - \frac{\overline{X}}{n}.
+\]
+
+由 Delta 方法，令 $g(x) = x^2$，$g'(x) = 2x$，对 Poisson 分布有 $\operatorname{Var}(X) = \lambda$，故
+\[
+\sqrt{n}\left(\overline{X}^2 - \lambda^2\right) \xrightarrow{d} N\left(0,\ 4\lambda^3\right),
+\]
+即 $\overline{X}^2$ 的渐近方差为 $\dfrac{4\lambda^3}{n}$．
+
+又因 $\tilde{\lambda}^2 - \overline{X}^2 = -\dfrac{\overline{X}}{n} = O_p(n^{-1})$，不影响渐近分布，故 $\tilde{\lambda}^2$ 的渐近方差亦为 $\dfrac{4\lambda^3}{n}$，恰好等于 C-R 下界
+\[
+\frac{[g'(\lambda)]^2}{n \cdot I(\lambda)} = \frac{4\lambda^2}{n / \lambda} = \frac{4\lambda^3}{n}.
+\]
+
+因此，$\overline{X}^2$ 相对于 $\tilde{\lambda}^2$ 的渐近效率为
+\[
+e\!\left(\overline{X}^2,\ \tilde{\lambda}^2\right) = \frac{4\lambda^3 / n}{4\lambda^3 / n} = 1.
+\]
+\end{solution}
+\begin{homework}[10]
+设 $X_1, \cdots, X_n$ i.i.d.，$X_1 \sim f(x, \theta)$，$\hat{\theta} = \hat{\theta}(X_1, \cdots, X_n)$ 是 $\theta$ 的渐近正态估计量：
+\[
+\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{L} N(0, V(\theta)), \quad \forall \theta \subset \Theta,
+\]
+$V(\theta)$ 是 $\theta$ 的连续函数．证明：$V(\hat{\theta})$ 为 $V(\theta)$ 的相合估计量．
+\end{homework}
+
+\begin{homework}[12]
+设在定理 3.4.6 中，$h(\theta)$ 二阶可导并且 $h'(\theta_0) = 0$，$h''(\theta_0) \neq 0$．利用泰勒公式 $h(\hat{\theta}) - h(\theta_0) = \dfrac{1}{2}(\hat{\theta} - \theta_0)^2 (h''(\theta_0) + R)$，证明
+\[
+n(h(\hat{\theta}) - h(\theta_0)) \xrightarrow{L} \frac{1}{2} A(\theta_0) h''(\theta_0) \chi^2(1),
+\]
+其中 $\chi^2(1)$ 为自由度是 $1$ 的 $\chi^2$ 分布．
+\end{homework}
+\subsection{3.5}
+\begin{homework}[1]
+（均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(\theta, \theta+1)$，求 $\theta$ 的置信度为 $100(1-\alpha)\%$ 的置信区间．
+\end{homework}
+
+\begin{homework}[2]
+设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(\mu, \sigma^2)$，$\mu$ 已知，求 $\sigma^2$ 的置信度为 $100(1-\alpha)\%$ 的置信区间．它与 $\mu$ 未知时的区间估计有何差别？
+\end{homework}
+
+\begin{homework}[3]
+（指数分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1$ 服从指数分布，密度为
+\[
+f(x) = \begin{cases} \dfrac{1}{\theta} \mathrm{e}^{-x/\theta}, & x > 0; \\ 0, & \text{其他}. \end{cases}
+\]
+\begin{enumerate}[(1)]
+    \item 证明 $2n\overline{X}/\theta \sim \chi^2(2n)$；
+    \item 求 $\theta$ 的 $100(1-\alpha)\%$ 的置信下限；
+    \item 记 $T_{0.95}$ 为方程 $P\{X_1 > T_{0.95}\} = 0.95$ 的解，求 $T_{0.95}$ 的 $100(1-\alpha)\%$ 置信下限．
+\end{enumerate}
+\end{homework}
