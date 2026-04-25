@@ -2435,27 +2435,47 @@ E(T) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot E(X_i) = \frac{2\mu}{n(n+1)} \sum_{
 在习题 3.3.11 中，估计 $\lambda^2$ 时，求 $\overline{X}^2$ 相对于 $\tilde{\lambda}^2$ 的渐近效率．
 \end{homework}
 \begin{solution}
-设 $X_1, X_2, \ldots, X_n \overset{\text{i.i.d.}}{\sim} P(\lambda)$，习题 3.3.11 中 $\lambda^2$ 的 UMVUE 为
+设 $X_1, X_2, \ldots, X_n \overset{\text{i.i.d.}}{\sim} P(\lambda)$，习题 3.3.11 中 $\lambda^2$ 的无偏估计量为
 \[
-\tilde{\lambda}^2 = \overline{X}\left(\overline{X} - \frac{1}{n}\right) = \overline{X}^2 - \frac{\overline{X}}{n}.
+\tilde{\lambda}^2 = \frac{1}{n}\sum_{i=1}^n X_i^2 - \overline{X}.
 \]
 
-由 Delta 方法，令 $g(x) = x^2$，$g'(x) = 2x$，对 Poisson 分布有 $\operatorname{Var}(X) = \lambda$，故
+\textbf{第一步：求 $\overline{X}^2$ 的渐近方差．}由 Delta 方法，令 $g(x) = x^2$，$g'(x) = 2x$，对 Poisson 分布有 $\operatorname{Var}(X) = \lambda$，故
 \[
 \sqrt{n}\left(\overline{X}^2 - \lambda^2\right) \xrightarrow{d} N\left(0,\ 4\lambda^3\right),
 \]
 即 $\overline{X}^2$ 的渐近方差为 $\dfrac{4\lambda^3}{n}$．
 
-又因 $\tilde{\lambda}^2 - \overline{X}^2 = -\dfrac{\overline{X}}{n} = O_p(n^{-1})$，不影响渐近分布，故 $\tilde{\lambda}^2$ 的渐近方差亦为 $\dfrac{4\lambda^3}{n}$，恰好等于 C-R 下界
+\textbf{第二步：求 $\tilde{\lambda}^2$ 的渐近方差．}令 $Y_i = X_i^2 - X_i$，则 $\tilde{\lambda}^2 = \overline{Y}$，由 CLT，
 \[
-\frac{[g'(\lambda)]^2}{n \cdot I(\lambda)} = \frac{4\lambda^2}{n / \lambda} = \frac{4\lambda^3}{n}.
+\sqrt{n}(\tilde{\lambda}^2 - \lambda^2) \xrightarrow{d} N(0,\ \operatorname{Var}(Y)).
 \]
-
-因此，$\overline{X}^2$ 相对于 $\tilde{\lambda}^2$ 的渐近效率为
+对 Poisson 分布，利用各阶矩：
 \[
-e\!\left(\overline{X}^2,\ \tilde{\lambda}^2\right) = \frac{4\lambda^3 / n}{4\lambda^3 / n} = 1.
+E[X^2] = \lambda^2 + \lambda, \quad E[X^3] = \lambda^3 + 3\lambda^2 + \lambda, \quad E[X^4] = \lambda^4 + 6\lambda^3 + 7\lambda^2 + \lambda,
+\]
+计算
+\[
+E[Y^2] = E[(X^2 - X)^2] = E[X^4 - 2X^3 + X^2]
+= (\lambda^4 + 6\lambda^3 + 7\lambda^2 + \lambda) - 2(\lambda^3 + 3\lambda^2 + \lambda) + (\lambda^2 + \lambda)
+= \lambda^4 + 4\lambda^3 + 2\lambda^2,
+\]
+故
+\[
+\operatorname{Var}(Y) = E[Y^2] - (E[Y])^2 = \lambda^4 + 4\lambda^3 + 2\lambda^2 - \lambda^4 = 4\lambda^3 + 2\lambda^2,
+\]
+即 $\tilde{\lambda}^2$ 的渐近方差为 $\dfrac{4\lambda^3 + 2\lambda^2}{n}$．
+
+\textbf{第三步：计算渐近效率．}
+\[
+e\!\left(\overline{X}^2,\ \tilde{\lambda}^2\right) = \frac{4\lambda^3/n}{(4\lambda^3 + 2\lambda^2)/n} = \frac{4\lambda^3}{4\lambda^3 + 2\lambda^2} = \frac{2\lambda}{2\lambda + 1}.
 \]
 \end{solution}
+\begin{dxtips}
+    \[
+\sqrt{n}(\overline{X}^2 - \lambda^2) \approx 2\lambda \cdot \sqrt{n}(\overline{X} - \lambda) \xrightarrow{d} N(0,\ (2\lambda)^2 \cdot \lambda) = N(0,\ 4\lambda^3)
+\] 只要不是标准x-a形式的都求导然后把导数乘到方差里面也就是方差乘导数的平方
+\end{dxtips}
 \begin{homework}[10]
 设 $X_1, \cdots, X_n$ i.i.d.，$X_1 \sim f(x, \theta)$，$\hat{\theta} = \hat{\theta}(X_1, \cdots, X_n)$ 是 $\theta$ 的渐近正态估计量：
 \[
