@@ -2517,6 +2517,40 @@ n(h(\hat{\theta}) - h(\theta_0)) \xrightarrow{L} \frac{1}{2} A(\theta_0) h''(\th
 \]
 其中 $\chi^2(1)$ 为自由度是 $1$ 的 $\chi^2$ 分布．
 \end{homework}
+\begin{proof}
+由定理 3.4.6，MLE $\hat{\theta}$ 满足
+\[
+\sqrt{n}(\hat{\theta} - \theta_0) \xrightarrow{L} N(0, A(\theta_0)).
+\]
+由 Taylor 展开，
+\[
+h(\hat{\theta}) - h(\theta_0) = \frac{1}{2}(\hat{\theta} - \theta_0)^2(h''(\theta_0) + R),
+\]
+其中 $R \xrightarrow{P} 0$（因为 $\hat{\theta} \xrightarrow{P} \theta_0$，$h''$ 连续）．两边乘以 $n$：
+\[
+n(h(\hat{\theta}) - h(\theta_0)) = \frac{1}{2}\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 (h''(\theta_0) + R).
+\]
+由渐近正态条件，
+\[
+\sqrt{n}(\hat{\theta} - \theta_0) \xrightarrow{L} N(0, A(\theta_0)),
+\]
+故
+\[
+\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 \xrightarrow{L} A(\theta_0) \cdot Z^2,
+\]
+其中 $Z \sim N(0,1)$，$Z^2 \sim \chi^2(1)$，即
+\[
+\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 \xrightarrow{L} A(\theta_0)\chi^2(1).
+\]
+又因 $R \xrightarrow{P} 0$，故 $h''(\theta_0) + R \xrightarrow{P} h''(\theta_0)$．由 Slutsky 定理，
+\[
+n(h(\hat{\theta}) - h(\theta_0)) = \frac{1}{2}\left[\sqrt{n}(\hat{\theta}-\theta_0)\right]^2(h''(\theta_0) + R) \xrightarrow{L} \frac{1}{2}A(\theta_0)h''(\theta_0)\chi^2(1).
+\]
+\end{proof}
+\begin{dxtips}
+看到 $n(\cdots)^2$ 的形式，条件反射就应该想到：能不能凑成 $[\sqrt{n}(\cdots)]^2$，然后用正态平方是卡方？这是一个固定套路，见多了就会了．
+Slutsky一个服从依分布收敛到 $X$ 乘一个服从依概率收敛到常数的，结果依分布收敛到常数 $\times X$．他就是作用于一个依分布收敛和一个依概率收敛到常数除了*还能+-➗
+\end{dxtips}
 \subsection{3.5}
 \begin{definition}[Beta 分布]
 若随机变量 $X$ 的密度函数为
@@ -2584,7 +2618,52 @@ X_{(1)} - b \leqslant \theta \leqslant X_{(1)} - a.
 \begin{homework}[2]
 设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(\mu, \sigma^2)$，$\mu$ 已知，求 $\sigma^2$ 的置信度为 $100(1-\alpha)\%$ 的置信区间．它与 $\mu$ 未知时的区间估计有何差别？
 \end{homework}
+\begin{solution}
+设 $X_1, X_2, \ldots, X_n \overset{\text{i.i.d.}}{\sim} N(\mu, \sigma^2)$，$\mu$ 已知，求 $\sigma^2$ 的置信度为 $100(1-\alpha)\%$ 的置信区间．
 
+\textbf{第一步：选取统计量．}$\mu$ 已知，取
+\[
+T = \sum_{i=1}^n (X_i - \mu)^2.
+\]
+
+\textbf{第二步：构造枢轴量．}由于 $\dfrac{X_i - \mu}{\sigma} \overset{\text{i.i.d.}}{\sim} N(0,1)$，故
+\[
+G = \frac{\sum_{i=1}^n (X_i - \mu)^2}{\sigma^2} \sim \chi^2(n),
+\]
+其分布与 $\sigma^2$ 无关，故 $G$ 为枢轴量．
+
+\textbf{第三步：选取范围 $S$．}取等尾区间，查 $\chi^2(n)$ 分布表得 $\chi^2_{\alpha/2}(n)$ 和 $\chi^2_{1-\alpha/2}(n)$，满足
+\[
+P\!\left(\chi^2_{1-\alpha/2}(n) \leqslant \frac{\sum_{i=1}^n(X_i-\mu)^2}{\sigma^2} \leqslant \chi^2_{\alpha/2}(n)\right) = 1-\alpha.
+\]
+
+\textbf{第四步：等价变换．}对不等式反解 $\sigma^2$：
+\[
+\frac{\sum_{i=1}^n(X_i-\mu)^2}{\chi^2_{\alpha/2}(n)} \leqslant \sigma^2 \leqslant \frac{\sum_{i=1}^n(X_i-\mu)^2}{\chi^2_{1-\alpha/2}(n)}.
+\]
+故 $\sigma^2$ 的置信度为 $100(1-\alpha)\%$ 的置信区间为
+\[
+\left[\frac{\sum_{i=1}^n(X_i-\mu)^2}{\chi^2_{\alpha/2}(n)},\ \frac{\sum_{i=1}^n(X_i-\mu)^2}{\chi^2_{1-\alpha/2}(n)}\right].
+\]
+
+\textbf{与 $\mu$ 未知时的差别．}$\mu$ 未知时，需用 $\overline{X}$ 替代 $\mu$，枢轴量变为
+\[
+\frac{(n-1)S^2}{\sigma^2} \sim \chi^2(n-1),
+\]
+自由度从 $n$ 减少为 $n-1$，损失了一个自由度．这导致 $\chi^2$ 分布的分位数变大，置信区间变宽，即 $\mu$ 未知时对 $\sigma^2$ 的估计精度更低．
+\end{solution}
+\begin{dxtips}
+    看见一个东西服从正态分布，它的平方就服从 $\chi^2(1)$，$n$ 个独立的加起来就服从 $\chi^2(n)$．
+\end{dxtips}
+\begin{note}
+\[
+T \text{ 反映 } \theta \xrightarrow{\text{构造}} G(T,\theta) \begin{cases} \text{含有 } \theta \\ \text{分布不受 } \theta \text{ 控制} \end{cases}
+\]
+\begin{itemize}
+    \item $T$：和 $\theta$ 数值相关，$\theta$ 变 $T$ 也变．
+    \item $G$：把 $T$ 和 $\theta$ 组合在一起，但组合的方式恰好让 $\theta$ 从分布里消失．
+\end{itemize}
+\end{note}
 \begin{homework}[3]
 （指数分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1$ 服从指数分布，密度为
 \[
@@ -2596,3 +2675,83 @@ f(x) = \begin{cases} \dfrac{1}{\theta} \mathrm{e}^{-x/\theta}, & x > 0; \\ 0, & 
     \item 记 $T_{0.95}$ 为方程 $P\{X_1 > T_{0.95}\} = 0.95$ 的解，求 $T_{0.95}$ 的 $100(1-\alpha)\%$ 置信下限．
 \end{enumerate}
 \end{homework}
+\begin{solution}
+
+\textbf{(1)} 由于 $X_i \sim \Gamma(1, \theta)$，故 $\sum_{i=1}^n X_i \sim \Gamma(n, \theta)$，从而
+\[
+\frac{2}{\theta}\sum_{i=1}^n X_i = \frac{2n\overline{X}}{\theta} \sim \Gamma\!\left(n, 2\right) = \chi^2(2n).
+\]
+
+\textbf{(2)} 由第(1)题，枢轴量为
+\[
+G = \frac{2n\overline{X}}{\theta} \sim \chi^2(2n),
+\]
+其分布与 $\theta$ 无关．求置信下限，只需单侧约束：
+\[
+P\!\left(\frac{2n\overline{X}}{\theta} \leqslant \chi^2_\alpha(2n)\right) = 1 - \alpha.
+\]
+反解 $\theta$：
+\[
+\theta \geqslant \frac{2n\overline{X}}{\chi^2_\alpha(2n)}.
+\]
+故 $\theta$ 的置信度为 $100(1-\alpha)\%$ 的置信下限为
+\[
+\theta_1 = \frac{2n\overline{X}}{\chi^2_\alpha(2n)}.
+\]
+
+\textbf{(3)} 由指数分布的生存函数，生存函数的定义是：
+\[
+S(x) = P\{X > x\} = 1 - F(x),
+\]
+就是"存活超过 $x$ 的概率"，是 CDF 的补．
+\[
+P\{X_1 > T_{0.95}\} = \mathrm{e}^{-T_{0.95}/\theta} = 0.95,
+\]
+解得
+\[
+T_{0.95} = -\theta \ln 0.95.
+\]
+$T_{0.95}$ 是 $\theta$ 的增函数，故由第(2)题的置信下限 $\theta_1$，得 $T_{0.95}$ 的置信度为 $100(1-\alpha)\%$ 的置信下限为
+\[
+-\theta_1 \ln 0.95 = -\frac{2n\overline{X}\ln 0.95}{\chi^2_\alpha(2n)}.
+\]
+\end{solution}
+\begin{dxtips}
+    内在联系三个分布的密度都含有 $e^{-x/\beta}$ 这一项，本质上都是\textbf{指数衰减族}，区别只在于前面的多项式部分 $x^{\alpha-1}$．这个也和高斯积分有关
+\end{dxtips}
+\begin{note}
+指数分布与 $\chi^2$ 分布均是 Gamma 分布的特例．Gamma 分布的密度函数为
+\[
+f(x) = \frac{1}{\beta^\alpha \Gamma(\alpha)} x^{\alpha-1} e^{-x/\beta}, \quad x > 0.
+\]
+令 $\alpha = 1$，$\beta = \theta$，化简得 $f(x) = \dfrac{1}{\theta} e^{-x/\theta}$，与指数分布密度完全一致，故
+\[
+X_i \sim \text{Exp}(1/\theta) \iff X_i \sim \Gamma(1, \theta).
+\]
+令 $\alpha = n/2$，$\beta = 2$，化简得 $f(x) = \dfrac{1}{2^{n/2}\Gamma(n/2)} x^{n/2-1} e^{-x/2}$，与 $\chi^2(n)$ 密度完全一致，故
+\[
+\chi^2(n) = \Gamma\!\left(\frac{n}{2},\ 2\right).
+\]
+三者关系概括为
+\[
+\text{Exp}(1/\theta) = \Gamma(1, \theta), \qquad \chi^2(n) = \Gamma\!\left(\frac{n}{2}, 2\right).
+\]
+\end{note}
+\begin{note}
+概率分布按密度函数结构可分为三大族：
+\begin{itemize}
+    \item \textbf{指数族}：密度函数可以写成
+    \[
+    f(x;\theta) = h(x)\exp\!\left(\eta(\theta)T(x) - A(\theta)\right),
+    \]
+    几乎所有常见分布均属此族，包括正态、指数、Gamma、Beta、Poisson、二项、负二项等．此族分布性质好，各阶矩均存在．
+
+    \item \textbf{重尾族}：密度函数尾部为多项式衰减 $\sim x^{-\alpha}$，而非指数衰减，包括 Cauchy 分布、$t$ 分布、Pareto 分布等．此族分布的期望、方差可能不存在，经典统计方法对其往往失效．
+
+    \item \textbf{有界支撑族}：定义在有限区间上，无尾部衰减问题，包括均匀分布 $U(a,b)$、Beta 分布 $\text{Beta}(\alpha,\beta)$、三角分布等．
+\end{itemize}
+统计推断中大多数理论针对指数族建立，指数衰减族是指数族的重要子集，三者关系为
+\[
+\text{指数衰减族} \subset \text{指数族} \supset \text{有界支撑族}, \qquad \text{重尾族} \cap \text{指数族} = \varnothing.
+\]
+\end{note}
