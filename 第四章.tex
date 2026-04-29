@@ -1,1 +1,65 @@
 \chapter{假设检验}
+\section{基础知识}
+\begin{note}
+经典假设检验的逻辑：\textbf{不问} "$H_0$ 为真的概率是多少"，而是问\textbf{"假设 $H_0$ 成立，观测到这个结果的概率有多小"}。
+
+\begin{itemize}
+    \item 若概率小于 $\alpha$，则"这太反常了，拒绝 $H_0$"
+    \item 若概率不够小，则"没有足够证据拒绝 $H_0$"
+\end{itemize}
+
+\textbf{注意：}拒绝不了 $H_0$ 不等于 $H_0$ 为真，只是证据不够。
+\end{note}
+\begin{definition}{基本概念}
+假设检验的核心要素：
+
+\textbf{1. 假设的建立}
+
+$H_0$（原假设/零假设）：保守的假设，默认成立；$H_1$（对立假设/备择假设）：研究者想证明的。研究假设放 $H_1$ 而不是 $H_0$，因为只有拒绝 $H_0$ 时结论的可靠度才是已知的。
+
+\textbf{2. 检验规则}
+
+样本空间分成\textbf{拒绝域} $S$ 和\textbf{接受域} $S^c$，用\textbf{检验统计量}把拒绝域用一个数表示，分界点叫\textbf{临界值}。检验函数为
+$$\phi(\boldsymbol{X}) = \begin{cases} 1, & \boldsymbol{X} \in S \\ 0, & \boldsymbol{X} \in S^c \end{cases}$$
+
+\textbf{3. 两类错误}
+
+\textbf{第一类错误（弃真）}：$H_0$ 真却拒绝；\textbf{第二类错误（取伪）}：$H_0$ 假却接受。两类错误此消彼长，样本量固定时无法同时控制。
+\end{definition}
+
+\begin{definition}{功效函数与显著性水平}
+\textbf{功效函数}（势函数）统一描述两类错误的概率：
+$$\beta_\phi(\theta) = E_\theta(\phi(\boldsymbol{X})) = P_\theta(\boldsymbol{X} \in S)$$
+\begin{itemize}
+    \item $\theta \in \Theta_0$ 时，$\beta_\phi(\theta)$ 是第一类错误概率，\textbf{越小越好}
+    \item $\theta \in \Theta_1$ 时，$\beta_\phi(\theta)$ 是检验的功效，\textbf{越大越好}
+\end{itemize}
+
+\textbf{显著性水平}：实际中优先控制第一类错误，要求
+$$\sup_{\theta \in \Theta_0} \beta_\phi(\theta) \leq \alpha$$
+$\alpha$ 称为检验水平（常取 $0.01, 0.05, 0.1$），在此约束下再尽量减小第二类错误。上式左端称为检验的\textbf{真实水平}，$\alpha$ 称为\textbf{名义水平}。
+\end{definition}
+\begin{example}
+某批产品不合格品率 $p$ 未知，抽取 $n=5$ 件检验，检验假设
+$$H_0: p \leq 0.04 \qquad H_1: p > 0.04$$
+
+取检验统计量 $Y = \sum_{i=1}^5 X_i$（5件中不合格品总数），$Y \sim B(5,p)$。取临界值 $k=1$，拒绝域 $S = \{Y > 1\}$，检验函数为
+$$\phi(\boldsymbol{X}) = \begin{cases} 1, & Y > 1 \\ 0, & Y \leq 1 \end{cases}$$
+
+验证显著性水平：取 $p=0.04$ 时第一类错误概率最大，
+$$P_{0.04}(Y>1) = \sum_{j=2}^{5}\binom{5}{j}(0.04)^j(0.96)^{5-j} \approx 0.0148 \leq \alpha = 0.05$$
+
+功效函数：$\beta_\phi(p) = P_p(Y>1)$，当 $p=0.5$ 时 $\beta_\phi(0.5) \approx 0.81$，即真实不合格率为 $0.5$ 时有 $81\%$ 的概率正确拒绝 $H_0$。
+
+\textbf{判断：}抽样后数出不合格品数 $y$，若 $y > 1$ 则拒绝 $H_0$，否则接受 $H_0$。
+\end{example}
+
+\begin{note}
+\textbf{关于检验统计量的选取：}选它的原则是能反映参数的变化。此例中不合格品数 $Y$ 越大越支持 $H_1$，所以用 $Y$ 作统计量，$Y$ 大就倾向于拒绝 $H_0$，因为 $E(Y) = np$，$p$ 越大 $Y$ 期望越大。
+
+\textbf{关于临界值的确定：}先定 $\alpha$，再找满足 $P_{p\leq 0.04}(Y>k)\leq\alpha$ 的最小 $k$，在不超过 $\alpha$ 的前提下 $k$ 尽量小，使拒绝域尽量大，从而减小第二类错误。
+
+\textbf{关于两类错误的根源：}本质都是抽样的随机性——样本不能完美反映总体。第一类错误是好货被冤枉（$p$ 不超标但样本恰好不合格多），第二类错误是坏货被放过（$p$ 超标但样本恰好不合格少）。
+
+\textbf{关于功效：}功效越高说明检验越灵敏，越能发现 $H_0$ 为假。$\theta\in\Theta_0$ 时功效要小，$\theta\in\Theta_1$ 时功效要大。
+\end{note}

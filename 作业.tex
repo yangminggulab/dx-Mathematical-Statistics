@@ -2758,8 +2758,45 @@ X_i \sim \text{Exp}(1/\theta) \iff X_i \sim \Gamma(1, \theta).
 \section{第九周作业}
 \begin{homework}{4}
 （0-1 分布）某批产品不合格品率 $p$ 未知，今抽取 100 件检验，发现 2 件不合格，试给出不合格品率的置信度 95\% 的置信上限。
-\end{homework}
+\end{homework}、
+\begin{solution}
+$X_i \sim B(1,p)$，$\hat{p} = \bar{X} = \dfrac{2}{100} = 0.02$，$n = 100$ 足够大，由中心极限定理
 
+$$\frac{\sqrt{n}(\hat{p}-p)}{\sqrt{p(1-p)}} \xrightarrow{d} N(0,1)$$
+
+大样本下以 $\hat{p}$ 替换分母中的 $p$，得枢轴量
+
+$$U = \frac{\sqrt{n}(\hat{p}-p)}{\sqrt{\hat{p}(1-\hat{p})}} \approx N(0,1)$$
+
+置信度 $95\%$ 的单侧置信上限，由 $P(U \leq z_{0.05}) = 0.95$，查表得 $z_{0.05} = 1.645$，解不等式
+
+$$\sqrt{n}(\hat{p}-p) \leq z_{0.05}\sqrt{\hat{p}(1-\hat{p})}$$
+
+$$p \geq \hat{p} - \frac{z_{0.05}\sqrt{\hat{p}(1-\hat{p})}}{\sqrt{n}}$$
+
+故置信上限为
+
+$$\bar{p} = \hat{p} + \frac{z_{0.05}\sqrt{\hat{p}(1-\hat{p})}}{\sqrt{n}} = 0.02 + \frac{1.645 \times \sqrt{0.02 \times 0.98}}{\sqrt{100}}$$
+
+$$= 0.02 + \frac{1.645 \times 0.1400}{10} = 0.02 + 0.0230 = 0.0430$$
+
+故不合格品率的置信度 $95\%$ 的置信上限为 $\bar{p} = 0.0430$。
+\end{solution}
+\begin{dxtips}
+    先判断是什么分布然后为了用clt求和或者均值。中心极限定理要求独立，方差有限，样本量够到，样本的平均值呈正态分布。$\hat{p}$读作$phat$
+    $
+    \text{Var}\!\left(\dfrac{1}{n}\sum X_i\right)$ 这个东西不管 $X_i$ 是什么分布都会稳定地出一个 $\dfrac{1}{n}$，所以 CLT 的时候稳定地要乘一个 $\sqrt{n}$ 来消掉它（因为方差要平方，$(\sqrt{n})^2 = n$）。剩下的就是 $X_i$ 本身的方差，这里是 $p(1-p)$，所以极限分布是 $N(0,\,p(1-p))$。xi要不然是0要不然就是1不是概率
+\end{dxtips}
+\begin{note}
+因为 CLT 作用的对象是\textbf{样本均值}（或样本和），单个 $X_i$ 是 0-1 分布，没法用 CLT。要凑出 $\hat{p} = \dfrac{1}{n}\sum X_i$，才能用 CLT 说它近似正态。
+\end{note}
+\begin{note}
+\begin{itemize}
+  \item $\hat{p} - p$：是为了让\textbf{均值变成 0}（中心化）
+  \item $\times \sqrt{n}$：是为了让\textbf{方差变成有限常数}，不是变成 0
+\end{itemize}
+具体来说 $\hat{p}$ 的方差是 $\dfrac{p(1-p)}{n}$，乘 $\sqrt{n}$ 后方差变成 $p(1-p)$，一个不依赖 $n$ 的常数，这样 $n\to\infty$ 时分布才能稳定收敛到 $N(0,\,p(1-p))$。
+\end{note}
 \begin{homework}{5}
 设 $X_1, X_2, \cdots, X_m$ 与 $Y_1, Y_2, \cdots, Y_n$ 是分别抽自 $N(\mu_1, \sigma_1^2)$ 与 $N(\mu_2, \sigma_2^2)$ 的两个独立样本。
 
@@ -2769,3 +2806,38 @@ X_i \sim \text{Exp}(1/\theta) \iff X_i \sim \Gamma(1, \theta).
 
 \textbf{(3)} 若 $\mu_1, \mu_2, \sigma_1^2, \sigma_2^2$ 都未知，求 $\sigma_2^2/\sigma_1^2$ 的一个 $1-\alpha$ 置信度的置信区间。
 \end{homework}
+\begin{solution}
+由两样本独立且均服从正态分布，有
+$$\bar{Y} - \bar{X} \sim N\!\left(\mu_2-\mu_1,\ \frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n}\right)$$
+标准化得枢轴量
+$$U = \frac{(\bar{Y}-\bar{X})-(\mu_2-\mu_1)}{\sqrt{\dfrac{\sigma_1^2}{m}+\dfrac{\sigma_2^2}{n}}} \sim N(0,1)$$
+由 $P(|U| \leq z_{\alpha/2}) = 1-\alpha$，解得 $\mu_2-\mu_1$ 的置信度为 $1-\alpha$ 的置信区间为
+$$\left(\bar{Y}-\bar{X}-z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n}},\ \bar{Y}-\bar{X}+z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n}}\right)$$
+\end{solution}
+\begin{note}
+双侧置信区间总概率 $1-\alpha$ 被两端各分一半：
+$$P(|U| \leq z_{\alpha/2}) = 1-\alpha$$
+两侧各留 $\dfrac{\alpha}{2}$ 的概率在尾部，所以查的是 $z_{\alpha/2}$ 而不是 $z_\alpha$。如果是单侧（只求上限或下限），才用 $z_\alpha$。
+\end{note}
+\begin{solution}
+\begin{itemize}
+    \item \textbf{第(2)问：} 令 $n_1 = n_2 = n$，$\sigma_1^2 = \sigma_2^2 = \sigma^2$，由(1)知置信区间长为
+    $$2z_{\alpha/2}\sqrt{\frac{2\sigma^2}{n}}$$
+    置信度 $90\%$ 时 $\alpha = 0.1$，$z_{0.05} = 1.645$。令区间长等于 $\dfrac{2}{5}\sigma$：
+    $$2 \times 1.645 \times \sqrt{\frac{2\sigma^2}{n}} = \frac{2}{5}\sigma$$
+    $$1.645\sqrt{\frac{2}{n}} = \frac{1}{5}$$
+    $$\frac{2}{n} = \left(\frac{1}{5 \times 1.645}\right)^2 = \frac{1}{67.65}$$
+    $$n = 135.3$$
+    故 $n_1 = n_2$ 至少应取 $136$。
+
+    \item \textbf{第(3)问：} 由样本方差的性质，
+    $$\frac{(m-1)S_1^2}{\sigma_1^2} \sim \chi^2(m-1), \quad \frac{(n-1)S_2^2}{\sigma_2^2} \sim \chi^2(n-1)$$
+    两者独立，故枢轴量
+    $$F = \frac{S_2^2/\sigma_2^2}{S_1^2/\sigma_1^2} = \frac{S_2^2}{S_1^2} \cdot \frac{\sigma_1^2}{\sigma_2^2} \sim F(n-1,\,m-1)$$
+    由 $P\!\left(F_{\alpha/2}(n-1,m-1) \leq F \leq F_{1-\alpha/2}(n-1,m-1)\right) = 1-\alpha$，对 $\sigma_2^2/\sigma_1^2$ 解不等式，得置信度为 $1-\alpha$ 的置信区间为
+    $$\left(\frac{S_2^2}{S_1^2} \cdot \frac{1}{F_{1-\alpha/2}(n-1,m-1)},\ \frac{S_2^2}{S_1^2} \cdot \frac{1}{F_{\alpha/2}(n-1,m-1)}\right)$$
+\end{itemize}
+\end{solution}
+\begin{dxtips}
+    第一问$\mu_2-\mu_1$就是要求的所以他们两未知没关系，但是要求的是σ2²/σ1平方的置信区间μ1μ2不知道就不行，得想办法找一个分布不受μ1μ2影响所以只能找F分布于我他两个变量n-1和m-1都是我们已经知道的查表解就行了
+\end{dxtips}
