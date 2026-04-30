@@ -450,3 +450,31 @@ f(x) = \begin{cases} \dfrac{1}{\theta} \mathrm{e}^{-x/\theta}, & x > 0; \\ 0, & 
 
 \textbf{(3)} 若 $\mu_1, \mu_2, \sigma_1^2, \sigma_2^2$ 都未知，求 $\sigma_2^2/\sigma_1^2$ 的一个 $1-\alpha$ 置信度的置信区间。
 \end{homework}
+\section{4.1}
+\begin{homework}{1}
+设 $X_1, X_2, \cdots, X_n$ 为独立同分布样本，$X_1 \sim N(\mu, 1)$。对检验问题 $H_0: \mu = 0$；$H_1: \mu > 0$，用检验函数
+$$\phi(\boldsymbol{X}) = \phi(X_1, X_2, \cdots, X_n) = \begin{cases} 1, & \text{若 } \bar{X}_n > 1.3 \\ 0, & \text{若 } \bar{X}_n \leq 1.3 \end{cases}$$
+进行检验，其中 $\bar{X}_n = \dfrac{1}{n}\displaystyle\sum_{i=1}^n X_i$。设样本容量 $n = 10$，试回答下列问题：
+
+\textbf{(1)} 该检验的真实水平是多少？
+
+\textbf{(2)} 当 $\mu = 1.0$ 和 $\mu = 1.5$ 时，该检验犯第二类错误的概率分别是多少？
+
+\textbf{(3)} 若取检验水平 $\alpha = 0.05$，给出用 $\bar{X}_n$ 作为检验统计量的检验函数。
+\end{homework}
+
+\begin{homework}{2}
+设 $X_1, X_2, \cdots, X_{10}$ 是来自 $U(0, \theta)$ 的样本。今用检验函数
+$$\phi(\boldsymbol{X}) = \begin{cases} 1, & \text{若 } X_{(10)} > 0.95 \\ 0, & \text{若 } X_{(10)} \leq 0.95 \end{cases}$$
+检验 $H_0: \theta = 1$；$H_1: \theta > 1$，其中 $\boldsymbol{X} = (X_1, \cdots, X_{10})^\mathrm{T}$，$X_{(10)} = \max(X_1, X_2, \cdots, X_{10})$。请回答下列问题：
+
+\textbf{(1)} 该检验的真实水平是多少？
+
+\textbf{(2)} 求该检验的功效函数。
+
+\textbf{(3)} 仍然用 $X_{(10)}$ 作为检验统计量，写出检验水平 $\alpha = 0.05$ 时的检验函数。
+\end{homework}
+
+\begin{homework}{3}
+证明：二项分布 $B(n,p)$ 的分布函数 $P\{X \leq x\} = \displaystyle\sum_{i=0}^{x}\binom{n}{i}p^i(1-p)^{n-i}$ 是 $p$ 的单调减函数。
+\end{homework}

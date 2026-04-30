@@ -63,3 +63,37 @@ $$P_{0.04}(Y>1) = \sum_{j=2}^{5}\binom{5}{j}(0.04)^j(0.96)^{5-j} \approx 0.0148 
 
 \textbf{关于功效：}功效越高说明检验越灵敏，越能发现 $H_0$ 为假。$\theta\in\Theta_0$ 时功效要小，$\theta\in\Theta_1$ 时功效要大。
 \end{note}
+\section{正态总体参数的检验}
+\begin{definition}{正态总体参数的检验——枢轴量}
+设 $X_1, X_2, \cdots, X_n$ 来自 $N(\mu, \sigma^2)$，对参数建立假设 $H_0 \leftrightarrow H_1$，根据条件选取对应枢轴量。
+
+\textbf{单个正态总体：}
+\begin{itemize}
+    \item $\sigma^2$ 已知，检验 $\mu$：$Z = \dfrac{\bar{X}-\mu_0}{\sigma/\sqrt{n}} \sim N(0,1)$，称为 $Z$ 检验
+    \item $\sigma^2$ 未知，检验 $\mu$：$T = \dfrac{\bar{X}-\mu_0}{S/\sqrt{n}} \sim t(n-1)$，称为 $t$ 检验
+    \item $\mu$ 未知，检验 $\sigma^2$：$\chi^2 = \dfrac{(n-1)S^2}{\sigma_0^2} \sim \chi^2(n-1)$，称为 $\chi^2$ 检验
+\end{itemize}
+
+\textbf{两个正态总体：}
+\begin{itemize}
+    \item $\sigma_1^2, \sigma_2^2$ 已知，检验 $\mu_1-\mu_2$：$Z$ 检验
+    \item $\sigma_1^2 = \sigma_2^2$ 未知，检验 $\mu_1-\mu_2$：两样本 $t$ 检验
+    \item $\mu_1, \mu_2$ 未知，检验 $\sigma_1^2/\sigma_2^2$：$F = \dfrac{S_1^2}{S_2^2} \sim F(m-1, n-1)$，称为 $F$ 检验
+\end{itemize}
+\end{definition}
+
+\begin{definition}{正态总体参数的检验——拒绝域}
+根据 $H_1$ 的方向确定拒绝域形式，$c_{\alpha/2}$ 或 $c_\alpha$ 为对应分布的分位数。
+\begin{itemize}
+    \item 双侧检验 $H_1: \theta \neq \theta_0$：$|T| > c_{\alpha/2}$
+    \item 单侧检验 $H_1: \theta > \theta_0$：$T > c_{\alpha}$
+    \item 单侧检验 $H_1: \theta < \theta_0$：$T < -c_{\alpha}$
+\end{itemize}
+\end{definition}
+\begin{note}
+\textbf{与置信区间的关系：}枢轴量完全相同，区别只在使用方式——置信区间是解不等式得到参数范围，假设检验是代入 $\theta_0$ 看统计量是否落入拒绝域。
+
+\textbf{单侧 vs 双侧：}取决于 $H_1$ 的方向。$H_1: \mu \neq \mu_0$ 用双侧，查 $z_{\alpha/2}$；$H_1: \mu > \mu_0$ 或 $H_1: \mu < \mu_0$ 用单侧，查 $z_\alpha$。
+
+\textbf{$\sigma^2$ 已知用 $Z$，未知用 $t$：}$\sigma^2$ 未知时用样本标准差 $S$ 替代，分布从正态变为 $t$ 分布，自由度为 $n-1$。
+\end{note}
