@@ -2914,6 +2914,20 @@ P_{\mu=0}(\bar{X}_{10} > c) = 0.05
 \end{itemize}
 内个域是接受域
 \end{note}
+\begin{definition}{检验函数}{}
+检验函数 $\phi(\boldsymbol{X})$ 是一个决策规则：
+\begin{itemize}
+    \item 输出 $1$：拒绝 $H_0$
+    \item 输出 $0$：接受 $H_0$
+\end{itemize}
+\end{definition}
+\begin{dxtips}
+    后面先标注是一类是实际情况拒绝h0，二类是实际情况接受了h0。功效函数算出来都是实际情况拒绝h0的概率，θ真实在H0内算的就是一类错误，θ真实在h1内他算出来的概率就是正确的拒绝，1-他就是没能拒绝的也就是漏网之鱼。
+    \begin{itemize}
+    \item \textbf{第一类错误}：$H_0$ 为真，却拒绝了 $H_0$（弃真错误）
+    \item \textbf{第二类错误}：$H_1$ 为真，却未能拒绝 $H_0$（取伪错误）
+\end{itemize}
+\end{dxtips}
 \begin{homework}{2}
 设 $X_1, X_2, \cdots, X_{10}$ 是来自 $U(0, \theta)$ 的样本。今用检验函数
 $$\phi(\boldsymbol{X}) = \begin{cases} 1, & \text{若 } X_{(10)} > 0.95 \\ 0, & \text{若 } X_{(10)} \leq 0.95 \end{cases}$$
@@ -2958,6 +2972,18 @@ P_{\theta=1}(X_{(10)} > c) = 0.05
 \phi(\boldsymbol{X}) = \begin{cases} 1, & X_{(10)} > 0.95^{1/10} \approx 0.9949, \\ 0, & X_{(10)} \leq 0.95^{1/10} \approx 0.9949. \end{cases}
 \]
 \end{solution}
+\begin{dxtips}
+    Cumulative Distribution Function，累积分布函数
+    。
+第一类错误概率误会了与第二类错误概率都是功效函数的特殊情形。以 $H_0: \theta = 1$，$H_1: \theta > 1$ 为例：
+\begin{itemize}
+    \item \textbf{第一类错误概率} = 功效函数在 $H_0$ 处的值：$\beta(1)$
+    \item \textbf{第二类错误概率} = $1 - \beta(\theta)$，$\theta > 1$
+    因为原本的β函数就是正确击中的的概率，去掉以后就是漏网之鱼
+\end{itemize}
+功效函数 $\beta(\theta)$ 是一个统一的框架，第一类、第二类错误只是从不同角度看它在不同区域的值。
+
+\end{dxtips}
 \begin{homework}{3}
 证明：二项分布 $B(n,p)$ 的分布函数 $P\{X \leq x\} = \displaystyle\sum_{i=0}^{x}\binom{n}{i}p^i(1-p)^{n-i}$ 是 $p$ 的单调减函数。
 \end{homework}
