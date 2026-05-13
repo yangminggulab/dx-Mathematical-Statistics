@@ -618,3 +618,20 @@ $\theta$ 是固定的未知常数，而 $[\theta_1(\boldsymbol{X}), \theta_2(\bo
 正态、指数、均匀等分布的充分统计量 $T$ 的精确分布已知，无需渐近，可直接精确变换为 $N(0,1)$、$\chi^2$ 或 $\text{Beta}$ 等已知分布；对于其他分布，精确分布难以求得，此时借助 CLT 说明 $T$ 渐近正态，再标准化得到渐近枢轴量．
 
 \end{dxtips}
+\subsection{正态的性质们}
+\begin{note}
+设 $Z \sim \mathcal{N}(0,1)$，令 $Q = Z^2$，则 $Q \sim \chi^2(1)$。
+
+\textbf{变换方向}：$q = z^2$，绝对值越大 $q$ 越大：
+$$|z| > 1 \Rightarrow q > 1 \text{（往右移）}, \quad |z| < 1 \Rightarrow q < 1 \text{（往左移）}$$
+
+\textbf{密度变换}（换到 $Q$ 的空间，需要雅可比修正）：
+
+$\pm z$ 映射到同一个 $q$，两侧叠加，区间从 $2\,dz$ 压缩到 $dq$：
+$$f_Q(q) = 2 \cdot f_Z(\sqrt{q}) \cdot \frac{1}{2\sqrt{q}} = \frac{f_Z(\sqrt{q})}{\sqrt{q}}, \quad q > 0$$
+
+\textbf{求期望}（在 $Z$ 的空间积分，密度不变）：
+$$E[Q] = E[Z^2] = \int_{-\infty}^{+\infty} z^2 f_Z(z)\, dz = 1$$
+
+\textbf{关键区别}：求期望是在原空间加权平均，积分变量未换，密度不动；变量变换是换了积分变量，必须乘雅可比项保证概率守恒。
+\end{note}

@@ -2841,7 +2841,7 @@ $$P(|U| \leq z_{\alpha/2}) = 1-\alpha$$
 \begin{dxtips}
     第一问$\mu_2-\mu_1$就是要求的所以他们两未知没关系，但是要求的是σ2²/σ1平方的置信区间μ1μ2不知道就不行，得想办法找一个分布不受μ1μ2影响所以只能找F分布于我他两个变量n-1和m-1都是我们已经知道的查表解就行了
 \end{dxtips}
-\section{4.1}
+\subsection{4.1}
 \begin{homework}{1}
 设 $X_1, X_2, \cdots, X_n$ 为独立同分布样本，$X_1 \sim N(\mu, 1)$。对检验问题 $H_0: \mu = 0$；$H_1: \mu > 0$，用检验函数
 $$\phi(\boldsymbol{X}) = \phi(X_1, X_2, \cdots, X_n) = \begin{cases} 1, & \text{若 } \bar{X}_n > 1.3 \\ 0, & \text{若 } \bar{X}_n \leq 1.3 \end{cases}$$
@@ -3028,3 +3028,82 @@ P_{\theta=1}(X_{(10)} > c) = 0.05
 
 因此 $F(x;p)$ 是 $p$ 的单调递减函数。
 \end{proof}
+
+\subsection{4.2}
+\begin{example}
+设 $X \sim N(\mu, 9)$，抽得样本容量为 8 的样本：
+$$12.5 \quad 13.8 \quad 14.1 \quad 14.1 \quad 14.8 \quad 15.0 \quad 15.4 \quad 16.0$$
+在检验水平 $\alpha = 0.05$ 下，是否可接受 $\mu = 14$ 之假设？
+\end{example}
+\begin{homework}[1]
+若在例 4.2.1 中，方差 $\sigma^2$ 未知，取检验水平 $\alpha = 0.10$，试检验假设
+$$H_0: \mu = 14; \quad H_1: \mu \neq 14$$
+\end{homework}
+\begin{solution}
+方差未知，用 $t$ 检验。
+
+计算样本均值：
+$$\bar{X} = \frac{12.5+13.8+14.1+14.1+14.8+15.0+15.4+16.0}{8} = \frac{115.7}{8} = 14.4625$$
+
+计算样本方差：
+$$S^2 = \frac{1}{7}\sum_{i=1}^8(X_i-\bar{X})^2 = \frac{7.9989}{7} \approx 1.1427, \quad S \approx 1.0690$$
+
+构造检验统计量：
+$$t = \frac{\bar{X} - \mu_0}{S/\sqrt{n}} = \frac{14.4625 - 14}{1.0690/\sqrt{8}} = \frac{0.4625}{0.3780} \approx 1.223$$
+
+查表得 $\alpha = 0.10$ 双侧，自由度 $n-1=7$：
+$$t_{0.05}(7) = 1.895$$
+
+因为 $|t| = 1.223 < 1.895$，不拒绝 $H_0$，即在显著性水平 $0.10$ 下可接受 $\mu = 14$。
+\end{solution}
+\begin{homework}[2]
+设 $X_1, X_2, \cdots, X_{10}$ 是抽自 $N(\mu, \sigma^2)$ 的样本。
+
+(1) 试写出检验问题 $H_0: \mu \leq 1$；$H_1: \mu > 1$ 的检验函数，取 $\alpha = 0.1$；
+\end{homework}
+\begin{solution}
+方差未知，$H_1: \mu > 1$ 为右侧检验，构造 $t$ 统计量：
+$$T = \frac{\bar{X} - 1}{S/\sqrt{10}} \sim t(9) \quad (\text{在} H_0 \text{ 边界 } \mu = 1 \text{ 时})$$
+
+查表得 $t_{\alpha}(n-1) = t_{0.1}(9) = 1.383$，检验函数为：
+$$\phi(\boldsymbol{X}) = \begin{cases} 1, & T > 1.383 \\ 0, & T \leq 1.383 \end{cases}$$
+
+即当 $T > 1.383$ 时拒绝 $H_0$，认为 $\mu > 1$。
+\end{solution}
+\begin{dxtips}
+    所以整个事情我就拿样本均值检测总体均值的假设对不对
+\end{dxtips}
+\begin{theorem}[假设检验统计量选择]
+
+\textbf{一、均值检验（单总体）}
+
+设 $X_1, \ldots, X_n \overset{\text{iid}}{\sim} \mathcal{N}(\mu, \sigma^2)$，检验 $H_0: \mu = \mu_0$。
+
+\textbf{方差已知} → $Z$ 检验：
+$$Z = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}} \sim \mathcal{N}(0,1)$$
+
+\textbf{方差未知} → $t$ 检验：
+$$T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}} \sim t(n-1)$$
+
+分母用 $S$ 替代 $\sigma$，引入额外随机性，分布变胖；$n$ 越大 $t$ 越接近正态。
+
+\textbf{二、方差检验（单总体）}
+
+检验 $H_0: \sigma^2 = \sigma_0^2$：
+$$\chi^2 = \frac{(n-1)S^2}{\sigma_0^2} \sim \chi^2(n-1)$$
+
+\textbf{三、两总体方差比检验}
+
+检验 $H_0: \sigma_1^2 = \sigma_2^2$：
+$$F = \frac{S_1^2}{S_2^2} \sim F(n_1-1,\, n_2-1)$$
+
+\end{theorem}
+\section{第10周作业}
+\subsection{4.3}
+\begin{homework}[1]
+某单位购进一批产品，抽 36 件检查，发现有 3 件不合格，试问这批产品的不合格品率高于 3\% 吗？你认为次品率不超过多少？
+\end{homework}
+
+\begin{homework}[2]
+设 $X_1, X_2, \cdots, X_n$ 为来自 $P(\lambda)$ 的样本，试给出检验 $H_0: \lambda = \lambda_0$；$H_1: \lambda \neq \lambda_0$ 的检验函数．若有观测值 $5, 7, 8, 6, 9, 10$，在检验水平 $\alpha = 0.05$ 下，能接受 $\lambda = 3$ 吗？
+\end{homework}
