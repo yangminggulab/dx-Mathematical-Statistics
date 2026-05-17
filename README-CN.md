@@ -1,33 +1,46 @@
-<!-- Author : Dongsheng Deng & Liam Huang-->
-<!-- Program Email: elegantlatex2e@gmail.com -->
+# dx 的数理统计
 
-[Homepage](https://elegantlatex.org/) | [Github](https://github.com/ElegantLaTeX/ElegantBook) | [CTAN](https://ctan.org/pkg/elegantbook) | [Download](https://github.com/ElegantLaTeX/ElegantBook/releases) | [Wiki](https://github.com/ElegantLaTeX/ElegantBook/wiki) | [Weibo](https://weibo.com/elegantlatex)
+## 序
 
-![License](https://img.shields.io/ctan/l/elegantbook.svg) ![CTAN Version](https://img.shields.io/ctan/v/elegantbook.svg) ![Github Version](https://img.shields.io/github/release/ElegantLaTeX/ElegantBook.svg) ![Repo Size](https://img.shields.io/github/repo-size/ElegantLaTeX/ElegantBook.svg)
+如果说概率论是在研究“分布已经给定时会发生什么”，那数理统计更像是在研究另一件事: 当你根本不知道总体长什么样，只拿到一批样本时，你还能反推出多少关于真相的信息。
 
----
+我第一次真正意识到这门课和概率论不一样，就是在书里写下那句 `dxtips` 的时候: “概率论里面学的都是总体。”这句话看起来很短，但它几乎就是我理解数理统计的入口。概率论往往是先给你一个分布，再问你它有什么性质；数理统计却是反过来的，它先把样本交到你手里，再问你能不能从这些有限、带噪声、带偶然性的观测里，把那个躲在后面的总体摸出来。
 
-# ElegantBook 优美的 LaTeX 书籍模板
+对我来说，数理统计最迷人的地方就在这里。它不像纯概率那样更像在观察一个已经搭好的世界，而像是在凭借有限证据做判断、做推断、做取舍。
 
-ElegantBook 是为 LaTeX 书籍写作而设计的模板，由 [Dongsheng Deng](https://ddswhu.me/) 和 [Liam Huang](https://liam.page/) 创立，模板创立的初衷是方便我们自己做笔记 :smile:。如果你有其他问题、建议或者报告 bug，可以提交 issues 或者给我们发邮件：elegantlatex2e@gmail.com。QQ 用户交流群：692108391，欢迎加入。
+## 为什么我想这样写这本书
 
-## 重要提示
+因为我一直觉得，数理统计特别容易被写成一门“公式很多、名词很多、但彼此好像没什么关系”的课。
 
-**重要提示**：ElegantLaTeX 项目 **不接受** 任何非预授权的提交（pull requests）！
+偏度、样本分布、矩估计、极大似然、区间估计、假设检验、卡方、t 分布、Neyman-Pearson……如果只是一个个往下记，很容易把人压得喘不过气。可我自己越写越觉得，这门课的关键并不在于你能不能把每个公式背出来，而在于你能不能看见每一个公式背后到底在回答什么问题。
 
-## 致谢
+所以我在这本书里很喜欢做的一件事，就是“拆公式”。像书里的 `dxtips` 写得很直接: 学习新公式都要把它拆成几个部分。因为很多统计量一旦不拆，读起来只是一整块符号；可一旦拆开，你就会开始看见它的角色: 哪一部分在提取样本信息，哪一部分在做标准化，哪一部分在控制分布形状，哪一部分在服务于推断。
 
-特别感谢 [sikouhjw](https://github.com/sikouhjw) 和 [syvshc](https://github.com/syvshc) 长期以来对于 Github 上 issue 的快速回应，以及各个社区论坛对于 ElegantLaTeX 相关问题的回复。
-特别感谢 ChinaTeX 以及 [LaTeX 工作室](http://www.latexstudio.net/)对于本系列模板的大力宣传与推广。
+像“似然就是想通过这个函数确定参数的大小”这种句子，在严格意义上当然是很口语的，可我反而舍不得把它们修得太教科书。因为它们保留了这门课最真实的学习动作: 不是先去背定义，而是先抓住那个动作到底在干什么。
 
-如果你喜欢我们的模板，你可以在 Github 上收藏我们的模板。
+## 这本书想保住的主线
 
-## 协议
+它当然有完整的课程主线。
 
-本模板发布遵循 LaTeX 项目公共许可证 1.3 c 或更高版本。如果是衍生作品，请务必加入协议声明和模板信息（github、CTAN 地址）。
+前面先从总体、样本、抽样、样本分布、参数空间这些最基本的统计语言出发，帮读者完成从概率视角到统计视角的切换。接着进入参数估计，包括矩估计、极大似然估计、M 估计和 Bayes 估计，让“怎样根据样本猜参数”这件事一步步清楚起来。后面再走到区间估计和假设检验，把推断真正推向“做决定”的层面。
 
-## 衍生作
+但如果只把这本书看成这些章节标题，还是不够。因为它真正想保住的，是一种思考顺序: 先想你手上有什么信息，再想你要推什么东西，再想你选的统计量到底凭什么合理。很多公式一旦脱离这个顺序，就只剩背诵；可一旦放回这个顺序里，统计学就会重新变得有逻辑。
 
-+ [ElegantBookdown](https://github.com/XiangyunHuang/ElegantBookdown)：[XiangyunHuang](https://github.com/XiangyunHuang) 开发并维护的基于 ElegantBook 的 Bookdown 模板。
-+ [bookdownplus](https://github.com/pzhaonet/bookdownplus)：应网友要求，[pzhaonet](https://github.com/pzhaonet) 在 bookdownplus 收录了 ElegantPaper 模板，并为 Mac 做了字体适配。
-+ [PanBook](https://github.com/annProg/PanBook)：[annProg](https://github.com/annProg) 开发并维护的基于 Markdown 写作的工作流，收录了 ElegantBook 和 ElegantPaper 模板。
+## 我想把它写给谁
+
+我想把它写给那种学过概率论，却在数理统计面前突然有点失去把握的人。
+
+你可能会有一种很熟悉的感觉: 每一个词都认识，每一个分布也似曾相识，可一到具体推断问题里，脑子就开始乱。到底什么时候该建模，什么时候该找似然，什么时候该标准化，什么时候是在比较估计量，什么时候是在比较假设？  
+
+如果你正处在这个阶段，那这本书也许会比较对路。因为它不是把统计当成一堆从天而降的新技术，而是尽量把每一个动作都接回你已经熟悉的概率背景里，再告诉你这里到底“多做了一步什么”。
+
+## 最后
+
+如果这本书最后能让你慢慢觉得，数理统计不是一门靠死背公式推进的课，而是一门一直在问“我怎样根据有限样本做出尽量可靠判断”的课；如果它能让你在看到一个新统计量时，第一反应不再只是记住它的表达式，而是去问“它到底抓住了样本里的哪部分信息”；如果它能让你体会到，推断的力量并不来自神秘技巧，而来自对样本、参数和误差关系的清醒把握，那么这本书就已经实现了我最想实现的目标。
+
+## 仓库说明
+
+- 主文件是 `main.tex`。
+- 主体内容分布在 `第一章和第二章.tex`、`第三章.tex`、`第四章.tex`。
+- 作业与整理内容在 `作业.tex`、`纯作业.tex`。
+- 若需要本地编译，通常运行 `xelatex main.tex` 两次即可。
