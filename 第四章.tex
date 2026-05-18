@@ -141,6 +141,9 @@ UMP 检验即在第一类错误已被控制（$\beta_\phi(\theta) \leq \alpha, \
 \end{enumerate}
 因此 UMP 定义是目标，N-P 引理是实现路径
 \end{dxtips}
+\begin{note}
+    \textbf{Lambda}，希腊字母，大写写作 $\Lambda$，小写写作 $\lambda$。
+\end{note}
 \begin{theorem}{Neyman-Pearson 引理}{}
 设 $\alpha \in [0,1]$，考虑简单假设检验 $H_0: f = f_0$ vs $H_1: f = f_1$，则：
 
@@ -164,6 +167,9 @@ UMP 检验即在第一类错误已被控制（$\beta_\phi(\theta) \leq \alpha, \
 \end{enumerate}
 则称该分布族为\textbf{单增（单减）似然比分布族}，二者统称为\textbf{单调似然比分布族}。
 \end{definition}
+\begin{dxtips}
+  $\theta_1$ 和 $\theta_2$ 是确定的，$X_i$ 是变化的，每取一组 $\boldsymbol{X}$，似然比的值都会变。比值越大说明分子发生概率越大，$\theta_2$ 越可能；反之 $\theta_1$ 更可能。
+\end{dxtips}
 \begin{theorem}{单调似然比与 UMP 检验}{}
 设 $\{f(x;\theta),\ \theta \in \Theta\}$ 为单增似然比分布族，$\theta_0 \in \Theta$ 且 $\{\theta > \theta_0\} \cap \Theta$ 非空，对假设检验问题
 $$H_0: \theta \leq \theta_0; \quad H_1: \theta > \theta_0$$
@@ -179,6 +185,15 @@ $$H_0: \theta \leq \theta_0; \quad H_1: \theta > \theta_0$$
     $$\beta_\phi(\theta) = \min\{\beta_{\phi^*}(\theta):\ E_{\theta_0}(\phi^*(\boldsymbol{X})) = \alpha\}.$$
 \end{enumerate}
 \end{theorem}
+\begin{note}
+实际操作顺序是：
+\begin{enumerate}
+    \item 先由 $P_{H_0}(X > c) = \alpha$ 解出 $c = 1.645$
+    \item $c$带入x，x变成了f（x）他对应的拒绝域也要跟着变
+    \item 再由 $c = \ln k + 0.5$ 倒推出 $k \approx 3.14$
+\end{enumerate}
+$k$ 是最后算出来的，不是一开始就知道的。
+\end{note}
 \begin{theorem}{推论：左单边检验}{}
 设分布族为单增似然比分布族，则对于
 $$H_0: \theta \geq \theta_0; \quad H_1: \theta < \theta_0$$
