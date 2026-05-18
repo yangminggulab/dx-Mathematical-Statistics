@@ -3174,6 +3174,7 @@ Z = \frac{7.5 - 3}{\sqrt{3/6}} = \frac{4.5}{\sqrt{0.5}} \approx 6.36
 \end{itemize}
 \end{note}
 \section{第11周作业}
+\subsection{4.4}
 \begin{homework}{1}
 设总体 $X$ 服从参数为 $\lambda$ 的泊松分布
 $$f(x,\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}, \quad x = 0,1,2,\cdots$$
@@ -3184,6 +3185,33 @@ $$H_0: \lambda \leq \lambda_0; \quad H_1: \lambda > \lambda_0$$
     \item 若有 UMP 检验，试求出检验水平 $\alpha = 0.05$，$n = 10$，$\lambda_0 = 0.1$ 时的检验函数。
 \end{enumerate}
 \end{homework}
+\begin{solution}
+\textbf{第一问：}取 $\lambda_1 < \lambda_2$，计算似然比
+$$\frac{\prod_{i=1}^n f(X_i;\lambda_2)}{\prod_{i=1}^n f(X_i;\lambda_1)} = \frac{\prod_{i=1}^n \frac{\lambda_2^{X_i}}{X_i!}e^{-\lambda_2}}{\prod_{i=1}^n \frac{\lambda_1^{X_i}}{X_i!}e^{-\lambda_1}} = \left(\frac{\lambda_2}{\lambda_1}\right)^{\sum_{i=1}^n X_i} e^{-n(\lambda_2 - \lambda_1)}$$
+其中 $e^{-n(\lambda_2-\lambda_1)}$ 是只含 $\lambda$ 的常数，因为 $\lambda_2 > \lambda_1$，底数 $\frac{\lambda_2}{\lambda_1} > 1$，故似然比是 $T(\boldsymbol{X}) = \sum_{i=1}^n X_i$ 的单增函数。泊松分布族满足 MLR 条件，由 MLR 定理，UMP 检验存在，拒绝域形式为 $T(\boldsymbol{X}) = \sum_{i=1}^n X_i > c$。
+
+\textbf{第二问：}当 $\alpha = 0.05$，$n = 10$，$\lambda_0 = 0.1$ 时，由第一类错误条件
+$$E_{\lambda_0}[\phi(\boldsymbol{X})] = \alpha$$
+即在 $H_0$ 成立时 $\sum_{i=1}^n X_i \sim P(n\lambda_0) = P(1)$，需确定临界值 $c$ 使得
+$$P_{\lambda_0}\left(\sum_{i=1}^n X_i > c\right) \leq 0.05$$
+查泊松分布表，$\sum X_i \sim P(1)$ 时：
+\begin{center}
+\begin{tabular}{ccc}
+\hline
+$c$ & $P(\sum X_i \leq c)$ & $P(\sum X_i > c)$ \\
+\hline
+$2$ & $0.9197$ & $0.0803$ \\
+$3$ & $0.9810$ & $0.0190$ \\
+\hline
+\end{tabular}
+\end{center}
+因为分布离散，取 $c = 3$，随机化参数 $r$ 由 $E_{\lambda_0}[\phi(\boldsymbol{X})] = \alpha$ 确定：
+$$P_{\lambda_0}\left(\sum X_i > 3\right) + r \cdot P_{\lambda_0}\left(\sum X_i = 3\right) = 0.05$$
+$$0.0190 + r \times (0.9810 - 0.9197) = 0.05$$
+$$r = \frac{0.05 - 0.0190}{0.0613} \approx 0.506$$
+故检验函数为
+$$\phi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i > 3 \\ 0.506, & \sum_{i=1}^n X_i = 3 \\ 0, & \sum_{i=1}^n X_i < 3 \end{cases}$$
+\end{solution}
 \begin{homework}{2}
 某修理部对要求服务人数连续作 $n$ 日记录。$X_i$ 为第 $i$ 日要求服务的人数。设 $X_1, X_2, \cdots, X_n$ 独立同分布，均服从参数为 $\theta$ 的泊松分布。若每日要求服务人数太少将关门。根据 $n$ 日的记录，要作出符合下面要求的决定：
 \begin{enumerate}
@@ -3192,7 +3220,30 @@ $$H_0: \lambda \leq \lambda_0; \quad H_1: \lambda > \lambda_0$$
 \end{enumerate}
 问需观察多少日即 $n$ 为多少时，UMP 检验才能满足上述要求？
 \end{homework}
+\begin{solution}
+\textbf{建立假设：}
+$$H_0: \theta \leq \theta_0 \quad H_1: \theta > \theta_0$$
+两个条件翻译成功效函数约束：
+\begin{itemize}
+    \item 条件1：$\theta = 10$ 时，开门概率不超过 $0.01$，即 $\beta_\phi(10) \leq 0.01$
+    \item 条件2：$\theta = 15$ 时，关门概率不超过 $0.01$，即 $\beta_\phi(15) \geq 0.99$
+\end{itemize}
 
+\textbf{UMP 检验形式：}泊松分布满足 MLR 条件，$T = \sum_{i=1}^n X_i \sim P(n\theta)$，拒绝域为 $\sum_{i=1}^n X_i > c$。
+
+\textbf{正态近似：}$n$ 较大时 $\sum X_i \approx N(n\theta, n\theta)$，故
+$$\beta_\phi(\theta) = P_\theta\left(\sum X_i > c\right) = P\left(Z > \frac{c - n\theta}{\sqrt{n\theta}}\right)$$
+由两个约束分别得
+$$\frac{c - 10n}{\sqrt{10n}} = 2.326, \quad \frac{c - 15n}{\sqrt{15n}} = -2.326$$
+
+\textbf{解方程组：}两式相减消去 $c$：
+$$\frac{c-10n}{\sqrt{10n}} - \frac{c-15n}{\sqrt{15n}} = 4.652$$
+代入 $\frac{1}{\sqrt{10}} \approx 0.3162$，$\frac{1}{\sqrt{15}} \approx 0.2582$，整理得
+$$\sqrt{n}\left(5 \times 0.3162 + 5 \times 0.2582\right) = 4.652$$
+$$\sqrt{n} \times 2.872 = 4.652$$
+$$\sqrt{n} \approx 1.620 \implies n \approx 25$$
+故需观察 $n = 25$ 日。
+\end{solution}
 \begin{homework}{3}
 一测量仪器正常运行，对某量重复测量 $n$ 次，其结果是 $X_1, X_2, \cdots, X_n$。假设 $X_1 \sim N(\mu, \sigma^2)$。今欲检验该仪器测量精度是否满足要求。假定测量精度要求为 $\mu_0 \pm \Delta$。试回答下列问题：
 \begin{enumerate}
@@ -3201,3 +3252,30 @@ $$H_0: \lambda \leq \lambda_0; \quad H_1: \lambda > \lambda_0$$
     \item 利用 $\chi^2$ 分布表，确定样本容量 $n$ 的大小，使得在检验水平为 0.01、测量误差大于 $1.1\Delta$ 时，被检测出的概率大于 0.9。
 \end{enumerate}
 \end{homework}
+\begin{solution}
+\textbf{第一问：}测量精度要求为 $\mu_0 \pm \Delta$，即要求 $|\mu - \mu_0| \leq \Delta$。若仪器精度不满足要求，则 $|\mu - \mu_0| > \Delta$，故假设检验问题为
+$$H_0: |\mu - \mu_0| \leq \Delta \quad H_1: |\mu - \mu_0| > \Delta$$
+等价地，检验方差是否满足要求，即
+$$H_0: \sigma^2 \leq \Delta^2 \quad H_1: \sigma^2 > \Delta^2$$
+
+\textbf{第二问：}正态分布关于 $\sigma^2$ 满足 MLR 条件，$T(\boldsymbol{X}) = \sum_{i=1}^n (X_i - \mu_0)^2$，UMP 检验存在，拒绝域形式为
+$$\sum_{i=1}^n (X_i - \mu_0)^2 > c$$
+注意到在 $H_0$ 成立时
+$$\frac{\sum_{i=1}^n (X_i-\mu_0)^2}{\Delta^2} \sim \chi^2(n)$$
+由第一类错误条件 $E_{\sigma^2 = \Delta^2}[\phi(\boldsymbol{X})] = \alpha = 0.01$，确定临界值
+$$c = \Delta^2 \chi^2_{0.01}(n)$$
+故检验函数为
+$$\phi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n (X_i-\mu_0)^2 > \Delta^2 \chi^2_{0.01}(n) \\ 0, & \sum_{i=1}^n (X_i-\mu_0)^2 \leq \Delta^2 \chi^2_{0.01}(n) \end{cases}$$
+
+\textbf{第三问：}当测量误差大于 $1.1\Delta$，即 $\sigma^2 = (1.1\Delta)^2 = 1.21\Delta^2$ 时，要求功效大于 $0.9$：
+$$\beta_\phi(1.21\Delta^2) = P_{\sigma^2 = 1.21\Delta^2}\left(\sum_{i=1}^n(X_i-\mu_0)^2 > \Delta^2\chi^2_{0.01}(n)\right) \geq 0.9$$
+注意到此时
+$$\frac{\sum_{i=1}^n(X_i-\mu_0)^2}{1.21\Delta^2} \sim \chi^2(n)$$
+故条件等价于
+$$P\left(\chi^2(n) > \frac{\chi^2_{0.01}(n)}{1.21}\right) \geq 0.9$$
+即
+$$\frac{\chi^2_{0.01}(n)}{1.21} \leq \chi^2_{0.9}(n)$$
+逐一查 $\chi^2$ 分布表，寻找满足
+$$\frac{\chi^2_{0.01}(n)}{\chi^2_{0.9}(n)} \leq 1.21$$
+的最小 $n$。查表得 $n = 152$ 时该比值首次不超过 $1.21$，故需 $n = 152$。
+\end{solution}

@@ -212,3 +212,20 @@ UMP 检验的拒绝域方向相反：
 $$\phi(\boldsymbol{X}) = \begin{cases} 1, & T(\boldsymbol{X}) < c \\ r, & T(\boldsymbol{X}) = c \\ 0, & T(\boldsymbol{X}) > c \end{cases}$$
 且结论中 $\beta_\phi(\theta)$ 单增改为单减。
 \end{theorem}
+\begin{example}
+柯西分布 $f(x;\theta) = \dfrac{1}{\pi[1+(x-\theta)^2]}$ 不满足 MLR 条件。取 $\theta_1 = 0$，$\theta_2 = 1$，似然比为
+$$\Lambda(x) = \frac{1+x^2}{1+(x-1)^2}$$
+计算几个具体值：
+\begin{center}
+\begin{center}
+\begin{tabular}{cccccc}
+\hline
+$x$ & $-2$ & $0$ & $2$ & $10$ & $100$ \\
+\hline
+$\Lambda(x)$ & $0.5$ & $0.5$ & $2.5$ & $1.23$ & $1.02$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{center}
+$\Lambda(x)$ 先增后减，不是任何统计量的单调函数，故柯西分布不满足 MLR 条件，对单边假设检验一般不存在 UMP 检验。
+\end{example}
