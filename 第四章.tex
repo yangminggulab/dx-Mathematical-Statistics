@@ -157,6 +157,9 @@ UMP 检验即在第一类错误已被控制（$\beta_\phi(\theta) \leq \alpha, \
     \item \textbf{（必要性）} 若 $\phi$ 是水平 $\alpha$ 的 UMP 检验，则必存在 $k$ 使上述似然比形式几乎处处成立；且若 $E_1(\phi(\boldsymbol{X})) < 1$，则必有 $E_0(\phi(\boldsymbol{X})) = \alpha$。
 \end{enumerate}
 \end{theorem}
+\begin{note}
+因为分布族满足 MLR 条件，不同 $\theta_1$ 的似然比都是 $T(\boldsymbol{X})$ 的单增函数，从而所有 $\theta_1$ 对数据点的排序一致，最优拒绝域对所有 $\theta_1$ 都是 $T(\boldsymbol{X}) > c$，UMP 存在。
+\end{note}
 \begin{definition}{单调似然比分布族}{}
 若分布族 $\{f(x;\theta),\ \theta \in \Theta\}$ 满足：
 \begin{enumerate}
@@ -167,9 +170,17 @@ UMP 检验即在第一类错误已被控制（$\beta_\phi(\theta) \leq \alpha, \
 \end{enumerate}
 则称该分布族为\textbf{单增（单减）似然比分布族}，二者统称为\textbf{单调似然比分布族}。
 \end{definition}
+\begin{note}
+MLR 不是一个操作，不是一个定理，而是我们对分布族提出的一个要求：对任意 $\theta_1 < \theta_2$，似然比 $\dfrac{\prod f(X_i;\theta_2)}{\prod f(X_i;\theta_1)}$ 是某个统计量 $T(X)$ 的单增函数。满足这个要求的分布族叫 MLR 族，正态、泊松、指数族都满足。不满足的分布族，UMP 一般不存在。
+\end{note}
 \begin{dxtips}
   $\theta_1$ 和 $\theta_2$ 是确定的，$X_i$ 是变化的，每取一组 $\boldsymbol{X}$，似然比的值都会变。比值越大说明分子发生概率越大，$\theta_2$ 越可能；反之 $\theta_1$ 更可能。
 \end{dxtips}
+\begin{example}
+设 $X_1, \ldots, X_n \overset{iid}{\sim} N(\mu, 1)$，取 $\theta_0 < \theta_1$，似然比为
+$$\Lambda_{\theta_1}(\boldsymbol{X}) = e^{n(\theta_1 - \theta_0)\bar{X} - \frac{n}{2}(\theta_1^2 - \theta_0^2)}$$
+其中 $e^{-\frac{n}{2}(\theta_1^2 - \theta_0^2)}$ 是只含 $\theta$ 的常数，与数据无关，所以似然比完全由 $\bar{X}$ 决定。又因为 $\theta_1 > \theta_0$，系数 $n(\theta_1 - \theta_0) > 0$，故 $\Lambda_{\theta_1}(\boldsymbol{X})$ 是 $\bar{X}$ 的单增函数。因此正态分布族取 $T(\boldsymbol{X}) = \bar{X}$，不管 $\theta_1$ 取何值，对数据点的排序都由 $\bar{X}$ 决定，MLR 条件成立。
+\end{example}
 \begin{theorem}{单调似然比与 UMP 检验}{}
 设 $\{f(x;\theta),\ \theta \in \Theta\}$ 为单增似然比分布族，$\theta_0 \in \Theta$ 且 $\{\theta > \theta_0\} \cap \Theta$ 非空，对假设检验问题
 $$H_0: \theta \leq \theta_0; \quad H_1: \theta > \theta_0$$
