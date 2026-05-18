@@ -3103,7 +3103,101 @@ $$F = \frac{S_1^2}{S_2^2} \sim F(n_1-1,\, n_2-1)$$
 \begin{homework}[1]
 某单位购进一批产品，抽 36 件检查，发现有 3 件不合格，试问这批产品的不合格品率高于 3\% 吗？你认为次品率不超过多少？
 \end{homework}
+\begin{solution}
+设不合格品数 $X \sim B(n, p)$，$n = 36$，样本比例 $\hat{p} = \dfrac{3}{36} = \dfrac{1}{12} \approx 0.0833$。
 
+\textbf{第一问：}建立假设
+\[
+H_0: p \leq 0.03, \quad H_1: p > 0.03
+\]
+检验统计量为
+\[
+Z = \frac{\hat{p} - p_0}{\sqrt{p_0(1-p_0)/n}} = \frac{\frac{1}{12} - 0.03}{\sqrt{\frac{0.03 \times 0.97}{36}}} \approx 1.875
+\]
+取 $\alpha = 0.05$，单侧临界值 $z_{0.05} = 1.645$。因为 $Z \approx 1.875 > 1.645$，拒绝 $H_0$，认为不合格品率高于 $3\%$。
+
+\textbf{第二问：}构造 $p$ 的置信水平 $0.95$ 的单侧置信上限：
+\[
+p \leq \hat{p} + z_{0.05}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \frac{1}{12} + 1.645 \times \sqrt{\frac{\frac{1}{12} \times \frac{11}{12}}{36}} \approx 0.160
+\]
+即认为次品率不超过 $16.0\%$。
+\end{solution}
+\begin{dxtips}
+    第一步先确定是什么分布如果合格不合格就是二项分布把n和p算出来p就是我们要求的不合格率的概率要求什么算什么。然后
+\end{dxtips}
+\begin{dxtips}
+    梳理一下，抽36他就算一个大样本，在大样本中出现次品的次数服从正态分布。也就是每一次抽36坏的可能都不同所以这些次数是服从正态分布的。然后呢我们就要求如果按照H0假设的出现现在状况的概率，如何求呢我们要减去均值除以标准差得到标准正态分布然后再查表，这里就是省略了上下同时除以n的步骤。
+    
+\end{dxtips}
+\begin{dxtips}
+  第一问：假设已知 $p_0 = 0.03$，即已知均值 $np_0$，从而确定正态分布的图像，看观测值 $\hat{p}$ 够不够极端。
+
+第二问：不知道真实 $p$，但构造一个区间，使得真实的 $p$ 有 95\% 的概率落在观测值 $\hat{p}$ 的附近。但既然只关心上限，下限没意义，就直接把全部的5都放到右尾，变成单侧
+\[
+p \leq \hat{p} + z_{0.05}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+\]
+\end{dxtips}
+\begin{note}
+标准化是除以标准差，反过来还原就是乘以标准差，从 $N(0,1)$ 的尺度换回 $\hat{p}$ 的尺度。
+\end{note}
 \begin{homework}[2]
 设 $X_1, X_2, \cdots, X_n$ 为来自 $P(\lambda)$ 的样本，试给出检验 $H_0: \lambda = \lambda_0$；$H_1: \lambda \neq \lambda_0$ 的检验函数．若有观测值 $5, 7, 8, 6, 9, 10$，在检验水平 $\alpha = 0.05$ 下，能接受 $\lambda = 3$ 吗？
+\end{homework}
+\begin{note}
+单个 $X_i \sim P(\lambda)$：期望是 $\lambda$，方差是 $\lambda$（期望方差相等是 Poisson 分布的特征）。
+
+所以 $\bar{X}$ 的方差是 $\dfrac{\lambda}{n}$，标准差是 $\sqrt{\dfrac{\lambda}{n}}$。
+\end{note}
+\begin{solution}
+由 $X_i \sim P(\lambda)$，$\bar{X}$ 是 $\lambda$ 的充分统计量，由中心极限定理，检验统计量为
+\[
+Z = \frac{\bar{X} - \lambda_0}{\sqrt{\lambda_0 / n}} \overset{H_0}{\approx} N(0,1)
+\]
+拒绝域为 $|Z| > z_{\alpha/2} = z_{0.025} = 1.96$。
+
+计算观测值：
+\[
+\bar{x} = \frac{5+7+8+6+9+10}{6} = 7.5
+\]
+代入统计量：
+\[
+Z = \frac{7.5 - 3}{\sqrt{3/6}} = \frac{4.5}{\sqrt{0.5}} \approx 6.36
+\]
+因为 $|Z| \approx 6.36 > 1.96$，拒绝 $H_0$，在显著性水平 $\alpha = 0.05$ 下，不能接受 $\lambda = 3$。
+\end{solution}
+\begin{note}
+看 $H_1$ 的符号：
+\begin{itemize}
+    \item $H_1: \lambda \neq \lambda_0$，有 $\neq$，双侧检验
+    \item $H_1: \lambda > \lambda_0$，有 $>$，单侧右检验
+    \item $H_1: \lambda < \lambda_0$，有 $<$，单侧左检验
+\end{itemize}
+\end{note}
+\section{第11周作业}
+\begin{homework}{1}
+设总体 $X$ 服从参数为 $\lambda$ 的泊松分布
+$$f(x,\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}, \quad x = 0,1,2,\cdots$$
+其中 $\lambda > 0$ 为参数，$X_1, X_2, \cdots, X_n$ 是独立同分布样本。考虑假设检验问题：
+$$H_0: \lambda \leq \lambda_0; \quad H_1: \lambda > \lambda_0$$
+\begin{enumerate}
+    \item 有无 UMP 检验？为什么？
+    \item 若有 UMP 检验，试求出检验水平 $\alpha = 0.05$，$n = 10$，$\lambda_0 = 0.1$ 时的检验函数。
+\end{enumerate}
+\end{homework}
+\begin{homework}{2}
+某修理部对要求服务人数连续作 $n$ 日记录。$X_i$ 为第 $i$ 日要求服务的人数。设 $X_1, X_2, \cdots, X_n$ 独立同分布，均服从参数为 $\theta$ 的泊松分布。若每日要求服务人数太少将关门。根据 $n$ 日的记录，要作出符合下面要求的决定：
+\begin{enumerate}
+    \item 若每日要求服务平均人数不多于 10 人，仅有 0.01 的概率开门；
+    \item 若每日要求服务的平均人数不少于 15 人，仅有 0.01 的概率关门。
+\end{enumerate}
+问需观察多少日即 $n$ 为多少时，UMP 检验才能满足上述要求？
+\end{homework}
+
+\begin{homework}{3}
+一测量仪器正常运行，对某量重复测量 $n$ 次，其结果是 $X_1, X_2, \cdots, X_n$。假设 $X_1 \sim N(\mu, \sigma^2)$。今欲检验该仪器测量精度是否满足要求。假定测量精度要求为 $\mu_0 \pm \Delta$。试回答下列问题：
+\begin{enumerate}
+    \item 怎样将该问题叙述成假设检验问题？
+    \item 该假设检验问题有无 UMP 检验？若有给出检验函数的形式；
+    \item 利用 $\chi^2$ 分布表，确定样本容量 $n$ 的大小，使得在检验水平为 0.01、测量误差大于 $1.1\Delta$ 时，被检测出的概率大于 0.9。
+\end{enumerate}
 \end{homework}

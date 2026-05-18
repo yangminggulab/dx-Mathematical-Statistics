@@ -487,3 +487,31 @@ $$\phi(\boldsymbol{X}) = \begin{cases} 1, & \text{若 } X_{(10)} > 0.95 \\ 0, & 
 \begin{homework}[2]
 设 $X_1, X_2, \cdots, X_n$ 为来自 $P(\lambda)$ 的样本，试给出检验 $H_0: \lambda = \lambda_0$；$H_1: \lambda \neq \lambda_0$ 的检验函数．若有观测值 $5, 7, 8, 6, 9, 10$，在检验水平 $\alpha = 0.05$ 下，能接受 $\lambda = 3$ 吗？
 \end{homework}
+\section{第11周作业}
+\begin{homework}{1}
+设总体 $X$ 服从参数为 $\lambda$ 的泊松分布
+$$f(x,\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}, \quad x = 0,1,2,\cdots$$
+其中 $\lambda > 0$ 为参数，$X_1, X_2, \cdots, X_n$ 是独立同分布样本。考虑假设检验问题：
+$$H_0: \lambda \leq \lambda_0; \quad H_1: \lambda > \lambda_0$$
+\begin{enumerate}
+    \item 有无 UMP 检验？为什么？
+    \item 若有 UMP 检验，试求出检验水平 $\alpha = 0.05$，$n = 10$，$\lambda_0 = 0.1$ 时的检验函数。
+\end{enumerate}
+\end{homework}
+\begin{homework}{2}
+某修理部对要求服务人数连续作 $n$ 日记录。$X_i$ 为第 $i$ 日要求服务的人数。设 $X_1, X_2, \cdots, X_n$ 独立同分布，均服从参数为 $\theta$ 的泊松分布。若每日要求服务人数太少将关门。根据 $n$ 日的记录，要作出符合下面要求的决定：
+\begin{enumerate}
+    \item 若每日要求服务平均人数不多于 10 人，仅有 0.01 的概率开门；
+    \item 若每日要求服务的平均人数不少于 15 人，仅有 0.01 的概率关门。
+\end{enumerate}
+问需观察多少日即 $n$ 为多少时，UMP 检验才能满足上述要求？
+\end{homework}
+
+\begin{homework}{3}
+一测量仪器正常运行，对某量重复测量 $n$ 次，其结果是 $X_1, X_2, \cdots, X_n$。假设 $X_1 \sim N(\mu, \sigma^2)$。今欲检验该仪器测量精度是否满足要求。假定测量精度要求为 $\mu_0 \pm \Delta$。试回答下列问题：
+\begin{enumerate}
+    \item 怎样将该问题叙述成假设检验问题？
+    \item 该假设检验问题有无 UMP 检验？若有给出检验函数的形式；
+    \item 利用 $\chi^2$ 分布表，确定样本容量 $n$ 的大小，使得在检验水平为 0.01、测量误差大于 $1.1\Delta$ 时，被检测出的概率大于 0.9。
+\end{enumerate}
+\end{homework}
