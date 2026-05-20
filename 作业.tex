@@ -3098,6 +3098,186 @@ $$\chi^2 = \frac{(n-1)S^2}{\sigma_0^2} \sim \chi^2(n-1)$$
 $$F = \frac{S_1^2}{S_2^2} \sim F(n_1-1,\, n_2-1)$$
 
 \end{theorem}
+\begin{homework}[2]
+设 $X_1, X_2, \cdots, X_{10}$ 是抽自 $N(\mu, \sigma^2)$ 的样本．
+
+\begin{enumerate}
+   
+
+    \item[(2)] 试写出检验问题 $H_0: \sigma^2 \leqslant 1$；$H_1: \sigma^2 > 1$ 的检验函数，取 $\alpha = 0.1$；
+
+    \item[(3)] 取 $\alpha = 0.05$，重做 (1)，(2)，功效函数有何变化？由此得出什么结论？
+\end{enumerate}
+\end{homework}
+\begin{solution}
+\begin{enumerate}
+    \item[(2)] $\mu$ 未知，使用统计量
+    \[
+    \chi^2 = 9S^2 \sim \chi^2(9) \quad (\text{在 } \sigma^2 = 1 \text{ 下})
+    \]
+    取 $\alpha = 0.1$，查表得 $\chi^2_{0.1}(9) = 14.684$，检验函数为
+    \[
+    \varphi(X) =
+    \begin{cases}
+    1, & 9S^2 > 14.684 \\
+    0, & 9S^2 \leqslant 14.684
+    \end{cases}
+    \]
+    功效函数为
+    \[
+    \beta(\sigma^2) = P\!\left(\chi^2(9) > \frac{14.684}{\sigma^2}\right)
+    \]
+
+    \item[(3)] 取 $\alpha = 0.05$，查表得 $\chi^2_{0.05}(9) = 16.919$，第 (2) 题的检验函数变为
+    \[
+    \varphi(X) =
+    \begin{cases}
+    1, & 9S^2 > 16.919 \\
+    0, & 9S^2 \leqslant 16.919
+    \end{cases}
+    \]
+    功效函数变为
+    \[
+    \beta(\sigma^2) = P\!\left(\chi^2(9) > \frac{16.919}{\sigma^2}\right)
+    \]
+    与 $\alpha = 0.1$ 时相比，临界值增大，拒绝域缩小，功效函数在每个 $\sigma^2 > 1$ 处均减小．由此得出结论：在样本量固定时，$\alpha$ 与功效相互制约，降低显著性水平必然导致功效下降；若要同时控制两类错误，只能增大样本量．
+\end{enumerate}
+\end{solution}
+\begin{homework}[3]
+（两个正态总体的比较）设 $X_1, X_2, \cdots, X_m$ 为来自 $N(\mu_1, \sigma_1^2)$ 的样本；$Y_1, Y_2, \cdots, Y_n$ 为来自 $N(\mu_2, \sigma_2^2)$ 的样本，两样本相互独立，$\sigma_1^2, \sigma_2^2$ 均未知．分下面几种情况，给出 $H_0: \mu_1 = \mu_2$；$H_1: \mu_1 \neq \mu_2$ 的检验函数形式：
+
+\begin{enumerate}
+   
+
+    \item[(2)] $\sigma_1^2 = k\sigma_2^2$，$k$ 为已知常数；
+
+   
+\end{enumerate}
+\end{homework}
+\begin{solution}
+\begin{enumerate}
+    \item[(2)] 由 $\sigma_1^2 = k\sigma_2^2$，构造统计量．两样本独立，有
+    \[
+    \bar{X} - \bar{Y} \sim N\!\left(\mu_1 - \mu_2,\ \frac{\sigma_1^2}{m} + \frac{\sigma_2^2}{n}\right) = N\!\left(\mu_1 - \mu_2,\ \sigma_2^2\!\left(\frac{k}{m} + \frac{1}{n}\right)\right)
+    \]
+    又
+    \[
+    \frac{(m-1)S_1^2}{\sigma_1^2} + \frac{(n-1)S_2^2}{\sigma_2^2} = \frac{(m-1)S_1^2}{k\sigma_2^2} + \frac{(n-1)S_2^2}{\sigma_2^2} \sim \chi^2(m+n-2)
+    \]
+    定义合并估计量
+    \[
+    S_p^2 = \frac{\dfrac{(m-1)S_1^2}{k} + (n-1)S_2^2}{m+n-2}
+    \]
+    则 $\dfrac{(m+n-2)S_p^2}{\sigma_2^2} \sim \chi^2(m+n-2)$，在 $H_0: \mu_1 = \mu_2$ 下，构造 $t$ 统计量
+    \[
+    T = \frac{\bar{X} - \bar{Y}}{S_p\sqrt{\dfrac{k}{m} + \dfrac{1}{n}}} \sim t(m+n-2)
+    \]
+    检验函数为
+    \[
+    \varphi = \begin{cases} 1, & |T| > t_{\alpha/2}(m+n-2) \\ 0, & |T| \leqslant t_{\alpha/2}(m+n-2) \end{cases}
+    \]
+\end{enumerate}
+\end{solution}
+\begin{homework}[4]
+（两个正态总体的比较）样本如第 3 题所示，试给出检验下列问题的检验函数的形式：
+
+\begin{enumerate}
+    \item[(1)] $H_0: \sigma_1^2 \leqslant \sigma_2^2$；$H_1: \sigma_1^2 > \sigma_2^2$；
+
+    \item[(2)] $H_0: \sigma_1^2 = k\sigma_2^2$；$H_1: \sigma_1^2 \neq k\sigma_2^2$，其中 $k$ 为给定的数．
+\end{enumerate}
+\end{homework}
+\begin{solution}
+\begin{enumerate}
+    \item[(1)] $\mu_1, \mu_2$ 均未知，使用统计量
+    \[
+    F = \frac{S_1^2}{S_2^2} \sim F(m-1, n-1) \quad (\text{在 } \sigma_1^2 = \sigma_2^2 \text{ 下})
+    \]
+    $H_1: \sigma_1^2 > \sigma_2^2$ 为右侧检验，拒绝域取右尾，检验函数为
+    \[
+    \varphi = \begin{cases} 1, & F > F_{\alpha}(m-1, n-1) \\ 0, & F \leqslant F_{\alpha}(m-1, n-1) \end{cases}
+    \]
+
+    \item[(2)] 在 $H_0: \sigma_1^2 = k\sigma_2^2$ 下，构造统计量
+    \[
+    F = \frac{S_1^2 / k}{S_2^2} = \frac{S_1^2}{k S_2^2} \sim F(m-1, n-1)
+    \]
+    为双侧检验，检验函数为
+    \[
+    \varphi = \begin{cases} 1, & F > F_{\alpha/2}(m-1, n-1) \text{ 或 } F < F_{1-\alpha/2}(m-1, n-1) \\ 0, & \text{otherwise} \end{cases}
+    \]
+\end{enumerate}
+\end{solution}
+\begin{homework}[6]
+用两台仪器 $A$，$B$ 测量相同的物理量，设 $A$ 是标准的，两台仪器的测量值均服从正态分布．对某物理量用仪器 $A$ 独立测量 10 次，数值如下：
+\[
+10.5 \quad 10.3 \quad 10.4 \quad 9.6 \quad 9.7 \quad 9.8 \quad 9.9 \quad 10.1 \quad 10.2 \quad 9.7
+\]
+对同一量用仪器 $B$ 独立测量了 10 次，其数值是
+\[
+10.2 \quad 10.7 \quad 10.8 \quad 10.9 \quad 10.4 \quad 10.6 \quad 11.0 \quad 11.1 \quad 10.9 \quad 11.2
+\]
+试回答下列问题：
+
+\begin{enumerate}
+    \item[(1)] 仪器 $B$ 有无系统误差？
+
+    \item[(2)] 若已知没有系统误差，仪器 $A$ 和仪器 $B$ 的测量精度是否一致？
+\end{enumerate}
+
+\begin{note}
+"无系统误差"等同于 $\mu_B = \mu_A$，"测量精度一致"等同于 $\sigma_B^2 = \sigma_A^2$，$\mu_A, \mu_B, \sigma_A^2, \sigma_B^2$ 分别是两台仪器测量值分布的均值和方差．
+\end{note}
+\end{homework}
+\begin{solution}
+\begin{enumerate}
+    \item[(1)] 检验 $H_0: \mu_B = \mu_A$，$H_1: \mu_B \neq \mu_A$，$\sigma_A^2, \sigma_B^2$ 未知但假设相等（先不做方差检验，用两样本 $t$ 检验）．
+
+    计算样本均值与样本方差：
+    \[
+    \bar{X} = \frac{1}{10}(10.5+10.3+10.4+9.6+9.7+9.8+9.9+10.1+10.2+9.7) = 10.02
+    \]
+    \[
+    \bar{Y} = \frac{1}{10}(10.2+10.7+10.8+10.9+10.4+10.6+11.0+11.1+10.9+11.2) = 10.78
+    \]
+    \[
+    S_A^2 = \frac{1}{9}\sum_{i=1}^{10}(X_i - \bar{X})^2 = \frac{1}{9}(0.48^2+0.28^2+0.38^2+0.42^2+0.32^2+0.22^2+0.12^2+0.08^2+0.18^2+0.32^2)
+    \]
+    逐项计算：$0.2304+0.0784+0.1444+0.1764+0.1024+0.0484+0.0144+0.0064+0.0324+0.1024 = 0.9360$，故
+    \[
+    S_A^2 = \frac{0.9360}{9} \approx 0.1040, \quad S_A \approx 0.3225
+    \]
+    \[
+    S_B^2 = \frac{1}{9}\sum_{i=1}^{10}(Y_i - \bar{Y})^2
+    \]
+    各项：$0.58^2+0.08^2+0.02^2+0.12^2+0.38^2+0.18^2+0.22^2+0.32^2+0.12^2+0.42^2$
+    $= 0.3364+0.0064+0.0004+0.0144+0.1444+0.0324+0.0484+0.1024+0.0144+0.1764 = 0.8760$，故
+    \[
+    S_B^2 = \frac{0.8760}{9} \approx 0.0973, \quad S_B \approx 0.3120
+    \]
+    合并方差估计：
+    \[
+    S_p^2 = \frac{9S_A^2 + 9S_B^2}{18} = \frac{0.9360+0.8760}{18} = \frac{1.8120}{18} \approx 0.1007, \quad S_p \approx 0.3173
+    \]
+    检验统计量：
+    \[
+    T = \frac{\bar{Y} - \bar{X}}{S_p\sqrt{\dfrac{1}{10}+\dfrac{1}{10}}} = \frac{10.78 - 10.02}{0.3173 \times \sqrt{0.2}} = \frac{0.76}{0.3173 \times 0.4472} \approx \frac{0.76}{0.1419} \approx 5.356
+    \]
+    取 $\alpha = 0.05$，查表得 $t_{0.025}(18) = 2.101$．由于 $|T| = 5.356 > 2.101$，拒绝 $H_0$．
+
+    \textbf{结论：}仪器 $B$ 存在显著系统误差．
+
+    \item[(2)] 已知无系统误差，检验 $H_0: \sigma_B^2 = \sigma_A^2$，$H_1: \sigma_B^2 \neq \sigma_A^2$，使用 $F$ 检验：
+    \[
+    F = \frac{S_A^2}{S_B^2} = \frac{0.1040}{0.0973} \approx 1.069
+    \]
+    取 $\alpha = 0.05$，查表得 $F_{0.025}(9,9) = 4.03$，$F_{0.975}(9,9) = \dfrac{1}{4.03} \approx 0.248$．
+
+    由于 $0.248 < F = 1.069 < 4.03$，不拒绝 $H_0$．
+
+    \textbf{结论：}在显著性水平 $0.05$ 下，无充分理由认为两台仪器测量精度有显著差异．
+\end{enumerate}
+\end{solution}
 \section{第10周作业}
 \subsection{4.3}
 \begin{homework}[1]

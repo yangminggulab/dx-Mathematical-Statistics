@@ -478,6 +478,62 @@ $$\phi(\boldsymbol{X}) = \begin{cases} 1, & \text{若 } X_{(10)} > 0.95 \\ 0, & 
 \begin{homework}{3}
 证明：二项分布 $B(n,p)$ 的分布函数 $P\{X \leq x\} = \displaystyle\sum_{i=0}^{x}\binom{n}{i}p^i(1-p)^{n-i}$ 是 $p$ 的单调减函数。
 \end{homework}
+\section{4.2}
+\begin{homework}[2]
+设 $X_1, X_2, \cdots, X_{10}$ 是抽自 $N(\mu, \sigma^2)$ 的样本．
+
+\begin{enumerate}
+   
+
+    \item[(2)] 试写出检验问题 $H_0: \sigma^2 \leqslant 1$；$H_1: \sigma^2 > 1$ 的检验函数，取 $\alpha = 0.1$；
+
+    \item[(3)] 取 $\alpha = 0.05$，重做 (1)，(2)，功效函数有何变化？由此得出什么结论？
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[3]
+（两个正态总体的比较）设 $X_1, X_2, \cdots, X_m$ 为来自 $N(\mu_1, \sigma_1^2)$ 的样本；$Y_1, Y_2, \cdots, Y_n$ 为来自 $N(\mu_2, \sigma_2^2)$ 的样本，两样本相互独立，$\sigma_1^2, \sigma_2^2$ 均未知．分下面几种情况，给出 $H_0: \mu_1 = \mu_2$；$H_1: \mu_1 \neq \mu_2$ 的检验函数形式：
+
+\begin{enumerate}
+   
+
+    \item[(2)] $\sigma_1^2 = k\sigma_2^2$，$k$ 为已知常数；
+
+   
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[4]
+（两个正态总体的比较）样本如第 3 题所示，试给出检验下列问题的检验函数的形式：
+
+\begin{enumerate}
+    \item[(1)] $H_0: \sigma_1^2 \leqslant \sigma_2^2$；$H_1: \sigma_1^2 > \sigma_2^2$；
+
+    \item[(2)] $H_0: \sigma_1^2 = k\sigma_2^2$；$H_1: \sigma_1^2 \neq k\sigma_2^2$，其中 $k$ 为给定的数．
+\end{enumerate}
+\end{homework}
+
+\begin{homework}[6]
+用两台仪器 $A$，$B$ 测量相同的物理量，设 $A$ 是标准的，两台仪器的测量值均服从正态分布．对某物理量用仪器 $A$ 独立测量 10 次，数值如下：
+\[
+10.5 \quad 10.3 \quad 10.4 \quad 9.6 \quad 9.7 \quad 9.8 \quad 9.9 \quad 10.1 \quad 10.2 \quad 9.7
+\]
+对同一量用仪器 $B$ 独立测量了 10 次，其数值是
+\[
+10.2 \quad 10.7 \quad 10.8 \quad 10.9 \quad 10.4 \quad 10.6 \quad 11.0 \quad 11.1 \quad 10.9 \quad 11.2
+\]
+试回答下列问题：
+
+\begin{enumerate}
+    \item[(1)] 仪器 $B$ 有无系统误差？
+
+    \item[(2)] 若已知没有系统误差，仪器 $A$ 和仪器 $B$ 的测量精度是否一致？
+\end{enumerate}
+
+\begin{note}
+"无系统误差"等同于 $\mu_B = \mu_A$，"测量精度一致"等同于 $\sigma_B^2 = \sigma_A^2$，$\mu_A, \mu_B, \sigma_A^2, \sigma_B^2$ 分别是两台仪器测量值分布的均值和方差．
+\end{note}
+\end{homework}
 \section{第10周作业}
 \subsection{4.3}
 \begin{homework}[1]
