@@ -229,3 +229,20 @@ $\Lambda(x)$ & $0.5$ & $0.5$ & $2.5$ & $1.23$ & $1.02$ \\
 \end{center}
 $\Lambda(x)$ 先增后减，不是任何统计量的单调函数，故柯西分布不满足 MLR 条件，对单边假设检验一般不存在 UMP 检验。
 \end{example}
+\begin{corollary}[4.4.3]
+设 $X$ 的分布族为指数分布族：
+\[
+f(x;\theta) = C(\theta)h(x)\exp(Q(\theta)t(x)), \quad \theta \in \Theta \subset \mathbf{R},
+\]
+$\Theta$ 为自然参数空间：$\Theta = \left\{\theta : \int_{-\infty}^{+\infty} h(x)\exp(Q(\theta)t(x))\,\mathrm{d}x < +\infty\right\}$，$Q(\theta)$ 是 $\theta$ 的严格单调函数．令
+\[
+T(\boldsymbol{X}) = T(X_1, X_2, \cdots, X_n) = \sum_{i=1}^{n} t(X_i),
+\]
+则有
+
+\begin{enumerate}
+    \item[(1)] 若 $Q(\theta)$ 为严格单增函数，则检验问题 $(4.4.12)$ 的检验水平为 $\alpha$ 的 UMP 检验由式 $(4.4.13)$ 和 $(4.4.14)$ 确定．
+    \item[(2)] 若 $Q(\theta)$ 为严格单减函数，则检验问题 $(4.4.12)$ 的显著性水平为 $\alpha$ 的 UMP 检验由式 $(4.4.20)$ 和 $(4.4.14)$ 确定．
+\end{enumerate}
+\end{corollary}
+\section{4.5无偏检验和一致无偏检验}
