@@ -3416,11 +3416,21 @@ $$H_0: \lambda \leq \lambda_0; \quad H_1: \lambda > \lambda_0$$
 \textbf{第一问：}取 $\lambda_1 < \lambda_2$，计算似然比
 $$\frac{\prod_{i=1}^n f(X_i;\lambda_2)}{\prod_{i=1}^n f(X_i;\lambda_1)} = \frac{\prod_{i=1}^n \frac{\lambda_2^{X_i}}{X_i!}e^{-\lambda_2}}{\prod_{i=1}^n \frac{\lambda_1^{X_i}}{X_i!}e^{-\lambda_1}} = \left(\frac{\lambda_2}{\lambda_1}\right)^{\sum_{i=1}^n X_i} e^{-n(\lambda_2 - \lambda_1)}$$
 其中 $e^{-n(\lambda_2-\lambda_1)}$ 是只含 $\lambda$ 的常数，因为 $\lambda_2 > \lambda_1$，底数 $\frac{\lambda_2}{\lambda_1} > 1$，故似然比是 $T(\boldsymbol{X}) = \sum_{i=1}^n X_i$ 的单增函数。泊松分布族满足 MLR 条件，由 MLR 定理，UMP 检验存在，拒绝域形式为 $T(\boldsymbol{X}) = \sum_{i=1}^n X_i > c$。
-
+\begin{dxtips}
+    当 $H_0$ 是一个点时，三个说法是同一件事：
+$$\alpha = \underbrace{P_{H_0}(\text{统计量落在拒绝域})}_{\text{第一类错误概率}} = \underbrace{\int_{\text{拒绝域}} f_{H_0}(x)\,\mathrm{d}x}_{\text{拒绝域在}H_0\text{下的面积}}$$
+α决定了拒绝域的大小也就是在拒绝域里面积分就是α，当然这个拒绝域可以放在任意积分为α的片段，我们就想知道把他放在哪里最好
+\end{dxtips}
 \textbf{第二问：}当 $\alpha = 0.05$，$n = 10$，$\lambda_0 = 0.1$ 时，由第一类错误条件
 $$E_{\lambda_0}[\phi(\boldsymbol{X})] = \alpha$$
 即在 $H_0$ 成立时 $\sum_{i=1}^n X_i \sim P(n\lambda_0) = P(1)$，需确定临界值 $c$ 使得
 $$P_{\lambda_0}\left(\sum_{i=1}^n X_i > c\right) \leq 0.05$$
+\begin{dxtips}
+    检验函数只有两个值在接受域里面0不在接受域里面1所以他的期望就是落在拒绝域的概率因为相当于就是对区间积分里面的权重就是1 
+\end{dxtips}
+\begin{dxtips}
+    ump确定了我们需要对什么进行标准化也就是T（X）然后我们得确定T（X）的分布柏松分布能直接查表了P（1）本身就是标准的就不用取
+\end{dxtips}
 查泊松分布表，$\sum X_i \sim P(1)$ 时：
 \begin{center}
 \begin{tabular}{ccc}
@@ -3439,6 +3449,9 @@ $$r = \frac{0.05 - 0.0190}{0.0613} \approx 0.506$$
 故检验函数为
 $$\phi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i > 3 \\ 0.506, & \sum_{i=1}^n X_i = 3 \\ 0, & \sum_{i=1}^n X_i < 3 \end{cases}$$
 \end{solution}
+\begin{dxtips}[随机化检验]
+    这叫做\textbf{随机化检验}。在边界点 $\sum X_i = 3$ 处，不是直接拒绝或不拒绝，而是以概率 $r$ 拒绝，以概率 $1-r$ 不拒绝，专门用来处理离散分布无法精确控制 $\alpha$ 的情况。
+\end{dxtips}
 \begin{homework}{2}
 某修理部对要求服务人数连续作 $n$ 日记录。$X_i$ 为第 $i$ 日要求服务的人数。设 $X_1, X_2, \cdots, X_n$ 独立同分布，均服从参数为 $\theta$ 的泊松分布。若每日要求服务人数太少将关门。根据 $n$ 日的记录，要作出符合下面要求的决定：
 \begin{enumerate}
@@ -3471,6 +3484,36 @@ $$\sqrt{n} \times 2.872 = 4.652$$
 $$\sqrt{n} \approx 1.620 \implies n \approx 25$$
 故需观察 $n = 25$ 日。
 \end{solution}
+\begin{note}
+    两道题情况不同。上面那题 $n=10$，$\lambda_0=0.1$，所以 $n\lambda_0 = 1$，参数很小，可以直接查泊松分布表。这道题 $n$ 是未知的，而且 $\theta=10$ 或 $\theta=15$，所以 $n\theta$ 很大，泊松分布参数很大时没法直接查表，只能用正态近似：
+$$\sum X_i \sim P(n\theta) \approx N(n\theta,\ n\theta)$$
+泊松参数小则直接查表，泊松参数大或未知则用正态近似。
+\end{note}
+\begin{note}
+几个主流分布的似然比形式：
+
+\begin{enumerate}
+    \item \textbf{泊松分布} $P(\lambda)$：
+    \[
+    \frac{\prod f(X_i;\lambda_2)}{\prod f(X_i;\lambda_1)} = \left(\frac{\lambda_2}{\lambda_1}\right)^{\sum X_i} e^{-n(\lambda_2-\lambda_1)}
+    \]
+    因 $\lambda_2 > \lambda_1$ 时底数 $\dfrac{\lambda_2}{\lambda_1} > 1$，故关于 $\sum X_i$ 单调递增。
+
+    \item \textbf{正态分布} $N(\mu, \sigma^2)$，$\sigma^2$ 已知：
+    \[
+    \frac{\prod f(X_i;\mu_2)}{\prod f(X_i;\mu_1)} = \exp\!\left(\frac{(\mu_2-\mu_1)\sum X_i}{\sigma^2} - \frac{n(\mu_2^2-\mu_1^2)}{2\sigma^2}\right)
+    \]
+    关于 $\bar{X}$（即 $\sum X_i$）单调递增。
+
+    \item \textbf{指数分布} $f(x;\theta) = \theta e^{-\theta x}$：
+    \[
+    \frac{\prod f(X_i;\theta_2)}{\prod f(X_i;\theta_1)} = \left(\frac{\theta_2}{\theta_1}\right)^n e^{-(\theta_2-\theta_1)\sum X_i}
+    \]
+    $\theta_2 > \theta_1$ 时关于 $\sum X_i$ 单调递减。
+\end{enumerate}
+
+一般规律：指数族分布的似然比均可化为 $e^{Q(\theta)\cdot T(\boldsymbol{X})}$ 的形式，$Q(\theta)$ 单调即满足 MLR 条件。
+\end{note}
 \begin{homework}{3}
 一测量仪器正常运行，对某量重复测量 $n$ 次，其结果是 $X_1, X_2, \cdots, X_n$。假设 $X_1 \sim N(\mu, \sigma^2)$。今欲检验该仪器测量精度是否满足要求。假定测量精度要求为 $\mu_0 \pm \Delta$。试回答下列问题：
 \begin{enumerate}
