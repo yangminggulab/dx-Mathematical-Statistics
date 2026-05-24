@@ -3514,6 +3514,9 @@ $$\sum X_i \sim P(n\theta) \approx N(n\theta,\ n\theta)$$
 
 一般规律：指数族分布的似然比均可化为 $e^{Q(\theta)\cdot T(\boldsymbol{X})}$ 的形式，$Q(\theta)$ 单调即满足 MLR 条件。
 \end{note}
+\begin{dxtips}
+    检验 $\mu$ 是均值有没有\textbf{偏移}，是方向问题，"差多少"；检验 $\sigma^2$ 是波动是不是\textbf{太大}，是精度问题，"散不散"。题目说仪器正常运行，说明方向没问题，只需要检验散不散，所以检验 $\sigma^2$。
+\end{dxtips}
 \begin{homework}{3}
 一测量仪器正常运行，对某量重复测量 $n$ 次，其结果是 $X_1, X_2, \cdots, X_n$。假设 $X_1 \sim N(\mu, \sigma^2)$。今欲检验该仪器测量精度是否满足要求。假定测量精度要求为 $\mu_0 \pm \Delta$。试回答下列问题：
 \begin{enumerate}
@@ -3522,6 +3525,11 @@ $$\sum X_i \sim P(n\theta) \approx N(n\theta,\ n\theta)$$
     \item 利用 $\chi^2$ 分布表，确定样本容量 $n$ 的大小，使得在检验水平为 0.01、测量误差大于 $1.1\Delta$ 时，被检测出的概率大于 0.9。
 \end{enumerate}
 \end{homework}
+\begin{dxtips}
+    我们能算的是样本方差 $S^2$，乘以 $(n-1)$ 是为了让它变成正态分布的平方和，除以 $\sigma^2$ 是为了让它变成标准正态分布的平方和，因为只有标准正态分布的平方和才服从卡方分布：
+$$\frac{(n-1)S^2}{\sigma^2} \sim \chi^2(n-1)$$算 $S^2$ 的时候已经通过减去平均值再平方进行了标准化的第一步：
+$$S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$$
+\end{dxtips}
 \begin{solution}
 \textbf{第一问：}测量精度要求为 $\mu_0 \pm \Delta$，即要求 $|\mu - \mu_0| \leq \Delta$。若仪器精度不满足要求，则 $|\mu - \mu_0| > \Delta$，故假设检验问题为
 $$H_0: |\mu - \mu_0| \leq \Delta \quad H_1: |\mu - \mu_0| > \Delta$$
@@ -3549,6 +3557,9 @@ $$\frac{\chi^2_{0.01}(n)}{1.21} \leq \chi^2_{0.9}(n)$$
 $$\frac{\chi^2_{0.01}(n)}{\chi^2_{0.9}(n)} \leq 1.21$$
 的最小 $n$。查表得 $n = 152$ 时该比值首次不超过 $1.21$，故需 $n = 152$。
 \end{solution}
+\begin{dxtips}
+    这里减去的是真实值μ0而不是X平均所以自由度是n
+\end{dxtips}
 \begin{homework}[5]
 设 $X_1,X_2,\cdots,X_n$ 是独立同分布的，其共同概率密度是
 \[
@@ -3560,7 +3571,36 @@ $$\frac{\chi^2_{0.01}(n)}{\chi^2_{0.9}(n)} \leq 1.21$$
     \item 写出 UMP 检验函数的形式。
 \end{enumerate}
 \end{homework}
+\begin{solution}
+\begin{enumerate}
+    \item[(1)] 计算似然比，取 $\theta_1 < \theta_2$：
+    \[
+    \frac{\prod_{i=1}^n f(X_i;\theta_2)}{\prod_{i=1}^n f(X_i;\theta_1)} = \left(\frac{\theta_2}{\theta_1}\right)^n e^{-(\theta_2-\theta_1)\sum_{i=1}^n X_i}
+    \]
+    因 $\theta_2 > \theta_1$，指数部分关于 $T(\boldsymbol{X}) = \sum_{i=1}^n X_i$ 单调递减，故指数分布族满足 MLR 条件。由 MLR 定理，以下两类单侧假设检验问题有 UMP 检验：
+    \[
+    \text{(a)}\quad H_0: \theta \leqslant \theta_0, \quad H_1: \theta > \theta_0
+    \]
+    \[
+    \text{(b)}\quad H_0: \theta \geqslant \theta_0, \quad H_1: \theta < \theta_0
+    \]
+    双侧检验问题 $H_0: \theta = \theta_0$，$H_1: \theta \neq \theta_0$ 一般不存在 UMP 检验。
 
+    \item[(2)] 由于似然比关于 $\sum X_i$ 单调递减：
+
+    对假设 (a) $H_0: \theta \leqslant \theta_0$，$H_1: \theta > \theta_0$，$\theta$ 越大 $\sum X_i$ 越小，拒绝域为左侧：
+    \[
+    \varphi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i < c_1 \\ 0, & \sum_{i=1}^n X_i \geqslant c_1 \end{cases}
+    \]
+    其中 $c_1$ 由 $P_{\theta_0}\!\left(\sum X_i < c_1\right) = \alpha$ 确定。
+
+    对假设 (b) $H_0: \theta \geqslant \theta_0$，$H_1: \theta < \theta_0$，拒绝域为右侧：
+    \[
+    \varphi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i > c_2 \\ 0, & \sum_{i=1}^n X_i \leqslant c_2 \end{cases}
+    \]
+    其中 $c_2$ 由 $P_{\theta_0}\!\left(\sum X_i > c_2\right) = \alpha$ 确定。注意 $\sum_{i=1}^n X_i \sim \Gamma(n, \theta)$，临界值可由伽马分布表确定。
+\end{enumerate}
+\end{solution}
 \begin{homework}[6]
 一设备有 $n$ 个相同或相似的元件，$X_i$ 为第 $i$ 个元件的失效时间，
 假定 $X_1,\cdots,X_n$ 是来自韦布尔（Weibull）分布
@@ -3586,7 +3626,55 @@ $$\frac{\chi^2_{0.01}(n)}{\chi^2_{0.9}(n)} \leq 1.21$$
     提示：$X_i^c$ 服从指数分布。
 \end{enumerate}
 \end{homework}
+\begin{solution}
+\begin{enumerate}
+    \item[(1)] 注意 $H_0: \dfrac{1}{\lambda} \leqslant \dfrac{1}{\lambda_0}$ 等价于 $H_0: \lambda \geqslant \lambda_0$，$H_1: \lambda < \lambda_0$。取 $\lambda_1 < \lambda_2$，计算似然比：
+    \[
+    \frac{\prod_{i=1}^n f(X_i;\lambda_2)}{\prod_{i=1}^n f(X_i;\lambda_1)} = \left(\frac{\lambda_2}{\lambda_1}\right)^n e^{-(\lambda_2-\lambda_1)\sum_{i=1}^n X_i^c}
+    \]
+    因 $\lambda_2 > \lambda_1$，该似然比关于 $T(\boldsymbol{X}) = \sum_{i=1}^n X_i^c$ 单调递减，Weibull 分布族满足 MLR 条件，故 UMP 检验存在。
 
+    \item[(2)] 似然比关于 $\sum X_i^c$ 单调递减，$\lambda$ 越小（即 $\dfrac{1}{\lambda}$ 越大）对应 $\sum X_i^c$ 越大，故拒绝域为右侧：
+    \[
+    \varphi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i^c > c_0 \\ 0, & \sum_{i=1}^n X_i^c \leqslant c_0 \end{cases}
+    \]
+    由提示，$X_i^c \sim \text{Exp}(\lambda)$，故 $\sum_{i=1}^n X_i^c \sim \Gamma(n,\lambda)$，临界值 $c_0$ 由
+    \[
+    P_{\lambda_0}\!\left(\sum_{i=1}^n X_i^c > c_0\right) = \alpha
+    \]
+    确定。注意 $2\lambda_0 \sum X_i^c \sim \chi^2(2n)$，故
+    \[
+    c_0 = \frac{\chi^2_\alpha(2n)}{2\lambda_0}
+    \]
+
+    \item[(3)] 取 $\lambda_0 = \dfrac{1}{12}$，$\lambda = \dfrac{1}{15}$，$\alpha = 0.01$，要求 $\beta_\varphi\!\left(\dfrac{1}{15}\right) \geqslant 0.95$。
+    
+    功效函数为
+    \[
+    \beta_\varphi\!\left(\frac{1}{15}\right) = P_{\lambda=\frac{1}{15}}\!\left(\sum X_i^c > \frac{\chi^2_{0.01}(2n)}{2\lambda_0}\right) \geqslant 0.95
+    \]
+    在 $\lambda = \dfrac{1}{15}$ 下，$2\lambda \sum X_i^c = \dfrac{2}{15}\sum X_i^c \sim \chi^2(2n)$，故条件等价于
+    \[
+    P\!\left(\chi^2(2n) > \frac{2\lambda}{\cdot 2\lambda_0}\chi^2_{0.01}(2n)\right) = P\!\left(\chi^2(2n) > \frac{\lambda}{\lambda_0}\chi^2_{0.01}(2n)\right) \geqslant 0.95
+    \]
+    代入 $\dfrac{\lambda}{\lambda_0} = \dfrac{1/15}{1/12} = \dfrac{12}{15} = 0.8$，条件变为
+    \[
+    P\!\left(\chi^2(2n) > 0.8\,\chi^2_{0.01}(2n)\right) \geqslant 0.95
+    \]
+    即
+    \[
+    0.8\,\chi^2_{0.01}(2n) \leqslant \chi^2_{0.95}(2n)
+    \]
+    即
+    \[
+    \frac{\chi^2_{0.95}(2n)}{\chi^2_{0.01}(2n)} \geqslant 0.8
+    \]
+    逐一查 $\chi^2$ 分布表，寻找满足上式的最小 $n$。利用正态近似 $\chi^2(m) \approx m\!\left(1 - \dfrac{2}{9m} + z\sqrt{\dfrac{2}{9m}}\right)^3$，可近似求解得 $n$ 的估计值，再查表验证。查表得满足条件的最小样本容量为
+    \[
+    n = 76
+    \]
+\end{enumerate}
+\end{solution}
 \begin{homework}[7]
 设分布族
 \[
@@ -3605,3 +3693,22 @@ $$\frac{\chi^2_{0.01}(n)}{\chi^2_{0.9}(n)} \leq 1.21$$
     \item 若 (1) 回答是肯定的，请写出检验函数的形式。
 \end{enumerate}
 \end{homework}
+\begin{solution}
+\begin{enumerate}
+    \item[(1)] 有 UMP 检验。
+
+    分布族满足 MLR 条件，即似然比 $\dfrac{\prod f(X_i;\theta_2)}{\prod f(X_i;\theta_1)}$ 关于 $T(\boldsymbol{X})$ 单调，$H_0$ 为单点 $\theta = \theta_0$，$H_1$ 为单侧，由 MLR 定理，两个检验问题均存在 UMP 检验。
+
+    \item[(2)] 对检验问题 (a) $H_0: \theta = \theta_0$，$H_1: \theta > \theta_0$，似然比单调递增，拒绝域为右侧：
+    \[
+    \varphi_a(\boldsymbol{X}) = \begin{cases} 1, & T(\boldsymbol{X}) > c_1 \\ \gamma_1, & T(\boldsymbol{X}) = c_1 \\ 0, & T(\boldsymbol{X}) < c_1 \end{cases}
+    \]
+    其中 $c_1$，$\gamma_1$ 由 $E_{\theta_0}[\varphi_a(\boldsymbol{X})] = \alpha$ 确定。
+
+    对检验问题 (b) $H_0: \theta = \theta_0$，$H_1: \theta < \theta_0$，拒绝域为左侧：
+    \[
+    \varphi_b(\boldsymbol{X}) = \begin{cases} 1, & T(\boldsymbol{X}) < c_2 \\ \gamma_2, & T(\boldsymbol{X}) = c_2 \\ 0, & T(\boldsymbol{X}) > c_2 \end{cases}
+    \]
+    其中 $c_2$，$\gamma_2$ 由 $E_{\theta_0}[\varphi_b(\boldsymbol{X})] = \alpha$ 确定。
+\end{enumerate}
+\end{solution}
