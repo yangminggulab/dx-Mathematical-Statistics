@@ -246,3 +246,54 @@ T(\boldsymbol{X}) = T(X_1, X_2, \cdots, X_n) = \sum_{i=1}^{n} t(X_i),
 \end{enumerate}
 \end{corollary}
 \section{4.5无偏检验和一致无偏检验}
+\section{4.6拟合优度检验
+}\begin{theorem}[4.6.1]
+若 $(4.6.1)$ 的原假设 $H_0$ 成立，则
+\[
+U_i = F_0(X_i), \quad i = 1, 2, \cdots, n
+\]
+相互独立，并且服从均匀分布 $U(0,1)$．
+\end{theorem}
+\begin{definition}[PP图与QQ图]
+设 $X_{(1)} \leqslant X_{(2)} \leqslant \cdots \leqslant X_{(n)}$ 为样本顺序统计量，$F_0$ 为待检验的理论分布。
+
+\textbf{PP图}（概率-概率图）：以理论累积概率 $F_0(X_{(i)})$ 为横轴，经验累积概率 $\dfrac{i}{n}$ 为纵轴作散点图。若 $H_0$ 成立，点应落在 $45°$ 对角线附近，对分布中间部分敏感。
+
+\textbf{QQ图}（分位数-分位数图）：以理论分位数 $F_0^{-1}\!\left(\dfrac{i}{n}\right)$ 为横轴，样本顺序统计量 $X_{(i)}$ 为纵轴作散点图。若 $H_0$ 成立，点应落在 $45°$ 对角线附近，对分布尾部敏感，实际中更常用。
+\end{definition}
+\begin{definition}[皮尔逊 $\chi^2$ 统计量]
+设总体 $X$ 的可能取值为 $a_1, a_2, \cdots, a_M$，$n_j$ 为样本中取值为 $a_j$ 的观察频数，$np_j$ 为对应的理论期望频数，构造皮尔逊 $\chi^2$ 统计量：
+\[
+\chi^2 = \sum_{j=1}^M \frac{(n_j - np_j)^2}{np_j}
+\]
+\end{definition}
+
+\begin{theorem}[4.6.2]
+在原假设 $H_0$ 下，$\chi^2 \xrightarrow{L} \chi^2(M-1)$（$n \to \infty$）．
+\end{theorem}
+
+\begin{definition}[皮尔逊 $\chi^2$ 拟合优度检验]
+检验假设
+\[
+H_0: P(X = a_j) = p_j, \quad j = 1, 2, \cdots, M
+\]
+其中 $p_j$ 已知，$\sum_{j=1}^M p_j = 1$。在显著性水平 $\alpha$ 下，检验函数为
+\[
+\varphi = \begin{cases} 1, & \chi^2 > \chi^2_\alpha(M-1) \\ 0, & \chi^2 \leqslant \chi^2_\alpha(M-1) \end{cases}
+\]
+使用条件：每个格子的期望频数 $np_j \geqslant 5$．
+\end{definition}
+\begin{note}
+皮尔逊 $\chi^2$ 检验用于离散型与一般分布时的区别：
+\begin{enumerate}
+    \item \textbf{离散型（有限值，参数已知）}：分布已给出每个取值的概率 $p_j$，直接构造 $\chi^2$ 统计量，自由度为 $M-1$。
+
+    \item \textbf{连续型（一般分布）}：连续分布每个点的概率为 $0$，无法直接数频数，需人为将实数轴划分为 $M$ 个区间，统计每个区间内的观察频数，转化为离散问题后再使用 $\chi^2$ 统计量。
+
+    \item \textbf{参数未知时}：若 $p_j$ 中含有未知参数，需先用 MLE 估计，每估计一个参数自由度减少一个，自由度变为
+    \[
+    \chi^2 \xrightarrow{L} \chi^2(M - 1 - k)
+    \]
+    其中 $k$ 为估计的参数个数。
+\end{enumerate}
+\end{note}
