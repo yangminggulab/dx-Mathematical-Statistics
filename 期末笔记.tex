@@ -101,3 +101,44 @@ $$E[h(X)] = \sum_k h(k) \cdot P(X=k) = g(\theta)$$
 
 所以无偏估计量是找一个公式，用这个公式代入所有可能的样本后，按照这些样本的分布分配给它们概率，然后这个期望等于我们想估计的东西。
 \end{dxtips}
+\begin{dxtips}
+    证明没有无偏函数可以从解析性和多项式来看
+\end{dxtips}
+\subsection{顺序统计量}
+\begin{note}[顺序统计量]
+顺序统计量在一个特定情况下才出现：\textbf{参数出现在分布的支撑边界上（即参数决定数据的范围）。}
+
+\textbf{用顺序统计量：}
+\begin{itemize}
+  \item $U(\theta_1, \theta_2)$：数据必须在 $[\theta_1, \theta_2]$ 里，参数就是边界 $\rightarrow$ 用 $X_{(1)}$、$X_{(n)}$
+  \item $U(0, \theta)$：数据在 $[0, \theta]$ 里，$\theta$ 是上界 $\rightarrow$ 用 $X_{(n)}$
+  \item 双参数指数分布 $f(x) = e^{-(x-\theta)}$，$x \geq \theta$：$\theta$ 是数据的下界 $\rightarrow$ 用 $X_{(1)}$
+\end{itemize}
+
+\textbf{不用顺序统计量：}
+\begin{itemize}
+  \item $N(\mu, \sigma^2)$：数据范围是整个实数轴，$\mu$、$\sigma^2$ 出现在密度公式里 $\rightarrow$ 用 $\bar{X}$、$s^2$
+  \item $P(\lambda)$：$\lambda$ 出现在概率公式里，不影响范围 $\rightarrow$ 用 $\bar{X}$
+\end{itemize}
+
+\begin{note}
+参数在密度公式里 $\rightarrow$ 用 $\bar{X}$、$s^2$ 这类自然统计量；参数在数据的取值范围上 $\rightarrow$ 用极值 $X_{(1)}$、$X_{(n)}$。
+\end{note}
+\begin{note}[顺序统计量期望的等间距直觉]
+$n$ 个点均匀撒在 $[\theta_1, \theta_2]$ 上，平均来说这 $n$ 个点会把区间切成 $n+1$ 段等长的小段，每段长度为：
+$$\frac{\theta_2 - \theta_1}{n+1}$$
+
+因此：
+\begin{itemize}
+  \item $X_{(1)}$ 平均落在距离 $\theta_1$ 一段的位置：
+  $$E[X_{(1)}] = \theta_1 + \frac{\theta_2-\theta_1}{n+1} = \frac{n\theta_1+\theta_2}{n+1}$$
+
+  \item $X_{(n)}$ 平均落在距离 $\theta_2$ 一段的位置：
+  $$E[X_{(n)}] = \theta_2 - \frac{\theta_2-\theta_1}{n+1} = \frac{\theta_1+n\theta_2}{n+1}$$
+\end{itemize}
+
+$X_{(1)}$ 是最小值，靠近 $\theta_1$，故 $\theta_1$ 权重大（$n$ 份），$\theta_2$ 权重小（$1$ 份）；$X_{(n)}$ 反之。
+
+记忆：$n$ 个点把区间切成 $n+1$ 段，最小值在第 $1$ 段末，最大值在第 $n$ 段末。
+\end{note}
+\end{note}
