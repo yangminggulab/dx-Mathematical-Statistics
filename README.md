@@ -1,36 +1,88 @@
-# dx's Mathematical Statistics
+# dx 的数理统计
 
-## Preface
+## 序
 
-If probability theory asks what happens when a distribution is already known, mathematical statistics asks the reverse question: when only a sample is available, how much can we infer about the population behind it?
+如果说概率论是在研究“分布已经给定时会发生什么”，那数理统计更像是在研究另一件事: 当你根本不知道总体长什么样，只拿到一批样本时，你还能反推出多少关于真相的信息。
 
-The key shift is that probability often begins with a population model, while statistics begins with finite, noisy, accidental observations. The subject is about inference under limited evidence.
+我第一次真正意识到这门课和概率论不一样，就是在书里写下那句 `dxtips` 的时候: “概率论里面学的都是总体。”这句话看起来很短，但它几乎就是我理解数理统计的入口。概率论往往是先给你一个分布，再问你它有什么性质；数理统计却是反过来的，它先把样本交到你手里，再问你能不能从这些有限、带噪声、带偶然性的观测里，把那个躲在后面的总体摸出来。
 
-## Why This Book Is Written This Way
+对我来说，数理统计最迷人的地方就在这里。它不像纯概率那样更像在观察一个已经搭好的世界，而像是在凭借有限证据做判断、做推断、做取舍。
 
-Mathematical statistics can easily become a course full of formulas and names that appear unrelated: skewness, sampling distributions, method of moments, maximum likelihood, intervals, tests, chi-square, t distributions, and Neyman-Pearson theory.
+## 为什么我想这样写这本书
 
-This book tries to keep each formula attached to the problem it answers. A statistic is not only an expression to memorize. It has a role: extracting sample information, standardizing uncertainty, controlling distributional shape, or supporting a decision.
+因为我一直觉得，数理统计特别容易被写成一门“公式很多、名词很多、但彼此好像没什么关系”的课。
 
-## What This Book Keeps
+偏度、样本分布、矩估计、极大似然、区间估计、假设检验、卡方、t 分布、Neyman-Pearson……如果只是一个个往下记，很容易把人压得喘不过气。可我自己越写越觉得，这门课的关键并不在于你能不能把每个公式背出来，而在于你能不能看见每一个公式背后到底在回答什么问题。
 
-The notes begin with population, sample, sampling, statistics, sampling distributions, and parameter spaces. They then move into parameter estimation, including method of moments, maximum likelihood, M-estimation, and Bayesian estimation. The later chapters develop interval estimation and hypothesis testing, where inference becomes decision-making.
+所以我在这本书里很喜欢做的一件事，就是“拆公式”。像书里的 `dxtips` 写得很直接: 学习新公式都要把它拆成几个部分。因为很多统计量一旦不拆，读起来只是一整块符号；可一旦拆开，你就会开始看见它的角色: 哪一部分在提取样本信息，哪一部分在做标准化，哪一部分在控制分布形状，哪一部分在服务于推断。
 
-The core thinking order is: identify the available information, identify what must be inferred, and then ask why the chosen statistic is reasonable.
+像“似然就是想通过这个函数确定参数的大小”这种句子，在严格意义上当然是很口语的，可我反而舍不得把它们修得太教科书。因为它们保留了这门课最真实的学习动作: 不是先去背定义，而是先抓住那个动作到底在干什么。
 
-## Intended Readers
+## 这本书想保住的主线
 
-This book is for readers who have studied probability but feel unstable when entering statistical inference. It tries to connect each new statistical action back to familiar probability ideas, and then show what extra step statistics adds.
+它当然有完整的课程主线。
 
-## Overall Roadmap
+前面先从总体、样本、抽样、样本分布、参数空间这些最基本的统计语言出发，帮读者完成从概率视角到统计视角的切换。接着进入参数估计，包括矩估计、极大似然估计、M 估计和 Bayes 估计，让“怎样根据样本猜参数”这件事一步步清楚起来。后面再走到区间估计和假设检验，把推断真正推向“做决定”的层面。
 
-Following the MIT OpenCourseWare statistics framing, mathematical statistics is organized around estimation, confidence intervals, hypothesis testing, chi-square tests, decision theory, and Bayesian methods. This tree matches the repository's notes on statistics, sampling distributions, point estimation, estimator evaluation, interval estimation, and hypothesis testing.
+但如果只把这本书看成这些章节标题，还是不够。因为它真正想保住的，是一种思考顺序: 先想你手上有什么信息，再想你要推什么东西，再想你选的统计量到底凭什么合理。很多公式一旦脱离这个顺序，就只剩背诵；可一旦放回这个顺序里，统计学就会重新变得有逻辑。
 
+## 我想把它写给谁
+
+我想把它写给那种学过概率论，却在数理统计面前突然有点失去把握的人。
+
+你可能会有一种很熟悉的感觉: 每一个词都认识，每一个分布也似曾相识，可一到具体推断问题里，脑子就开始乱。到底什么时候该建模，什么时候该找似然，什么时候该标准化，什么时候是在比较估计量，什么时候是在比较假设？
+
+如果你正处在这个阶段，那这本书也许会比较对路。因为它不是把统计当成一堆从天而降的新技术，而是尽量把每一个动作都接回你已经熟悉的概率背景里，再告诉你这里到底“多做了一步什么”。
+
+## 最后
+
+如果这本书最后能让你慢慢觉得，数理统计不是一门靠死背公式推进的课，而是一门一直在问“我怎样根据有限样本做出尽量可靠判断”的课；如果它能让你在看到一个新统计量时，第一反应不再只是记住它的表达式，而是去问“它到底抓住了样本里的哪部分信息”；如果它能让你体会到，推断的力量并不来自神秘技巧，而来自对样本、参数和误差关系的清醒把握，那么这本书就已经实现了我最想实现的目标。
+
+## 整体规划
+
+参考 MIT OpenCourseWare 统计课程的口径：统计学围绕估计、置信区间、假设检验、卡方检验、决策和 Bayes 方法展开；下面这棵树对应本仓库的统计量、抽样分布、点估计、评价理论、区间估计和假设检验。
+
+```text
+数理统计 = 用样本推断总体
+│
+├── 0  基础工具层（不是目的，是后面四个能力的弹药）
+│   │
+│   ├── 统计量与充分性
+│   │   └── 要点：把 n 个数据点压缩成几个数，同时不损失信息
+│   │
+│   ├── 顺序统计量
+│   │   └── 要点：研究极值/极差的分布，是区间估计和检验的构件
+│   │
+│   └── 抽样分布（χ²/t/F + 正态总体三定理）
+│       └── 要点：告诉你常用统计量服从什么分布，是后续推断的理论支撑
+│
+├── 能力一  猜参数的值  →  点估计
+│   │
+│   ├── 矩估计   令样本矩 = 总体矩，解方程
+│   ├── MLE      找使数据出现概率最大的参数值
+│   └── Bayes    先验 + 数据 → 后验，从后验中提取估计
+│
+├── 能力二  判断估计量好不好  →  评价理论
+│   │
+│   ├── 无偏性          平均不偏（E[θ̂] = θ）
+│   ├── UMVUE           最小方差无偏，理论最优估计量
+│   ├── Fisher信息/C-R  理论极限：方差最小能到多少
+│   └── 相合性/渐近正态  n→∞ 时行为好不好（大样本）
+│
+├── 能力三  给参数定范围  →  区间估计
+│   │
+│   └── 枢轴量法：找一个分布已知的函数 → 反解出参数的置信区间
+│
+└── 能力四  判断假设成不成立  →  假设检验
+    │
+    ├── 构造检验统计量（Z/t/χ²/F）根据场景选表
+    ├── NP引理 → 最优检验（UMP）的理论保证
+    └── 拟合优度检验：数据是否来自某个指定分布
 ```
 
-## Repository Notes
+## 仓库说明
 
-- The main entry is `main.tex`.
-- The body covers foundations, parameter estimation, interval estimation, and hypothesis testing.
-- Exercises and pure homework notes are kept separately.
-- For local compilation, running `xelatex main.tex` twice is usually enough.
+- 主文件是 `main.tex`。
+- 主体内容分布在 `第一章和第二章.tex`、`第三章.tex`、`第四章.tex`。
+- 作业与整理内容在 `作业.tex`、`纯作业.tex`。
+- 若需要本地编译，通常运行 `xelatex main.tex` 两次即可。
