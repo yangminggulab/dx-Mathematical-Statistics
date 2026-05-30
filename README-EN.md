@@ -1,3 +1,38 @@
+## Overall Roadmap
+
+Following the MIT OpenCourseWare statistics framing, mathematical statistics is organized around estimation, confidence intervals, hypothesis testing, chi-square tests, decision theory, and Bayesian methods. This tree matches the repository's notes on statistics, sampling distributions, point estimation, estimator evaluation, interval estimation, and hypothesis testing.
+
+```text
+Mathematical Statistics = using samples to infer populations
+|
++-- 0. Foundation layer, not the goal but the ammunition
+|   +-- Statistics and sufficiency
+|   |   +-- Compress n data points into a few numbers without losing relevant information.
+|   +-- Order statistics
+|   |   +-- Study extrema and ranges as building blocks for intervals and tests.
+|   +-- Sampling distributions: chi-square, t, F, and normal-population theorems
+|       +-- Tell us what distributions common statistics follow.
+|
++-- Ability 1: guess parameter values -> point estimation
+|   +-- Method of moments  set sample moments equal to population moments
+|   +-- MLE                choose parameters that make the observed data most likely
+|   +-- Bayes              prior + data -> posterior, then extract an estimate
+|
++-- Ability 2: judge whether an estimator is good -> evaluation theory
+|   +-- Unbiasedness             average estimate equals the parameter
+|   +-- UMVUE                    minimum-variance unbiased estimator
+|   +-- Fisher information / C-R theoretical lower bound on variance
+|   +-- Consistency / asymptotic normality large-sample behavior
+|
++-- Ability 3: give a parameter range -> interval estimation
+|   +-- Pivotal quantity method  find a known-distribution function and invert it
+|
++-- Ability 4: decide whether a claim should be rejected -> hypothesis testing
+    +-- Test statistics: Z, t, chi-square, F
+    +-- Neyman-Pearson lemma and UMP tests
+    +-- Goodness-of-fit tests for whether data come from a specified distribution
+```
+
 # dx's Mathematical Statistics
 
 ## Preface
@@ -21,12 +56,6 @@ The core thinking order is: identify the available information, identify what mu
 ## Intended Readers
 
 This book is for readers who have studied probability but feel unstable when entering statistical inference. It tries to connect each new statistical action back to familiar probability ideas, and then show what extra step statistics adds.
-
-## Overall Roadmap
-
-Following the MIT OpenCourseWare statistics framing, mathematical statistics is organized around estimation, confidence intervals, hypothesis testing, chi-square tests, decision theory, and Bayesian methods. This tree matches the repository's notes on statistics, sampling distributions, point estimation, estimator evaluation, interval estimation, and hypothesis testing.
-
-```
 
 ## Repository Notes
 
