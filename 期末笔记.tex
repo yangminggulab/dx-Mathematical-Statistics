@@ -293,3 +293,44 @@ $X$ 变，$S$ 就变。所以 $S$ 不是一个数，是一个随机变量。
   \item $\operatorname{Var}(S)$ 小 $\to$ $S$ 总在 $0$ 附近 $\to$ 似然对 $\theta$ 几乎无感 $\to$ 信息少
 \end{itemize}
 \end{note}
+\subsection{CR}
+\begin{note}
+\textbf{C-R 下界在说什么：}
+
+对任意无偏估计量 $\hat{\theta}$，方差不可能低于某个值：
+$$\operatorname{Var}(\hat{\theta}) \geq \frac{1}{nI(\theta)}$$
+就是给方差划了一条\textbf{不可逾越的底线}。
+\end{note}
+
+\begin{note}
+\textbf{为什么被发明：}
+
+能力二的核心问题是"哪个估计量更好"，判断标准是方差小。
+但比较 A 和 B，你只知道 A 比 B 好，不知道 A 是不是最好的。
+
+C-R 下界解决了这个问题——给你一个\textbf{绝对基准}：
+\begin{itemize}
+  \item $\operatorname{Var}(\hat{\theta}) = \dfrac{1}{nI(\theta)}$ $\to$ 最优，没有比它更好的无偏估计量
+  \item $\operatorname{Var}(\hat{\theta}) > \dfrac{1}{nI(\theta)}$ $\to$ 还\textbf{可能}有改进空间
+\end{itemize}
+\end{note}
+\newpage
+\begin{proof}
+    \textbf{第一步：}无偏条件 $E[\hat{\theta}] = \theta$，两边对 $\theta$ 求导：
+$$\int \hat{\theta}\cdot\frac{\partial f}{\partial\theta}\,dx = 1$$
+代入 $\textcolor{red}{\dfrac{\partial f}{\partial\theta} = f\cdot S}$，得：
+$$E[\hat{\theta}\cdot S] = 1$$
+
+\textbf{第二步：}因为 $E[S]=0$，所以：
+$$\operatorname{Cov}(\hat{\theta},\, S) = E[\hat{\theta}\cdot S] - E[\hat{\theta}]\cdot E[S] = 1$$
+
+\textbf{第三步：}柯西-施瓦茨不等式：
+$$\operatorname{Cov}(\hat{\theta},S)^2 \leq \operatorname{Var}(\hat{\theta})\cdot\operatorname{Var}(S) \implies 1 \leq \operatorname{Var}(\hat{\theta})\cdot I(\theta) \implies \operatorname{Var}(\hat{\theta}) \geq \frac{1}{I(\theta)}$$
+$n$ 个样本再除以 $n$ 得 $\dfrac{1}{nI(\theta)}$。
+\end{proof}
+\begin{dxtips}
+柯西-施瓦茨不等式才能把无偏估计的方差连接到不等式中。
+我们已经知道无偏估计的期望是 $\theta$，为了出现 $\dfrac{\partial f}{\partial\theta}$
+从而引入 $S$，所以对两边求导，再利用 $E[S]=0$ 的信息
+和 $\operatorname{Var}(S) = I(\theta)$ 完成这个证明。
+\end{dxtips}
