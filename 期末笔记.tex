@@ -1,4 +1,5 @@
 \chapter{能力二}
+\section{无偏估计}
 很好的问题，这是入门时最容易懵的地方。
 
 \textbf{估计量的定义就是：样本的任意函数。}
@@ -225,4 +226,70 @@ $X_{(1)}$ 是最小值，靠近 $\theta_1$，故 $\theta_1$ 权重大（$n$ 份�
 
 记忆：$n$ 个点把区间切成 $n+1$ 段，最小值在第 $1$ 段末，最大值在第 $n$ 段末。
 \end{note}
+\end{note}
+\section{umvue+CR}
+\subsection{fisher信息}
+\begin{note}
+\textbf{Fisher 想解决的问题：}这组数据对 $\theta$ 有多"敏感"？
+
+如果 $\theta$ 稍微变一点，数据出现的概率就大幅变化——说明数据能精确分辨
+$\theta$ 的位置，信息量大。如果怎么改 $\theta$ 似然函数都几乎不动，
+说明数据对 $\theta$ 几乎无感，信息量小。
+\end{note}
+
+\begin{note}
+得分函数 $S = \dfrac{\partial}{\partial\theta}\ln f(X;\theta)$ 正好衡量这件事：
+它就是对数似然关于 $\theta$ 的导数，即似然函数对 $\theta$ 变化的敏感程度。
+\begin{itemize}
+  \item $S$ 大 $\to$ 似然对 $\theta$ 变化剧烈 $\to$ 数据信息多
+  \item $S$ 小 $\to$ 似然对 $\theta$ 几乎无感 $\to$ 数据信息少
+\end{itemize}
+\end{note}
+\begin{note}
+$f(X;\theta)$ 是什么：是单个 $X$ 的概率密度函数
+
+就是概率密度函数，但把视角反过来——数据 $X$ 已经观测到了，$\theta$ 是未知的。
+$$f(X;\theta) = \text{``如果参数是 } \theta \text{，观测到这个 } X \text{ 的概率有多大？''}$$
+这就是似然函数，$\theta$ 变，这个概率跟着变。
+\begin{itemize}
+  \item 单个 $X$：得分函数为 $S = \dfrac{\partial}{\partial\theta}\ln f(X;\theta)$，
+        只用 $f(X;\theta)$，与 $L(\theta)$ 无关。
+  \item 多个 $X_1,\dots,X_n$：似然函数 $L(\theta)=\prod_{i=1}^n f(X_i;\theta)$，
+        得分函数为
+        $$S_n = \frac{\partial}{\partial\theta}\ln L(\theta)
+        = \sum_{i=1}^n \frac{\partial}{\partial\theta}\ln f(X_i;\theta)
+        = \sum_{i=1}^n S(X_i;\theta)$$
+        此时得分函数与 $L(\theta)$ 产生联系。
+\end{itemize}
+\end{note}
+\begin{dxtips}
+    ln是为了累乘变累加好算，对θ求导数因为本来就是腰算他的变化率
+\end{dxtips}
+\begin{note}
+    似然函数英文叫 Likelihood function。
+\textbf{Likelihood} 是"可能性/合理程度"的意思，不是严格的概率，
+而是"这个 $\theta$ 值有多合理？"
+中文"似然"就是翻译自 likelihood——似乎如此，好像这个参数值是对的。
+\end{note}
+\begin{itemize}
+  \item $f(x \mid \theta)$：竖线后面是条件，贝叶斯里 $\theta$ 被当作随机变量，
+        "在 $\theta$ 已知的条件下"
+  \item $f(x;\theta)$：分号前面是\textbf{观测值}（已知），
+        分号后面是\textbf{参数}（待估），频率派里 $\theta$ 不是随机变量，只是未知常数
+\end{itemize}
+\begin{note}
+得分函数 $S(X;\theta)$ 本身是随机的，因为 $X$ 是随机的。
+
+对于固定的 $\theta$，不同的 $X$ 值会给出不同的 $S$：
+$$S(X;\theta) = \frac{\partial}{\partial\theta}\ln f(X;\theta)$$
+$X$ 变，$S$ 就变。所以 $S$ 不是一个数，是一个随机变量。
+
+我们已经知道 $E[S]=0$，均值没有信息。因为 $f(x;\theta)$ 是关于 $x$ 的概率密度，
+积分恒为 $1$，两边对 $\theta$ 求导所以等于 $0$。
+
+那用什么来总结"$S$ 平均能偏离 $0$ 多远"？自然就是方差：
+\begin{itemize}
+  \item $\operatorname{Var}(S)$ 大 $\to$ $S$ 经常取大值 $\to$ 似然对 $\theta$ 平均很敏感 $\to$ 信息多
+  \item $\operatorname{Var}(S)$ 小 $\to$ $S$ 总在 $0$ 附近 $\to$ 似然对 $\theta$ 几乎无感 $\to$ 信息少
+\end{itemize}
 \end{note}
