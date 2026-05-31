@@ -1818,6 +1818,18 @@ E[X_{(1)}] = \frac{n\theta_1 + \theta_2}{n+1}, \quad E[X_{(n)}] = \frac{\theta_1
 \]
 \end{solution}
 
+\begin{dxtips}
+    E(X1)里面的X1是实验前的，θ1=那个X1是真实的X1，只要没带入具体数字就是大写，代入具体数字了就是小写。
+    
+\end{dxtips}
+\begin{note}
+    因为期望是线性的，对 $\hat{\theta}_1 = \dfrac{nX_{(1)}-X_{(n)}}{n-1}$ 取期望：
+$$E[\hat{\theta}_1] = \frac{nE[X_{(1)}]-E[X_{(n)}]}{n-1} = \theta_1$$
+正好等于 $\theta_1$，所以它是无偏估计量。
+
+$\hat{\theta}_1$ 不是一个具体数字，而是公式本身，是随机变量，
+故 $X_{(1)}$ 仍为大写，我们还在实验前。
+\end{note}
 \begin{dxtips}[均匀分布必记]
 \[
 f(x) = \frac{1}{\theta_2-\theta_1}, \quad F(x) = \frac{x-\theta_1}{\theta_2-\theta_1}
@@ -1842,9 +1854,13 @@ E[\tilde{\theta}] = E[a\hat{\theta} + b\theta^*] = aE[\hat{\theta}] + bE[\theta^
 a + b = 1
 \]
 \end{solution}
+\begin{dxtips}
+    要让$\tilde{\theta}$这个公式是无偏估计量其实就是问他的期望等不等于θ
+\end{dxtips}
 \begin{homework}{6}
 设 $X \sim U(0,\theta)$，$X_1, X_2, \cdots, X_n$ i.i.d. 为来自 $X$ 的样本，试分别求 $\theta^2, \theta^{-1}$ 的无偏估计量。
 \end{homework}
+
 \begin{solution}
 $X \sim U(0,\theta)$ 的顺序统计量最大值期望为 $E[X_{(n)}] = \dfrac{n\theta}{n+1}$，故
 \[
@@ -1873,22 +1889,19 @@ E[X_{(n)}^{-1}] = \int_0^\theta x^{-1} \cdot \frac{nx^{n-1}}{\theta^n}dx = \frac
 \widehat{\theta^{-1}} = \frac{n-1}{n}X_{(n)}^{-1} = \frac{n-1}{nX_{(n)}}
 \]
 \end{solution}
-\begin{dxtips}[$U(0,\theta)$ 顺序统计量矩公式]
-$U(0,\theta)$ 的 $X_{(n)}$ 密度为 $f_{(n)}(x) = \dfrac{nx^{n-1}}{\theta^n}$，求 $E[X_{(n)}^k]$ 有通用公式：
-\[
-E[X_{(n)}^k] = \int_0^\theta x^k \cdot \frac{nx^{n-1}}{\theta^n}dx = \frac{n}{\theta^n}\int_0^\theta x^{n+k-1}dx = \frac{n}{\theta^n}\cdot\frac{\theta^{n+k}}{n+k} = \frac{n\theta^k}{n+k}
-\]
-记住这一个公式就够了：
-\[
-E[X_{(n)}^k] = \frac{n\theta^k}{n+k}
-\]
-代入不同的 $k$：
+\begin{dxtips}
 \begin{itemize}
-  \item $k=1$：$E[X_{(n)}] = \dfrac{n\theta}{n+1}$
-  \item $k=2$：$E[X_{(n)}^2] = \dfrac{n\theta^2}{n+2}$
-  \item $k=-1$：$E[X_{(n)}^{-1}] = \dfrac{n\theta^{-1}}{n-1}$
+  \item 此题让我们找到一个公式对 $X_i$ 操作，使其期望等于 $\theta^2$ 或 $\theta^{-1}$。
+  \item $\theta$ 一般用最大值作估计量，先把 $X_{(n)}$ 弄出来再进行下一步。
+  \item 求 $E[X_{(n)}^2]$ 就是把积分里的 $x$ 变成 $x^2$，
+        求 $E[X_{(n)}^{-1}]$ 就是把原来的 $x$ 换成 $\dfrac{1}{x}$。
 \end{itemize}
 \end{dxtips}
+两步走：
+\begin{enumerate}
+  \item 先找 $E[X_{(n)}^k]$，因为 $X_{(n)}$ 是 $\theta$ 的天然载体。
+  \item 凑出系数让期望正好等于 $\theta^2$ 或 $\theta^{-1}$。
+\end{enumerate}
 \begin{homework}{1}
 证明：
 \[

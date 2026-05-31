@@ -105,6 +105,36 @@ $$E[h(X)] = \sum_k h(k) \cdot P(X=k) = g(\theta)$$
     证明没有无偏函数可以从解析性和多项式来看
 \end{dxtips}
 \subsection{顺序统计量}
+```latex
+\begin{example}{为什么需要顺序统计量：从电路寿命说起}
+你有 $n = 5$ 个灯泡，串联组成一条电路——\textbf{一个坏了，全线中断}。
+问：这条电路能撑多久？
+
+你知道每个灯泡的寿命 $X_i$ 服从同一分布 $F(x)$，也可以算出样本均值 $\bar{X}$。
+但 $\bar{X}$ 在这里毫无用处：它告诉你的是"平均每个灯泡能用多久"，
+而电路的寿命取决于\textbf{最先坏掉的那个}，即
+\[
+    T_{\text{串联}} = \min\{X_1, X_2, X_3, X_4, X_5\} = X_{(1)}.
+\]
+如果改成并联电路——\textbf{全部坏了才断}，则寿命取决于\textbf{最后一个}：
+\[
+    T_{\text{并联}} = \max\{X_1, X_2, X_3, X_4, X_5\} = X_{(n)}.
+\]
+
+\begin{itemize}
+    \item $\bar{X}$ 描述数据的"整体水平"，把每个点的位置信息\textbf{平均掉了}。
+    \item $X_{(1)}, \dots, X_{(n)}$ 保留了"第几名"的位置信息，
+          专门回答极值、中间值、排名类问题。
+\end{itemize}
+
+凡是问题出现"最大""最小""第 $r$ 小""中位数"，本质上都是在问顺序统计量——
+这就是它被发明的根本原因。
+\end{example}
+\begin{dxtips}
+    均值方差是"融合"数据，顺序统计量是"保留位置"的数据。
+    一类问题问平均水平用前者；一类问题问第几名用后者。
+    两种工具解决两类完全不同的问题。
+\end{dxtips}
 \begin{note}[顺序统计量]
 顺序统计量在一个特定情况下才出现：\textbf{参数出现在分布的支撑边界上（即参数决定数据的范围）。}
 
@@ -120,8 +150,62 @@ $$E[h(X)] = \sum_k h(k) \cdot P(X=k) = g(\theta)$$
   \item $N(\mu, \sigma^2)$：数据范围是整个实数轴，$\mu$、$\sigma^2$ 出现在密度公式里 $\rightarrow$ 用 $\bar{X}$、$s^2$
   \item $P(\lambda)$：$\lambda$ 出现在概率公式里，不影响范围 $\rightarrow$ 用 $\bar{X}$
 \end{itemize}
+\begin{dxtips}
+    设 $X_1, X_2, \cdots, X_8$ i.i.d. $\sim U(0, \theta)$，
+观测值为 $1, 2, 3, 4, 5, 6, 7, 8$，
+则 $X_{(8)} = \max\{X_1, \cdots, X_8\} = 8$，
+用 $X_{(8)}$ 估计 $\theta$。
+我们求 $X_{(n)}$ 的期望来估计 $\theta$，
+就像我们拿 $\bar{X}$ 的期望估计正态分布的 $\mu$。
+求期望里面都是变量不是真实的数字是实验前。
+\end{dxtips}
+\begin{example}
+$X_{(n)}$ 虽然是从 $X_1,\dots,X_8$ 里来的，但它不是随机抽的一个，
+它是特意挑出最大的那个。挑最大值这个动作改变了分布。
 
+具体来说，设 $\theta = 10$：
+
+$$P(X_i \leq 5) = \frac{5}{10} = 0.5$$
+
+随便一个 $X_i$ 有 $50\%$ 概率 $\leq 5$，合理。
+
+$$P(X_{(8)} \leq 5) = \left(\frac{5}{10}\right)^8 = \frac{1}{256} \approx 0.4\%$$
+
+8 个数里最大值还 $\leq 5$，概率只有 $0.4\%$。
+
+直觉：8 个数都取到 5 以下，这件事几乎不可能发生，
+因为总会有某个数跑到 5 以上。
+所以 $X_{(n)}$ 虽然也是 $X_i$ 里的一个，
+但它天生偏大，分布和普通 $X_i$ 不一样。
+\end{example}
+\begin{dxtips}
+    这里的 $X_1, \dots, X_8$ 不是最大值 $X_{(8)}$，而是八个原始样本。
+最大值小于 $5$ 等于全部八个样本都小于 $5$ 的概率，
+每一个都服从 $U(0,\theta)$，小于 $5$ 的概率都是 $\dfrac{5}{\theta}$。
+\end{dxtips}
 \begin{note}
+$$F_{(n)}(x) = \left(\frac{x}{\theta}\right)^n$$
+
+$$f_{(n)}(x) = \frac{nx^{n-1}}{\theta^n}$$
+
+$$E[X_{(n)}] = \int_0^\theta x \cdot \frac{nx^{n-1}}{\theta^n}\,dx 
+= \frac{n}{\theta^n}\int_0^\theta x^n\,dx 
+= \frac{n}{\theta^n} \cdot \frac{\theta^{n+1}}{n+1} 
+= \frac{n\theta}{n+1}$$
+\end{note}
+
+\begin{dxtips}
+    原本从 $0$ 积分到 $\theta$，故
+$$E[X_{(n)}] = \frac{n\theta + 0}{n+1}$$
+现从 $\theta_1$ 积分到 $\theta_2$，把 $\theta$ 换成 $\theta_2$，$0$ 换成 $\theta_1$：
+$$E[X_{(n)}] = \frac{n\theta_2 + \theta_1}{n+1}$$
+
+同理，$E[X_{(1)}]$ 把积分区域反过来，从 $\theta_2$ 积分到 $\theta_1$，
+$n$ 后面跟着的是 $\theta_1$，另外加的是起始点 $\theta_2$：
+$$E[X_{(1)}] = \frac{n\theta_1 + \theta_2}{n+1}$$
+\end{dxtips}
+\begin{note}
+
 参数在密度公式里 $\rightarrow$ 用 $\bar{X}$、$s^2$ 这类自然统计量；参数在数据的取值范围上 $\rightarrow$ 用极值 $X_{(1)}$、$X_{(n)}$。
 \end{note}
 \begin{note}[顺序统计量期望的等间距直觉]
