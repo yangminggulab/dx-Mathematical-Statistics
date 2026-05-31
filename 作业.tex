@@ -1726,9 +1726,13 @@ E[\theta] = \frac{b'a'}{b'-1}, \quad b' > 1
 
 看见什么似然就条件反射想到对应的先验，这是贝叶斯计算的基本功。看见均匀似然 + 帕累托先验，直接知道后验还是帕累托，只需要找新参数就行了。
 \end{note}
+\section{无偏估计}
 \begin{homework}{1}
 （泊松分布）设 $X \sim P(\lambda)$，试求样本量为 $1$ 时 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量，并说明该估计的不合理性。
 \end{homework}
+\begin{dxtips}
+    所以他想让我找到一个函数 $h(X)$，代入 $X$ 后期望等于 $e^{-2\lambda}$
+\end{dxtips}
 \begin{solution}
 设 $\hat{g}(X)$ 为 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量，需满足
 \[
