@@ -1902,12 +1902,19 @@ E[X_{(n)}^{-1}] = \int_0^\theta x^{-1} \cdot \frac{nx^{n-1}}{\theta^n}dx = \frac
   \item 先找 $E[X_{(n)}^k]$，因为 $X_{(n)}$ 是 $\theta$ 的天然载体。
   \item 凑出系数让期望正好等于 $\theta^2$ 或 $\theta^{-1}$。
 \end{enumerate}
+
+\section{第七周作业}
 \begin{homework}{1}
 证明：
 \[
 I(\theta) = \operatorname{Var}\left(\frac{\partial}{\partial\theta}\ln f(X;\theta)\right) = -E\left(\frac{\partial^2}{\partial\theta^2}\ln f(X;\theta)\right)
 \]
 \end{homework}
+\begin{dxtips}
+得分函数 $S$ 是关于 $X$ 的函数，求期望的时候只是把原本的权重 $x$ 换成 $S$，
+原本对应的概率密度 $f(x;\theta)$ 没变，$\ln f$ 就是 $\ln f(x;\theta)$ 简写，
+求 $S^2$ 期望就是把权重从 $S$ 变成 $S^2$。
+\end{dxtips}
 \begin{proof}
 记 $S(X;\theta) = \dfrac{\partial}{\partial\theta}\ln f(X;\theta)$，称为\textbf{得分函数}。
 
@@ -1917,6 +1924,10 @@ I(\theta) = \operatorname{Var}\left(\frac{\partial}{\partial\theta}\ln f(X;\thet
 \[
 \int \frac{\partial}{\partial\theta} f(x;\theta)\,\mathrm{d}x = 0.
 \]
+$$\frac{\partial}{\partial\theta}f 
+= \frac{\partial}{\partial\theta}e^{\ln f} 
+= e^{\ln f}\cdot\frac{\partial}{\partial\theta}\ln f 
+= f\cdot S$$
 注意到
 \[
 \frac{\partial}{\partial\theta} f(x;\theta) = f(x;\theta)\cdot S(x;\theta),
@@ -1938,9 +1949,20 @@ I(\theta) = \operatorname{Var}\left(\frac{\partial}{\partial\theta}\ln f(X;\thet
 \]
 \end{proof}
 \begin{dxtips}
-    $I\theta=\mathrm{var}$是确定的，其实这里就是要巧妙利用$E(S)$的期望是0，他期望是0的原因就是因为导数和积分可以交换位置然后概率密度积分永远是1，然后$\ln S$求导总有一个$1/s$所以此才会有有$f\cdot S=f/d\theta$。求期望就是要乘$f$的所以这里的积分最后都能写成期望
+    积分公式里面的f之所以没有了是因为求期望就是要乘$f$的所以这里的积分，最后都能写成期望。
 \end{dxtips}
-\section{第七周作业}
+\begin{note}
+    $$\frac{\partial}{\partial\theta}(S\cdot f) = \underbrace{\frac{\partial S}{\partial\theta}\cdot f}_{\text{前导后不导}} + \underbrace{S\cdot\frac{\partial f}{\partial\theta}}_{\text{前不导后导}}$$
+
+\begin{itemize}
+想出是Sf像乘是因为出现对lnf对二阶导哪一项必须是对S这个已经有一阶导导再求一次导剩下的那个就是未求导导原始式子
+  \item 前导后不导 $\dfrac{\partial S}{\partial\theta}\cdot f = \dfrac{\partial^2}{\partial\theta^2}\ln f\cdot f$ $\to$ 积分后得 $E\!\left[\dfrac{\partial^2}{\partial\theta^2}\ln f\right]$
+  \item 前不导后导 $S\cdot\dfrac{\partial f}{\partial\theta} = S^2\cdot f$ $\to$ 积分后得 $E[S^2]$
+\end{itemize}
+\end{note}
+\begin{dxtips}
+    $I\theta=\mathrm{var}$是确定的，其实这里就是要巧妙利用$E(S)$的期望是0，他期望是0的原因就是因为导数和积分可以交换位置然后概率密度积分永远是1，然后$\ln S$求导总有一个$1/s$所以此才会有有$f\cdot S=f/d\theta$。
+\end{dxtips}
 \begin{homework}[7]
 设 $W$ 是 $\theta$ 的无偏估计量，若 $W$ 满足
 \begin{enumerate}[(1)]
@@ -4029,3 +4051,32 @@ $i$ & $x_{(i)}$ & $F_n(x_{(i)}) = i/10$ & $F(x_{(i)})$ \\
 故认为该样本\textbf{来自两参数Weibull分布}。
 
 \end{solution}
+\subsection{13周}
+\begin{homework}[5.2.1]
+酒精贮存：一些化学元素将发生变化，威士忌经贮存颜色变深，味道更鲜美。
+下表给出了威士忌酒的贮存年限及相应的浓度。试给出原始数据散点图和拟合的直线。
+给出威士忌酒浓度和贮存年限的关系，预测一下贮存 $9$ 年的威士忌的浓度是多少？
+
+\[
+\begin{array}{c|ccccccccc}
+\hline
+\text{年限} & 0 & 0.5 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+\hline
+\text{浓度}/10^{-6} & 104.6 & 104.1 & 104.4 & 105.0 & 106.0 & 106.8 & 107.7 & 108.7 & 110.6 & 112.1 \\
+\hline
+\end{array}
+\]
+\end{homework}
+
+\begin{homework}[5.2.2]
+设 $X_1, X_2, \cdots, X_n$ i.i.d.，
+$X_1 \sim N(0,\sigma^2)$，$u \in \mathbb{R}^n$，$u^T u = 1$，证明：
+\[
+\frac{X^T(I_n - uu^T)X}{\sigma^2}
+\]
+服从自由度为 $n-1$ 的 $\chi^2$ 分布，其中
+\[
+X^T = (X_1, X_2, \cdots, X_n),
+\]
+$I_n$ 是 $n$ 阶单位阵。
+\end{homework}
