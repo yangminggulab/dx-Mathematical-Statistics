@@ -421,6 +421,12 @@ $$E_\theta[g_1(T) - g_2(T)] = 0 \quad \forall\theta$$
 \begin{dxtips}
     所以完备统计量就抱着基于T的无偏估计只有一个，因为只有一个所以一定是umvue对吗
 \end{dxtips}
+\subsection{因子分解定理}
+\begin{theorem}[Fisher-Neyman 因子分解定理]
+$T(\boldsymbol{X})$ 是 $\theta$ 的充分统计量 $\iff$ 联合密度可分解为
+$$f(\boldsymbol{x};\theta) = g(T(\boldsymbol{x}),\,\theta)\cdot h(\boldsymbol{x})$$
+其中 $g$ 通过 $T$ 依赖数据，$h$ 完全不含 $\theta$。
+\end{theorem}
 \begin{note}[因子分解定理的直觉]
 联合密度 $f(\boldsymbol{x};\theta) = \prod_{i=1}^n f(x_i;\theta)$ 包含了样本关于 $\theta$ 的全部信息。
 
@@ -433,11 +439,9 @@ $$f(\boldsymbol{x};\theta) = g(T(\boldsymbol{x}),\,\theta)\cdot h(\boldsymbol{x}
     \item $g(T(\boldsymbol{x}),\theta)$：既含 $\theta$ 又含数据，但数据只通过 $T(\boldsymbol{x})$ 与 $\theta$ 互动。$T(\boldsymbol{x})$ 就是这个互动中数据那一侧的函数，即充分统计量。
     \item $h(\boldsymbol{x})$：只含数据，不含 $\theta$，与 $\theta$ 零互动——不管 $\theta$ 取何值，$h(\boldsymbol{x})$ 不变，对推断 $\theta$ 毫无贡献。
 \end{itemize}
-
-\
 \end{note}
 \begin{dxtips}
-    textbf{两句话总结：}
+\textbf{两句话总结：}
 \begin{itemize}
     \item 联合密度保证了关于 $\theta$ 的信息完整。
     \item 因子分解保证了 $T(\boldsymbol{X})$ 是与 $\theta$ 互动的全部，$h(\boldsymbol{x})$ 里没有任何关于 $\theta$ 的额外信息。

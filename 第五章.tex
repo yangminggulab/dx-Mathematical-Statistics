@@ -24,3 +24,57 @@ E(Y \mid X=x)
 {\sqrt{\operatorname{Var}(X)\operatorname{Var}(Y)}}.
 \]
 \end{theorem}
+
+\section{简单线性回归模型}
+
+\begin{definition}[简单线性回归模型]
+设
+\[
+Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \quad i=1,\ldots,n,
+\]
+其中 $\varepsilon_i \overset{\text{i.i.d.}}{\sim} N(0,\sigma^2)$，$x_i$ 为已知常数，$\beta_0,\beta_1,\sigma^2$ 未知。
+\end{definition}
+
+\begin{theorem}[OLS 估计量]
+最小二乘估计量为
+\[
+\hat{\beta}_1 = \frac{\sum_{i=1}^n (x_i-\bar{x})(Y_i-\bar{Y})}{\sum_{i=1}^n (x_i-\bar{x})^2}, \qquad
+\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1\bar{x}.
+\]
+\end{theorem}
+
+\begin{theorem}[点预测]
+给定新观测点 $x^*$，因变量的点预测值为
+\[
+\hat{Y}(x^*) = \hat{\beta}_0 + \hat{\beta}_1 x^*.
+\]
+\end{theorem}
+
+\section{投影与幂等矩阵}
+
+\begin{definition}[幂等矩阵]
+矩阵 $P$ 满足 $P^2 = P$，则称 $P$ 为幂等矩阵。
+\end{definition}
+
+\begin{theorem}[幂等矩阵的二次型服从 $\chi^2$ 分布]
+设 $\boldsymbol{X} \sim N(\boldsymbol{0}, \sigma^2 I_n)$，$P$ 为 $n\times n$ 对称幂等矩阵，$\mathrm{rank}(P)=r$，则
+\[
+\frac{\boldsymbol{X}^T P \boldsymbol{X}}{\sigma^2} \sim \chi^2(r).
+\]
+\end{theorem}
+
+\begin{example}[投影定理：5.2.2]
+设 $\boldsymbol{u} = \dfrac{1}{\sqrt{n}}(1,1,\ldots,1)^T$，则 $\boldsymbol{u}^T\boldsymbol{u}=1$，令 $P = I_n - \boldsymbol{u}\boldsymbol{u}^T$。
+
+\textbf{验证幂等：}
+\[
+P^2 = (I_n-\boldsymbol{u}\boldsymbol{u}^T)^2 = I_n - 2\boldsymbol{u}\boldsymbol{u}^T + \boldsymbol{u}\underbrace{(\boldsymbol{u}^T\boldsymbol{u})}_{=1}\boldsymbol{u}^T = I_n - \boldsymbol{u}\boldsymbol{u}^T = P. \quad \checkmark
+\]
+
+\textbf{验证秩：}$\mathrm{rank}(\boldsymbol{u}\boldsymbol{u}^T)=1$，故 $\mathrm{rank}(P)=n-1$。
+
+由幂等矩阵定理：
+\[
+\frac{\boldsymbol{X}^T(I_n-\boldsymbol{u}\boldsymbol{u}^T)\boldsymbol{X}}{\sigma^2} \sim \chi^2(n-1).
+\]
+\end{example}

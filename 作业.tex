@@ -1955,7 +1955,7 @@ I(\theta) = \operatorname{Var}\left(\frac{\partial}{\partial\theta}\ln f(X;\thet
     $$\frac{\partial}{\partial\theta}(S\cdot f) = \underbrace{\frac{\partial S}{\partial\theta}\cdot f}_{\text{前导后不导}} + \underbrace{S\cdot\frac{\partial f}{\partial\theta}}_{\text{前不导后导}}$$
 
 \begin{itemize}
-想出是Sf像乘是因为出现对lnf对二阶导哪一项必须是对S这个已经有一阶导导再求一次导剩下的那个就是未求导导原始式子
+  \item 想出是Sf像乘是因为出现对lnf对二阶导哪一项必须是对S这个已经有一阶导导再求一次导剩下的那个就是未求导导原始式子
   \item 前导后不导 $\dfrac{\partial S}{\partial\theta}\cdot f = \dfrac{\partial^2}{\partial\theta^2}\ln f\cdot f$ $\to$ 积分后得 $E\!\left[\dfrac{\partial^2}{\partial\theta^2}\ln f\right]$
   \item 前不导后导 $S\cdot\dfrac{\partial f}{\partial\theta} = S^2\cdot f$ $\to$ 积分后得 $E[S^2]$
 \end{itemize}
@@ -2179,7 +2179,6 @@ $$
 Fisher 信息量为
 $$
 I(\lambda) = E\left[\left(-\frac{1}{2\lambda} + \frac{(X-\mu)^2}{2\lambda^2}\right)^2\right].
-
 $$
 
 展开并利用 $(X-\mu)^2 \sim \lambda\chi^2(1)$，即 $E(X-\mu)^2 = \lambda$，$E(X-\mu)^4 = 3\lambda^2$：
@@ -2667,7 +2666,7 @@ n(h(\hat{\theta}) - h(\theta_0)) = \frac{1}{2}\left[\sqrt{n}(\hat{\theta}-\theta
 \end{proof}
 \begin{dxtips}
 看到 $n(\cdots)^2$ 的形式，条件反射就应该想到：能不能凑成 $[\sqrt{n}(\cdots)]^2$，然后用正态平方是卡方？这是一个固定套路，见多了就会了．
-Slutsky一个服从依分布收敛到 $X$ 乘一个服从依概率收敛到常数的，结果依分布收敛到常数 $\times X$．他就是作用于一个依分布收敛和一个依概率收敛到常数除了*还能+-➗
+Slutsky一个服从依分布收敛到 $X$ 乘一个服从依概率收敛到常数的，结果依分布收敛到常数 $\times X$．他就是作用于一个依分布收敛和一个依概率收敛到常数除了 $*$ 还能 $+$、$-$、$\div$
 \end{dxtips}
 \subsection{3.5}
 \begin{definition}[Beta 分布]
@@ -4137,7 +4136,7 @@ $i$ & $x_{(i)}$ & $F_n(x_{(i)}) = i/10$ & $F(x_{(i)})$ \\
 给出威士忌酒浓度和贮存年限的关系，预测一下贮存 $9$ 年的威士忌的浓度是多少？
 
 \[
-\begin{array}{c|ccccccccc}
+\begin{array}{c|cccccccccc}
 \hline
 \text{年限} & 0 & 0.5 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
 \hline
