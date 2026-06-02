@@ -1,0 +1,37 @@
+\setCJKmainfont[
+  Path=/System/Library/Fonts/Supplemental/,
+  FontIndex=6,
+  BoldFont={Songti.ttc},
+  BoldFeatures={FontIndex=6,FakeBold=2},
+  ItalicFont={Songti.ttc},
+  ItalicFeatures={FontIndex=6,FakeSlant=0.2}
+]{Songti.ttc}
+\setCJKsansfont[
+  Path=/System/Library/Fonts/,
+  FontIndex=1
+]{STHeiti Medium.ttc}
+\setCJKmonofont[
+  Path=/System/Library/AssetsV2/com_apple_MobileAsset_Font7/1821952872c81043711aab6910052b65da8edf2c.asset/AssetData/
+]{STFANGSO.ttf}
+\setCJKfamilyfont{zhsong}[
+  Path=/System/Library/Fonts/Supplemental/,
+  FontIndex=6
+]{Songti.ttc}
+\setCJKfamilyfont{zhhei}[
+  Path=/System/Library/Fonts/,
+  FontIndex=1
+]{STHeiti Medium.ttc}
+\setCJKfamilyfont{zhkai}[
+  Path=/System/Library/AssetsV2/com_apple_MobileAsset_Font7/28f00a24ba19995bab7249993e6e35d11011074a.asset/AssetData/
+]{Kai.ttf}
+\setCJKfamilyfont{zhfs}[
+  Path=/System/Library/AssetsV2/com_apple_MobileAsset_Font7/1821952872c81043711aab6910052b65da8edf2c.asset/AssetData/
+]{STFANGSO.ttf}
+\providecommand*{\songti}{}
+\providecommand*{\heiti}{}
+\providecommand*{\kaishu}{}
+\providecommand*{\fangsong}{}
+\renewcommand*{\songti}{\CJKfamily{zhsong}}
+\renewcommand*{\heiti}{\CJKfamily{zhhei}}
+\renewcommand*{\kaishu}{\CJKfamily{zhkai}}
+\renewcommand*{\fangsong}{\CJKfamily{zhfs}}
