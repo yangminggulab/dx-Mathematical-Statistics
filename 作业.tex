@@ -2111,12 +2111,18 @@ $\dfrac{\partial}{\partial\theta}\ln f$ 叫做\textbf{得分函数（score funct
 $I(\theta)$$fisher$函数 就是这个得分函数的方差也是二阶矩（因为可以证明得分函数期望为 $0$，所以它的二阶矩就等于方差）。
 \end{dxtips}
 \begin{solution}
+\begin{dxtips}[原始式子先去对数]
+    $$f(x;\mu,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+\end{dxtips}
 正态总体 $X \sim N(\mu, \sigma^2)$ 的对数密度为
 $$
 \ln f(x;\mu,\sigma^2) = -\frac{1}{2}\ln(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}.
 $$
 \begin{dxtips}
-    因为有两个参数既可以对$\mu$求导也能对$\sigma$求导
+因为有两个参数，既可以对 $\mu$ 求导也可以对 $\sigma$ 求导。
+求 $\mu$ 的 C-R 下界就要先求 $\mu$ 的得分函数：先 $\ln$，再对 $\mu$ 求导。
+然后因为 Fisher 信息量是得分函数的方差，
+又因为得分函数的期望是 $0$，所以直接求得分函数的二阶矩就行了。
 \end{dxtips}
 \textbf{计算 $\mu$ 的 C-R 下界：} 将 $\sigma^2$ 视为已知，对 $\mu$ 求导：
 $$
@@ -2139,7 +2145,9 @@ $$
 Fisher 信息量为
 $$
 I(\lambda) = E\left[\left(-\frac{1}{2\lambda} + \frac{(X-\mu)^2}{2\lambda^2}\right)^2\right].
+
 $$
+
 展开并利用 $(X-\mu)^2 \sim \lambda\chi^2(1)$，即 $E(X-\mu)^2 = \lambda$，$E(X-\mu)^4 = 3\lambda^2$：
 $$
 I(\lambda) = \frac{1}{4\lambda^2} - \frac{E(X-\mu)^2}{2\lambda^3} + \frac{E(X-\mu)^4}{4\lambda^4} = \frac{1}{4\lambda^2} - \frac{1}{2\lambda^2} + \frac{3}{4\lambda^2} = \frac{1}{2\lambda^2} = \frac{1}{2\sigma^4}.
@@ -2150,6 +2158,11 @@ $$
 $$
 而 $\mathrm{Var}(s^2) = \dfrac{2\sigma^4}{n-1} > \dfrac{2\sigma^4}{n}$，故 $s^2$ 未达到 C-R 下界，但仍是 $\sigma^2$ 的 UMVUE。
 \end{solution}
+\begin{dxtips}
+   这里用到的就是标准正态分布的平方服从 $\chi^2(1)$。
+$-\mu$ 是减去均值，分母的 $\lambda$ 就是方差 $\sigma^2$，
+除以 $\lambda$ 完成标准化，平方后得到 $\chi^2(1)$。看到复杂求期望一定得想能套什么公式
+\end{dxtips}
 \begin{dxtips}
     因为 UMVUE 是针对某个特定参数定义的——方差最小的无偏估计量，不同参数当然对应不同的估计量。C-R 下界是所有无偏估计方差的一个\textbf{充分条件}，不是必要条件——达到下界一定是 UMVUE，但 UMVUE 不一定达到下界。因为 $2\pi$ 是常数，$\ln(2\pi\lambda) = \ln(2\pi) + \ln\lambda$，对 $\lambda$ 求导时 $\ln(2\pi)$ 直接消掉，只剩 $\dfrac{1}{\lambda}$。
 \end{dxtips}
@@ -4051,7 +4064,7 @@ $i$ & $x_{(i)}$ & $F_n(x_{(i)}) = i/10$ & $F(x_{(i)})$ \\
 故认为该样本\textbf{来自两参数Weibull分布}。
 
 \end{solution}
-\subsection{13周}
+\section{13周}
 \begin{homework}[5.2.1]
 酒精贮存：一些化学元素将发生变化，威士忌经贮存颜色变深，味道更鲜美。
 下表给出了威士忌酒的贮存年限及相应的浓度。试给出原始数据散点图和拟合的直线。

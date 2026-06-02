@@ -293,6 +293,16 @@ $X$ 变，$S$ 就变。所以 $S$ 不是一个数，是一个随机变量。
   \item $\operatorname{Var}(S)$ 小 $\to$ $S$ 总在 $0$ 附近 $\to$ 似然对 $\theta$ 几乎无感 $\to$ 信息少
 \end{itemize}
 \end{note}
+\begin{note}
+    $E[S]=0$ 的推导依赖一步交换：
+$$\frac{\partial}{\partial\theta}\int f(x;\theta)\,dx = \int \frac{\partial}{\partial\theta}f(x;\theta)\,dx$$
+左边对 $\int f\,dx = 1$ 求导得 $0$，右边整理后就是 $E[S]$，所以 $E[S]=0$。
+
+但这个交换要求\textbf{积分上下限不含 $\theta$}。$U(0,\theta)$ 的积分上限就是 $\theta$，交换不合法：
+$$\frac{\partial}{\partial\theta}\int_0^\theta \frac{1}{\theta}\,dx = \frac{\partial}{\partial\theta}1 = 0$$
+$$\int_0^\theta \frac{\partial}{\partial\theta}\frac{1}{\theta}\,dx = \int_0^\theta -\frac{1}{\theta^2}\,dx = -\frac{1}{\theta}$$
+两边不相等，所以 $E[S] = -\dfrac{1}{\theta} \neq 0$，C-R 下界对 $U(0,\theta)$ 直接失效。
+\end{note}
 \subsection{CR}
 \begin{note}
 \textbf{C-R 下界在说什么：}
@@ -333,4 +343,71 @@ $n$ 个样本再除以 $n$ 得 $\dfrac{1}{nI(\theta)}$。
 我们已经知道无偏估计的期望是 $\theta$，为了出现 $\dfrac{\partial f}{\partial\theta}$
 从而引入 $S$，所以对两边求导，再利用 $E[S]=0$ 的信息
 和 $\operatorname{Var}(S) = I(\theta)$ 完成这个证明。
+\end{dxtips}
+\section{umvue}
+\begin{note}
+    \textbf{全称}：Uniformly Minimum Variance Unbiased Estimator，一致最小方差无偏估计量。
+
+\textbf{为什么发明它}，从需求倒推：
+
+你想估计 $\theta$，无偏是基本要求（平均不偏）。但满足无偏的估计量有无数个——$X_1$ 是无偏的，$\overline{X}$ 也是，随便凑个线性组合还是。\textbf{怎么选最好的那个？}
+
+自然的标准：方差最小——离真值的随机误差最小。
+
+但"最小"要小心：不能只对某个特定 $\theta$ 值最小，要对\textbf{所有} $\theta \in \Theta$ 同时最小，这就是"Uniformly"（一致）的含义。
+
+所以 UMVUE 回答的问题是：
+\begin{quote}
+在全部无偏估计量里，有没有一个，不管真实参数取什么值，它的方差都比其他所有无偏估计量小？
+\end{quote}
+有的话，它就是 UMVUE，是无偏类里的理论最优。
+\end{note}
+\begin{dxtips}
+    uniformity 一致的，一致收敛是uniform，m就是最小 v就是方差 ue就是无偏估计
+\end{dxtips}
+\subsection{完备充分统计量}
+\begin{note}[充分统计量不能丢信息]
+    用正态 $N(\mu, 1)$，$n=2$ 来说，取\textbf{不充分}的统计量 $T = X_1$。
+
+你观测到 $X_1 = 3,\ X_2 = 5$。
+
+\textbf{用 $T = X_1 = 3$ 去估计 $\mu$}：你只看第一个观测值，猜 $\mu \approx 3$。
+但 $X_2 = 5$ 还摆在那里，它也服从 $N(\mu, 1)$，里面明显还有 $\mu$ 的信息——
+看了 $X_2 = 5$ 之后你会更新判断，觉得 $\mu$ 应该在 4 附近。
+$T = X_1$ 把 $X_2$ 里的 $\mu$ 信息\textbf{扔掉了}，这就是"丢了 $\theta$ 信息"。
+
+\textbf{用 $T = \overline{X} = 4$ 就不丢}：
+知道了 $\overline{X} = 4$，再去看 $X_1 = 3,\ X_2 = 5$ 的具体分法——
+$X_1$ 比均值低 1，$X_2$ 比均值高 1——这件事和 $\mu$ 是多少完全没关系，只是随机波动。
+没有任何新的 $\mu$ 信息可以被挖出来了。
+
+也就是说，知道了 $\overline{X} = 4$，不用再知道到底是 $(3,5)$ 还是 $(4,4)$，
+因为对"$\mu$ 大概是多少"这个问题，两种情况提供的信息量完全一样。
+
+\textbf{一句话}：$T$ 是不是充分的，就看"知道 $T$ 之后，样本剩下的部分还能不能更新你对 $\theta$ 的判断"。能更新就说明丢了信息，不充分；不能更新就是充分的。
+\end{note}
+\begin{note}
+\textbf{完备空间类比}
+
+完备空间的核心是：极限不会"跑出去"——每个 Cauchy 列的极限都在空间里，没有"洞"。
+
+$\mathbb{Q}$ 不完备：$1, 1.4, 1.41, 1.414, \ldots$ 是 Cauchy 列，极限 $\sqrt{2}$ 跑到 $\mathbb{Q}$ 外面去了。
+
+$\mathbb{R}$ 完备：任何 Cauchy 列的极限都还在 $\mathbb{R}$ 里，无处可逃。
+
+\textbf{完备充分统计量的逻辑完全一样：}
+
+不完备的 $T$：存在非零函数 $g(T)$，它的期望"跑到零去了"（$E[g(T)]=0\ \forall\theta$），但 $g$ 本身不是零。
+就像 $\sqrt{2}$ 逃出了 $\mathbb{Q}$——非零的东西期望上"假装是零"。
+
+完备的 $T$：期望等于零这件事无处可逃，只要 $E[g(T)]=0$，$g$ 就必须是零本身，没有任何非零函数能"藏"在零期望后面。
+
+\textbf{为什么这样定义}
+
+设计这个定义的动机就是逼出唯一性。假设 $g_1(T)$ 和 $g_2(T)$ 都是 $\theta$ 的无偏估计，那么：
+$$E_\theta[g_1(T) - g_2(T)] = 0 \quad \forall\theta$$
+完备性直接给出 $g_1(T) = g_2(T)$——基于 $T$ 的无偏估计\textbf{唯一}，唯一的那个自然是 UMVUE。定义就是为了这一步设计的。
+\end{note}
+\begin{dxtips}
+    所以完备统计量就抱着基于T的无偏估计只有一个，因为只有一个所以一定是umvue对吗
 \end{dxtips}
