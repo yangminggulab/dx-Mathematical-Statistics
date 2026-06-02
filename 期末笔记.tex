@@ -344,6 +344,16 @@ $n$ 个样本再除以 $n$ 得 $\dfrac{1}{nI(\theta)}$。
 从而引入 $S$，所以对两边求导，再利用 $E[S]=0$ 的信息
 和 $\operatorname{Var}(S) = I(\theta)$ 完成这个证明。
 \end{dxtips}
+\begin{note}[正则条件]
+正则条件就是允许积分和求导交换顺序的条件：
+$$\frac{d}{d\theta}\int \hat{g}\cdot L(\theta;\boldsymbol{x})\,d\boldsymbol{x} = \int \hat{g}\cdot \frac{\partial L(\theta;\boldsymbol{x})}{\partial\theta}\,d\boldsymbol{x}$$
+具体需要满足：
+\begin{enumerate}
+    \item 支撑集不依赖 $\theta$——积分范围不能随 $\theta$ 变
+    \item $f(x;\theta)$ 对 $\theta$ 可微
+    \item 求导后的被积函数有可积上界（控制收敛定理条件）
+\end{enumerate}
+\end{note}
 \section{umvue}
 \begin{note}
     \textbf{全称}：Uniformly Minimum Variance Unbiased Estimator，一致最小方差无偏估计量。
@@ -410,4 +420,108 @@ $$E_\theta[g_1(T) - g_2(T)] = 0 \quad \forall\theta$$
 \end{note}
 \begin{dxtips}
     所以完备统计量就抱着基于T的无偏估计只有一个，因为只有一个所以一定是umvue对吗
+\end{dxtips}
+\begin{note}[因子分解定理的直觉]
+联合密度 $f(\boldsymbol{x};\theta) = \prod_{i=1}^n f(x_i;\theta)$ 包含了样本关于 $\theta$ 的全部信息。
+
+因子分解定理说的是：若联合密度能写成
+$$f(\boldsymbol{x};\theta) = g(T(\boldsymbol{x}),\,\theta)\cdot h(\boldsymbol{x})$$
+则 $T(\boldsymbol{X})$ 是 $\theta$ 的充分统计量。
+
+其中：
+\begin{itemize}
+    \item $g(T(\boldsymbol{x}),\theta)$：既含 $\theta$ 又含数据，但数据只通过 $T(\boldsymbol{x})$ 与 $\theta$ 互动。$T(\boldsymbol{x})$ 就是这个互动中数据那一侧的函数，即充分统计量。
+    \item $h(\boldsymbol{x})$：只含数据，不含 $\theta$，与 $\theta$ 零互动——不管 $\theta$ 取何值，$h(\boldsymbol{x})$ 不变，对推断 $\theta$ 毫无贡献。
+\end{itemize}
+
+\
+\end{note}
+\begin{dxtips}
+    textbf{两句话总结：}
+\begin{itemize}
+    \item 联合密度保证了关于 $\theta$ 的信息完整。
+    \item 因子分解保证了 $T(\boldsymbol{X})$ 是与 $\theta$ 互动的全部，$h(\boldsymbol{x})$ 里没有任何关于 $\theta$ 的额外信息。
+\end{itemize}
+\end{dxtips}
+\begin{example}[正态总体因子分解，$\sigma^2$ 已知]
+$X_i \sim N(\mu,\sigma^2)$，联合密度展开后分离：
+$$\prod_{i=1}^n f(x_i;\mu)
+= \underbrace{\exp\!\left\{\frac{\mu\sum x_i}{\sigma^2} - \frac{n\mu^2}{2\sigma^2}\right\}}_{g(T,\,\mu),\quad T=\sum x_i}
+\cdot
+\underbrace{\left(\frac{1}{\sqrt{2\pi}\sigma}\right)^{\!n} \exp\!\left\{-\frac{\sum x_i^2}{2\sigma^2}\right\}}_{h(\boldsymbol{x}),\ \text{不含}\ \mu}$$
+故 $T = \sum X_i$（即 $\bar{X}$）是 $\mu$ 的充分统计量。
+\end{example}
+\begin{note}[Rao-Blackwell：把任意无偏估计升级为基于充分统计量的无偏估计]
+有了充分统计量 $T$，任何无偏估计 $\delta(\boldsymbol{X})$ 都可以改进：令
+$$\varphi(T) = E[\delta(\boldsymbol{X}) \mid T]$$
+则 $\varphi(T)$ 仍无偏，且方差不超过原来：$\mathrm{Var}(\varphi(T)) \leq \mathrm{Var}(\delta(\boldsymbol{X}))$。
+
+\textbf{为什么要这么做：}$\delta(\boldsymbol{X})$ 可能只用了部分样本信息（如只看 $X_1$），
+条件期望把其余样本的信息也并入进来，使 $\varphi(T)$ 等价于充分统计量，关于 $\theta$ 的信息更完整，方差因此下降。
+\end{note}
+
+\begin{dxtips}
+$T$ 包含关于 $\theta$ 的全部信息，而 $\delta(\boldsymbol{X})$（如 $X_1$）可能只含部分信息。
+计算条件期望 $E[\delta \mid T]$ 时，被迫引入其他样本的所有可能情况及其概率，
+结果 $\varphi(T)$ 比原估计量含有更多关于 $\theta$ 的信息，方差因此下降。
+
+一句话：Rao-Blackwell 不是``获得更多信息''，而是让估计量从``部分信息''升级到``充分统计量所含的全部信息''。
+\end{dxtips}
+\begin{note}[Lehmann-Scheffé 定理（勒曼-谢菲定理）]
+若 $T$ 是\textbf{完备充分}统计量，$\varphi(T)$ 是 $g(\theta)$ 的无偏估计，则 $\varphi(T)$ 是 $g(\theta)$ 的 UMVUE，且唯一。
+
+\textbf{为什么完备性保证了唯一最优：}
+
+假设有两个基于 $T$ 的无偏估计 $\varphi_1(T)$ 和 $\varphi_2(T)$，则
+$$E[\varphi_1(T) - \varphi_2(T)] = 0 \quad \forall\theta$$
+完备性说：期望恒为零 $\Rightarrow$ 函数本身就是零，即 $\varphi_1(T) = \varphi_2(T)$ a.s.
+
+基于完备充分统计量的无偏估计\textbf{只有一个}，唯一的那个自然是所有无偏估计里方差最小的。
+\end{note}
+\subsection{指数族的优越性}
+\begin{note}[指数族的常见成员]
+\begin{itemize}
+    \item 正态分布 $N(\mu,\sigma^2)$
+    \item 泊松分布 $P(\lambda)$
+    \item 二项分布 $B(n,p)$，$n$ 已知
+    \item 指数分布 $\mathrm{Exp}(\lambda)$
+    \item Gamma 分布 $\Gamma(\alpha,\beta)$
+    \item 伯努利分布 $B(1,p)$
+\end{itemize}
+\textbf{不是指数族：}均匀分布 $U(0,\theta)$（支撑集依赖 $\theta$，无法写成标准形式）。
+\end{note}
+\begin{note}[指数族标准形式：泊松与正态对比]
+标准形式：$f(x;\theta) = h(x)\cdot\exp\{Q(\theta)\cdot t(x) - A(\theta)\}$
+
+\textbf{泊松 $P(\lambda)$：}
+$$f(x;\lambda) = \frac{\lambda^x e^{-\lambda}}{x!}
+= \underbrace{\frac{1}{x!}}_{h(x)}
+\cdot\exp\!\left\{
+\underbrace{\ln\lambda}_{Q(\lambda)}\cdot
+\underbrace{x}_{t(x)}-
+\underbrace{\lambda}_{A(\lambda)}
+\right\}$$
+
+\textbf{正态 $N(\mu,\sigma^2)$，$\sigma^2$ 已知：}
+$$f(x;\mu)
+= \underbrace{\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{x^2}{2\sigma^2}}}_{h(x)}
+\cdot\exp\!\left\{
+\underbrace{\frac{\mu}{\sigma^2}}_{Q(\mu)}\cdot
+\underbrace{x}_{t(x)}-
+\underbrace{\frac{\mu^2}{2\sigma^2}}_{A(\mu)}
+\right\}$$
+\end{note}
+\begin{note}[为什么指数族的充分统计量是完备的]
+指数族密度含 $e^{Q(\theta)\cdot t(x)}$，充分统计量 $T=\sum t(X_i)$ 的密度为
+$$f_T(s;\theta) = \tilde{h}(s)\cdot e^{Q(\theta)\cdot s}$$
+证完备性时，假设 $E_\theta[\varphi(T)]=0$，展开得
+$$\int \varphi(s)\cdot\tilde{h}(s)\cdot e^{Q(\theta)\cdot s}\,ds = 0 \quad \forall\theta$$
+令 $\eta=Q(\theta)$，这正是函数 $\varphi(s)\tilde{h}(s)$ 的\textbf{拉普拉斯变换恒为零}。
+
+由拉普拉斯变换的唯一性：变换恒为零 $\Rightarrow$ 原函数为零，即 $\varphi(T)=0$ a.s.
+
+指数族的 $e^{Q(\theta)\cdot s}$ 结构天然就是拉普拉斯变换的形式，完备性由此而来。
+\end{note}
+\begin{dxtips}
+    看见指数分布族只要无偏+完备统计量他就是umvue
 \end{dxtips}
