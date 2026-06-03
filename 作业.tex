@@ -2005,6 +2005,23 @@ $$
 \textbf{该结论只对正态总体正确吗？} 不是。上述证明中仅用到了 $X_i$ 独立同分布、$EX_i = \mu$、$\mathrm{Var}(X_i) = \sigma^2 < \infty$，并未用到正态性。由 Gauss-Markov 定理，对任意有限方差的总体，$\overline{X}$ 都是 $\mu$ 的最优线性无偏估计量（BLUE）。
 \end{solution}
 \begin{dxtips}
+因为独立，方差可以直接相加：
+$$\mathrm{Var}(W^*) = \mathrm{Var}\!\left(\sum_{i=1}^n c_i X_i\right) = \sum_{i=1}^n c_i^2\,\mathrm{Var}(X_i)$$
+又因为同分布，每个 $\mathrm{Var}(X_i)=\sigma^2$，提出来得 $\sigma^2\sum_{i=1}^n c_i^2$。
+\end{dxtips}
+\begin{note}[Gauss-Markov 定理]
+只要 $X_i$ 满足：
+\begin{enumerate}
+    \item 独立同分布
+    \item $EX_i = \mu$
+    \item $\mathrm{Var}(X_i) = \sigma^2 < \infty$
+\end{enumerate}
+不需要正态，$\bar{X}$ 就是 $\mu$ 的 BLUE（Best Linear Unbiased Estimator，最优线性无偏估计量）。
+\end{note}
+\begin{dxtips}
+    本质上就是模仿umvue定义了一个只不过这个得线性
+\end{dxtips}
+\begin{dxtips}
    
 这是一个新定义的题，先验证条件 (1)，再验证无偏（即期望是参数），然后验证方差最小。
 
@@ -2019,6 +2036,9 @@ $$
 \mathrm{Var}_\theta(W^*) = \sigma^2 \sum_{i=1}^n c_i^2.
 $$
 
+\end{dxtips}
+\begin{dxtips}
+    柯西不等式解决的是平方和与和的平方大小关系对不对，平方和永远大
 \end{dxtips}
 \begin{theorem}[Cauchy-Schwarz 不等式]
 设 $a_1, \ldots, a_n,\ b_1, \ldots, b_n \in \mathbb{R}$，则
@@ -2287,71 +2307,37 @@ $E_\theta\hat{g}$ 才能出 $g(\theta)+b(\theta)$，最后式子里面是 $g(\th
 设 $\hat{g}_1(\boldsymbol{X})$ 和 $\hat{g}_2(\boldsymbol{X})$ 都是 $g(\theta)$ 的无偏估计量，并且 $\hat{g}_1(\boldsymbol{X})$ 还是 $g(\theta)$ 的 UMVUE，证明：$\hat{g}_1(\boldsymbol{X})$ 与 $\hat{g}_2(\boldsymbol{X})$ 的相关系数非负。
 \end{homework}
 \begin{proof}
-设 $\hat{g}_1 = \hat{g}_1(\boldsymbol{X})$，$\hat{g}_2 = \hat{g}_2(\boldsymbol{X})$，对任意 $\alpha \in \mathbf{R}$，令
-\[
-\hat{g}_\alpha = (1-\alpha)\hat{g}_1 + \alpha \hat{g}_2.
-\]
-由 $\hat{g}_1$，$\hat{g}_2$ 均为 $g(\theta)$ 的无偏估计量，得
-\[
-E_\theta(\hat{g}_\alpha) = (1-\alpha)g(\theta) + \alpha g(\theta) = g(\theta),
-\]
-故 $\hat{g}_\alpha$ 也是 $g(\theta)$ 的无偏估计量。因 $\hat{g}_1$ 是 $g(\theta)$ 的 UMVUE，对一切无偏估计量有最小方差，故
-\[
-\mathrm{Var}_\theta(\hat{g}_1) \leq \mathrm{Var}_\theta(\hat{g}_\alpha), \quad \forall \alpha \in \mathbf{R}.
-\]
-展开右边：
-\[
-\mathrm{Var}_\theta(\hat{g}_\alpha) = (1-\alpha)^2 \mathrm{Var}_\theta(\hat{g}_1) + 2\alpha(1-\alpha)\mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2) + \alpha^2 \mathrm{Var}_\theta(\hat{g}_2).
-\]
-令 $D_1 = \mathrm{Var}_\theta(\hat{g}_1)$，$D_2 = \mathrm{Var}_\theta(\hat{g}_2)$，$C = \mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2)$，则条件 $D_1 \leq \mathrm{Var}_\theta(\hat{g}_\alpha)$ 化为
-\[
-D_1 \leq (1-\alpha)^2 D_1 + 2\alpha(1-\alpha)C + \alpha^2 D_2,
-\]
-整理得
-\[
-0 \leq \alpha^2(D_1 - 2C + D_2) - 2\alpha(D_1 - C) + 0,
-\]
-即
-\[
-\varphi(\alpha) := \alpha^2(D_1 - 2C + D_2) - 2\alpha(D_1 - C) \geq 0, \quad \forall \alpha \in \mathbf{R}.
-\]
-$\varphi(\alpha)$ 是关于 $\alpha$ 的二次函数且对一切实数非负，故其判别式满足
-\[
-\Delta = 4(D_1 - C)^2 - 4(D_1 - 2C + D_2)D_1 \leq 0.
-\]
-展开得
-\[
-D_1^2 - 2CD_1 + C^2 - D_1^2 + 2CD_1 - D_1 D_2 \leq 0,
-\]
-\[
-C^2 \leq D_1 D_2,
-\]
-即
-\[
-\mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2)^2 \leq \mathrm{Var}_\theta(\hat{g}_1)\,\mathrm{Var}_\theta(\hat{g}_2).
-\]
-这与 Cauchy-Schwarz 不等式一致。进一步，取 $\alpha = 1$，则 $\hat{g}_\alpha = \hat{g}_2$，条件给出
-\[
-D_1 \leq D_2,
-\]
-取 $\alpha \to 0^+$ 方向分析 $\varphi(\alpha) \geq 0$：$\varphi(\alpha)/\alpha \geq 0$ 对小正 $\alpha$ 成立，即
-\[
-\alpha(D_1 - 2C + D_2) - 2(D_1 - C) \geq 0 \text{ 当 } \alpha \to 0^+,
-\]
-取极限得
-\[
--2(D_1 - C) \geq 0 \implies C \geq D_1 \geq 0.
-\]
-从而
-\[
-\mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2) \geq D_1 = \mathrm{Var}_\theta(\hat{g}_1) \geq 0.
-\]
-因此相关系数
-\[
-\rho(\hat{g}_1, \hat{g}_2) = \frac{\mathrm{Cov}_\theta(\hat{g}_1, \hat{g}_2)}{\sqrt{\mathrm{Var}_\theta(\hat{g}_1)\,\mathrm{Var}_\theta(\hat{g}_2)}} \geq \frac{D_1}{\sqrt{D_1 D_2}} = \sqrt{\frac{D_1}{D_2}} \geq 0.
-\]
-故 $\hat{g}_1(\boldsymbol{X})$ 与 $\hat{g}_2(\boldsymbol{X})$ 的相关系数非负。
+分母 $\sqrt{\mathrm{Var}(\hat{g}_1)\mathrm{Var}(\hat{g}_2)} \geq 0$，只需证 $\mathrm{Cov}_\theta(\hat{g}_1,\hat{g}_2) \geq 0$。
+
+令 $\hat{g}_\alpha = (1-\alpha)\hat{g}_1 + \alpha\hat{g}_2$，因系数之和 $(1-\alpha)+\alpha=1$，故 $\hat{g}_\alpha$ 是 $g(\theta)$ 的无偏估计。
+
+由 $\hat{g}_1$ 是 UMVUE，对一切 $\alpha\in\mathbb{R}$：
+$$\mathrm{Var}(\hat{g}_1) \leq \mathrm{Var}(\hat{g}_\alpha)$$
+
+记 $D_1=\mathrm{Var}(\hat{g}_1)$，$D_2=\mathrm{Var}(\hat{g}_2)$，$C=\mathrm{Cov}(\hat{g}_1,\hat{g}_2)$，展开得
+$$\varphi(\alpha) := \alpha^2(D_1-2C+D_2) - 2\alpha(D_1-C) \geq 0 \quad \forall\alpha\in\mathbb{R}$$
+
+对 $\alpha>0$ 两边除以 $\alpha$：
+$$\alpha(D_1-2C+D_2) - 2(D_1-C) \geq 0$$
+
+令 $\alpha\to 0^+$，得
+$$-2(D_1-C)\geq 0 \implies C \geq D_1 \geq 0$$
+
+故 $\mathrm{Cov}_\theta(\hat{g}_1,\hat{g}_2) \geq 0$，相关系数非负。
 \end{proof}
+\begin{dxtips}
+  
+$$\rho(\hat{g}_1,\hat{g}_2) = \frac{\mathrm{Cov}(\hat{g}_1,\hat{g}_2)}{\sqrt{\mathrm{Var}(\hat{g}_1)\cdot\mathrm{Var}(\hat{g}_2)}}$$
+要证 $\rho\geq 0$，分母是根号必然 $\geq 0$，所以只需证分子 $\mathrm{Cov}(\hat{g}_1,\hat{g}_2)\geq 0$。
+
+\end{dxtips}
+\begin{dxtips}
+要给 $\mathrm{Cov}(\hat{g}_1,\hat{g}_2)$ 确定范围，就要把它放到不等式的一端。
+现在能构造不等式的唯一信息是 $\hat{g}_1$ 是 UMVUE，
+但 $\mathrm{Cov}$ 里需要 $\hat{g}_1$ 和 $\hat{g}_2$ 同时出现，而 UMVUE 条件只对无偏估计有效，
+所以需要构造一个 $\hat{g}_\alpha = (1-\alpha)\hat{g}_1 + \alpha\hat{g}_2$，
+系数之和 $(1-\alpha)+\alpha=1$ 是为了保证无偏性。
+\end{dxtips}
 [例 3.2.12（0-1 分布）]
 设 $X_1,X_2,\cdots,X_n$ i.i.d.，都服从 $(0\text{-}1)$ 分布 $B(1,\theta)$，$\theta$ 的先验分布为 Beta 分布 $\mathrm{Beta}(a,b)$，其概率密度为
 $$
@@ -4157,4 +4143,33 @@ $X_1 \sim N(0,\sigma^2)$，$u \in \mathbb{R}^n$，$u^T u = 1$，证明：
 X^T = (X_1, X_2, \cdots, X_n),
 \]
 $I_n$ 是 $n$ 阶单位阵。
+\end{homework}
+\begin{homework}[6]
+对第 $1$ 题的结果作显著性检验，并对贮存 $9$ 年后的浓度进行置信度为 $90\%$ 的区间预测。
+\end{homework}
+
+\begin{homework}[7]
+下面数据是 $18$ 名 $5$--$8$ 岁儿童的体重和体积。
+
+\[
+\begin{array}{cc|cc|cc|cc}
+\hline
+\text{体重} & \text{体积} & \text{体重} & \text{体积} & \text{体重} & \text{体积} & \text{体重} & \text{体积} \\
+(\mathrm{kg}) & ((\mathrm{dm})^3) & (\mathrm{kg}) & ((\mathrm{dm})^3) & (\mathrm{kg}) & ((\mathrm{dm})^3) & (\mathrm{kg}) & ((\mathrm{dm})^3) \\
+\hline
+17.1 & 16.7 & 15.8 & 15.2 & 15.0 & 14.5 & 16.7 & 16.6 \\
+10.5 & 10.4 & 15.1 & 14.8 & 16.0 & 15.8 & 16.5 & 15.9 \\
+13.8 & 13.5 & 12.1 & 11.9 & 17.8 & 17.6 & 15.1 & 15.1 \\
+11.9 & 11.6 & 18.4 & 18.3 & 15.7 & 15.7 & 15.1 & 14.5 \\
+10.4 & 10.2 & 17.1 & 16.7 &      &      &      &      \\
+\hline
+\end{array}
+\]
+
+\begin{enumerate}
+    \item 找出儿童的平均体积和体重间的关系。
+    \item 给出置信度为 $90\%$ 的体重为 $14\,\mathrm{kg}$ 的儿童平均体积的置信区间。
+    \item 给出置信度为 $90\%$ 的体重为 $14\,\mathrm{kg}$ 的儿童的体积的预测区间。
+    \item 想想该题意义所在。
+\end{enumerate}
 \end{homework}
