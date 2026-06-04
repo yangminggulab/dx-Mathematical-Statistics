@@ -2558,6 +2558,9 @@ P(|T - \mu| \geq \varepsilon) \leq \frac{E(T-\mu)^2}{\varepsilon^2} = \frac{\mat
 \]
 故 $\theta$ 的 MLE 的渐近分布为 $N\!\left(\theta, \dfrac{\theta^2}{n}\right)$。
 \end{proof}
+\begin{dxtips}
+    先求得分函数然后让得分函数等于0解出MLE，通过中心极限定理然后再把方差，和均值从0和θ²移动到他该在的位置
+\end{dxtips}
 \section{第八周作业}
 \begin{homework}[9]
 在习题 3.3.11 中，估计 $\lambda^2$ 时，求 $\overline{X}^2$ 相对于 $\tilde{\lambda}^2$ 的渐近效率．
@@ -2600,9 +2603,22 @@ e\!\left(\overline{X}^2,\ \tilde{\lambda}^2\right) = \frac{4\lambda^3/n}{(4\lamb
 \]
 \end{solution}
 \begin{dxtips}
-    \[
-\sqrt{n}(\overline{X}^2 - \lambda^2) \approx 2\lambda \cdot \sqrt{n}(\overline{X} - \lambda) \xrightarrow{d} N(0,\ (2\lambda)^2 \cdot \lambda) = N(0,\ 4\lambda^3)
-\] 只要不是标准x-a形式的都求导然后把导数乘到方差里面也就是方差乘导数的平方
+    渐近方差是方差，但渐近效率是\textbf{两个渐近方差的比值}：
+$$e(\hat{\theta}_1, \hat{\theta}_2) = \frac{V_2}{V_1}$$
+$V_1$ 小 $\Rightarrow e > 1 \Rightarrow \hat{\theta}_1$ 更好；
+$V_1$ 大 $\Rightarrow e < 1 \Rightarrow \hat{\theta}_1$ 更差。
+
+八周(9) 就是求：
+$$e(\bar{X}^2,\, \tilde{\lambda}^2) = \frac{V(\tilde{\lambda}^2)}{V(\bar{X}^2)}$$
+先各算出渐近方差，再做比。
+\end{dxtips}
+\begin{dxtips}
+\begin{itemize}
+  \item \textbf{Delta 方法：}已知 $\hat{\theta}$ 的渐近方差，推 $g(\hat{\theta})$ 的渐近方差
+        $$\text{需要求导，渐近方差} = [g'(\theta)]^2 \cdot \sigma^2$$
+  \item \textbf{CLT 直接用：}估计量本身就是样本均值 $\bar{Y}$
+        $$\text{不需要求导，渐近方差} = \operatorname{Var}(Y)$$
+\end{itemize}
 \end{dxtips}
 \begin{homework}[10]
 设 $X_1, \cdots, X_n$ i.i.d.，$X_1 \sim f(x, \theta)$，$\hat{\theta} = \hat{\theta}(X_1, \cdots, X_n)$ 是 $\theta$ 的渐近正态估计量：
@@ -2627,10 +2643,14 @@ V(\hat{\theta}_n) \xrightarrow{P} V(\theta).
 故 $V(\hat{\theta})$ 是 $V(\theta)$ 的相合估计量．
 \end{proof}
 \begin{dxtips}
-    我可不可以这样理解有很多个θn他们距离中心的θ都有一段距离，然后这个距离如果乘√ n了，所有点距离θ服从正态分布。
+    其实就是要证明θhat依概率收敛到θ后续直接用线性性质收敛就知道了。
 \end{dxtips}
 \begin{dxtips}
-    要字幕带θ带函数收敛，最好的就是利用连续函数加里面的瓤是收敛的，瓤是收敛是因为意概率收敛+有界就能依分布收敛，然后整个收敛的下面是∞上面有界的整个趋向于0.
+    先求 $\hat{\theta}$ 与 $\theta$ 之差的分布，然后把根号 $n$ 除进去，
+方差变为 $\dfrac{V(\theta)}{n}$，$n \to \infty$ 所以方差趋近于 $0$，均值也是 $0$，
+$$\hat{\theta}_n - \theta = \frac{1}{\sqrt{n}} \cdot \sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{p} 0$$
+因为极限是常数，依分布收敛与依概率收敛等价，故 $\hat{\theta}_n \xrightarrow{p} \theta$。
+再由 $V$ 连续 $+$ 连续映射定理，$V(\hat{\theta}_n) \xrightarrow{p} V(\theta)$。
 \end{dxtips}
 \begin{note}
 一般情况下，依分布收敛不能推出依概率收敛，但有一个重要例外：当极限为常数时，二者等价，即
@@ -2647,38 +2667,42 @@ n(h(\hat{\theta}) - h(\theta_0)) \xrightarrow{L} \frac{1}{2} A(\theta_0) h''(\th
 \end{homework}
 \begin{proof}
 由定理 3.4.6，MLE $\hat{\theta}$ 满足
-\[
-\sqrt{n}(\hat{\theta} - \theta_0) \xrightarrow{L} N(0, A(\theta_0)).
-\]
+$$\sqrt{n}(\hat{\theta} - \theta_0) \xrightarrow{d} N(0, A(\theta_0)).$$
 由 Taylor 展开，
-\[
-h(\hat{\theta}) - h(\theta_0) = \frac{1}{2}(\hat{\theta} - \theta_0)^2(h''(\theta_0) + R),
-\]
-其中 $R \xrightarrow{P} 0$（因为 $\hat{\theta} \xrightarrow{P} \theta_0$，$h''$ 连续）．两边乘以 $n$：
-\[
-n(h(\hat{\theta}) - h(\theta_0)) = \frac{1}{2}\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 (h''(\theta_0) + R).
-\]
+$$h(\hat{\theta}) - h(\theta_0) = \frac{1}{2}(\hat{\theta} - \theta_0)^2(h''(\theta_0) + R),$$
+其中 $R \xrightarrow{p} 0$（因为 $\hat{\theta} \xrightarrow{p} \theta_0$，$h''$ 连续）。两边乘以 $n$：
+$$n(h(\hat{\theta}) - h(\theta_0)) = \frac{1}{2}\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 (h''(\theta_0) + R).$$
 由渐近正态条件，
-\[
-\sqrt{n}(\hat{\theta} - \theta_0) \xrightarrow{L} N(0, A(\theta_0)),
-\]
-故
-\[
-\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 \xrightarrow{L} A(\theta_0) \cdot Z^2,
-\]
+$$\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 \xrightarrow{d} A(\theta_0) \cdot Z^2,$$
 其中 $Z \sim N(0,1)$，$Z^2 \sim \chi^2(1)$，即
-\[
-\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 \xrightarrow{L} A(\theta_0)\chi^2(1).
-\]
-又因 $R \xrightarrow{P} 0$，故 $h''(\theta_0) + R \xrightarrow{P} h''(\theta_0)$．由 Slutsky 定理，
-\[
-n(h(\hat{\theta}) - h(\theta_0)) = \frac{1}{2}\left[\sqrt{n}(\hat{\theta}-\theta_0)\right]^2(h''(\theta_0) + R) \xrightarrow{L} \frac{1}{2}A(\theta_0)h''(\theta_0)\chi^2(1).
-\]
+$$\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 \xrightarrow{d} A(\theta_0)\chi^2(1).$$
+又因 $R \xrightarrow{p} 0$，故 $h''(\theta_0) + R \xrightarrow{p} h''(\theta_0)$。由 Slutsky 定理，
+$$n(h(\hat{\theta}) - h(\theta_0)) \xrightarrow{d} \frac{1}{2}A(\theta_0)h''(\theta_0)\chi^2(1).$$
 \end{proof}
 \begin{dxtips}
-看到 $n(\cdots)^2$ 的形式，条件反射就应该想到：能不能凑成 $[\sqrt{n}(\cdots)]^2$，然后用正态平方是卡方？这是一个固定套路，见多了就会了．
-Slutsky一个服从依分布收敛到 $X$ 乘一个服从依概率收敛到常数的，结果依分布收敛到常数 $\times X$．他就是作用于一个依分布收敛和一个依概率收敛到常数除了 $*$ 还能 $+$、$-$、$\div$
+$A(\theta_0)$ 就是 MLE 的渐近方差，等于 Fisher 信息的倒数：
+$$A(\theta_0) = \frac{1}{I(\theta_0)}$$
 \end{dxtips}
+\begin{dxtips}
+    看见fisher分之一就要想MLE先凑出mle引入fisher分之一，
+\end{dxtips}
+\begin{dxtips}
+    $R$ 是 Taylor 展开的余项：$R = h''(\xi) - h''(\theta_0)$，
+其中 $\xi$ 夹在 $\hat{\theta}$ 与 $\theta_0$ 之间。
+
+$\hat{\theta} \xrightarrow{p} \theta_0$（MLE 相合）$\Rightarrow$
+$\xi \xrightarrow{p} \theta_0$ $\Rightarrow$
+$h''$ 连续，故 $h''(\xi) \xrightarrow{p} h''(\theta_0)$ $\Rightarrow$
+$R = h''(\xi) - h''(\theta_0) \xrightarrow{p} 0$
+\end{dxtips}
+\begin{note}
+    因为 $\sqrt{n}(\hat{\theta} - \theta_0) \xrightarrow{d} N(0, A(\theta_0))$，
+可以写成 $\sqrt{A(\theta_0)} \cdot Z$，$Z \sim N(0,1)$，平方之后：
+$$\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 \xrightarrow{d} \left[\sqrt{A(\theta_0)} \cdot Z\right]^2 = A(\theta_0) \cdot Z^2$$
+其中 $X \sim N(0,\sigma^2) \Rightarrow X = \sigma Z \Rightarrow X^2 = \sigma^2 Z^2$，
+$Z^2 \sim \chi^2(1)$（标准正态的平方就是自由度为 $1$ 的卡方分布）。
+故 $A(\theta_0)$ 是常数，$Z^2 \sim \chi^2(1)$。
+\end{note}
 \subsection{3.5}
 \begin{definition}[Beta 分布]
 若随机变量 $X$ 的密度函数为

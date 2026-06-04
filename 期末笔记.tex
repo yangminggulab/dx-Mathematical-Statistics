@@ -731,6 +731,15 @@ MLE 算出确定值但不知道好不好，渐近正态就是用来回答「好�
     MLE就是算得分函数什么时候是0
 \end{dxtips}
 \subsection{渐近正态}
+\begin{definition}[渐近正态性]
+设 $\hat{\theta}_n$ 是 $\theta$ 的估计量，若存在 $\sigma^2(\theta)$ 使得：
+$$\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{d} N(0,\, \sigma^2(\theta))$$
+则称 $\hat{\theta}_n$ 是 $\theta$ 的\textbf{渐近正态估计量}，
+$\sigma^2(\theta)$ 称为\textbf{渐近方差}，等价地：
+$$\hat{\theta}_n \xrightarrow{d} N\!\left(\theta,\, \frac{\sigma^2(\theta)}{n}\right)$$
+对 MLE，$\sigma^2(\theta) = \dfrac{1}{I(\theta)}$，故：
+$$\hat{\theta} \xrightarrow{d} N\!\left(\theta,\, \frac{1}{nI(\theta)}\right)$$
+\end{definition}
 \begin{dxtips}
 渐近存在的意义就是说MLE这种近似是好的
     ，而且渐近正态不只说"好"，而是说好在哪里、好多少：
@@ -778,3 +787,44 @@ $$I(\theta) = E\!\left[\left(\frac{\partial \ln f}{\partial\theta}\right)^2\righ
         样本均值收敛到总体期望。
 \end{itemize}
 \end{note}
+\begin{theorem}[Delta 方法]
+设 $\sqrt{n}(\hat{\theta} - \theta) \xrightarrow{d} N(0, \sigma^2)$，
+$g$ 在 $\theta$ 处可导且 $g'(\theta) \neq 0$，则：
+$$\sqrt{n}(g(\hat{\theta}) - g(\theta)) \xrightarrow{d} N(0,\, [g'(\theta)]^2 \sigma^2)$$
+\end{theorem}
+ \begin{note}[Delta 方法]
+\textbf{核心思路：用线性化"转移"分布}。已知 $\sqrt{n}(\bar{X} - \lambda) \xrightarrow{d} N(0, \lambda)$，想知道 $\sqrt{n}(\bar{X}^2 - \lambda^2)$ 的极限分布。直接算不行，但注意到 $g(x) = x^2$ 在 $\lambda$ 附近是\textbf{光滑的}，可以 Taylor 展开：
+$$g(\bar{X}) = g(\lambda) + g'(\lambda)(\bar{X} - \lambda) + \underbrace{O((\bar{X} - \lambda)^2)}_{\text{高阶项}}$$
+所以 $g(\bar{X}) - g(\lambda) \approx g'(\lambda) \cdot (\bar{X} - \lambda)$，两边同乘 $\sqrt{n}$：
+$$\sqrt{n}\bigl(g(\bar{X}) - g(\lambda)\bigr) \approx g'(\lambda) \cdot \sqrt{n}(\bar{X} - \lambda)$$
+右边是已知分布乘以一个\textbf{常数}，这就能算了。
+\end{note}
+\begin{dxtips}
+   因为 $g'(\lambda)$ 是一个常数，所以乘进去方程的时候需要平方。
+$$\sqrt{n}(g(\hat{\theta}) - g(\theta)) \approx g'(\theta) \cdot \sqrt{n}(\hat{\theta} - \theta) \xrightarrow{d} N(0,\, [g'(\theta)]^2\sigma^2)$$
+\end{dxtips}
+\begin{note}[中心极限定理详解]
+ Central Limit Theorem
+ \text{Var}\!\left(\sum X_i - n\mu\right) = \text{Var}\!\left(\sum X_i\right) = \sum_{i=1}^n \text{Var}(X_i) = n\sigma^2
+
+% 常数不影响方差；独立 → 方差可以直接加；n 个 σ² 加起来 = nσ²
+
+\text{三种情况：}
+\begin{itemize}
+  \item 直接看和：$\displaystyle\sum X_i - n\mu$，方差 $= n\sigma^2 \to \infty$（爆炸）
+  \item 除以 $n$（样本均值）：$\bar{X} - \mu$，方差 $= \dfrac{\sigma^2}{n} \to 0$（塌缩成一个点，LLN）
+  \item 除以 $\sqrt{n}$：$\dfrac{1}{\sqrt{n}}\displaystyle\sum(X_i-\mu)$，方差 $= \sigma^2$（稳定！）
+\end{itemize}
+
+\sqrt{n} \text{ 是让方差既不爆炸也不消失的唯一选择。}
+\end{note}
+\begin{dxtips}
+因为 $n$ 个方差之和才是 $n\sigma^2$，
+有的直接拿的是 $\bar{X}$，相当于已经除以了一个 $n$，
+除多了，所以需要乘 $\sqrt{n}$ 恢复——
+相当于原来乘 $\frac{1}{\sqrt{n}}$。
+
+$$\text{Var}\!\left(\sqrt{n}\,(\bar{X}-\mu)\right)
+= n \cdot \text{Var}(\bar{X})
+= n \cdot \frac{\sigma^2}{n} = \sigma^2$$
+\end{dxtips}
