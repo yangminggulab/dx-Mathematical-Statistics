@@ -2404,6 +2404,9 @@ $$
 \frac{X_n}{Y_n} = X_n \cdot \frac{1}{Y_n} \xrightarrow{d} \frac{1}{a} \cdot X = \frac{X}{a}.
 \]
 \end{proof}
+\begin{dxtips}
+    就是为了用slustky定理几乎处处比依概率收敛强所以可以把他转化为依概率一个依概率一个依分布依概率还收敛到常数就可以用了
+\end{dxtips}
 \begin{homework}[1]
 若估计序列 $\{\hat{\theta}_n\}$ 满足 $\lim_{n\to\infty} E_\theta(\hat{\theta}_n - \theta)^2 = 0$，$\forall \theta \in \Theta$，则称 $\hat{\theta}_n$ 为 $\theta$ 的均方相合估计量。证明：均方相合估计必是相合估计量。
 \end{homework}
@@ -2419,7 +2422,9 @@ P(|\hat{\theta}_n - \theta| \geq \varepsilon) \leq \frac{E_\theta(\hat{\theta}_n
 \]
 即 $\hat{\theta}_n \xrightarrow{P} \theta$，$\hat{\theta}_n$ 是 $\theta$ 的相合估计量。
 \end{proof}
-
+\begin{dxtips}
+    就是MSE看期末笔记
+\end{dxtips}
 \begin{homework}[2]
 （均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(0, \theta)$，$\hat{\theta}_n = X_{(n)}$ 是 $\theta$ 的均方相合估计量吗？
 \end{homework}
@@ -2444,7 +2449,9 @@ E_\theta(X_{(n)} - \theta)^2 = E(X_{(n)}^2) - 2\theta E(X_{(n)}) + \theta^2
 \]
 故 $X_{(n)}$ 是 $\theta$ 的均方相合估计量。
 \end{solution}
-
+\begin{dxtips}
+    思路：直接算 $\mathrm{MSE} = E[(X_{(n)} - \theta)^2]$，若结果 $\to 0$ 则均方相合。
+\end{dxtips}
 \begin{homework}[4]
 （泊松分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim P(\lambda)$，证明：$\overline{X}$，$s_n^2$ 都是 $\lambda$ 的相合估计量。
 \end{homework}
@@ -2464,7 +2471,9 @@ s_n^2 \xrightarrow{P} (\lambda^2 + \lambda) - \lambda^2 = \lambda,
 \]
 故 $s_n^2$ 是 $\lambda$ 的相合估计量。
 \end{proof}
-
+\begin{dxtips}
+    一个用的大样本依概率收敛到二阶矩，一个用到是一阶矩的平方
+\end{dxtips}
 \begin{homework}[5]
 （均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(0,\theta)$，试证
 \[
@@ -2491,7 +2500,12 @@ T = \exp\!\left(\frac{1}{n}\sum_{i=1}^n \ln X_i\right) = \sqrt[n]{X_1 X_2 \cdots
 \]
 故 $T$ 是 $g(\theta)$ 的相合估计量。
 \end{proof}
-
+\begin{dxtips}
+就是想看T能不能通过大数定理证明是依概率收敛的然后再通过线性变化继承这个收敛。
+    看见连乘就想ln先变成累加，为了切比雪夫大数定理所以需要方差小于无穷这步是为了大数定理吗，由大数定律：
+$$\frac{1}{n}\sum_{i=1}^n Y_i \xrightarrow{P} E[Y_1]$$
+右边的 $E[Y_1]$ 就是第一步已经算出来的值 $\ln\theta - 1$，直接代入即得。
+\end{dxtips}
 \begin{homework}[6]
 设总体的二阶矩存在，$X_1, X_2, \cdots, X_n$ 是总体的简单随机样本，则
 \[

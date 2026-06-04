@@ -529,3 +529,136 @@ $$\int \varphi(s)\cdot\tilde{h}(s)\cdot e^{Q(\theta)\cdot s}\,ds = 0 \quad \fora
 \begin{dxtips}
     看见指数分布族只要无偏+完备统计量他就是umvue
 \end{dxtips}
+\section{相和与渐进正态}
+\subsection{相和}
+\begin{note}
+    $g(\theta)$ 是为了写得更一般——它在估计 $\theta$ 的某个函数，不一定是 $\theta$ 本身。
+
+比如：
+\begin{itemize}
+    \item 想估计 $\theta$，那 $g(\theta)=\theta$，$\hat{g}_n \to \theta$
+    \item 想估计 $\theta^2$，那 $g(\theta)=\theta^2$，$\hat{g}_n \to \theta^2$
+    \item 想估计 $e^\theta$，那 $g(\theta)=e^\theta$，$\hat{g}_n \to e^\theta$
+\end{itemize}
+\end{note}
+\begin{dxtips}
+   \begin{enumerate}
+       \item 简单来说，$g(\theta)$ 就是我们要估计的量，写成这种形式就代表它是和未知参数 $\theta$ 相关的。\item $\hat{g}_n(X_1, X_2, \cdots, X_n)$ 是一个函数，代入 $n$ 个数据，
+输出的结果就是我们对 $g(\theta)$ 的估计值。
+   \end{enumerate}
+\end{dxtips}
+\begin{note}
+    相合性定义的是一个宏观标准：随着数据增多，
+如果 $\hat{g}_n$ 这套公式的输出能收敛到真实值 $g(\theta)$，
+我们就认为它是一个好的估计公式。
+
+反过来，如果数据堆再多结果也收敛不过去，这套公式就不值得用。
+\end{note}
+\begin{dxtips}
+    强想和是几乎处处收敛，就是不收敛的是一个固定的零测集，弱收敛依概率收敛只要求每个固定 $\varepsilon$ 下``超出误差''的概率趋于零，
+但那个坏集合可以到处飘；
+几乎处处收敛要求整条路径几乎必然最终落在真值上，更强。
+\end{dxtips}
+\begin{note}
+    强想和经过线形变化还是强想和，也就强想和的公式经过线性变化还是好公式
+\end{note}
+\begin{note}[均方误差（MSE）]
+MSE（Mean Squared Error，均方误差）度量估计量和真值之间的平均平方距离，
+可以拆成两项：
+$$
+E\!\left[(\hat{g}_n - g(\theta))^2\right]
+= \underbrace{\left[E\hat{g}_n - g(\theta)\right]^2}_{\text{偏差}^2}
++ \underbrace{\mathrm{Var}(\hat{g}_n)}_{\text{方差}}
+$$
+其中\textbf{偏差} $= E[\hat{g}_n] - g(\theta)$，衡量估计量的期望和真值之间的系统性差距。
+
+两项的直觉：
+\begin{itemize}
+    \item 偏差：瞄准方向本身就歪了（系统误差）
+    \item 方差：即使方向对，每次结果也在抖动（随机误差）
+\end{itemize}
+\end{note}
+\begin{dxtips}
+    方差的定义是 $E[(\hat{g}_n - E\hat{g}_n)^2]$，所以在括号里加减 $E\hat{g}_n$：
+$$(\hat{g}_n - \theta^*) = \underbrace{(\hat{g}_n - E\hat{g}_n)}_{\text{方差来源}} + \underbrace{(E\hat{g}_n - \theta^*)}_{\text{偏差来源}}$$
+平方展开后出现一次交叉项，但由于 $E[\hat{g}_n - E\hat{g}_n] = 0$ 恒成立，交叉项消掉，
+只剩方差和偏差$^2$两项。
+\end{dxtips}
+\begin{note}
+    \textbf{均方收敛（MSE $\to$ 0）}
+
+核心结论：若 MSE 趋于 0，则相合。
+$$\mathrm{MSE}(\hat{g}_n) = E[(\hat{g}_n - g(\theta))^2] \to 0 \implies \hat{g}_n \xrightarrow{P} g(\theta)$$
+
+\textbf{为什么？} 切比雪夫不等式：
+$$P(|\hat{g}_n - g(\theta)| > \varepsilon) \leq \frac{\mathrm{MSE}(\hat{g}_n)}{\varepsilon^2} \to 0$$
+
+\textbf{MSE 拆开来是两项：}
+$$\mathrm{MSE} = \text{偏差}^2 + \text{方差} = [E\hat{g}_n - g(\theta)]^2 + \mathrm{Var}(\hat{g}_n)$$
+
+所以要证 MSE $\to 0$，只需证这两项\textbf{都趋于 0}：
+\begin{itemize}
+    \item 偏差$^2 \to 0$（估计量越来越不偏）
+    \item 方差 $\to 0$（估计量越来越集中）
+\end{itemize}
+
+\textbf{实际用法：}无偏估计量偏差 $= 0$，只需证方差 $\to 0$ 即可。这是最常用的情形。
+\end{note}
+\begin{note}
+    \textbf{大数定律}：样本均值收敛到总体期望
+$$\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i \xrightarrow{P} E[X]$$
+更一般地，任何样本矩都收敛到对应的总体矩。
+
+\textbf{Slutsky 定理}：收敛可以穿过连续函数
+$$T_n \xrightarrow{P} c \implies g(T_n) \xrightarrow{P} g(c) \qquad (g \text{ 在 } c \text{ 处连续})$$
+\end{note}
+\begin{note}[验证相合性：Slutsky + 大数定律]
+不算任何期望和方差，只看结构——
+\begin{center}
+\textit{这个估计量是不是样本矩的某个连续函数？}
+\end{center}
+如果是，大数定律直接给样本矩的收敛，Slutsky 直接传递过去，一步到位。
+
+矩估计量天生就是这个结构，所以对矩估计量用这条路根本不需要展开 MSE。
+
+两条路结论一样，只是省不省计算而已。
+\end{note}
+\begin{dxtips}
+    \textbf{第一步，大数定律}建立收敛：
+$$\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i \xrightarrow{P} E[X]$$
+即样本均值依概率收敛到总体期望，提供 $T_n \xrightarrow{P} c$ 这个条件。
+
+\textbf{第二步，连续映射 定理}传递收敛：
+$$T_n \xrightarrow{P} c \implies g(T_n) \xrightarrow{P} g(c) \qquad (g \text{ 在 } c \text{ 处连续})$$
+
+对 $k$ 阶样本矩同理：$\dfrac{1}{n}\sum_{i=1}^n X_i^k \xrightarrow{P} E[X^k]$，连续映射定理 照常传递。
+\end{dxtips}
+\begin{note}
+    \textbf{Slutsky 定理完整表述：}
+
+若 $X_n \xrightarrow{d} X$，$Y_n \xrightarrow{P} c$（常数），则：
+\begin{enumerate}
+    \item $X_n + Y_n \xrightarrow{d} X + c$
+    \item $X_n \cdot Y_n \xrightarrow{d} c \cdot X$
+    \item $X_n / Y_n \xrightarrow{d} X / c \quad (c \neq 0)$
+\end{enumerate}
+
+关键有两点是``连续不打断收敛''没说清楚的：
+
+\textbf{第一}：必须一个依分布、一个依概率收敛到\textbf{常数}，两个都依分布不能用。
+
+\textbf{第二}：$Y_n$ 收敛的目标必须是\textbf{常数}，不能是随机变量。
+
+这也是这道题先把 $Y_n \xrightarrow{a.s.} a$ 转成 $\dfrac{1}{Y_n} \xrightarrow{P} \dfrac{1}{a}$ 的原因——
+要凑出``依概率收敛到常数''这个形式，Slutsky 才能用。
+\end{note}
+\begin{dxtips}
+    要用Slutsky定理就得保证一个依分布收敛也就是d- distribution 另一个第一必须是依概率收敛第二必须依概率收敛到常数
+\end{dxtips}
+\begin{note}
+    \begin{itemize}
+    \item \textbf{依分布收敛}（$X_n \xrightarrow{d} X$）：保证了结果的极限分布形状是 $X$，提供``收敛到谁''这个内容。
+    \item \textbf{依概率收敛}（$Y_n \xrightarrow{P} c$）：保证了 $Y_n$ 的取值高概率集中在 $c$ 附近，误差 $|Y_n - c|$ 可以被控制住，使得 $X_n \cdot Y_n \approx X_n \cdot c$ 这个近似在极限下成立。
+    \item \textbf{收敛到常数}（$c$ 是常数而非随机变量）：消掉了联合分布的问题。常数没有随机性，不需要知道 $X_n$ 和 $Y_n$ 之间的相关结构，两个变量的联合行为自动退化成可操控的形式。
+\end{itemize}
+\end{note}
