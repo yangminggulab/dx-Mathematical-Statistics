@@ -4181,6 +4181,31 @@ $i$ & $x_{(i)}$ & $F_n(x_{(i)}) = i/10$ & $F(x_{(i)})$ \\
 \]
 \end{homework}
 
+\begin{solution}
+由数据（$n=10$）：
+$\sum x_i^2=204.25$，$\sum x_iy_i=3973.35$，$\bar{x}=3.65$，$\bar{y}=107.0$。
+
+$$S_{xx}=204.25-10\times3.65^2=71.025,\qquad S_{xy}=3973.35-10\times3.65\times107.0=67.85$$
+
+$$\hat{\beta}_1=\frac{67.85}{71.025}\approx0.9553,\qquad\hat{\beta}_0=107.0-0.9553\times3.65\approx103.513$$
+
+拟合直线：$\hat{y}=103.513+0.9553\,x$。
+
+预测贮存 $9$ 年：$\hat{y}=103.513+0.9553\times9\approx112.1\times10^{-6}$。
+\end{solution}
+\begin{dxtips}
+    回归模型就是y=kx+b，k也就是x对y对影响程度b也就是为了让某些是0的时刻有初始条件
+\end{dxtips}
+\begin{dxtips}
+    \begin{note}
+记忆：$\hat\beta_1=S_{xy}/S_{xx}=\widehat{\mathrm{Cov}}(x,Y)/\widehat{\mathrm{Var}}(x)$，
+即斜率 $=$ 协方差 $\div$ 方差，与相关系数公式同根，仅少除 $\sigma_Y$。
+截距由回归直线过中心点 $(\bar x,\bar Y)$ 反推：$\hat\beta_0=\bar Y-\hat\beta_1\bar x$。
+\end{note}
+\end{dxtips}
+\begin{dxtips}
+    最小二乘就是为了残差平方和最小也就是（y-kx-b）平方再求和，由于这里面有两个变量最小值就是先对两个变量分别求偏导都是0
+\end{dxtips}
 \begin{homework}[5.2.2]
 设 $X_1, X_2, \cdots, X_n$ i.i.d.，
 $X_1 \sim N(0,\sigma^2)$，$u \in \mathbb{R}^n$，$u^T u = 1$，证明：
@@ -4193,10 +4218,75 @@ X^T = (X_1, X_2, \cdots, X_n),
 \]
 $I_n$ 是 $n$ 阶单位阵。
 \end{homework}
+\begin{solution}
+令 $P = I_n - uu^T$，对 $P$ 验证两条：
+
+\textbf{对称性：} $P^T = I_n - (uu^T)^T = I_n - uu^T = P$。
+
+\textbf{幂等性：}
+\[
+P^2 = (I_n-uu^T)^2 = I_n - 2uu^T + u\underbrace{(u^Tu)}_{=1}u^T = I_n - uu^T = P.
+\]
+
+\textbf{秩：} $\mathrm{rank}(uu^T)=1$，故 $\mathrm{rank}(P)=n-1$。
+
+由幂等矩阵定理，$X\sim N(\mathbf{0},\sigma^2 I_n)$，$P$ 对称幂等且秩为 $n-1$，故
+\[
+\frac{X^T P X}{\sigma^2} = \frac{X^T(I_n-uu^T)X}{\sigma^2}\sim\chi^2(n-1).\qed
+\]
+\end{solution}
 \begin{homework}[6]
 对第 $1$ 题的结果作显著性检验，并对贮存 $9$ 年后的浓度进行置信度为 $90\%$ 的区间预测。
 \end{homework}
+\begin{solution}
+沿用第1题结果：$n=10$，$\bar x=3.65$，$\bar y=107.0$，$S_{xx}=71.025$，$S_{xy}=67.85$，
+$\hat\beta_1=0.9553$，$\hat\beta_0=103.513$。
 
+由原始数据计算 $S_{yy}$：
+\[
+\sum y_i^2 = 114558.32,\qquad
+S_{yy} = \sum y_i^2 - n\bar y^2 = 114558.32 - 10\times107^2 = 68.32.
+\]
+
+\textbf{（一）显著性检验}（取 $\alpha=0.05$）
+
+$H_0:\beta_1=0$，$H_1:\beta_1\neq0$。
+
+残差平方和与估计标准差：
+\[
+SS_e = S_{yy} - \frac{S_{xy}^2}{S_{xx}} = 68.32 - \frac{67.85^2}{71.025} \approx 3.503,\qquad
+S = \sqrt{\frac{SS_e}{n-2}} = \sqrt{\frac{3.503}{8}} \approx 0.6617.
+\]
+
+检验统计量：
+\[
+T = \frac{\hat\beta_1}{S/\sqrt{S_{xx}}} = \frac{0.9553}{0.6617/\sqrt{71.025}} \approx 12.17.
+\]
+
+$t_{0.025}(8)=2.306$，$|T|=12.17>2.306$，拒绝 $H_0$，线性关系显著。
+
+\textbf{（二）90\% 区间预测}（$x^*=9$）
+
+$\hat y(9)=103.513+0.9553\times9\approx112.11$。
+
+预测区间公式：
+\[
+\hat y(x^*)\pm t_{\alpha/2}(n-2)\cdot S\cdot\sqrt{1+\frac{1}{n}+\frac{(x^*-\bar x)^2}{S_{xx}}}.
+\]
+
+代入 $t_{0.05}(8)=1.860$：
+\[
+1+\frac{1}{10}+\frac{(9-3.65)^2}{71.025}=1+0.1+0.4031=1.5031,\qquad\sqrt{1.5031}\approx1.226.
+\]
+\[
+\Delta = 1.860\times0.6617\times1.226\approx1.509.
+\]
+
+贮存9年浓度的90\%预测区间为
+\[
+(112.11-1.509,\ 112.11+1.509)=(110.60,\ 113.62)\times10^{-6}.
+\]
+\end{solution}
 \begin{homework}[7]
 下面数据是 $18$ 名 $5$--$8$ 岁儿童的体重和体积。
 
@@ -4222,3 +4312,24 @@ $I_n$ 是 $n$ 阶单位阵。
     \item 想想该题意义所在。
 \end{enumerate}
 \end{homework}
+\begin{enumerate}
+
+\item 计算各统计量：$n=18$，$\bar{x} \approx 15.006$，$\bar{y} \approx 14.722$，$S_{xx} \approx 96.39$，$S_{xy} \approx 95.24$，故
+\[
+\hat{\beta}_1 = \frac{S_{xy}}{S_{xx}} \approx 0.988, \qquad \hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x} \approx -0.114
+\]
+回归方程为 $\hat{y} = -0.114 + 0.988\,x$。误差方差估计：$\mathrm{SSE} \approx 0.61$，$\hat{\sigma} \approx 0.195$。
+
+\item 当 $x^*=14$ 时，$\hat{y}^* \approx 13.72$，$\mathrm{SE}_{\bar{y}} = \hat{\sigma}\sqrt{\dfrac{1}{n}+\dfrac{(x^*-\bar{x})^2}{S_{xx}}} \approx 0.0501$。查表 $t_{0.05}(16)=1.746$，$90\%$ 置信区间为
+\[
+13.72 \pm 1.746 \times 0.0501 \approx (13.63,\ 13.81)\;(\mathrm{dm})^3
+\]
+
+\item $\mathrm{SE}_{\mathrm{pred}} = \hat{\sigma}\sqrt{1+\dfrac{1}{n}+\dfrac{(x^*-\bar{x})^2}{S_{xx}}} \approx 0.2014$，$90\%$ 预测区间为
+\[
+13.72 \pm 1.746 \times 0.2014 \approx (13.37,\ 14.07)\;(\mathrm{dm})^3
+\]
+
+\item 斜率 $\hat{\beta}_1 \approx 1$，截距近似为零，说明儿童体积（$\mathrm{dm}^3$）与体重（$\mathrm{kg}$）数值几乎相等，即儿童身体密度约为 $1\,\mathrm{kg/dm}^3$，与水的密度吻合，符合生理学事实。(2) 的置信区间描述的是\textbf{平均水平}，区间较窄；(3) 的预测区间针对\textbf{具体个体}，包含个体随机误差，故更宽。
+
+\end{enumerate}

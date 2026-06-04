@@ -49,7 +49,33 @@ Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \quad i=1,\ldots,n,
 \hat{Y}(x^*) = \hat{\beta}_0 + \hat{\beta}_1 x^*.
 \]
 \end{theorem}
+\begin{theorem}[OLS 估计量]
+最小化残差平方和 $Q(\beta_0,\beta_1)=\sum_{i=1}^n(Y_i-\beta_0-\beta_1 x_i)^2$，
+对 $\beta_0,\beta_1$ 各偏导令为零：
+\[
+\frac{\partial Q}{\partial\beta_0}=0
+\;\Rightarrow\;\sum(Y_i-\beta_0-\beta_1 x_i)=0,\qquad
+\frac{\partial Q}{\partial\beta_1}=0
+\;\Rightarrow\;\sum x_i(Y_i-\beta_0-\beta_1 x_i)=0.
+\]
+解正规方程组得
+\[
+\hat{\beta}_1=\frac{S_{xy}}{S_{xx}},\qquad
+\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{x},
+\]
+其中 $S_{xx}=\sum(x_i-\bar{x})^2$，$S_{xy}=\sum(x_i-\bar{x})(Y_i-\bar{Y})$。
+\end{theorem}
 
+\begin{note}
+用平方而非绝对值的理由：$|e_i|$ 不可微，无法求导；
+$e_i^2$ 给出闭合解。
+更深层：正态误差下 OLS $=$ MLE；Gauss--Markov 定理保证 OLS 是 BLUE。
+\end{note}
+
+\begin{dxtips}
+斜率 $=$ 协方差 $\div$ 方差：$\hat\beta_1=S_{xy}/S_{xx}=\widehat{\mathrm{Cov}}(x,Y)/\widehat{\mathrm{Var}}(x)$。
+截距由"直线过中心点 $(\bar x,\bar Y)$"反推。
+\end{dxtips}
 \section{投影与幂等矩阵}
 
 \begin{definition}[幂等矩阵]
