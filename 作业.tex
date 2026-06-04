@@ -2525,7 +2525,18 @@ E(T) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot E(X_i) = \frac{2\mu}{n(n+1)} \sum_{
 \]
 由 Chebyshev 不等式，$T \xrightarrow{P} \mu$，故 $T$ 是一阶原点矩的相合估计量。
 \end{proof}
-
+\begin{dxtips}
+Chebyshev 把"概率问题"转成"矩问题"：
+\[
+P(|T - \mu| \geq \varepsilon) \leq \frac{E(T-\mu)^2}{\varepsilon^2} = \frac{\mathrm{MSE}}{\varepsilon^2}
+\]
+要让右边 $\to 0$，需 $\mathrm{MSE} = \mathrm{Var}(T) + \mathrm{Bias}^2(T) \to 0$，两项缺一不可：
+\begin{itemize}
+  \item $E(T) = \mu$（无偏）$\Rightarrow$ Bias $= 0$
+  \item $\mathrm{Var}(T) \to 0$（方差项归零）
+\end{itemize}
+本题 $T$ 是不等权平均，不能直接用 LLN，只能手算矩 $+$ Chebyshev。
+\end{dxtips}
 \begin{homework}[8]
 （指数分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim f(x,\theta) = \dfrac{1}{\theta}\mathrm{e}^{-x/\theta}$，$x > 0$，试证 $\theta$ 的 MLE 之渐近分布为 $N\!\left(\theta, \dfrac{\theta^2}{n}\right)$。
 \end{homework}

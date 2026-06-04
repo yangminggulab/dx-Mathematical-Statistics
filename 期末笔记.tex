@@ -662,3 +662,119 @@ $$T_n \xrightarrow{P} c \implies g(T_n) \xrightarrow{P} g(c) \qquad (g \text{ �
     \item \textbf{收敛到常数}（$c$ 是常数而非随机变量）：消掉了联合分布的问题。常数没有随机性，不需要知道 $X_n$ 和 $Y_n$ 之间的相关结构，两个变量的联合行为自动退化成可操控的形式。
 \end{itemize}
 \end{note}
+\section{MLE与渐近正态分布}
+\begin{note}[MLE就是一种构造估计量的方式]
+
+    \textbf{第一步：写似然函数}
+
+数据 $X_1, \ldots, X_n$ 独立同分布，联合概率为：
+$$L(\theta) = \prod_{i=1}^n f(X_i, \theta)$$
+$L(\theta)$ 的含义：在参数为 $\theta$ 时，观测到这组数据的概率。
+
+\textbf{第二步：取对数}
+
+$$\ell(\theta) = \ln L(\theta) = \sum_{i=1}^n \ln f(X_i, \theta)$$
+取对数不改变最大值位置，但将连乘化为求和，便于求导。
+
+\textbf{第三步：求最大值}
+
+$$\ell'(\theta) = 0 \quad \Longrightarrow \quad \hat{\theta}_{\mathrm{MLE}}$$
+
+\textbf{核心思想：}数据已经发生，反推使这组数据
+"最可能出现"的 $\theta$，即为 MLE。
+\end{note}
+\begin{dxtips}
+   \textbf{Maximum Likelihood Estimation 理解}
+
+\begin{itemize}
+  \item \textbf{Max}：要对似然函数求极大值，即求导令导数为零。
+  \item \textbf{Likelihood}：似然函数 $L(\theta) = \prod_{i=1}^n f(X_i, \theta)$，
+        即在参数为 $\theta$ 时观测到这组数据的概率。
+  \item \textbf{Estimation}：解出 $\hat{\theta}$ 作为估计量。
+\end{itemize}
+
+为方便求导，先取对数：
+$$\ell(\theta) = \ln L(\theta) = \sum_{i=1}^n \ln f(X_i, \theta)$$
+将连乘化为求和，不改变极值位置，再令 $\ell'(\theta) = 0$ 解出 $\hat{\theta}$。
+
+\textbf{数学意义：}在现实已经发生情况 $A$ 的条件下，
+是哪个 $\theta$ 导致 $A$ 发生的可能性最大。
+
+\textbf{小补充：}$\theta$ 是固定未知常数，非随机变量，
+不能说"$\theta$ 是某个值的概率"。
+MLE 求的是 $L(\theta)=P(\text{数据}\mid\theta)$ 对 $\theta$ 的最大，
+而非贝叶斯的 $P(\theta\mid\text{数据})$。
+\end{dxtips}
+\begin{note}
+    MLE 解出来的 $\hat{\theta}$ 是一个数，但有两个问题：
+
+\begin{itemize}
+  \item 问题1：不知道它有没有偏（有限样本下 MLE 通常有偏）
+  \item 问题2：即使知道有偏，也不知道误差长什么形状
+\end{itemize}
+
+所以光有 $\hat{\theta}$ 这个数是不够的，还需要知道它的分布。
+渐近正态就是答案：
+$$\hat{\theta} \approx N\!\left(\theta,\, \frac{1}{nI(\theta)}\right) \quad (n \text{ 很大时})$$
+有了这个分布就知道了：
+\begin{itemize}
+  \item 误差有多大（渐近方差 $\frac{1}{nI(\theta)}$）
+  \item 误差是正态形状（可以做区间估计、假设检验）
+  \item 渐近方差恰好等于 C-R 下界（MLE 在大样本下是最优的）
+\end{itemize}
+
+MLE 给你一个点 $\hat{\theta}$，渐近正态告诉你这个点周围的误差分布。
+
+MLE 算出确定值但不知道好不好，渐近正态就是用来回答「好不好」这个问题的。
+\end{note}
+\begin{dxtips}
+    MLE就是算得分函数什么时候是0
+\end{dxtips}
+\subsection{渐近正态}
+\begin{dxtips}
+渐近存在的意义就是说MLE这种近似是好的
+    ，而且渐近正态不只说"好"，而是说好在哪里、好多少：
+\begin{itemize}
+  \item 好在哪里：渐近无偏（中心落在真实 $\theta$）
+  \item 好多少：渐近方差 $= \dfrac{1}{nI(\theta)} =$ C-R 下界
+        （没有任何估计量能比它更好）
+\end{itemize}
+渐近正态证明的是：MLE 在大样本下是最优无偏估计量，这叫\textbf{渐近有效}。
+\end{dxtips}
+
+\begin{note}
+    MLE 渐近正态的证明核心是对 $\ell'(\hat{\theta})=0$ 在真实 $\theta$ 处 Taylor 展开：
+$$0 = \ell'(\hat{\theta}) \approx \ell'(\theta) + (\hat{\theta} - \theta)\ell''(\theta)$$
+整理得：
+$$\sqrt{n}(\hat{\theta} - \theta) \approx \frac{\frac{1}{\sqrt{n}}\ell'(\theta)}{-\frac{1}{n}\ell''(\theta)}$$
+
+\begin{itemize}
+  \item 分子：CLT $\Rightarrow N(0,\, I(\theta))$ \quad $\leftarrow$ Fisher 从这里进来
+  \item 分母：LLN $\Rightarrow I(\theta)$ \quad $\leftarrow$ Fisher 又出现一次
+  \item 结果：Slutsky $\Rightarrow N\!\left(0,\, \dfrac{1}{I(\theta)}\right)$
+\end{itemize}
+
+
+\end{note}
+\begin{dxtips}
+    移项以后两边乘根号n,右侧上下同时除以n，得分函数期望是0，所以上面有了1/根号n就能用中心极限定理凑出一个依分布收敛到正态分布，下面由于有1/n还是独立同分布就可以说他依概率收敛到一个具体的数字也就是fisher,然后一个依分布一个依概率就可以用Slutsky了。最后方差除以常数要把常数平方
+    
+\end{dxtips}
+\begin{dxtips}
+    Fisher 信息有两个等价定义：
+$$I(\theta) = E\!\left[\left(\frac{\partial \ln f}{\partial\theta}\right)^2\right] = -E\!\left[\frac{\partial^2 \ln f}{\partial\theta^2}\right]$$
+左边是得分函数的方差（均值为 $0$，故方差 $=$ 二阶矩），
+右边是二阶导的负期望，两个定义相等。
+\end{dxtips}
+\begin{note}
+    \begin{itemize}
+  \item \textbf{CLT（中心极限定理）：}$n$ 个 iid 随机变量，
+        均值 $\mu$，方差 $\sigma^2$，则
+        $$\frac{1}{\sqrt{n}}\sum_{i=1}^n (X_i - \mu) \xrightarrow{d} N(0,\sigma^2)$$
+        不管原来什么分布，加起来除以 $\sqrt{n}$，极限就是正态。
+
+  \item \textbf{LLN（大数定律）：}$n$ 个 iid 随机变量，均值 $\mu$，则
+        $$\frac{1}{n}\sum_{i=1}^n X_i \xrightarrow{p} \mu$$
+        样本均值收敛到总体期望。
+\end{itemize}
+\end{note}
