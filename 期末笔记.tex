@@ -1042,6 +1042,19 @@ $$Z = \frac{\bar{X} - \mu}{S/\sqrt{n}} \approx N(0,1)$$
 .2 5.\quad 拟合优度（12周）\quad 4题\quad $\leftarrow$ 3题 ※.
 }
 \section{功效函数与两类错误}
+\dirtree{%
+.1 假设检验框架.
+.2 两种现实 $\times$ 两种决定.
+.3 $H_0$ 为真，拒绝 $H_0$ $\;\to\;$ 第一类错误（弃真），概率 $= \alpha$.
+.3 $H_1$ 为真，接受 $H_0$ $\;\to\;$ 第二类错误（取伪），概率 $= \beta$.
+.3 $\alpha \downarrow \Rightarrow \beta \uparrow$，样本量固定时此消彼长.
+.2 功效函数 $\beta(\theta) = P_\theta(\text{拒绝}\ H_0)$ 统一两者.
+.3 $\theta \in \Theta_0$：$\beta(\theta) = \alpha$（第一类错误）.
+.3 $\theta \in \Theta_1$：$1 - \beta(\theta) = \beta$（第二类错误）.
+.2 $p$ 值：$H_0$ 成立时，观测到当前统计量或更极端结果的概率.
+.3 $p < \alpha$ $\;\to\;$ 拒绝 $H_0$；$p$ 越小拒绝越强硬.
+.3 $p$ 值衡量拒绝的强度，$\alpha$ 是事先划定的门槛.
+}
 \begin{dxtips}[构造枢轴量 standardized test statistic]
     我明白了其实整个逻辑是这样的先要$-\mu_0$因为最终我们是$N(0,1)$正态分布，$\bar{X}$现在是相当于原点的横坐标并不是以$\mu_0$为原点的横坐标，减去以后我们就知道$\bar{X}$如果以$\mu_0$为原点他的坐标是多少，然后他们两都要除以$\sigma/\sqrt{n}$。也就是要同时缩放$x$轴坐标为了让整个分布变成方差为一的标准分布
 \end{dxtips}
