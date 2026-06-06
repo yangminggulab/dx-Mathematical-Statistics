@@ -828,3 +828,131 @@ $$\text{Var}\!\left(\sqrt{n}\,(\bar{X}-\mu)\right)
 = n \cdot \text{Var}(\bar{X})
 = n \cdot \frac{\sigma^2}{n} = \sigma^2$$
 \end{dxtips}
+\chapter{能力三}
+\dirtree{%
+.1 能力三\quad 区间估计.
+.2 1.\quad 概念层：置信区间是什么.
+.3 置信度 $1-\alpha$ 的含义：重复抽样时区间覆盖 $\theta$ 的频率 $\geq 1-\alpha$.
+.3 关键认知：$\theta$ 是固定常数，随机的是区间本身.
+.3 单侧/双侧：置信上限、置信下限、双侧区间.
+.2 2.\quad 方法层：枢轴量法（唯一方法，4步走）.
+.3 步骤1\quad 找点估计量 $T$（比如 $\bar{X}$、$S^2$）.
+.3 步骤2\quad 构造 $G(T,\theta)$，要求分布与 $\theta$ 无关（枢轴量）.
+.3 步骤3\quad 查表定范围，使 $P(G \in S) = 1-\alpha$.
+.3 步骤4\quad 反解 $\theta$，得到 $[\theta_1(\boldsymbol{X}),\,\theta_2(\boldsymbol{X})]$.
+.2 3.\quad 应用层：正态总体选哪个枢轴量.
+.3 单个正态总体.
+.4 估 $\mu$，$\sigma^2$ 已知 $\;\to\;$ $Z = \dfrac{\bar{X}-\mu}{\sigma/\sqrt{n}} \sim N(0,1)$.
+.4 估 $\mu$，$\sigma^2$ 未知 $\;\to\;$ $T = \dfrac{\bar{X}-\mu}{S/\sqrt{n}} \sim t(n-1)$.
+.4 估 $\sigma^2$，$\mu$ 未知 $\;\to\;$ $\chi^2 = \dfrac{(n-1)S^2}{\sigma_0^2} \sim \chi^2(n-1)$.
+.3 两个正态总体.
+.4 估 $\mu_1-\mu_2$，$\sigma_1^2,\sigma_2^2$ 已知 $\;\to\;$ $Z$ 检验.
+.4 估 $\mu_1-\mu_2$，$\sigma_1^2=\sigma_2^2$ 未知 $\;\to\;$ 两样本 $t$.
+.4 估 $\sigma_1^2/\sigma_2^2$ $\;\to\;$ $F = \dfrac{S_1^2}{S_2^2} \sim F(n_1-1,\,n_2-1)$.
+}
+\section{置信区间}
+\begin{dxtips}
+具体一次含有 $\theta$ 就是含有，不含有就是不含有，就像一个具体的人身高是 180 就是一米八。只不过我们构造的置信区间是一个选择人群的方法，我们保证的是这个人群里面有 $1-\alpha$ 的可能性抽出一个 180。
+\end{dxtips}
+\begin{note}
+置信区间是一套\textbf{构造区间的公式}，不是一个固定的区间。类比无偏估计量：
+
+\begin{center}
+\begin{tabular}{lll}
+无偏估计量 & $\bar{X} = \dfrac{1}{n}\sum X_i$ & 公式，代入数据得一个\textbf{点} \\[10pt]
+置信区间   & $\left[\bar{X} - z_{\alpha/2}\dfrac{\sigma}{\sqrt{n}},\ \bar{X} + z_{\alpha/2}\dfrac{\sigma}{\sqrt{n}}\right]$ & 公式，代入数据得一个\textbf{区间}
+\end{tabular}
+\end{center}
+
+两者都是\textbf{实验前选好的公式}，实验后代入具体样本才变成具体的数。唯一的区别是：
+\begin{itemize}
+  \item 无偏估计量评价的是「这个公式平均不偏」
+  \item 置信区间评价的是「这个公式长期套住 $\theta$ 的频率 $\geq 1-\alpha$」
+\end{itemize}
+\end{note}
+
+\begin{dxtips}
+置信度 $1-\alpha$ 是\textbf{公式的性质}，不是某次具体区间的性质——这就是为什么不能说「$\mu$ 有 $95\%$ 的概率在这个区间里」，只能说「这套公式有 $95\%$ 的靠谱率」。
+\end{dxtips}
+\begin{note}
+置信区间的结构是：
+$$\underbrace{\bar{X}}_{\text{中心}} \pm \underbrace{z_{\alpha/2}\dfrac{\sigma}{\sqrt{n}}}_{\text{误差限（半宽）}}$$
+
+其中 $z_{\alpha/2}$ 是标准正态分布 $N(0,1)$ 的上 $\alpha/2$ 分位数，满足
+$P(Z > z_{\alpha/2}) = \alpha/2$，是一个查表得到的常数。
+
+误差限拆开看：
+\begin{itemize}
+  \item $z_{\alpha/2}$：由置信度决定，置信度越高，$z_{\alpha/2}$ 越大
+  \item $\sigma$：总体本身的波动，越散误差限越大
+  \item $\sqrt{n}$：样本量越大误差限越小，区间越窄
+\end{itemize}
+\end{note}
+
+\begin{dxtips}
+想要更窄的区间，本质上就是在压缩误差限：要么降置信度（$z_{\alpha/2}$ 变小），要么增大样本量（$\sqrt{n}$ 变大）。
+\end{dxtips}
+\begin{note}[正确理解]
+想象你做了 100 次实验，每次抽一批样本，每次用同样的方法构造一个置信区间：
+
+\begin{center}
+\begin{tabular}{lllll}
+第1次样本 & $\to$ & 区间 $[168.1,\ 172.5]$ & $\leftarrow$ & 包含了真实 $\mu$ \\
+第2次样本 & $\to$ & 区间 $[169.0,\ 173.4]$ & $\leftarrow$ & 包含了真实 $\mu$ \\
+第3次样本 & $\to$ & 区间 $[171.8,\ 176.2]$ & $\leftarrow$ & 没包含（倒霉）\\
+$\vdots$  &       & $\vdots$               &              & \\
+第100次   & $\to$ & $\cdots$               &              &
+\end{tabular}
+\end{center}
+
+$95\%$ 置信度的意思是：这 100 个区间里，平均有 95 个会把真实的 $\mu$ 套住。
+
+具体到某一次抽样得到的那个区间，你不知道它是不是那幸运的 95 个之一——但你知道这套方法长期来看靠谱率是 $95\%$。
+\end{note}
+
+\begin{note}[可靠度和精度的取舍]
+想要 $99\%$ 置信度？可以，但区间会更宽（更不精确）。
+
+想要窄区间？只能降低置信度，或者增大样本量。
+\end{note}
+
+\begin{dxtips}
+越可靠，区间越长；区间越长，精度越低。
+\end{dxtips}
+\begin{note}[单侧与双侧置信区间]
+\textbf{双侧}是在问：$\theta$ 在哪里？（两边都要套住）
+
+\textbf{单侧}是在问：$\theta$ 有没有超过某个危险线？（只关心一边）
+
+\textbf{双侧区间}——两边都套：
+$$P(\theta_1(\boldsymbol{X}) \leq \theta \leq \theta_2(\boldsymbol{X})) \geq 1-\alpha$$
+
+\textbf{置信上限}——只关心「$\theta$ 最多能有多大」：
+$$P(\theta \leq \theta_2(\boldsymbol{X})) \geq 1-\alpha$$
+
+\textbf{置信下限}——只关心「$\theta$ 至少有多大」：
+$$P(\theta \geq \theta_1(\boldsymbol{X})) \geq 1-\alpha$$
+
+单侧的「网」是开口的：
+\begin{center}
+\begin{tabular}{ll}
+双侧 & $[\text{————}\theta\text{————}]$\quad 两边都围住，问「$\theta$ 在哪」\\[4pt]
+置信上限 & $(\text{——————————}\theta]$\quad 只管右边，问「$\theta$ 会不会太大」\\[4pt]
+置信下限 & $[\theta\text{——————————})$\quad 只管左边，问「$\theta$ 会不会太小」
+\end{tabular}
+\end{center}
+
+单侧和双侧的分位数不同：置信度相同时，双侧两边各切 $\alpha/2$，查 $z_{\alpha/2}$；单侧只切一边，查 $z_\alpha$。因此单侧区间比双侧更窄——全部误差预算集中在一侧。
+\end{note}
+
+\begin{example}[置信上限——药物副作用]
+设副作用发生率为 $\theta$，关心的是「$\theta$ 会不会太高」，不在乎 $\theta$ 有多低。构造置信上限：
+$$P(\theta \leq \theta_2(\boldsymbol{X})) \geq 1-\alpha$$
+意思是：有 $1-\alpha$ 的把握，$\theta$ 不超过这条线。
+\end{example}
+
+\begin{example}[置信下限——电池寿命]
+设电池寿命为 $\theta$，关心的是「$\theta$ 会不会太短」，不在乎 $\theta$ 有多长。构造置信下限：
+$$P(\theta \geq \theta_1(\boldsymbol{X})) \geq 1-\alpha$$
+意思是：有 $1-\alpha$ 的把握，$\theta$ 不低于这条线。
+\end{example}
