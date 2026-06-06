@@ -945,14 +945,77 @@ $$P(\theta \geq \theta_1(\boldsymbol{X})) \geq 1-\alpha$$
 单侧和双侧的分位数不同：置信度相同时，双侧两边各切 $\alpha/2$，查 $z_{\alpha/2}$；单侧只切一边，查 $z_\alpha$。因此单侧区间比双侧更窄——全部误差预算集中在一侧。
 \end{note}
 
-\begin{example}[置信上限——药物副作用]
-设副作用发生率为 $\theta$，关心的是「$\theta$ 会不会太高」，不在乎 $\theta$ 有多低。构造置信上限：
-$$P(\theta \leq \theta_2(\boldsymbol{X})) \geq 1-\alpha$$
-意思是：有 $1-\alpha$ 的把握，$\theta$ 不超过这条线。
-\end{example}
+\begin{dxtips}
+\[
+\underbrace{[\,\theta_1(\boldsymbol{X}),\ \theta_2(\boldsymbol{X})\,]}_{\text{抽象，适用任何分布}}
+\xrightarrow{\text{正态总体}(\sigma^2\text{已知），枢轴量法}}
+\underbrace{\left[\,\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}},\ \bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\,\right]}_{\theta_1 \text{ 和 } \theta_2 \text{ 的具体长相}}
+\]
+\end{dxtips}
+\begin{itemize}
+  \item $\boldsymbol{X} = (X_1, X_2, \ldots, X_n)$：整批样本，你抽到的所有数据
+  \item $\theta_1(\boldsymbol{X})$：区间左端点，样本的函数，代入数据得一个数
+  \item $\theta_2(\boldsymbol{X})$：区间右端点，同上
+\end{itemize}
+\section{枢轴量法（Pivotal quantity method）}
 
-\begin{example}[置信下限——电池寿命]
-设电池寿命为 $\theta$，关心的是「$\theta$ 会不会太短」，不在乎 $\theta$ 有多长。构造置信下限：
-$$P(\theta \geq \theta_1(\boldsymbol{X})) \geq 1-\alpha$$
-意思是：有 $1-\alpha$ 的把握，$\theta$ 不低于这条线。
-\end{example}
+    \begin{itemize}
+
+\item 原来我们要求的是 $P(f(X) < \theta < p(X)) = 1-\alpha$，原来我们是想知道这个 $f(X)$ 和 $p(X)$ 这两个函数是什么，但是我们压根不知道，因为中间的 $\theta$ 我们也不知道。
+
+\item 于是呢，我们需要对 $\theta$ 进行一点变换，使得中心这个位置——这个位置其实就是核心，是枢纽，也就是 pivot——我们知道。于是我们就把原本的 $\theta$ 变成了 $\dfrac{\bar{X} - \theta}{\sigma / \sqrt{n}}$，因为这样 pivot 这整个的分布我们就知道了。
+
+\item $\theta$ 从原来必须知道是多少，现在它已经完成了将正态从以 $\theta$ 为中心移动到以 $0$ 为核心的使命。
+
+\item 然后为了等式成立，我们知道了两侧是 $z_{\alpha/2}$ 和 $-z_{\alpha/2}$，但是我们要求的其实是 $\theta$ 两边的函数是什么，所以把枢纽位置还原，还原的过程两边函数也得跟着变，这样两边的函数就知道是什么了。$\theta$必须是单调的才能反转
+
+\end{itemize}
+\begin{dxtips}
+  \begin{itemize}
+    \item 其实就是保证中心的枢纽改变以后我们知道它的分布。比如 $\mu$ 未知，$\sigma^2$ 也不知道，就没法用 $N(0,1)$ 了，因为不知道 $\sigma^2$，所以没法把方差弄到 $1$，只能用实际的方差，然后弄成 $t$ 分布了。
+    \item 构造完了以后，里面只能留要求的量是未知的，其他的都得是已知的。
+\end{itemize}
+\end{dxtips}
+\textbf{正态总体的四种标准情形：}
+\begin{enumerate}
+    \item \textbf{求 $\mu$}，$\sigma^2$ 已知 $\rightarrow$ 用 $Z$ 统计量
+    $$Z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \sim N(0,1)$$
+
+    \item \textbf{求 $\mu$}，$\sigma^2$ 未知 $\rightarrow$ 用 $t$ 统计量
+    $$T = \frac{\bar{X} - \mu}{S/\sqrt{n}} \sim t(n-1)$$
+
+    \item \textbf{求 $\sigma^2$}，$\mu$ 未知 $\rightarrow$ 用 $\chi^2$ 统计量
+    $$\chi^2 = \frac{(n-1)S^2}{\sigma^2} \sim \chi^2(n-1)$$
+
+    \item \textbf{两总体，求 $\mu_1-\mu_2$}（$\sigma_1^2=\sigma_2^2$ 未知）$\rightarrow$ 用 $t$ 统计量
+    $$T = \frac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{S_p\sqrt{1/m+1/n}} \sim t(m+n-2)$$
+
+    \item \textbf{两总体，求 $\sigma_1^2/\sigma_2^2$}，$\mu_1,\mu_2$ 未知 $\rightarrow$ 用 $F$ 统计量
+    $$F = \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2} \sim F(m-1,\,n-1)$$
+\end{enumerate}
+\begin{dxtips}
+$\mu_1 - \mu_2$ 就是变相的 2，5 就是变相的 3。
+
+F 分布就是两个独立卡方分布之比。
+
+定义：若 $U \sim \chi^2(m)$，$V \sim \chi^2(n)$，且相互独立，则
+$$F = \frac{U/m}{V/n} \sim F(m, n)$$
+\end{dxtips}
+\begin{dxtips}
+   两样本 $t$ 统计量不是两个 $t$ 的叠加，而是将差 $\bar{X}-\bar{Y}$ 整体作为分子，用合并方差
+$$S_p^2 = \frac{(m-1)S_1^2+(n-1)S_2^2}{m+n-2}$$
+作为分母，结构上与单样本 $t$ 完全一致：
+$$T = \frac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{S_p\sqrt{1/m+1/n}} \sim t(m+n-2)$$
+\end{dxtips}
+ \textbf{大样本置信区间}
+\begin{note}
+   
+
+使用场景：总体分布未知，但 $n$ 足够大。
+
+核心就是 CLT：无论总体是什么分布，只要 $n$ 大，
+$$\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)$$
+$\sigma$ 未知也没关系，用样本标准差 $S$ 替换，近似仍成立：
+$$Z = \frac{\bar{X} - \mu}{S/\sqrt{n}} \approx N(0,1)$$
+也就是说，只要样本够大，$\sigma^2$ 不知道也可以用 $Z$ 而不是 $T$。
+\end{note}
