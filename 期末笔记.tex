@@ -1055,7 +1055,7 @@ $$Z = \frac{\bar{X} - \mu}{S/\sqrt{n}} \approx N(0,1)$$
 .3 $p < \alpha$ $\;\to\;$ 拒绝 $H_0$；$p$ 越小拒绝越强硬.
 .3 $p$ 值衡量拒绝的强度，$\alpha$ 是事先划定的门槛.
 }
-\begin{dxtips}[构造枢轴量 standardized test statistic]
+\begin{dxtips}[构造检验统计量]
     我明白了其实整个逻辑是这样的先要$-\mu_0$因为最终我们是$N(0,1)$正态分布，$\bar{X}$现在是相当于原点的横坐标并不是以$\mu_0$为原点的横坐标，减去以后我们就知道$\bar{X}$如果以$\mu_0$为原点他的坐标是多少，然后他们两都要除以$\sigma/\sqrt{n}$。也就是要同时缩放$x$轴坐标为了让整个分布变成方差为一的标准分布
 \end{dxtips}
 \begin{dxtips}
@@ -1082,9 +1082,8 @@ $p$ 值计算的概率是假设 $H_0$ 成立时，统计量比你观测值还极
     \begin{enumerate}
     \item[(1)] 整个标准化统计量然后看他落在 $H_0$ 还是 $H_1$，接受域还是拒绝域的时候，我们是想看他到底是拒绝了还是接受了，如果拒绝了 $p$ 值会告诉我们拒绝的强烈还是不强烈，如果强烈拒绝我们就会怀疑 $H_0$ 不是对的。
    \item $H_0$ 成立其实就不应该落在拒绝域，这个就是第一类错误
-   \item $H_1$ 成立就不该落在接受域。这个就是第二类粗欧文第一类错误是 $H_0$ 的曲线算右尾，第二类错误是 $H_1$ 的曲线算左尾。
-$$\text{第一类错误} = \int_c^{+\infty} f_{H_0}(x)\,\mathrm{d}x = \alpha$$
-$$\text{第二类错误} = \int_{-\infty}^{c} f_{H_1}(x)\,\mathrm{d}x = \beta$$
+   \item $H_1$ 成立就不该落在接受域。这个就是第二类c错误。第一类错误是 $H_0$ 的曲线算右尾，第二类错误是 $H_1$ 的曲线算左尾。
+
 \end{enumerate}
 \end{dxtips}
     
@@ -1092,4 +1091,232 @@ $$\text{第二类错误} = \int_{-\infty}^{c} f_{H_1}(x)\,\mathrm{d}x = \beta$$
     功效函数是
 $$\beta(\theta) = P_\theta(\text{统计量落在拒绝域})$$
 它是关于 $\theta$ 的函数，对所有的 $\theta$ 都算一遍落在拒绝域的概率。
+\end{note}
+$$\text{第一类错误} = \int_c^{+\infty} f_{H_0}(x)\,\mathrm{d}x = \alpha$$
+$$\text{第二类错误} = \int_{-\infty}^{c} f_{H_1}(x)\,\mathrm{d}x = \beta$$
+\begin{dxtips}
+    就是第一类错误是以H0为中心向右积分，第二类错误是以H1为中心像左积分，那个f的下标是不一样的。
+\end{dxtips}
+\section{正态总体检验}
+
+
+检验统计量与 CI 的 pivot 虽然长大相似但是却不一样，代入的是具体μ在代入的一刻就知道他在0，1正态分布x轴落在哪里了
+$$Z = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}}, \qquad
+T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}}, \qquad
+\chi^2 = \frac{(n-1)S^2}{\sigma_0^2}$$
+\begin{dxtips}
+    \begin{itemize}
+    \item 第一：置信区间是要找一个区间；假设检验那个区间是拒绝域，那个区间是接受域，都是确定的。
+    \item 第二：置信区间 $\theta$ 是不知道的；假设检验 $\theta_0$ 是给我们具体的，需要代入然后观察落在哪里。
+    \item 第三：他们两构造的目的其实不一样——一个是更换轴，我们才能求出两边的方程；一个就是为了标准正态化，方便查表计算。
+\end{itemize}
+\end{dxtips}
+
+单侧双侧拒绝域就是总积分为 $\alpha$ 的面积是都放左边、都放右边、还是两边各一半。
+\begin{itemize}
+    \item \textbf{双侧}：两边各放 $\dfrac{\alpha}{2}$，查 $z_{\alpha/2}$
+    \item \textbf{单侧右}：全放右边，查 $z_{\alpha}$
+    \item \textbf{单侧左}：全放左边，查 $-z_{\alpha}$
+\end{itemize}
+$H_1$ 指哪边就往哪边放。
+\begin{note}
+    我们现在不知道 $\theta_0$ 是什么分布，但是样本很大，CLT 保证
+$$\frac{\sqrt{n}(\hat{\theta} - \theta_0)}{\sqrt{V(\theta_0)}} \approx N(0,1)$$
+然后问题就变成：这个值落在 $N(0,1)$ 的 $x$ 轴哪里，有没有超过临界值 $z_\alpha$ 或 $z_{\alpha/2}$？超过了就拒绝 $H_0$，没超过就不拒绝。
+\end{note}
+ \textbf{$\theta$ 是谁：}
+\begin{itemize}
+    \item $\hat{\theta}$：估计量（比如 $\hat{p} = \bar{X}$，或 $\bar{X}$）
+    \item $\theta_0$：$H_0$ 给定的具体值（比如 $p_0 = 0.1$）
+    \item $V(\theta_0)$：估计量在 $H_0$ 下的渐近方差
+\end{itemize}
+
+\textbf{为什么和 CLT 长得不一样：}
+
+你记的 CLT 基础形式是只乘 $\sqrt{n}$：
+$$\sqrt{n}(\bar{X} - \mu) \xrightarrow{d} N(0,\, \sigma^2)$$
+但得到的是 $N(0, \sigma^2)$，方差不是 $1$，没法直接查表。为了查表，还要再除以 $\sigma$：
+$$\frac{\sqrt{n}(\bar{X} - \mu)}{\sigma} \xrightarrow{d} N(0,1)$$
+大样本检验公式里的 $\sqrt{V(\theta_0)}$ 就是这个 $\sigma$——多了这一步除法，才能落到标准正态的 $x$ 轴上查表。对应关系：
+\begin{itemize}
+    \item $\hat{\theta} = \bar{X}$
+    \item $V(\theta_0) = \sigma^2$（渐近方差，不带 $1/n$）
+\end{itemize}
+分母的 $\sqrt{n}$ 已经提到分子上去了，所以 $\sqrt{V(\theta_0)}$ 对应的是 $\sigma$，不是 $\sigma/\sqrt{n}$。本质完全一样。
+\begin{itemize}
+    \item \textbf{用 $\theta_0$}：$H_0$ 明确给了 $\theta_0$ 的值，直接代入算方差。
+    理论上更严格，因为检验本身就是假设 $H_0$ 成立。
+    \item \textbf{用 $\hat{\theta}$}：$\theta_0$ 对应的方差形式复杂，或题目直接用样本估计。
+    大样本下 $\hat{\theta} \xrightarrow{P} \theta_0$，两者等价。
+\end{itemize}
+\section{NP-UMP}
+ \textbf{NP引理的核心思想总结}
+\begin{note}[奈曼皮尔逊]
+在简单假设 $H_0: \theta = \theta_0$ vs $H_1: \theta = \theta_1$ 下，
+让 power 势最优——即拒绝域大小（第一类错误概率）确定的情况下，使第二类错误概率最小：
+\[
+\text{约束：} P_{\theta_0}(X \in W) = \alpha, \qquad
+\text{目标：} \min\, P_{\theta_1}(X \notin W)
+\iff \max\, P_{\theta_1}(X \in W)
+\]
+即``冤枉好人''概率不超过 $\alpha$ 的前提下，使``抓住坏人''的概率最大。
+
+第二类错误的几何形式取决于方向：右侧检验为 $H_1$ 下 $c$ 左侧面积，左侧检验为右侧面积。
+统一表述：\textbf{$H_1$ 下落在拒绝域之外的概率最小}，不绑定方向。
+\end{note}
+\begin{dxtips}
+    在 $H_0$ 分布下，以下三个 $W$ 都能让积分 $= \alpha$：
+\begin{align*}
+W_1 &= \{X \geq c_1\} \quad \text{右尾，} P_{\theta_0}(X \in W_1) = \alpha \\
+W_2 &= \{X \leq c_2\} \quad \text{左尾，} P_{\theta_0}(X \in W_2) = \alpha \\
+W_3 &= \{\text{某个中间奇怪区域}\} \quad P_{\theta_0}(X \in W_3) = \alpha
+\end{align*}
+三个 $W$ 在 $H_0$ 下积分面积相同，但对应的 $x$ 取值范围完全不同。
+放到 $H_1$ 分布下积分，结果各异：
+\[
+P_{\theta_1}(X \in W_1) \neq P_{\theta_1}(X \in W_2) \neq P_{\theta_1}(X \in W_3)
+\]
+因为 $H_1$ 的分布中心不同，同一个 $x$ 范围在 $H_1$ 下积出的面积也不同，
+三个 $W$ 对应三个不同的势，即三个不同的第二类错误。
+
+\textbf{约束的是 $H_0$ 下的面积，优化的是 $H_1$ 下的面积，二者独立。}
+NP引理保证：用似然比 $\Lambda(x) \geq k$ 定出的 $W$，在 $H_1$ 下的面积最大（势最大，第二类错误最小）。
+\end{dxtips}
+\begin{note}
+    似然比是一个\textbf{性价比指标}，帮你决定每个 $x$ 值值不值得放进 $W$。
+
+放一个 $x$ 进 $W$ 的代价和收益：
+\begin{itemize}
+    \item 代价：消耗掉一点 $\alpha$ 的预算 $\;\to\;$ $f(x;\theta_0)$ 越大，代价越高；其中 $f(x;\theta_0)$ 就是以 $\theta_0$ 为中心的正态曲线在 $x$ 处的纵坐标
+    \item 收益：增加一点势 $\;\to\;$ $f(x;\theta_1)$ 越大，收益越高；其中 $f(x;\theta_1)$ 就是以 $\theta_1$ 为中心的正态曲线在 $x$ 处的纵坐标
+\end{itemize}
+
+所以每个 $x$ 的性价比就是：
+\[
+\Lambda(x) = \frac{f(x;\theta_1)}{f(x;\theta_0)} = \frac{\text{收益}}{\text{代价}}
+= \frac{H_1\text{ 曲线纵坐标}}{H_0\text{ 曲线纵坐标}}
+\]
+
+最优策略：按性价比从高到低把 $x$ 塞进 $W$，直到 $\alpha$ 用完，等价于：
+\[
+W = \{\Lambda(x) \geq k\}
+\]
+NP引理证明的就是：这个贪心策略给出全局最优——势最大，第二类错误最小。
+\end{note}
+\begin{dxtips}
+   $\Lambda(x) \geq k$ 越大越好，等价于：
+\begin{itemize}
+    \item $f(x;\theta_0)$（$x$ 在 $H_0$ 曲线的纵坐标）越小越好
+    $\;\to\;$ 放进 $W$ 消耗的 $\alpha$ 预算少，代价小
+    \item $f(x;\theta_1)$（$x$ 在 $H_1$ 曲线的纵坐标）越大越好
+    $\;\to\;$ 在 $H_1$ 下对 $W$ 积分越大，势 $P_{\theta_1}(X \in W)$ 越大
+\end{itemize}
+从而第二类错误 $= 1 - P_{\theta_1}(X \in W)$ 越小。
+\end{dxtips}
+\begin{note}[一致最优势检验 UMP]
+\textbf{UMP = Uniformly Most Powerful Test，一致最优势检验。}
+
+NP解决的是简单 vs 简单（$H_1$ 只有一个点），但实际问题里 $H_1$ 往往是一个范围：
+\[
+H_1: \theta > \theta_0 \qquad (H_1 \text{ 有无穷多个点})
+\]
+这时对每个具体的 $\theta_1$ 用NP都能找到一个最优检验，但不同的 $\theta_1$ 可能给出不同的拒绝域。
+
+\textbf{UMP问的是：}有没有一个拒绝域 $W$，对 $H_1$ 范围内\textbf{所有的} $\theta_1$ 同时最优？
+\[
+\beta_W(\theta_1) \geq \beta_{W'}(\theta_1) \quad \text{对一切 } \theta_1 \in H_1 \text{ 成立}
+\]
+如果存在，就叫 \textbf{UMP检验}。
+
+\begin{itemize}
+    \item NP $\;\to\;$ 简单 vs 简单，最优
+    \item UMP $\;\to\;$ 简单 vs 复合，对所有 $\theta_1$ 一致最优
+\end{itemize}
+UMP不是总存在的，单调似然比族（如指数族）里单侧检验一般有UMP，双侧一般没有。
+\end{note}
+\begin{note}[UMP 的构造]
+构造UMP的核心工具是\textbf{单调似然比}。
+
+\textbf{思路：}NP告诉我们，对每个固定的 $\theta_1$，最优拒绝域是 $\{\Lambda(x) \geq k\}$。
+若 $\Lambda(x) = \dfrac{f(x;\theta_1)}{f(x;\theta_0)}$ 是某个统计量 $T(X)$ 的单调递增函数，则：
+\[
+\Lambda(x) \geq k \iff T(X) \geq c
+\]
+右边的形式 $\{T(X) \geq c\}$ 与 $\theta_1$ 的具体取值无关，对所有 $\theta_1 > \theta_0$ 给出同一个拒绝域。
+
+
+\end{note}
+\begin{dxtips}
+选取比值大于等于 $k$ 的 $x$ 构成拒绝域 $W = \{\Lambda(x) \geq k\}$，
+在 $H_0$ 曲线下积分恰好等于 $\alpha$：
+\[
+P_{\theta_0}(X \in W) = \int_W f(x;\theta_0)\, dx = \alpha
+\]
+$k$ 即为让该积分恰好等于 $\alpha$ 的门槛值。也就是这些x坐标对应的y坐标乘dx再求和
+\end{dxtips}
+\begin{note}[单调性的证明]
+取对数后：
+\[
+\ln \Lambda(x) = \frac{\mu_1 - \mu_0}{\sigma^2} \cdot \bar{X} - \text{常数}
+\]
+这是关于 $\bar{X}$ 的线性函数，系数为 $\dfrac{\mu_1-\mu_0}{\sigma^2}$，证单调只需看系数符号——正的单增，负的单减。
+
+虽然每个 $\theta_1$ 取值不同，但只要 $H_1: \theta > \theta_0$，$\theta_1 - \theta_0 > 0$ 是确定的，
+故上式形如 $k\bar{X} - b$（$k > 0$），$\bar{X}$ 越大 $\Lambda(x)$ 越大，单增方向锁死，不随 $\theta_1$ 变。
+
+故拒绝域 $\{\bar{X} \geq c\}$ 对所有 $\theta_1 > \theta_0$ 一致成立 $\Rightarrow$ \textbf{UMP}。
+\end{note}
+
+
+
+
+\begin{note}[似然比化简为拒绝域]
+\[
+\Lambda(x) = \exp\!\left\{\frac{\mu_1-\mu_0}{\sigma^2}\sum x_i - \text{常数}\right\} \geq k
+\]
+两边取 $\ln$，常数移右，设右端为 $c'$：
+\[
+\frac{\mu_1-\mu_0}{\sigma^2}\sum x_i \geq c'
+\]
+因 $\mu_1 > \mu_0$，系数 $> 0$，两边除之不等号方向不变，设右端为 $c$：
+\[
+\Lambda(x) \geq k \iff \bar{X} \geq c
+\]
+$\theta_1$ 虽出现在 $c$ 的表达式中，但 $c$ 是一个具体的数，
+最终由 $P_{\theta_0}(\bar{X} \geq c) = \alpha$ 定出，$\theta_1$ 被绕开。
+\end{note}
+\begin{dxtips}[NP到UMP的完整逻辑]
+我们想知道这次实验拒绝域应该取在哪里。
+
+由 NP 引理，理论上最优拒绝域是让拒绝域内的 $x$ 满足似然比大于等于 $k$：
+\[
+W = \{\Lambda(x) \geq k\}
+\]
+$k$ 再小一点，满足条件的 $x$ 更多，拒绝域变大，$H_0$ 下的积分面积就超过 $\alpha$。
+
+但此时仍不知道具体拒绝域范围在哪，因为 $\Lambda(x)$ 含有未知的 $\theta_1$。
+
+引入 $T(X)$，利用单调性：
+\[
+\Lambda(x) \geq k \iff T(X) \geq c, \quad c \text{ 由 } P_{\theta_0}(T(X) \geq c) = \alpha \text{ 定出}
+\]
+$T(X)$ 只含数据，代入样本即可算出具体拒绝域。
+\end{dxtips}
+\begin{note}[从似然比到可用拒绝域]
+最初只知道最优拒绝域是 $\{\Lambda(x) \geq k\}$，
+但由于 $\Lambda(x) = \dfrac{f(x;\theta_1)}{f(x;\theta_0)}$ 含有未知的 $\theta_1$，
+不知道 $x$ 具体取哪些值，拒绝域落在哪里。
+
+因此需要找统计量 $T(X)$，利用单调性将最优条件翻译成可计算的形式：
+\[
+\Lambda(x) \geq k \iff T(X) \geq c
+\]
+其中 $c$ 由 $P_{\theta_0}(T(X) \geq c) = \alpha$ 定出，$\theta_1$ 被绕开，$k$ 也无需单独计算。
+
+\textbf{完整逻辑链：}
+\begin{itemize}
+    \item \textbf{最优性：}由 NP 引理保证，$\{\Lambda(x) \geq k\}$ 是最优拒绝域
+    \item \textbf{可计算：}$T(X)$ 只含数据，拿到样本即可算出
+    \item \textbf{实际判断：}计算 $T(X)$，与 $c$ 比较，判断样本是否落入拒绝域
+\end{itemize}
 \end{note}
