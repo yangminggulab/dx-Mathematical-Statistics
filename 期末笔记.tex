@@ -1098,8 +1098,31 @@ $$\text{第二类错误} = \int_{-\infty}^{c} f_{H_1}(x)\,\mathrm{d}x = \beta$$
     就是第一类错误是以H0为中心向右积分，第二类错误是以H1为中心像左积分，那个f的下标是不一样的。
 \end{dxtips}
 \section{正态总体检验}
+\begin{theorem}[假设检验统计量选择]
 
+\textbf{一、均值检验（单总体）}
 
+设 $X_1, \ldots, X_n \overset{\text{iid}}{\sim} \mathcal{N}(\mu, \sigma^2)$，检验 $H_0: \mu = \mu_0$。
+
+\textbf{方差已知} → $Z$ 检验：
+$$Z = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}} \sim \mathcal{N}(0,1)$$
+
+\textbf{方差未知} → $t$ 检验：
+$$T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}} \sim t(n-1)$$
+
+分母用 $S$ 替代 $\sigma$，引入额外随机性，分布变胖；$n$ 越大 $t$ 越接近正态。
+
+\textbf{二、方差检验（单总体）}
+
+检验 $H_0: \sigma^2 = \sigma_0^2$：
+$$\chi^2 = \frac{(n-1)S^2}{\sigma_0^2} \sim \chi^2(n-1)$$
+
+\textbf{三、两总体方差比检验}
+
+检验 $H_0: \sigma_1^2 = \sigma_2^2$：
+$$F = \frac{S_1^2}{S_2^2} \sim F(n_1-1,\, n_2-1)$$
+
+\end{theorem}
 检验统计量与 CI 的 pivot 虽然长大相似但是却不一样，代入的是具体μ在代入的一刻就知道他在0，1正态分布x轴落在哪里了
 $$Z = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}}, \qquad
 T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}}, \qquad

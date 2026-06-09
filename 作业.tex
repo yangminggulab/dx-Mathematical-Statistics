@@ -3032,7 +3032,11 @@ $$\phi(\boldsymbol{X}) = \phi(X_1, X_2, \cdots, X_n) = \begin{cases} 1, & \text{
 \]
 故该检验的真实水平近似为 $0$。
 \begin{dxtips}
-    已经知道$z_\alpha$求$\alpha$,正态分布平均数的方差就是方差的平均
+    已经知道$z_\alpha$求检验函数里的 $1.3$ 是 $\bar{X}$ 的原始尺度（标准化之前），$\bar{X}$ 在 $H_0$ 下服从
+\[
+\bar{X}_{10} \sim N\!\left(0,\ \frac{1}{10}\right)
+\]
+
 \end{dxtips}
 \textbf{(2)} 第二类错误概率为
 \[
@@ -3043,13 +3047,9 @@ $$\phi(\boldsymbol{X}) = \phi(X_1, X_2, \cdots, X_n) = \begin{cases} 1, & \text{
   \item 当 $\mu = 1.0$ 时：$\beta(1.0) = \Phi(\sqrt{10} \times 0.3) = \Phi(0.949) \approx 0.8289$。
   \item 当 $\mu = 1.5$ 时：$\beta(1.5) = \Phi(\sqrt{10} \times (-0.2)) = \Phi(-0.632) \approx 0.2638$。
 \end{itemize}
-\begin{note}
-$P_\mu(\cdot)$ 表示在参数为 $\mu$ 时计算括号内事件的概率。$\beta(\mu)$ 是第二类错误概率，定义为
-\[
-\beta(\mu) = P_\mu(\bar{X}_{10} \leq 1.3),
-\]
-它是以 $\mu$ 为自变量的函数——$\mu$ 不同，$\bar{X}_{10}$ 的分布不同，$\beta(\mu)$ 的值也不同。
-\end{note}
+\begin{dxtips}
+    算第二类错误都是往负无穷积分只是看μ不一样，X相对轴的x位置不一样罢了。
+\end{dxtips}
 \textbf{(3)} 设临界值为 $c$，要求真实水平等于 $0.05$：
 \[
 P_{\mu=0}(\bar{X}_{10} > c) = 0.05
@@ -3063,22 +3063,13 @@ P_{\mu=0}(\bar{X}_{10} > c) = 0.05
 \]
 \end{solution}
 \begin{dxtips}
-    第一类错误就是误会了，第二类错误就是漏网之鱼，真实值就误会的概率对。我最多允许百分之五 的误判概率，反推临界值应该设在哪里。误判概率小漏网之鱼概率就大
+   这个H1就是解读出来单侧检验就拒绝域放真无穷那边，积分面积是0.05
+   ；  $\Phi$ 是标准正态的累积分布函数（CDF），表示小于等于某值的概率，故大于 $c$ 的概率用 $1-\Phi$：
+\[
+P_{\mu=0}(\bar{X}_{10} > c) = 1 - \Phi(\sqrt{10}\,c) = 0.05
+\]
 \end{dxtips}
-\begin{note}
-两类错误的本质：
-\begin{itemize}
-  \item \textbf{第一类错误}：$H_0$ 成立，但样本落在拒绝域，即
-  \[
-  \alpha = P_{\mu=0}(\bar{X}_{10} > 1.3).
-  \]
-  \item \textbf{第二类错误}：$H_0$ 不成立（$\mu > 0$），但样本落在接受域，即
-  \[
-  \beta(\mu) = P_\mu(\bar{X}_{10} \leq 1.3).
-  \]
-\end{itemize}
-内个域是接受域
-\end{note}
+
 \begin{definition}{检验函数}{}
 检验函数 $\phi(\boldsymbol{X})$ 是一个决策规则：
 \begin{itemize}
@@ -3155,45 +3146,42 @@ P_{\theta=1}(X_{(10)} > c) = 0.05
 \begin{proof}
 设 $m = \lfloor x \rfloor$，对 $p$ 求偏导：
 \[
-\frac{\partial F}{\partial p} = \sum_{i=0}^{m} \binom{n}{i} \left[ i p^{i-1}(1-p)^{n-i} - (n-i)p^i(1-p)^{n-i-1} \right].
+\frac{\partial F}{\partial p} = \sum_{i=0}^{m} C_n^i \left[ ip^{i-1}(1-p)^{n-i} - (n-i)p^i(1-p)^{n-i-1} \right].
 \]
-提取公因子 $p^{i-1}(1-p)^{n-i-1}$：
+提取公因子 $p^{i-1}(1-p)^{n-i-1}$ 并化简括号内：
 \[
-= \sum_{i=0}^{m} \binom{n}{i} p^{i-1}(1-p)^{n-i-1} \left[ i(1-p) - (n-i)p \right]
-= \sum_{i=0}^{m} \binom{n}{i} p^{i-1}(1-p)^{n-i-1}(i - np).
+= \sum_{i=0}^{m} C_n^i\, p^{i-1}(1-p)^{n-i-1}(i - np).
 \]
-利用恒等式 $i\dbinom{n}{i} = n\dbinom{n-1}{i-1}$，将求和拆为两项：
+利用恒等式 $i\, C_n^i = n\, C_{n-1}^{i-1}$，每一项化为：
 \[
-\frac{\partial F}{\partial p}
-= n\sum_{i=1}^{m} \binom{n-1}{i-1} p^{i-1}(1-p)^{n-i}
-- n\sum_{i=0}^{m} \binom{n}{i} p^{i}(1-p)^{n-i-1} \cdot \frac{p}{1-p} \cdot \frac{1-p}{1}
+C_n^i\, p^{i-1}(1-p)^{n-i-1}(i-np)
+= n\, C_{n-1}^{i-1} p^{i-1}(1-p)^{n-i} - n\, C_{n-1}^{i} p^{i}(1-p)^{n-i-1}.
 \]
-更简洁地，直接利用如下恒等式。注意到
+令 $T_i = C_{n-1}^{i}\, p^i(1-p)^{n-1-i}$，则上式恰为 $n(T_{i-1} - T_i)$，故：
 \[
-\frac{\partial}{\partial p}\left[\binom{n}{i}p^i(1-p)^{n-i}\right]
-= \binom{n}{i}p^{i-1}(1-p)^{n-i-1}(i-np),
+\frac{\partial F}{\partial p} = n\sum_{i=0}^{m}(T_{i-1} - T_i).
 \]
-而有递推关系：
+裂项消去中间项，仅剩首尾：
 \[
-\binom{n}{i}p^{i-1}(1-p)^{n-i-1}(i-np)
-= n\binom{n-1}{i-1}p^{i-1}(1-p)^{n-i} - n\binom{n-1}{i}p^i(1-p)^{n-i-1},
+= n(T_{-1} - T_m) = n(0 - T_m) = -n\, C_{n-1}^{m}\, p^m(1-p)^{n-1-m}.
 \]
-故
-\[
-\frac{\partial F}{\partial p}
-= n\sum_{i=0}^{m}\left[\binom{n-1}{i-1}p^{i-1}(1-p)^{n-i} - \binom{n-1}{i}p^i(1-p)^{n-i-1}\right].
-\]
-这是一个裂项求和，消去中间项后得：
-\[
-\frac{\partial F}{\partial p}
-= n\left[\binom{n-1}{m}p^m(1-p)^{n-1-m} \cdot (-1)\right] \cdot \frac{1}{1}
-= -n\binom{n-1}{m}p^m(1-p)^{n-1-m}.
-\]
-由于 $n \geq 1$，$0 < p < 1$，$0 \leq m \leq n-1$，故上式严格小于等于 $0$。
-
-因此 $F(x;p)$ 是 $p$ 的单调递减函数。
+由于 $n \geq 1$，$0 < p < 1$，$0 \leq m \leq n-1$，故 $\dfrac{\partial F}{\partial p} < 0$，
+即 $F(x;p)$ 是 $p$ 的单调递减函数。
 \end{proof}
+\begin{dxtips}
+    首先提取公因数因为我们只需要证明他永远小于0，公因数是大于0的部分不需要。然后就是把 $(i-np)$ 拆成两部分分别乘：
+\begin{itemize}
+    \item $i$ 那项：$i \cdot C_n^i \xrightarrow{\text{恒等式}} n \cdot C_{n-1}^{i-1}$，凑出 $T_{i-1}$
+    \item $np$ 那项：$n \cdot C_n^i \cdot p \xrightarrow{\text{Pascal}} n(C_{n-1}^{i-1}+C_{n-1}^i)\cdot p$，凑出 $T_i$
+\end{itemize}
+两项合并即为 $n(T_{i-1}-T_i)$，裂项结构自然出来。
 
+\textbf{恒等式的作用：}把含 $i$ 的系数变成含 $n$ 的系数，才能和 $-np$ 那项统一格式裂项。
+\end{dxtips}
+\begin{note}
+    $T_{-1} = C_{n-1}^{-1} \cdot p^{-1}(1-p)^n = 0$，
+因为 $C_{n-1}^{-1} = 0$（从 $n-1$ 个中取 $-1$ 个无意义，定义为 $0$）。
+\end{note}
 \subsection{4.2}
 \begin{example}
 设 $X \sim N(\mu, 9)$，抽得样本容量为 8 的样本：
@@ -3221,6 +3209,22 @@ $$t_{0.05}(7) = 1.895$$
 
 因为 $|t| = 1.223 < 1.895$，不拒绝 $H_0$，即在显著性水平 $0.10$ 下可接受 $\mu = 14$。
 \end{solution}
+\begin{dxtips}
+    T检验需要平均数和标准差
+\end{dxtips}
+\begin{note}
+    $P(T > t_{0.10}(n)) = 0.10$
+
+对应的是 $0.90$ 分位数（左侧面积 $= 90\%$）。
+
+$$\underbrace{0.10}_{\text{表头数字}} = \text{右尾面积} = 1 - \text{分位数百分比}$$
+
+表头对应关系：
+
+$$\alpha = 0.10 \implies t_{0.10} \text{ 是 } 90\% \text{ 分位数}$$
+$$\alpha = 0.05 \implies t_{0.05} \text{ 是 } 95\% \text{ 分位数}$$
+$$\alpha = 0.025 \implies t_{0.025} \text{ 是 } 97.5\% \text{ 分位数}$$
+\end{note}
 \begin{homework}[2]
 设 $X_1, X_2, \cdots, X_{10}$ 是抽自 $N(\mu, \sigma^2)$ 的样本。
 
@@ -3236,7 +3240,7 @@ $$\phi(\boldsymbol{X}) = \begin{cases} 1, & T > 1.383 \\ 0, & T \leq 1.383 \end{
 即当 $T > 1.383$ 时拒绝 $H_0$，认为 $\mu > 1$。
 \end{solution}
 \begin{dxtips}
-    所以整个事情我就拿样本均值检测总体均值的假设对不对
+   所以他的分母只是为了让上面的分布方差变成1对吗
 \end{dxtips}
 \begin{theorem}[假设检验统计量选择]
 
@@ -3308,6 +3312,7 @@ $$F = \frac{S_1^2}{S_2^2} \sim F(n_1-1,\, n_2-1)$$
     与 $\alpha = 0.1$ 时相比，临界值增大，拒绝域缩小，功效函数在每个 $\sigma^2 > 1$ 处均减小．由此得出结论：在样本量固定时，$\alpha$ 与功效相互制约，降低显著性水平必然导致功效下降；若要同时控制两类错误，只能增大样本量．
 \end{enumerate}
 \end{solution}
+
 \begin{homework}[3]
 （两个正态总体的比较）设 $X_1, X_2, \cdots, X_m$ 为来自 $N(\mu_1, \sigma_1^2)$ 的样本；$Y_1, Y_2, \cdots, Y_n$ 为来自 $N(\mu_2, \sigma_2^2)$ 的样本，两样本相互独立，$\sigma_1^2, \sigma_2^2$ 均未知．分下面几种情况，给出 $H_0: \mu_1 = \mu_2$；$H_1: \mu_1 \neq \mu_2$ 的检验函数形式：
 
@@ -4310,3 +4315,51 @@ $\hat y(9)=103.513+0.9553\times9\approx112.11$。
 \item 斜率 $\hat{\beta}_1 \approx 1$，截距近似为零，说明儿童体积（$\mathrm{dm}^3$）与体重（$\mathrm{kg}$）数值几乎相等，即儿童身体密度约为 $1\,\mathrm{kg/dm}^3$，与水的密度吻合，符合生理学事实。(2) 的置信区间描述的是\textbf{平均水平}，区间较窄；(3) 的预测区间针对\textbf{具体个体}，包含个体随机误差，故更宽。
 
 \end{enumerate}
+\section{14周}
+\begin{homework}[1]
+在单因子方差分析中，到新参数下的统计模型：
+\begin{equation}
+    y_{ij} = \mu + \mu_i + e_{ij}, \tag{6.2.4}
+\end{equation}
+用
+\[
+\bar{\mu} = \frac{1}{k}\sum_{i=1}^{k}\mu_i'
+\]
+
+代替(6.2.4)式中的$\mu$，则$y_{ij}$仍可写做
+\[
+y_{ij} = \bar{\mu} + \mu_i + e_{ij},
+\]
+其中$\mu_i = \mu_i' - \bar{\mu}$.
+\begin{enumerate}
+    \item $\{\mu_i\}$应满足什么约束条件？
+    \item 证明假设$H_0: \mu_1' = \mu_2' = \cdots = \mu_k'$与假设$H_0: \mu_1 = \mu_2 = \cdots = \mu_k = 0$等价．
+\end{enumerate}
+\end{homework}
+\begin{solution}
+\begin{enumerate}
+    \item 由$\mu_i = \mu_i' - \bar{\mu}$，对$i$求和：
+    \[
+    \sum_{i=1}^{k}\mu_i = \sum_{i=1}^{k}(\mu_i' - \bar{\mu}) = \sum_{i=1}^{k}\mu_i' - k\bar{\mu} = k\bar{\mu} - k\bar{\mu} = 0.
+    \]
+    故$\{\mu_i\}$应满足约束条件
+    \[
+    \sum_{i=1}^{k}\mu_i = 0.
+    \]
+
+    \item 由$\mu_i = \mu_i' - \bar{\mu}$知$\mu_i' = \mu_i + \bar{\mu}$，故：
+
+    \textbf{充分性：}若$\mu_1' = \mu_2' = \cdots = \mu_k'$，设公共值为$c$，则$\bar{\mu} = c$，从而
+    \[
+    \mu_i = \mu_i' - \bar{\mu} = c - c = 0, \quad i = 1,\ldots,k.
+    \]
+
+    \textbf{必要性：}若$\mu_1 = \mu_2 = \cdots = \mu_k = 0$，则
+    \[
+    \mu_i' = \mu_i + \bar{\mu} = \bar{\mu}, \quad i = 1,\ldots,k,
+    \]
+    即$\mu_1' = \mu_2' = \cdots = \mu_k'$.
+
+    综上，两假设等价．
+\end{enumerate}
+\end{solution}
