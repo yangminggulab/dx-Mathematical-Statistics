@@ -1503,7 +1503,9 @@ $$\sqrt{n}(g(\hat{\theta}) - g(\theta)) \approx g'(\theta) \cdot \sqrt{n}(\hat{\
 \end{dxtips}
 \begin{note}[中心极限定理详解]
  Central Limit Theorem
- \text{Var}\!\left(\sum X_i - n\mu\right) = \text{Var}\!\left(\sum X_i\right) = \sum_{i=1}^n \text{Var}(X_i) = n\sigma^2
+\[
+\text{Var}\!\left(\sum X_i - n\mu\right) = \text{Var}\!\left(\sum X_i\right) = \sum_{i=1}^n \text{Var}(X_i) = n\sigma^2
+\]
 
 % 常数不影响方差；独立 → 方差可以直接加；n 个 σ² 加起来 = nσ²
 
@@ -1514,7 +1516,7 @@ $$\sqrt{n}(g(\hat{\theta}) - g(\theta)) \approx g'(\theta) \cdot \sqrt{n}(\hat{\
   \item 除以 $\sqrt{n}$：$\dfrac{1}{\sqrt{n}}\displaystyle\sum(X_i-\mu)$，方差 $= \sigma^2$（稳定！）
 \end{itemize}
 
-\sqrt{n} \text{ 是让方差既不爆炸也不消失的唯一选择。}
+$\sqrt{n}$ 是让方差既不爆炸也不消失的唯一选择。
 \end{note}
 \begin{dxtips}
 因为 $n$ 个方差之和才是 $n\sigma^2$，

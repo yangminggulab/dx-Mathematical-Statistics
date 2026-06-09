@@ -481,7 +481,7 @@ z_\alpha=\mu+\sigma u_\alpha.
 \begin{dxtips}
     概率小于α积分得积到哪里，不等式两边同时标准化，zα标准化以后就μα标准正态阿尔法的分位数
 \end{dxtips}
-\subsection{46,1,2,3}ection{}
+\subsection{46,1,2,3}
 \begin{homework}{1}
 设 $X \sim \chi^2(n)$，证明：
 $$E(X^k) = 2^k \left(\frac{n}{2} + k - 1\right)\left(\frac{n}{2} + k - 2\right) \cdots \frac{n}{2}, \quad k = 1, 2, \cdots.$$
@@ -1943,7 +1943,7 @@ $$
 \]
 \end{proof}
 \begin{dxtips}
-    就是为了用slustky定理几乎处处比依概率收敛强所以可以把他转化为依概率一个依概率一个依分布依概率还收敛到常数就可以用了
+    这里是为了用 Slutsky 定理：几乎处处收敛比依概率收敛强，所以可以先把它转化为依概率收敛；一个依分布收敛，另一个依概率收敛到常数，就可以套用 Slutsky 定理。
 \end{dxtips}
 \begin{homework}[1]
 若估计序列 $\{\hat{\theta}_n\}$ 满足 $\lim_{n\to\infty} E_\theta(\hat{\theta}_n - \theta)^2 = 0$，$\forall \theta \in \Theta$，则称 $\hat{\theta}_n$ 为 $\theta$ 的均方相合估计量。证明：均方相合估计必是相合估计量。
@@ -3631,7 +3631,7 @@ P^2 = (I_n-uu^T)^2 = I_n - 2uu^T + u\underbrace{(u^Tu)}_{=1}u^T = I_n - uu^T = P
 
 由幂等矩阵定理，$X\sim N(\mathbf{0},\sigma^2 I_n)$，$P$ 对称幂等且秩为 $n-1$，故
 \[
-\frac{X^T P X}{\sigma^2} = \frac{X^T(I_n-uu^T)X}{\sigma^2}\sim\chi^2(n-1).\qed
+\frac{X^T P X}{\sigma^2} = \frac{X^T(I_n-uu^T)X}{\sigma^2}\sim\chi^2(n-1).\quad\square
 \]
 \end{solution}
 \begin{homework}[6]
