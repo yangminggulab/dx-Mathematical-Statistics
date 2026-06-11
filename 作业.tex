@@ -3476,16 +3476,18 @@ p \leq \hat{p} + z_{0.05}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \frac{1}{12} + 1.
     第一步先确定是什么分布如果合格不合格就是二项分布把n和p算出来p就是我们要求的不合格率的概率要求什么算什么。然后
 \end{dxtips}
 \begin{dxtips}
-    梳理一下，抽36他就算一个大样本，在大样本中出现次品的次数服从正态分布。也就是每一次抽36坏的可能都不同所以这些次数是服从正态分布的。然后呢我们就要求如果按照H0假设的出现现在状况的概率，如何求呢我们要减去均值除以标准差得到标准正态分布然后再查表，这里就是省略了上下同时除以n的步骤。
+   $\bar{X}$ 是 $n$ 个数的平均，方差比单个 $X_i$ 小 $n$ 倍：
+$$\operatorname{Var}(\bar{X}) = \frac{\sigma^2}{n} \implies \operatorname{SD}(\bar{X}) = \frac{\sigma}{\sqrt{n}}$$
+
+标准化须除以自身标准差，故 $\sqrt{n}$ 必然出现。
+
+\textbf{例外}：统计量不含 $\bar{X}$ 时（如 $\dfrac{(n-1)S^2}{\sigma^2}$）无 $\sqrt{n}$。
+
+\textbf{口诀}：$\bar{X}$ 参与标准化 $\Longrightarrow$ 分母必有 $\sqrt{n}$。
     
 \end{dxtips}
 \begin{dxtips}
-  第一问：假设已知 $p_0 = 0.03$，即已知均值 $np_0$，从而确定正态分布的图像，看观测值 $\hat{p}$ 够不够极端。
-
-第二问：不知道真实 $p$，但构造一个区间，使得真实的 $p$ 有 95\% 的概率落在观测值 $\hat{p}$ 的附近。但既然只关心上限，下限没意义，就直接把全部的5都放到右尾，变成单侧
-\[
-p \leq \hat{p} + z_{0.05}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
-\]
+后续写的时候都先列基础的式子把除以根号n和除以方差分开
 \end{dxtips}
 \begin{note}
 标准化是除以标准差，反过来还原就是乘以标准差，从 $N(0,1)$ 的尺度换回 $\hat{p}$ 的尺度。
@@ -3515,27 +3517,14 @@ Z = \frac{7.5 - 3}{\sqrt{3/6}} = \frac{4.5}{\sqrt{0.5}} \approx 6.36
 \]
 因为 $|Z| \approx 6.36 > 1.96$，拒绝 $H_0$，在显著性水平 $\alpha = 0.05$ 下，不能接受 $\lambda = 3$。
 \end{solution}
-\begin{note}
-看 $H_1$ 的符号：
-\begin{itemize}
-    \item $H_1: \lambda \neq \lambda_0$，有 $\neq$，双侧检验
-    \item $H_1: \lambda > \lambda_0$，有 $>$，单侧右检验
-    \item $H_1: \lambda < \lambda_0$，有 $<$，单侧左检验
-\end{itemize}
-\end{note}
+\begin{dxtips}
+    比大小的核心是把他们拉到同一个尺度，因为查表是01正态尺度所以夜要把观测值拉到这个尺度所以需要标准化
+\end{dxtips}
 \section{第11周作业}
 \subsection{4.4}
 
-\begin{dxtips}
-    
-默认 $H_0$ 标准化以后这个对称轴就在 $0$ 这里，但是如果不是 $H_0$，对称轴就不在 $0$ 这里，对称轴就随着 $\theta$ 的大小左右移动。但是拒绝域的左端点 $c$ 是确定的，所以拒绝域的 $x$ 轴范围是不变的，但是因为对称轴的移动，每一个 $x$ 坐标对应的 $y$ 改变了，所以整个从 $c$ 到正无穷的积分改变了，即
-$$\beta(\theta) = \int_c^{+\infty} f_\theta(x)\,\mathrm{d}x$$
-随 $\theta$ 的变化而变化。
 
-\end{dxtips}
-\begin{note}
-    拒绝域的逻辑是：图像是以 $H_0$ 为峰值没错，但两侧尾巴也有面积。拒绝域就是那个在 $H_0$ 下极罕见的尾巴区域，一旦落进去，就怀疑 $H_0$ 不成立。
-\end{note}
+
 \begin{homework}{1}
 设总体 $X$ 服从参数为 $\lambda$ 的泊松分布
 $$f(x,\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}, \quad x = 0,1,2,\cdots$$
@@ -3559,12 +3548,7 @@ $$\alpha = \underbrace{P_{H_0}(\text{统计量落在拒绝域})}_{\text{第一�
 $$E_{\lambda_0}[\phi(\boldsymbol{X})] = \alpha$$
 即在 $H_0$ 成立时 $\sum_{i=1}^n X_i \sim P(n\lambda_0) = P(1)$，需确定临界值 $c$ 使得
 $$P_{\lambda_0}\left(\sum_{i=1}^n X_i > c\right) \leq 0.05$$
-\begin{dxtips}
-    检验函数只有两个值在接受域里面0不在接受域里面1所以他的期望就是落在拒绝域的概率因为相当于就是对区间积分里面的权重就是1 
-\end{dxtips}
-\begin{dxtips}
-    ump确定了我们需要对什么进行标准化也就是T（X）然后我们得确定T（X）的分布柏松分布能直接查表了P（1）本身就是标准的就不用取
-\end{dxtips}
+
 查泊松分布表，$\sum X_i \sim P(1)$ 时：
 \begin{center}
 \begin{tabular}{ccc}
@@ -3583,7 +3567,10 @@ $$r = \frac{0.05 - 0.0190}{0.0613} \approx 0.506$$
 故检验函数为
 $$\phi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i > 3 \\ 0.506, & \sum_{i=1}^n X_i = 3 \\ 0, & \sum_{i=1}^n X_i < 3 \end{cases}$$
 \end{solution}
-\begin{dxtips}[随机化检验]
+\begin{dxtips}
+    检验函数就是要在真实获得的数据里面画一条线，左边是接受即 $\phi(X)=0$，右边是拒绝即 $\phi(X)=1$，这是因为拒绝域需要满足 $E_{H_0}[\phi(X)]=\alpha$；有时候因为理论分布是离散的，所以这条线上的点得不是 $1$ 也不是 $0$，而是 $(0,1)$ 之间的数字。
+\end{dxtips}
+\begin{dxtips}[随机化检验-因为离散但是要保证拒绝概率等于阿尔法]
     这叫做\textbf{随机化检验}。在边界点 $\sum X_i = 3$ 处，不是直接拒绝或不拒绝，而是以概率 $r$ 拒绝，以概率 $1-r$ 不拒绝，专门用来处理离散分布无法精确控制 $\alpha$ 的情况。
 \end{dxtips}
 \begin{homework}{2}
@@ -3594,6 +3581,10 @@ $$\phi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i > 3 \\ 0.506, & \su
 \end{enumerate}
 问需观察多少日即 $n$ 为多少时，UMP 检验才能满足上述要求？
 \end{homework}
+\begin{dxtips}
+    需要确定谁是H0谁是H1，如果不确定就是把题目中出现的状态在H0，比如这个任务主要是探讨什么时候该关门
+   条件就是不该开门但是开门了就属于第一类错误不应该拒绝拒绝了，条件二就是不该关门却关门了也就不该接受缺接受了
+\end{dxtips}
 \begin{solution}
 \textbf{建立假设：}
 $$H_0: \theta \leq \theta_0 \quad H_1: \theta > \theta_0$$
@@ -3735,6 +3726,9 @@ $$\frac{\chi^2_{0.01}(n)}{\chi^2_{0.9}(n)} \leq 1.21$$
     其中 $c_2$ 由 $P_{\theta_0}\!\left(\sum X_i > c_2\right) = \alpha$ 确定。注意 $\sum_{i=1}^n X_i \sim \Gamma(n, \theta)$，临界值可由伽马分布表确定。
 \end{enumerate}
 \end{solution}
+\begin{dxtips}
+    对 $\theta_1 > \theta_0$，N-P 最优拒绝域为 $T > c$；对 $\theta_2 < \theta_0$，N-P 最优拒绝域为 $T < c'$。两者矛盾：不存在单一检验函数 $\phi$ 使得对所有 $\theta \neq \theta_0$ 同时达到最大功效，故 UMP 检验一般不存在。
+\end{dxtips}
 \begin{homework}[6]
 一设备有 $n$ 个相同或相似的元件，$X_i$ 为第 $i$ 个元件的失效时间，
 假定 $X_1,\cdots,X_n$ 是来自韦布尔（Weibull）分布
@@ -4361,5 +4355,94 @@ y_{ij} = \bar{\mu} + \mu_i + e_{ij},
     即$\mu_1' = \mu_2' = \cdots = \mu_k'$.
 
     综上，两假设等价．
+\end{enumerate}
+\end{solution}
+\begin{homework}[2]
+对某种疾病有五种治疗方式，包括一种安慰剂．下面数据给出由疾病出现到治愈所需天数．
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|cccccc}
+\hline
+治疗方式 & \multicolumn{6}{c}{痊愈所需天数} \\
+\hline
+1(安慰剂) & 5 & 8 & 7 & 7 & 10 & 8 \\
+2         & 4 & 6 & 6 & 3 & 5  & 6 \\
+3         & 6 & 4 & 4 & 5 & 4  & 3 \\
+4         & 7 & 4 & 6 & 6 & 3  & 5 \\
+5         & 9 & 3 & 5 & 7 & 7  & 6 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{enumerate}
+    \item 对每种治疗方式计算痊愈所需天数的均值和标准差．
+    \item 对给定数据作方差分析．
+\end{enumerate}
+\end{homework}
+\begin{solution}
+\begin{enumerate}
+\item 各组样本量均为$n_i = 6$，计算各治疗方式的均值与标准差：
+
+\[
+\bar{y}_{1\cdot} = \frac{5+8+7+7+10+8}{6} = \frac{45}{6} = 7.5, \quad
+s_1 = \sqrt{\frac{13.5}{5}} = \sqrt{2.7} \approx 1.643
+\]
+\[
+\bar{y}_{2\cdot} = \frac{4+6+6+3+5+6}{6} = \frac{30}{6} = 5.0, \quad
+s_2 = \sqrt{\frac{8}{5}} = \sqrt{1.6} \approx 1.265
+\]
+\[
+\bar{y}_{3\cdot} = \frac{6+4+4+5+4+3}{6} = \frac{26}{6} \approx 4.333, \quad
+s_3 = \sqrt{\frac{16/3}{5}} = \sqrt{\frac{16}{15}} \approx 1.033
+\]
+\[
+\bar{y}_{4\cdot} = \frac{7+4+6+6+3+5}{6} = \frac{31}{6} \approx 5.167, \quad
+s_4 = \sqrt{\frac{65/6}{5}} = \sqrt{\frac{13}{6}} \approx 1.472
+\]
+\[
+\bar{y}_{5\cdot} = \frac{9+3+5+7+7+6}{6} = \frac{37}{6} \approx 6.167, \quad
+s_5 = \sqrt{\frac{125/6}{5}} = \sqrt{\frac{25}{6}} \approx 2.041
+\]
+
+\item 设$k=5$，$n_i = 6$，$N = 30$，总均值为
+\[
+\bar{y} = \frac{45+30+26+31+37}{30} = \frac{169}{30} \approx 5.633.
+\]
+
+各平方和为：
+\[
+SS_T = \sum_{i,j}y_{ij}^2 - \frac{(\sum_{i,j}y_{ij})^2}{N}
+= 1047 - \frac{169^2}{30} = \frac{2849}{30} \approx 94.967,
+\]
+\[
+SS_A = \sum_{i=1}^{5}\frac{\left(\sum_j y_{ij}\right)^2}{n_i} - \frac{169^2}{30}
+= \frac{45^2+30^2+26^2+31^2+37^2}{6} - \frac{169^2}{30}
+= \frac{5931}{6} - \frac{28561}{30} = \frac{1094}{30} \approx 36.467,
+\]
+\[
+SS_E = SS_T - SS_A = \frac{2849}{30} - \frac{1094}{30} = \frac{1755}{30} = 58.5.
+\]
+
+自由度：$f_A = k-1 = 4$，$f_E = N-k = 25$，方差分析表如下：
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccccc}
+\hline
+方差来源 & 平方和 & 自由度 & 均方 & $F$值 \\
+\hline
+因子$A$ & $\dfrac{1094}{30} \approx 36.467$ & $4$ & $\dfrac{547}{60} \approx 9.117$ & $\approx 3.896$ \\[6pt]
+误差$E$ & $58.5$ & $25$ & $2.34$ & \\[2pt]
+总计 & $\dfrac{2849}{30} \approx 94.967$ & $29$ & & \\
+\hline
+\end{tabular}
+\end{table}
+
+查$F$分布表，$F_{0.05}(4,25) \approx 2.76$．由于
+\[
+F = \frac{MS_A}{MS_E} = \frac{547/60}{117/50} = \frac{2735}{702} \approx 3.896 > F_{0.05}(4,25) \approx 2.76,
+\]
+在显著性水平$\alpha = 0.05$下拒绝$H_0$，即认为五种治疗方式的疗效存在显著差异．
 \end{enumerate}
 \end{solution}
