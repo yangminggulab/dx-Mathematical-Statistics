@@ -6,115 +6,17 @@ $n$ 个数太多了，你不能直接用。你需要把 $n$ 个数压缩成一�
 
 唯一的限制：$T$ 里不能含 $\theta$ 本身——否则你等于用了还没求的答案，循环了。
 \end{note}
-\chapter{能力二}
-\section{无偏估计}
-很好的问题，这是入门时最容易懵的地方。
+\begin{definition}[常见统计量]
+设 $X_1, X_2, \ldots, X_n$ 为样本，常用统计量有：
 
-\textbf{估计量的定义就是：样本的任意函数。}
+样本均值 $\displaystyle\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$，
 
-你有数据 $X_1, X_2, \ldots, X_n$，你想猜 $\mu$。只要是用这些数据算出来的一个数，就叫估计量，没有任何其他限制。
+样本方差 $\displaystyle s^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$，
 
-比如 $n=3$，数据是 $2, 4, 6$：
+极差 $R = X_{(n)} - X_{(1)}$。
+\end{definition}
+\section{顺序统计量}
 
-\begin{center}
-\begin{tabular}{lll}
-\hline
-估计量 & 公式 & 算出来 \\
-\hline
-$\bar{X}$ & $(2+4+6)/3$ & $4$ \\
-$X_1$ & 只取第一个 & $2$ \\
-$(X_1+X_3)/2$ & $(2+6)/2$ & $4$ \\
-常数 $5$ & 不管数据，直接报 $5$ & $5$ \\
-$\max(X_i)$ & 取最大值 & $6$ \\
-\hline
-\end{tabular}
-\end{center}
-
-这五个都是"合法"的估计量——你都可以拿来交给别人说"我估计 $\mu = $ 这个数"。
-
-\textbf{问题就在这里}：到底用哪个？
-
-直觉上 $\bar{X}$ 最好，但"直觉"不是数学。能力二要做的事就是：给出有数学保证的标准，说清楚为什么 $\bar{X}$ 比 $X_1$ 好，好在哪里，好多少。
-
-一句话总结：\textbf{估计量 $=$ 数据的函数，函数有无穷多个，所以估计量不唯一。}能力二就是在这无穷多个里面找"最好的"。
-\begin{note}
-    总结一句话：你只做一次实验，\textbf{估计量}是你选的公式，\textbf{估计值}是代入数据后算出的那个数。``多次实验''是数学上验证公式好不好用的思想实验，不是真的要做很多次。
-\end{note}
-\begin{note}
-    \textbf{第一个：不知道 $\mu$ 怎么对准？}
-
-``对准''不是你去瞄准一个已知的靶，而是通过代数推导证明一个必然成立的性质。
-
-$X_1, X_2, \ldots, X_n$ 来自 $N(\mu, \sigma^2)$，所以 $E[X_i] = \mu$，于是：
-
-$$E[\bar{X}] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n} \cdot n\mu = \mu$$
-
-这里 $\mu$ 始终是个符号，从没有变成具体数字。这个推导对 $\mu = 3$ 成立，对 $\mu = 100$ 也成立，对任何 $\mu$ 都成立。
-
-就好像你证明了``一把没有系统误差的尺子，量出来的平均值等于真实长度''——不需要知道真实长度是多少，这是尺子本身的结构性质。
-\end{note}
-x1，x2都是一次实验里面的个体
-\begin{dxtips}
-也就是说因为他服从这个分布所以不管选第一次实验x1，第二次实验x2都要把他的均值当作真实正态分布的均值对吗。而不是选取一次实验的最大值，最小值直接当他服从的正态分布的均值。而是选取他的平均值充当
-\end{dxtips}
-\begin{note}[UMVUE 解决的是选公式的问题]
-你确实只做一次实验，得到一个数。但在做实验之前，你要选公式。
-
-方差小的公式，代入数据后得到的数大概率更靠近真值；方差大的公式，这一次的结果可能差很远。
-
-类比：你只射一箭，但要事先选弓。弓A精度高，弓B精度差。虽然只射一次，但选哪把弓决定了这一箭大概率落在哪里。UMVUE 就是在所有无偏的弓里，选精度最高的那把。
-
-所以 UMVUE 是\textbf{选公式阶段}的理论，不是做完实验之后的事情。
-\end{note}
-
-\begin{example}[UMVUE 的具体比较]
-设 $X_1, X_2, X_3, X_4 \overset{\text{i.i.d.}}{\sim} N(\mu, 1)$，估计 $\mu$。三个候选公式均无偏（期望均等于 $\mu$）：
-
-$$\hat{\mu}_A = \bar{X} = \frac{X_1+X_2+X_3+X_4}{4}, \quad \mathrm{Var}(\hat{\mu}_A) = \frac{1}{4}$$
-
-$$\hat{\mu}_B = \frac{X_1+X_2}{2}, \quad \mathrm{Var}(\hat{\mu}_B) = \frac{1}{2}$$
-
-$$\hat{\mu}_C = X_1, \quad \mathrm{Var}(\hat{\mu}_C) = 1$$
-
-方差衡量的是：这个公式在不同数据下的结果散布多广。$\bar{X}$ 的结果永远集中在 $\mu$ 附近，$X_1$ 的结果可能飘得很远。
-
-在所有对 $\mu$ 的无偏估计量中，$\bar{X}$ 方差最小，故 $\bar{X}$ 是 $\mu$ 的 UMVUE。
-\end{example}
-\begin{note}
-    这是统计里一个让人头疼的惯例，其实它们是两个不同的东西：
-
-\begin{itemize}
-  \item \textbf{实验前：$X_1$ 是随机变量（大写）}
-  
-  还不知道会观测到什么值，可能是 $160$，可能是 $180$，服从 $N(\mu, \sigma^2)$。这时候可以谈期望：$E[X_1] = \mu$。
-
-  \item \textbf{实验后：$x_1$ 是观测值（小写）}
-  
-  已经量完了，是一个固定的数，比如 $172$。这时候不谈期望，直接代入算：$\bar{x} = (172 + 168 + \cdots)/n$。
-\end{itemize}
-
-因为教材里经常两个都写大写 $X_1$，没有严格区分。区分的方法就是看语境：出现 $E[\cdot]$ 就当随机变量（实验前）；出现具体数字代入就当观测值（实验后）。
-
-
-\end{note}
-\begin{dxtips}
-    找无偏估计量永远发生在实验前，与具体采样永远无关。需要把所有可能出现的样本进行 $h(X)$ 的映射，再与其出现的概率做乘积，求和得到期望：
-$$E[h(X)] = \sum_k h(k) \cdot P(X=k) = g(\theta)$$
-这个期望等于我们想估计的目标 $g(\theta)$，即为无偏。
-\end{dxtips}
-\begin{note}
-大写 $X_1$ 是``还没揭晓的牌''，小写 $x_1$ 是``已经翻开的牌''。期望只对没揭晓的牌讲。
-\end{note}
-\begin{dxtips}
-    
-
-所以无偏估计量是找一个公式，用这个公式代入所有可能的样本后，按照这些样本的分布分配给它们概率，然后这个期望等于我们想估计的东西。
-\end{dxtips}
-\begin{dxtips}
-    证明没有无偏函数可以从解析性和多项式来看
-\end{dxtips}
-\subsection{顺序统计量}
-```latex
 \begin{example}{为什么需要顺序统计量：从电路寿命说起}
 你有 $n = 5$ 个灯泡，串联组成一条电路——\textbf{一个坏了，全线中断}。
 问：这条电路能撑多久？
@@ -235,6 +137,260 @@ $X_{(1)}$ 是最小值，靠近 $\theta_1$，故 $\theta_1$ 权重大（$n$ 份�
 记忆：$n$ 个点把区间切成 $n+1$ 段，最小值在第 $1$ 段末，最大值在第 $n$ 段末。
 \end{note}
 \end{note}
+\section{抽样分布，卡方，t，F}
+
+\begin{definition}[$\chi^2$ 分布]
+设 $X_1, \ldots, X_n \overset{\text{i.i.d.}}{\sim} N(0,1)$，令
+$$\xi = \sum_{i=1}^n X_i^2$$
+则称 $\xi$ 的分布为自由度为 $n$ 的 $\chi^2$ 分布，记作 $\xi \sim \chi^2(n)$。
+\end{definition}
+
+\begin{note}[要背的公式]
+$$E(\xi) = n, \qquad \mathrm{Var}(\xi) = 2n.$$
+\end{note}
+\begin{dxtips}
+    $\xi$念做可塞，是平方和。他的期望是因为E（X）都是0只有方差起效果每一个点方差都是1加起来就是n。就是不要想的太复杂因为就是01正态分布算一个是很好算把具体数字带进去就行了
+\end{dxtips}
+\begin{note}
+方差定义变形：$\mathrm{Var}(X) = E(X^2) - [E(X)]^2$，移项得 $E(X^2) = \mathrm{Var}(X) + [E(X)]^2$。
+\end{note}
+\begin{note}[Var$(\xi)=2n$ 的推导]
+由独立可加性：
+$$\mathrm{Var}(\xi) = \sum_{i=1}^n \mathrm{Var}(X_i^2)$$
+对单个 $X_i \sim N(0,1)$：
+$$\mathrm{Var}(X_i^2) = E(X_i^4) - [E(X_i^2)]^2 = 3 - 1 = 2$$
+其中 $E(X^4)=3$ 是标准正态的四阶矩（直接用）。故 $\mathrm{Var}(\xi) = 2n$。
+\end{note}
+
+\begin{theorem}[可加性]
+设 $\xi \sim \chi^2(m)$，$\eta \sim \chi^2(n)$，且 $\xi \perp \eta$，则
+$$\xi + \eta \sim \chi^2(m+n).$$
+\end{theorem}
+
+\begin{note}[自由度的直觉]
+有几个独立的标准正态变量参与平方求和，自由度就是几。一旦存在约束（例如 $\sum_{i=1}^n(X_i - \bar{X}) = 0$），自由度减一——这就是样本方差给出 $\chi^2(n-1)$ 而非 $\chi^2(n)$ 的原因。
+\end{note}
+\begin{definition}[$t$ 分布--标准正态/根号卡方分布/自由度]
+设 $X \sim N(0,1)$，$Y \sim \chi^2(n)$，且 $X \perp Y$，令
+$$\xi = \frac{X}{\sqrt{Y/n}}$$
+则称 $\xi$ 的分布为自由度为 $n$ 的 $t$ 分布，记作 $\xi \sim t(n)$。
+\end{definition}
+\begin{dxtips}
+    所以看见t分布得想谁提供标准正态分布谁提供卡方分布
+\end{dxtips}
+
+\begin{note}[为什么要构造 $t$ 分布]
+实际中想算标准化统计量 $\dfrac{\bar{X}-\mu}{\sigma/\sqrt{n}}$，但 $\sigma$ 未知，用样本标准差 $S$ 替换后分母变成随机变量，不再服从正态分布。这个比值的精确分布就是 $t$ 分布。
+\end{note}
+\begin{dxtips}
+$\sigma$ 已知时分母是常数，整体服从正态分布，用 $Z$ 检验。$\sigma$ 未知时引入样本标准差 $S$，随着 $S$ 被引进，卡方分布也被引进（因为 $\frac{(n-1)S^2}{\sigma^2}\sim\chi^2(n-1)$），正态除以根号卡方，整体变成 $t$ 分布。
+\end{dxtips}
+\begin{note}[渐近性质]
+$$t(n) \xrightarrow{n \to \infty} N(0,1)$$
+样本量充分大时，$t$ 分布趋向标准正态。
+\end{note}
+\begin{definition}[$F$ 分布]
+设 $X \sim \chi^2(m)$，$Y \sim \chi^2(n)$，且 $X \perp Y$，令
+$$\xi = \frac{X/m}{Y/n}$$
+则称 $\xi$ 的分布为自由度为 $(m,n)$ 的 $F$ 分布，记作 $\xi \sim F(m,n)$。
+\end{definition}
+\begin{dxtips}
+    F分布本质上描述的事两个卡方分布的关系，只不过他们都要处以自己的自由度罢了。自由度分子在前分母在后。需要找到两个卡方才能用F分布
+\end{dxtips}
+\begin{note}[倒数性质]
+$$\xi \sim F(m,n) \implies \frac{1}{\xi} \sim F(n,m)$$
+\end{note}
+
+\begin{note}[分位数关系]
+$$F_{1-\alpha}(m,n) = \frac{1}{F_{\alpha}(n,m)}$$
+表中只给出 $F_\alpha$，遇到 $F_{1-\alpha}$ 用此关系换算。
+\end{note}
+
+\section{正态三定理}
+\begin{note}[正态总体三大定理]
+设 $X_1, \ldots, X_n \overset{\text{i.i.d.}}{\sim} N(\mu, \sigma^2)$。
+
+\textbf{定理一：}
+$$\bar{X} \sim N\!\left(\mu,\, \frac{\sigma^2}{n}\right), \qquad \frac{(n-1)s^2}{\sigma^2} \sim \chi^2(n-1), \qquad \bar{X} \perp s^2$$
+
+\textbf{定理二（$\sigma^2$ 未知时估计 $\mu$）：}
+$$T = \frac{\bar{X}-\mu}{s/\sqrt{n}} \sim t(n-1)$$
+
+\textbf{定理三（两独立正态总体，$Y_1,\ldots,Y_m \overset{\text{i.i.d.}}{\sim} N(\mu_2,\sigma_2^2)$）：}
+$$F = \frac{s_1^2/\sigma_1^2}{s_2^2/\sigma_2^2} \sim F(n-1,\, m-1)$$
+\end{note}
+\begin{definition}[样本方差]
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$$
+分母用 $n-1$ 而非 $n$，使得 $E(s^2) = \sigma^2$（无偏）。
+\end{definition}
+\begin{dxtips}
+    乘n-1就变成了μ等于0的正态分布除以σ平方就是变成了标准正态分布，
+\end{dxtips}
+\begin{note}[定理二的推导]
+$$T = \frac{\bar{X}-\mu}{s/\sqrt{n}} = \frac{\dfrac{\bar{X}-\mu}{\sigma/\sqrt{n}}}{\sqrt{\dfrac{(n-1)s^2/\sigma^2}{n-1}}} = \frac{N(0,1)}{\sqrt{\chi^2(n-1)/(n-1)}} \sim t(n-1)$$
+分子是标准正态，分母是 $\chi^2(n-1)$ 除以自由度再开根，$\sigma^2$ 上下消掉，对上 $t$ 分布定义。
+\end{note}
+\begin{dxtips}
+    根号n是给分子做标准化的分母本来就是定理一段样子因为上下都有σ平方消l由于算t分布卡方分布得除以自己的自由度再开方所以n-1项也没有了
+\end{dxtips}
+\begin{note}[为什么自由度是 $n-1$]
+求和有 $n$ 项，但存在约束
+$$\sum_{i=1}^n (X_i - \bar{X}) = 0$$
+知道前 $n-1$ 项，最后一项被锁死。真正能自由变化的只有 $n-1$ 个，故自由度为 $n-1$。
+
+\textbf{$n$ 个数，$1$ 个约束，剩 $n-1$ 个自由度。}
+\end{note}
+\begin{note}[总体方差与样本方差对比]
+
+\begin{itemize}
+  \item \textbf{总体方差：} $\sigma^2 = E[(X-\mu)^2]$，用真实均值 $\mu$，是分布的参数，未知。
+  \item \textbf{样本方差：} $s^2 = \dfrac{1}{n-1}\displaystyle\sum_{i=1}^n(X_i-\bar{X})^2$，用样本均值 $\bar{X}$，是统计量，可计算。
+  一个那E来求加权平均一个直接用/n-1求平均
+\end{itemize}
+\end{note}
+\subsection{前置引理}
+\begin{lemma}[正交变换引理]
+设 $X_1, \ldots, X_n$ 相互独立，$X_i \sim N(\mu_i, \sigma^2)$（方差相同），$A$ 为 $n \times n$ 正交矩阵（$A^\top A = I$），令 $Y = AX$，则 $Y_1, \ldots, Y_n$ 相互独立，且
+$$Y_i \sim N\!\left(\sum_k a_{ik}\mu_k,\ \sigma^2\right)$$
+\end{lemma}
+\begin{dxtips}
+每个 $X_i$ 都是一个数，就是第 $i$ 次观测的结果。向量 $\boldsymbol{X} = (X_1, X_2, \ldots, X_n)^\top$ 只是把 $n$ 次观测的数堆成一列，方便矩阵运算。
+\end{dxtips}
+\begin{dxtips}
+    左乘一个矩阵的数学意义是换成左乘的坐标系,而最后的结果会变成右边的维度，所以左乘可以维度大于本身。
+    [列看法（Strang）]
+$AX$ 是 $A$ 各列的线性组合，$X$ 的分量是权重：
+$$AX = x_1\mathrm{col}_1(A) + x_2\mathrm{col}_2(A) + \cdots + x_n\mathrm{col}_n(A)$$
+$AX$ 的结果落在 $A$ 的列空间里。
+
+\end{dxtips}
+\begin{example}[列看法具体计算]
+$$A = \begin{pmatrix}1&2\\2&1\end{pmatrix}, \quad X = \begin{pmatrix}3\\4\end{pmatrix}$$
+因为运算的时候是行乘列，作揖3这个位置只有每行的第一个位置能和他乘每一行的第一个位置组合起来就是第一列，所以3就是第一列的权重同样4就是第二列。
+$$AX = 3\begin{pmatrix}1\\2\end{pmatrix} + 4\begin{pmatrix}2\\1\end{pmatrix} = \begin{pmatrix}3\\6\end{pmatrix} + \begin{pmatrix}8\\4\end{pmatrix} = \begin{pmatrix}11\\10\end{pmatrix}$$
+\end{example}
+\begin{note}[正交变换的几何意义]
+左乘正交矩阵就是在 $n$ 维空间里做旋转（或翻转），把原来的坐标系转到新的坐标系。正交矩阵的旋转保长度——向量的模不变，所以散布程度（方差）也不变，这就是为什么 $Y$ 的每个分量方差还是 $\sigma^2$。
+\end{note}
+\begin{theorem}[柯赫伦定理]
+设 $X_1, \ldots, X_n \overset{\text{i.i.d.}}{\sim} N(0,1)$，总平方和分解为
+$$\sum_{i=1}^n X_i^2 = Q_1 + Q_2 + \cdots + Q_k$$
+其中 $Q_i = \boldsymbol{X}^\top A_i \boldsymbol{X}$ 为二次型，$\mathrm{rank}(A_i) = n_i$。则 $Q_1, \ldots, Q_k$ 相互独立且各自 $\sim \chi^2(n_i)$ 的充要条件为
+$$n_1 + n_2 + \cdots + n_k = n$$
+\end{theorem}
+
+\begin{note}[直觉]
+总自由度 $n$ 被完整拆分给每一块，没有浪费也没有重叠，每块才能独立地服从卡方分布。
+\end{note}
+
+\chapter{能力二}
+\section{无偏估计}
+很好的问题，这是入门时最容易懵的地方。
+
+\textbf{估计量的定义就是：样本的任意函数。}
+
+你有数据 $X_1, X_2, \ldots, X_n$，你想猜 $\mu$。只要是用这些数据算出来的一个数，就叫估计量，没有任何其他限制。
+
+比如 $n=3$，数据是 $2, 4, 6$：
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+估计量 & 公式 & 算出来 \\
+\hline
+$\bar{X}$ & $(2+4+6)/3$ & $4$ \\
+$X_1$ & 只取第一个 & $2$ \\
+$(X_1+X_3)/2$ & $(2+6)/2$ & $4$ \\
+常数 $5$ & 不管数据，直接报 $5$ & $5$ \\
+$\max(X_i)$ & 取最大值 & $6$ \\
+\hline
+\end{tabular}
+\end{center}
+
+这五个都是"合法"的估计量——你都可以拿来交给别人说"我估计 $\mu = $ 这个数"。
+
+\textbf{问题就在这里}：到底用哪个？
+
+直觉上 $\bar{X}$ 最好，但"直觉"不是数学。能力二要做的事就是：给出有数学保证的标准，说清楚为什么 $\bar{X}$ 比 $X_1$ 好，好在哪里，好多少。
+
+一句话总结：\textbf{估计量 $=$ 数据的函数，函数有无穷多个，所以估计量不唯一。}能力二就是在这无穷多个里面找"最好的"。
+\begin{note}
+    总结一句话：你只做一次实验，\textbf{估计量}是你选的公式，\textbf{估计值}是代入数据后算出的那个数。``多次实验''是数学上验证公式好不好用的思想实验，不是真的要做很多次。
+\end{note}
+\begin{note}
+    \textbf{第一个：不知道 $\mu$ 怎么对准？}
+
+``对准''不是你去瞄准一个已知的靶，而是通过代数推导证明一个必然成立的性质。
+
+$X_1, X_2, \ldots, X_n$ 来自 $N(\mu, \sigma^2)$，所以 $E[X_i] = \mu$，于是：
+
+$$E[\bar{X}] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n} \cdot n\mu = \mu$$
+
+这里 $\mu$ 始终是个符号，从没有变成具体数字。这个推导对 $\mu = 3$ 成立，对 $\mu = 100$ 也成立，对任何 $\mu$ 都成立。
+
+就好像你证明了``一把没有系统误差的尺子，量出来的平均值等于真实长度''——不需要知道真实长度是多少，这是尺子本身的结构性质。
+\end{note}
+x1，x2都是一次实验里面的个体
+\begin{dxtips}
+也就是说因为他服从这个分布所以不管选第一次实验x1，第二次实验x2都要把他的均值当作真实正态分布的均值对吗。而不是选取一次实验的最大值，最小值直接当他服从的正态分布的均值。而是选取他的平均值充当
+\end{dxtips}
+\begin{note}[UMVUE 解决的是选公式的问题]
+你确实只做一次实验，得到一个数。但在做实验之前，你要选公式。
+
+方差小的公式，代入数据后得到的数大概率更靠近真值；方差大的公式，这一次的结果可能差很远。
+
+类比：你只射一箭，但要事先选弓。弓A精度高，弓B精度差。虽然只射一次，但选哪把弓决定了这一箭大概率落在哪里。UMVUE 就是在所有无偏的弓里，选精度最高的那把。
+
+所以 UMVUE 是\textbf{选公式阶段}的理论，不是做完实验之后的事情。
+\end{note}
+
+\begin{example}[UMVUE 的具体比较]
+设 $X_1, X_2, X_3, X_4 \overset{\text{i.i.d.}}{\sim} N(\mu, 1)$，估计 $\mu$。三个候选公式均无偏（期望均等于 $\mu$）：
+
+$$\hat{\mu}_A = \bar{X} = \frac{X_1+X_2+X_3+X_4}{4}, \quad \mathrm{Var}(\hat{\mu}_A) = \frac{1}{4}$$
+
+$$\hat{\mu}_B = \frac{X_1+X_2}{2}, \quad \mathrm{Var}(\hat{\mu}_B) = \frac{1}{2}$$
+
+$$\hat{\mu}_C = X_1, \quad \mathrm{Var}(\hat{\mu}_C) = 1$$
+
+方差衡量的是：这个公式在不同数据下的结果散布多广。$\bar{X}$ 的结果永远集中在 $\mu$ 附近，$X_1$ 的结果可能飘得很远。
+
+在所有对 $\mu$ 的无偏估计量中，$\bar{X}$ 方差最小，故 $\bar{X}$ 是 $\mu$ 的 UMVUE。
+\end{example}
+\begin{note}
+    这是统计里一个让人头疼的惯例，其实它们是两个不同的东西：
+
+\begin{itemize}
+  \item \textbf{实验前：$X_1$ 是随机变量（大写）}
+  
+  还不知道会观测到什么值，可能是 $160$，可能是 $180$，服从 $N(\mu, \sigma^2)$。这时候可以谈期望：$E[X_1] = \mu$。
+
+  \item \textbf{实验后：$x_1$ 是观测值（小写）}
+  
+  已经量完了，是一个固定的数，比如 $172$。这时候不谈期望，直接代入算：$\bar{x} = (172 + 168 + \cdots)/n$。
+\end{itemize}
+
+因为教材里经常两个都写大写 $X_1$，没有严格区分。区分的方法就是看语境：出现 $E[\cdot]$ 就当随机变量（实验前）；出现具体数字代入就当观测值（实验后）。
+
+
+\end{note}
+\begin{dxtips}
+    找无偏估计量永远发生在实验前，与具体采样永远无关。需要把所有可能出现的样本进行 $h(X)$ 的映射，再与其出现的概率做乘积，求和得到期望：
+$$E[h(X)] = \sum_k h(k) \cdot P(X=k) = g(\theta)$$
+这个期望等于我们想估计的目标 $g(\theta)$，即为无偏。
+\end{dxtips}
+\begin{note}
+大写 $X_1$ 是``还没揭晓的牌''，小写 $x_1$ 是``已经翻开的牌''。期望只对没揭晓的牌讲。
+\end{note}
+\begin{dxtips}
+    
+
+所以无偏估计量是找一个公式，用这个公式代入所有可能的样本后，按照这些样本的分布分配给它们概率，然后这个期望等于我们想估计的东西。
+\end{dxtips}
+\begin{dxtips}
+    证明没有无偏函数可以从解析性和多项式来看
+\end{dxtips}
+
 \section{umvue+CR}
 \subsection{fisher信息}
 \begin{note}
