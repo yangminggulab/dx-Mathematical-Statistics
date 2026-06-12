@@ -46,6 +46,19 @@ $n$ 个数太多了，你不能直接用。你需要把 $n$ 个数压缩成一�
     一类问题问平均水平用前者；一类问题问第几名用后者。
     两种工具解决两类完全不同的问题。
 \end{dxtips}
+\begin{theorem}[第 $r$ 个顺序统计量的密度]
+设 $X_1, \ldots, X_n \overset{\text{i.i.d.}}{\sim} F(x)$，密度为 $f(x)$，则 $X_{(r)}$ 的密度为
+$$f_{(r)}(x) = r C_n^r\, F^{r-1}(x)\,[1-F(x)]^{n-r}\,f(x)$$
+\end{theorem}
+
+\begin{note}[拆解记忆]
+\begin{itemize}
+  \item $f(x)$：第 $r$ 个恰好落在 $x$ 处
+  \item $F^{r-1}(x)$：有 $r-1$ 个已经落在 $x$ 左边
+  \item $[1-F(x)]^{n-r}$：有 $n-r$ 个还在 $x$ 右边
+  \item $r C_n^r = \dfrac{n!}{(r-1)!(n-r)!}$：这三组人的全部排列方式数
+\end{itemize}
+\end{note}
 \begin{note}[顺序统计量]
 顺序统计量在一个特定情况下才出现：\textbf{参数出现在分布的支撑边界上（即参数决定数据的范围）。}
 
