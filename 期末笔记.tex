@@ -219,6 +219,90 @@ $$F_{1-\alpha}(m,n) = \frac{1}{F_{\alpha}(n,m)}$$
 表中只给出 $F_\alpha$，遇到 $F_{1-\alpha}$ 用此关系换算。
 \end{note}
 
+\subsection{卡方t与伽马函数}
+\begin{note}
+密度函数的统一结构：\(f(x)=\text{归一化系数}\times\text{核（决定形状的部分）}\)。
+
+\textbf{$\chi^2(n)$：}
+\[
+f(x)=\underbrace{\frac{1}{2^{n/2}\Gamma(n/2)}}_{\text{归一化系数}}
+\times
+\underbrace{x^{\frac n2-1}e^{-x/2}}_{\text{核}},
+\qquad x>0.
+\]
+
+\textbf{$t(n)$：}
+\[
+f(x)=\underbrace{\frac{\Gamma\!\left(\frac{n+1}{2}\right)}{\sqrt{n\pi}\,\Gamma\!\left(\frac n2\right)}}_{\text{归一化系数}}
+\times
+\underbrace{\left(1+\frac{x^2}{n}\right)^{-\frac{n+1}{2}}}_{\text{核}}.
+\]
+\end{note}
+\begin{note}
+\[
+N(0,1):\quad \varphi(x)=\underbrace{\frac{1}{\sqrt{2\pi}}}_{\text{归一化}}\cdot\underbrace{e^{-x^2/2}}_{\text{核}},
+\qquad x\in\mathbb{R}.
+\]
+
+\[
+\chi^2(1):\quad f(x)=\underbrace{\frac{1}{\sqrt{2\pi}}}_{\text{归一化（一模一样！）}}\cdot\underbrace{x^{-1/2}e^{-x/2}}_{\text{核}},
+\qquad x>0.
+\]
+
+\[
+\chi^2(n):\quad f(x)=\underbrace{\frac{1}{2^{n/2}\Gamma(\frac n2)}}_{\text{归一化}}\cdot\underbrace{x^{\frac n2-1}e^{-x/2}}_{\text{核}},
+\qquad x>0.
+\]
+\end{note}
+\begin{dxtips}
+整个 \(\Gamma\) 函数最重要的就是 \(x\) 的头上是什么，而不是 \(e\) 的头上是什么——\(x\) 头上是几，加1就是分母 \(\Gamma\) 了嘛的东西，和 \(2\) 的次方。伽马展开其实就是一个积分的式子对吗，只不过积分式子长得太长了不好写，正好我们带入每一个伽马都能用另一个公式算出整个积分的值。其实和我们要弄成标准正态好查表一样弄成标准伽马我们也是好计算
+\end{dxtips}
+\begin{dxtips}
+换元 \(x=2u\) 的目标只有一个——让 \(e\) 头上变成单纯的 \(-u\)，这样才能跟 \(\Gamma(z)=\displaystyle\int_0^\infty u^{z-1}e^{-u}\,du\) 这个"标准模板"对上号。因为x变成2u所以u头上自然继承了x头上的指数，由于dx变成2du所以他会比x头上指数多一次
+\end{dxtips}
+\begin{dxtips}
+\(\Gamma(1/2)\) 与高斯积分本质上是同一个积分，换元 \(x=u^2\) 即可互相转化：
+
+令 \(x=u^2\)（\(u>0\)），则 \(dx=2u\,du\)，\(x^{-1/2}=u^{-1}\)，代入：
+\[
+\Gamma\!\left(\tfrac12\right)=\int_0^\infty x^{-1/2}e^{-x}\,dx
+=\int_0^\infty u^{-1}e^{-u^2}\cdot(2u\,du)
+=\int_0^\infty 2e^{-u^2}\,du.
+\]
+再由 \(e^{-u^2}\) 为偶函数，\(2\int_0^\infty=\int_{-\infty}^{\infty}\)，得
+\[
+\Gamma\!\left(\tfrac12\right)=\int_{-\infty}^{\infty}e^{-u^2}\,du=\sqrt\pi.
+\]
+
+这个换元 \(x=u^2\) 正是 \(Y=X^2\)（把 \(N(0,1)\) 变成 \(\chi^2(1)\)）在积分层面的体现——所以 \(\chi^2(1)\) 和 \(N(0,1)\) 的归一化系数都是 \(1/\sqrt{2\pi}\)，本质上是同一个积分换了个变量名。
+\end{dxtips}
+\begin{note}
+\textbf{$\Gamma$函数三条拆解规则：}
+\begin{itemize}
+    \item \(\Gamma(z+1)=z\,\Gamma(z)\)：递推（分部积分得到，本质是阶乘"往下乘"）
+    \item \(\Gamma(n)=(n-1)!\)：\(n\) 为正整数时，纯阶乘，不含 \(\pi\)
+    \item \(\Gamma\!\left(\tfrac12\right)=\sqrt\pi\)：唯一的"魔法常数"，来自高斯积分 \(\displaystyle\int_{-\infty}^{\infty}e^{-x^2}dx=\sqrt\pi\)
+\end{itemize}
+
+\end{note}
+\begin{dxtips}
+    伽马函数本质是一个积分，对积分里面的x求导指数下来变成前面的系数也就是z，指数减去1但是z-1的为指数伽马就是z
+\end{dxtips}
+\begin{note}
+\(\Gamma(z+1)=z\Gamma(z)\) 这条递推，来自分部积分——本质是"幂函数求导会掉一个指数下来，指数函数积分还是自己"：
+\[
+\Gamma(z+1)=\int_0^\infty u^z e^{-u}\,du
+\overset{\text{分部积分}}{=}
+\Bigl[-u^z e^{-u}\Bigr]_0^\infty+z\int_0^\infty u^{z-1}e^{-u}\,du
+=z\,\Gamma(z).
+\]
+对 \(u^z\) 求导得 \(z\,u^{z-1}\)，对 \(e^{-u}\) 积分还是 \(-e^{-u}\)（自我复制），边界项为0，分部积分直接给出 \(\Gamma(z+1)=z\,\Gamma(z)\)。
+
+这正是 Euler 当年的 motivation：\(n!=n\cdot(n-1)\cdots1\) 这种"阶乘递推"，能不能找一个对所有实数 \(z\) 都成立的"连续版"？答案就是这个积分——\(\Gamma(z)\) 是阶乘往非整数方向的"插值"。
+\end{note}
+\begin{note}
+（可选，更大的图景）"升维+极坐标"能推广到n维——\(\chi^2(n)\) 本质上是"n维标准正态向量的模长平方"，\(\Gamma(n/2)\) 正是n维球体积/表面积公式里的那个 \(\Gamma\)。所以 \(\Gamma(n/2)\) 出现在 \(\chi^2(n)\) 里不是巧合，而是n维球几何的直接体现——这部分对考试不直接有用，但解释了"为什么偏偏是\(\Gamma(n/2)\)"这个终极问题。
+\end{note}
 \section{正态三定理}
 \begin{note}[正态总体三大定理]
 设 $X_1, \ldots, X_n \overset{\text{i.i.d.}}{\sim} N(\mu, \sigma^2)$。
