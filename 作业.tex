@@ -530,7 +530,11 @@ E(X^2)=2^2\left(\frac n2+1\right)\frac n2
 \]
 \end{remark}
 \begin{dxtips}
-    K阶矩只是积分里面的东西变了，2的k次方只可能是x的k次方积分的结果
+ 分母其实就是原来的 $\Gamma(n/2)\cdot 2^{n/2}$，因为这就是原来的归一化系数。
+然后由于 $x$ 头上的指数从 $\frac{n}{2}-1$ 又加上了一个 $k$——它如果正常乘 $1$ 去积分，
+结果就是分母那个系数；现在 $x$ 头上多了 $k$，所以 $\Gamma$ 里面和 $2$ 的头上都要加 $k$。
+每次往外拿出一个因子，于是前面的系数从 $\frac{n}{2}+k-1$ 一直往下乘，
+把 $k$ 个因子取完、降到 $\frac{n}{2}$；上下的 $\Gamma$ 函数消掉，$2^{n/2}$ 也消掉。
 \end{dxtips}
 \begin{homework}{2}
 设 $X \sim t(n)$，则当 $k < n$ 时，$E(X^k)$ 存在且有
@@ -542,7 +546,7 @@ n^{\frac{k}{2}} \frac{\Gamma\left(\frac{k+1}{2}\right)\Gamma\left(\frac{n-k}{2}\
 当 $k \geqslant n$ 时，$E(X^k)$ 是否存在？
 \end{homework}
 \begin{dxtips}
-    证明不存在就想不收敛也就是积分趋紧于无穷
+    证明不存在就想不收敛也就是积分趋紧于无穷。
 \end{dxtips}
 \begin{proof}
 设 \(X\sim t(n)\)，密度 \(f(x)=\dfrac{\Gamma(\frac{n+1}{2})}{\sqrt{n\pi}\,\Gamma(\frac n2)}\left(1+\dfrac{x^2}{n}\right)^{-\frac{n+1}{2}}\)。当 \(|x|\to\infty\) 时，
@@ -553,6 +557,9 @@ n^{\frac{k}{2}} \frac{\Gamma\left(\frac{k+1}{2}\right)\Gamma\left(\frac{n-k}{2}\
 
 故 \(E(|X|^k)<\infty\iff k<n\)，即 \(t(n)\) 分布的 \(k\) 阶矩存在当且仅当 \(k<n\)。
 \end{proof}
+\begin{dxtips}
+    密度函数本质上来说就是为了归一化的系数，所以他的影响不大会爆炸的就是x的次方这项
+\end{dxtips}
 \begin{homework}{3}
 设 $X_1 \sim \chi^2(m), X_2 \sim \chi^2(n)$，$X_1, X_2$ 相互独立，则 $X_1 + X_2$ 与 $X_1/X_2$ 相互独立。
 \end{homework}
@@ -568,6 +575,21 @@ f_{U,W}(u,w)=f_{X_1,X_2}(uw,u(1-w))\cdot u
 
 \(f_{U,W}=g(u)h(w)\) 可分离变量，故 \(U\perp W\)。又 \(\dfrac{X_1}{X_2}=\dfrac{w}{1-w}\) 是 \(W\) 的函数，故 \(U\perp\dfrac{X_1}{X_2}\)，即 \(X_1+X_2\) 与 \(\dfrac{X_1}{X_2}\) 相互独立。
 \end{proof}
+\begin{dxtips}
+    带入以后本来u头上应该是减二的，但是由于雅各比油弄出一个u，\[
+X_1+X_2 \sim \chi^2(m+n).
+\]
+
+因此
+
+\[
+g(u)=f_U(u)
+=
+\frac{1}{2^{\frac{m+n}{2}}\Gamma\!\left(\frac{m+n}{2}\right)}
+u^{\frac{m+n}{2}-1}e^{-u/2},
+\qquad u>0.
+\]
+\end{dxtips}
 \begin{note}
 \(V=\dfrac{X_1}{X_2}\) 与 \(W=\dfrac{X_1}{X_1+X_2}\) 满足
 \[
@@ -611,15 +633,7 @@ F_{1-\alpha}(m,n)\,F_\alpha(n,m)=1.
 \]
 证毕。
 \end{solution}
-\begin{dxtips}[遇事不决先列出概率分布也就是P（X小于等于x）]
-    设随机变量 \(X,Y\) 相互独立，\(X\sim \chi^2(m)\)，\(Y\sim \chi^2(n)\)，令
-\[
-\xi=\frac{X/m}{Y/n},
-\]
-则 \(\xi\) 的分布称为具有自由度 \(m\) 和 \(n\) 的 \(F\) 分布，记作
-\[
-\xi\sim F(m,n).
-\]所以这个F分布上面的就是前面的。分子就是后面的
+\begin{dxtips}[遇一个是nm一个是mn总有一个是要变成1/x，注意他们两都是分位数也就是为达成下角标积分括号里面大于X的那个数字。
 \end{dxtips}
 \begin{homework}
 设 \(X_1,X_2,\cdots,X_n\) 独立，\(A_{2\times n}\) 已知，
@@ -730,43 +744,26 @@ s^2=\frac1{n-1}\sum_{i=1}^n (X_i-\bar X)^2.
 T=\sqrt{\frac{n}{n+1}}\frac{\bar X-X_{n+1}}{s}\sim t(n-1).
 \]
 \end{homework}
-
 \begin{solution}
-由正态总体样本性质，
+由正态总体性质，$\bar X\sim N(\mu,\sigma^2/n)$，$\dfrac{(n-1)s^2}{\sigma^2}\sim\chi^2(n-1)$，且二者独立；又 $X_{n+1}\sim N(\mu,\sigma^2)$ 与 $X_1,\dots,X_n$（从而与 $\bar X,s^2$）独立，故
 \[
-\bar X\sim N\!\left(\mu,\frac{\sigma^2}{n}\right),\quad
-\frac{(n-1)s^2}{\sigma^2}\sim\chi^2(n-1),
+\bar X-X_{n+1}\sim N\!\left(0,\frac{n+1}{n}\sigma^2\right)，\quad \text{且与 } s^2 \text{ 独立}.
 \]
-且 \(\bar X\) 与 \(s^2\) 相互独立。又因 \(X_{n+1}\sim N(\mu,\sigma^2)\)，且与 \(X_1,\dots,X_n\) 独立，故 \(X_{n+1}\) 与 \(\bar X,s^2\) 也独立，从而
-\[
-\bar X-X_{n+1}\sim N\!\left(0,\frac{\sigma^2}{n}+\sigma^2\right)
-= N\!\left(0,\frac{n+1}{n}\sigma^2\right),
-\]
-并且 \(\bar X-X_{n+1}\) 与 \(s^2\) 相互独立。
 
 令
 \[
-Z=\frac{\bar X-X_{n+1}}{\sqrt{\frac{n+1}{n}}\sigma},\qquad
-U=\frac{(n-1)s^2}{\sigma^2},
+Z=\frac{\bar X-X_{n+1}}{\sqrt{\frac{n+1}{n}}\,\sigma}\sim N(0,1),\qquad
+U=\frac{(n-1)s^2}{\sigma^2}\sim\chi^2(n-1),
 \]
-则 \(Z\sim N(0,1)\)，\(U\sim\chi^2(n-1)\)，且 \(Z\) 与 \(U\) 相互独立，因此
-\[
-\frac{Z}{\sqrt{U/(n-1)}}\sim t(n-1).
-\]
-又
+且 $Z\perp U$。由 $t$ 分布定义，
 \[
 \frac{Z}{\sqrt{U/(n-1)}}
-=
-\frac{\dfrac{\bar X-X_{n+1}}{\sqrt{\frac{n+1}{n}}\sigma}}{\sqrt{\dfrac{s^2}{\sigma^2}}}
-=
-\sqrt{\frac{n}{n+1}}\frac{\bar X-X_{n+1}}{s}
-=
-T,
+=\sqrt{\frac{n}{n+1}}\cdot\frac{\bar X-X_{n+1}}{s}
+=T\sim t(n-1).
 \]
-故 \(T\sim t(n-1)\).
 \end{solution}
 \begin{dxtips}
-    要证明是t分布student分布。分母得是标准正态分布也就是经过操作以后变成N（0，1），找到x找到y了还要证明他们两个是独立的。这里用的是定理1.9。用到了平均值的均值还是μ但是方差是原来σ²的1/n。然后因为相互独立才有平均值相减方差相加。
+$t$ 分布需要标准正态和卡方。标准正态自然就是 $\bar X-X_{n+1}$ 提供，减法只是把均值拉到了 $0$，但还要把方差归一，所以还要除以 $\sqrt{\frac{n+1}{n}}$。下面卡方分布总是要除以 $n-1$，然后它除以 $\sigma^2$ 的部分总要和分子消掉——每次分母都只会剩一个 $s$，也只会提供一个 $s$。公式中剩下的部分都是正态分布提供的。
 \end{dxtips}
 \begin{homework}[2.4第1题]
 设 \(X_1,\ldots,X_n\) i.i.d.，\(X_1\sim N(0,1)\)，
@@ -775,35 +772,20 @@ s^2=\frac{1}{n-1}\sum_{i=1}^n (X_i-\overline{X})^2,
 \]
 求 \(\mathrm{Var}(s^2)\)。
 \end{homework}
-\begin{dxtips}
-   要先让s²乘n-1/σ²让他服从卡方分布算完了再把乘的这个再弄掉，n-1是常数方差求的时候直接平方就行了
-\end{dxtips}
+
 \begin{solution}
-由于总体 \(X_1,\ldots,X_n\) 来自正态分布 \(N(0,1)\)，故 \(\sigma^2=1\)。由正态总体样本方差的性质，
+由 \(X_1,\ldots,X_n\sim N(0,1)\)，故 \(\sigma^2=1\)，从而
 \[
-\frac{(n-1)s^2}{\sigma^2}\sim \chi^2(n-1),
+(n-1)s^2\sim\chi^2(n-1)\implies D\bigl((n-1)s^2\bigr)=2(n-1).
 \]
-于是这里有 \((n-1)s^2\sim \chi^2(n-1)\)。设 \(Y=(n-1)s^2\)，则 \(Y\sim \chi^2(n-1)\)。由卡方分布的性质可知
+又 \(D\bigl((n-1)s^2\bigr)=(n-1)^2D(s^2)\)，故
 \[
-D(Y)=2(n-1).
-\]
-另一方面，
-\[
-D(Y)=D\bigl((n-1)s^2\bigr)=(n-1)^2D(s^2).
-\]
-因此
-\[
-(n-1)^2D(s^2)=2(n-1),
-\]
-从而
-\[
-D(s^2)=\frac{2}{n-1}.
-\]
-故
-\[
-\boxed{D(s^2)=\frac{2}{n-1}}.
+(n-1)^2D(s^2)=2(n-1)\implies \boxed{D(s^2)=\frac{2}{n-1}}.
 \]
 \end{solution}
+\begin{dxtips}
+卡方分布 $\chi^2(n-1)$ 的方差就是 $2(n-1)$，也就是"2倍自由度"。然后 $(n-1)s^2$ 是把 $s^2$ 乘了 $(n-1)$ 倍，方差就会变大 $(n-1)^2$ 倍，即 $D\big((n-1)s^2\big)=(n-1)^2D(s^2)$。两边一约，剩下 $D(s^2)=\dfrac{2}{n-1}$。
+\end{dxtips}
 \begin{homework}[2.4第2题]
 设 \(X_1,\ldots,X_m\) i.i.d.，\(X_1\sim N(\mu_1,\sigma^2)\)；\(Y_1,\ldots,Y_n\) i.i.d.，\(Y_1\sim N(\mu_2,\sigma^2)\)，且这两组随机变量相互独立。记
 \[
@@ -823,62 +805,27 @@ s_2^2=\frac{1}{n-1}\sum_{i=1}^n (Y_i-\overline{Y})^2.
     的方差。
 \end{enumerate}
 \end{homework}
-\begin{dxtips}
-    第一题就用卡方分布相加就是自由度相加对吧。第二题我没什么思路是不是还是要先都转化为卡方分布然后再算二阶矩
-\end{dxtips}
+
 \begin{solution}
 \begin{enumerate}
-\item 由正态总体样本方差的性质，
+\item 由 \(\dfrac{(m-1)s_1^2}{\sigma^2}\sim\chi^2(m-1)\)，\(\dfrac{(n-1)s_2^2}{\sigma^2}\sim\chi^2(n-1)\)，且两者独立，由可加性
 \[
-\frac{(m-1)s_1^2}{\sigma^2}\sim \chi^2(m-1),\qquad
-\frac{(n-1)s_2^2}{\sigma^2}\sim \chi^2(n-1).
-\]
-又因为两组样本相互独立，所以这两个卡方变量也相互独立，因此
-\[
-\frac{(m-1)s_1^2+(n-1)s_2^2}{\sigma^2}\sim \chi^2(m+n-2).
+\frac{(m-1)s_1^2+(n-1)s_2^2}{\sigma^2}\sim\chi^2(m+n-2).
 \]
 
-\item 由
+\item 记 \(W=\dfrac{(m-1)s_1^2+(n-1)s_2^2}{m+n-2}\)。由 \(\chi^2(k)\) 方差为 \(2k\) 及 \(D(aX)=a^2D(X)\)：
 \[
-\frac{(m-1)s_1^2}{\sigma^2}\sim \chi^2(m-1),\qquad
-D\!\left(\frac{(m-1)s_1^2}{\sigma^2}\right)=2(m-1),
+\frac{(m-1)s_1^2}{\sigma^2}\sim\chi^2(m-1)\implies D(s_1^2)=\frac{2\sigma^4}{m-1},
 \]
-得
 \[
-\frac{(m-1)^2}{\sigma^4}D(s_1^2)=2(m-1),\qquad
-D(s_1^2)=\frac{2\sigma^4}{m-1}.
+\frac{(m+n-2)W}{\sigma^2}\sim\chi^2(m+n-2)\implies D(W)=\frac{2\sigma^4}{m+n-2}.
 \]
-
-再设
-\[
-W=\frac{(m-1)s_1^2+(n-1)s_2^2}{m+n-2}.
-\]
-由第 1 问知
-\[
-\frac{(m+n-2)W}{\sigma^2}\sim \chi^2(m+n-2),\qquad
-D\!\left(\frac{(m+n-2)W}{\sigma^2}\right)=2(m+n-2),
-\]
-于是
-\[
-\frac{(m+n-2)^2}{\sigma^4}D(W)=2(m+n-2),\qquad
-D(W)=\frac{2\sigma^4}{m+n-2}.
-\]
-
-因为 \(m+n-2>m-1\)，所以
-\[
-\frac{2\sigma^4}{m+n-2}<\frac{2\sigma^4}{m-1}.
-\]
-因此
-\[
-D\!\left(\frac{(m-1)s_1^2+(n-1)s_2^2}{m+n-2}\right)<D(s_1^2).
-\]
-故
-\[
-\frac{(m-1)s_1^2+(n-1)s_2^2}{m+n-2}
-\]
-的方差更小。
+由 \(m+n-2>m-1\)，得 \(D(W)<D(s_1^2)\)，即 \(W\) 的方差更小。
 \end{enumerate}
 \end{solution}
+\begin{dxtips}
+    其实就是按照自由度算方差再把系数产生的影响除掉，记住是除以系数的平方
+\end{dxtips}
 \begin{homework}[2.4第3题]
 设 \(X_1,\ldots,X_n\) i.i.d.，\(X_1\sim N(0,1)\)，求
 \[
@@ -887,39 +834,14 @@ Z=\frac{\sum_{i=1}^{n-1}X_i}{X_n}
 的分布。
 \end{homework}
 \begin{solution}
-设
+设 \(Y=\sum_{i=1}^{n-1}X_i\sim N(0,n-1)\)，与 \(X_n\sim N(0,1)\) 独立（\(Y\) 仅依赖 \(X_1,\ldots,X_{n-1}\)）。标准化后 \(\dfrac{Y}{\sqrt{n-1}}\sim N(0,1)\) 仍与 \(X_n\) 独立，两个独立标准正态之比服从标准柯西分布，故
 \[
-Y=\sum_{i=1}^{n-1}X_i.
+\frac{Y/\sqrt{n-1}}{X_n}\sim C(0,1).
 \]
-由于 \(X_1,\ldots,X_{n-1}\) 相互独立，且 \(X_i\sim N(0,1)\)，故
+由 \(Z=\dfrac{Y}{X_n}=\sqrt{n-1}\cdot\dfrac{Y/\sqrt{n-1}}{X_n}\) 及柯西分布的尺度性质 \(aC(0,1)=C(0,a)\)，得
 \[
-Y\sim N(0,n-1),\qquad X_n\sim N(0,1).
+Z\sim C(0,\sqrt{n-1}).
 \]
-又因为 \(Y\) 只与 \(X_1,\ldots,X_{n-1}\) 有关，而 \(X_n\) 与它们独立，所以 \(Y\) 与 \(X_n\) 也相互独立。
-
-于是
-\[
-Z=\frac{Y}{X_n}
-=\sqrt{n-1}\,\frac{Y/\sqrt{n-1}}{X_n}.
-\]
-其中
-\[
-\frac{Y}{\sqrt{n-1}}\sim N(0,1),
-\]
-且 \(\dfrac{Y}{\sqrt{n-1}}\) 与 \(X_n\) 相互独立，因此
-\[
-\frac{Y/\sqrt{n-1}}{X_n}
-\]
-服从标准柯西分布。故
-\[
-\frac{Z}{\sqrt{n-1}}\sim C(0,1),
-\]
-从而
-\[
-Z\sim C\!\left(0,\sqrt{n-1}\right).
-\]
-
-所以 \(Z\) 的分布为参数为 \(0\) 和 \(\sqrt{n-1}\) 的柯西分布。
 \end{solution}
 \begin{homework}[1]
 （泊松分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim P(\lambda)\)，分别用一阶矩和二阶矩求 \(\lambda\) 的矩估计量。
@@ -964,6 +886,9 @@ E(X)=\lambda,\qquad E(X^2)=\lambda^2+\lambda.
     也就是解方程把应该的期望与方差与实际的期望也就是平均数和方差也就是平方和建立等式然后解方程xi都可以视作已经知道的。	•	
 \end{dxtips}
 \end{solution}
+\begin{dxtips}
+   其实就是要弄成两个标准正态分布想除就是标准柯西，柯西分布很特殊他压根没有方差那个1不是方差所以乘系数不用平方 
+\end{dxtips}
 \begin{homework}[2]
 （二项分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim B(k,p)\)，求 \(p\) 的矩估计量。
 \end{homework}

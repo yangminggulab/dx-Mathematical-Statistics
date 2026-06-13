@@ -379,7 +379,121 @@ $$n_1 + n_2 + \cdots + n_k = n$$
 \begin{note}[直觉]
 总自由度 $n$ 被完整拆分给每一块，没有浪费也没有重叠，每块才能独立地服从卡方分布。
 \end{note}
+\section{柯西分布}\begin{definition}[标准柯西分布]
+设 $X,Y\overset{\text{i.i.d.}}{\sim} N(0,1)$，令
+$$\xi=\frac{X}{Y}$$
+则称 $\xi$ 的分布为标准柯西分布，记作 $\xi\sim C(0,1)$，密度函数为
+$$f(x)=\frac{1}{\pi(1+x^2)}.$$
+\end{definition}
 
+\begin{note}[柯西与 $t$ 分布的关系：$t(1)=C(0,1)$]
+回顾 $t$ 分布定义 $\xi=\dfrac{X}{\sqrt{Y/n}}$，$X\sim N(0,1)$，$Y\sim\chi^2(n)$。
+
+取 $n=1$：$Y\sim\chi^2(1)$ 即 $Y=Z^2$（$Z\sim N(0,1)$），于是
+$$\xi=\frac{X}{\sqrt{Z^2}}=\frac{X}{|Z|}.$$
+由 $X$ 关于 $0$ 对称且与 $Z$ 独立，$X/|Z|$ 与 $X/Z$ 同分布，故
+$$t(1)=C(0,1).$$
+\end{note}
+
+\begin{dxtips}
+柯西不是一个孤立的分布，它是 $t$ 分布谱系的左端点（$n=1$），正态是右端点（$n\to\infty$，已在"渐近性质"里）。中间由自由度 $n$ 连续过渡，"谁提供标准正态、谁提供卡方"的框架完全通用，只是 $n=1$ 时退化成柯西。
+\end{dxtips}
+
+\begin{note}[最大的区别：柯西没有矩]
+\begin{itemize}
+  \item 正态：$f(x)=\dfrac{1}{\sqrt{2\pi}}e^{-x^2/2}$，尾部指数衰减，所有阶矩都存在。
+  \item 柯西：$f(x)=\dfrac{1}{\pi(1+x^2)}$，尾部只有 $1/x^2$ 衰减（"厚尾"），
+  $$\int_{-\infty}^{\infty}|x|\cdot\frac{1}{\pi(1+x^2)}\,dx$$
+  在 $\pm\infty$ 处的发散速度与 $\displaystyle\int\frac{1}{x}\,dx$ 相同 $\implies E(X)$ 不存在，方差自然也不存在。
+\end{itemize}
+\end{note}
+
+\begin{dxtips}
+特征函数上看更直接（联系 44(6)）：正态特征函数 $e^{-t^2/2}$ 在 $t=0$ 处光滑可导；柯西特征函数 $e^{-|t|}$ 在 $t=0$ 处有"尖点"不可导。特征函数在 $0$ 点的导数对应矩，不可导 $\iff$ 矩不存在——这就是柯西"差"在哪。
+\end{dxtips}
+
+\begin{note}[大数定律失效：$\bar X$ 的行为对比]
+\begin{center}
+\begin{tabular}{c|c|c}
+ & $\bar X$ 的分布 & 随 $n$ 变化 \\\hline
+正态 $N(\mu,\sigma^2)$ & $N(\mu,\sigma^2/n)$ & 方差 $\to 0$，$\bar X\to\mu$（LLN 成立） \\
+柯西 $C(\mu,\gamma)$ & $C(\mu,\gamma)$ & 形状不变，不收缩，LLN 失效
+\end{tabular}
+\end{center}
+LLN 需要"均值存在"作为前提，柯西连均值都没有，自然谈不上"收敛到均值"。
+\end{note}
+
+\begin{note}[尺度性质]
+正态的缩放作用在\textbf{方差}上，按 $a^2$ 走：
+$$aX\sim N(a\mu,\,a^2\sigma^2).$$
+柯西的缩放作用在\textbf{尺度参数}上，按 $|a|$ 走（一次方）：
+$$aC(0,1)=C(0,a).$$
+柯西没有"方差"概念，$\gamma$ 只是描述分布"胖瘦"的尺度参数。
+\end{note}
+
+\begin{dxtips}
+做题识别口诀：看见"两个独立标准正态相除"或者"$t(1)$" $\to$ 想到柯西 $\to$ 矩不存在、LLN 失效、缩放是一次方不是平方。
+\end{dxtips}
+ \begin{definition}[一般柯西分布 $C(\mu,\gamma)$]
+$$f(x)=\frac{\gamma}{\pi\big(\gamma^2+(x-\mu)^2\big)}$$
+其中 $\mu$ 为位置参数，$\gamma>0$ 为尺度参数。取 $\mu=0,\gamma=1$ 即标准柯西 $f(x)=\dfrac{1}{\pi(1+x^2)}$。
+\end{definition}
+
+\begin{dxtips}
+$C(\mu,\gamma)$ 里：
+\begin{itemize}
+  \item $\mu$ 是位置参数（location），决定分布"中心"在哪——密度峰值（最高点）就在 $x=\mu$ 处，类比正态的均值 $\mu$。
+  \item $\gamma$ 是尺度参数（scale），决定分布"胖瘦/宽窄"，类比正态的 $\sigma$（不是 $\sigma^2$）。
+\end{itemize}
+
+直观理解 $\gamma$：密度在 $x=\mu$ 处最高，下降到"峰值的一半"时，对应的 $x$ 离 $\mu$ 的距离就是 $\gamma$——所以 $\gamma$ 叫"半高宽"（half-width at half-maximum）。$\gamma$ 越大，分布越扁越宽；$\gamma$ 越小，分布越尖越窄。
+\end{dxtips}
+\chapter{能力一}
+\section{矩估计}
+\begin{note}
+参数估计的根本困境：$\theta$ 活在"理论世界"里，数据 $X_1,\dots,X_n$ 活在"经验世界"里，两者之间没有直接的桥。
+
+矩估计法找到的桥就是"矩"——它同时存在于两个世界：
+
+\begin{itemize}
+    \item \textbf{理论世界}：$E(X^k)=g_k(\theta)$，只要分布族确定了，它就是 $\theta$ 的一个函数（已知形式，含未知数 $\theta$）。
+    \item \textbf{经验世界}：样本矩 $\dfrac1n\displaystyle\sum_{i=1}^n X_i^k$，纯粹由数据算出来的数，不需要知道 $\theta$ 是什么。
+\end{itemize}
+
+大数定律（LLN）保证：当 $n\to\infty$ 时，
+\[
+\frac1n\sum_{i=1}^n X_i^k \xrightarrow{P} E(X^k).
+\]
+也就是"经验世界"算出来的这个数，会收敛到"理论世界"那个含 $\theta$ 的数——一个能算、一个含未知数，但本质上是同一个量的两种表达。
+
+矩估计法就是\textbf{强行让两者相等}：
+\[
+g_k(\theta)=\frac1n\sum_{i=1}^n X_i^k,
+\]
+再把这个方程反解出 $\theta$。这一步"反解"，就是从经验世界跨回理论世界、解出 $\theta$ 的那座桥。
+\end{note}
+\begin{dxtips}
+一堆数字，我知道它们服从一个特定的分布，比如泊松分布 $P(\lambda)$，但直接看不出来 $\lambda$ 是多少。所以我们需要找一个含有 $\lambda$ 的公式，同时这个公式也能用真实数据算出来——含有 $\lambda$ 的公式，我们选取的是 $\lambda$ 的（总体）矩 $E(X)=\lambda$；能用真实数据算的公式，则是样本矩 $\bar X=\dfrac1n\sum_{i=1}^n X_i$。
+    \end{dxtips}
+\section{MLE}
+\begin{definition}[最大似然估计]
+设 $X_1,\ldots,X_n$ 是来自总体 $f(x;\theta)$（$\theta\in\Theta$）的简单随机样本，$x_1,\ldots,x_n$ 为观测值。称
+\[
+L(\theta)=\prod_{i=1}^n f(x_i;\theta)
+\]
+为似然函数。若存在 $\hat\theta\in\Theta$ 使得
+\[
+\hat\theta=\arg\max_{\theta\in\Theta}L(\theta),
+\]
+则称 $\hat\theta$ 为 $\theta$ 的最大似然估计（MLE）。
+\end{definition}
+\begin{dxtips}
+$f(x;\theta)$ 这同一个公式：固定 $\theta$ 看 $x$ 怎么变 $\to$ 叫"概率"；固定 $x$（已观测数据）看 $\theta$ 怎么变 $\to$ 叫"似然"——同一个表达式，换了阅读方向。
+
+$\hat\theta$ 不是似然函数 $L(\theta)$ 的最大值本身，而是\textbf{取得最大值时对应的 $\theta$}，即 $\arg\max_\theta L(\theta)$，不是 $\max_\theta L(\theta)$。
+
+"最优" $=$ 让\textbf{当前这组数据}最可能发生的 $\theta$，是基于这组样本的估计值，不是真实 $\theta$；换一组样本，$\hat\theta$ 会变，所以它本身是随机变量。
+\end{dxtips}
 \chapter{能力二}
 \section{无偏估计}
 很好的问题，这是入门时最容易懵的地方。
