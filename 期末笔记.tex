@@ -490,10 +490,275 @@ L(\theta)=\prod_{i=1}^n f(x_i;\theta)
 \begin{dxtips}
 $f(x;\theta)$ 这同一个公式：固定 $\theta$ 看 $x$ 怎么变 $\to$ 叫"概率"；固定 $x$（已观测数据）看 $\theta$ 怎么变 $\to$ 叫"似然"——同一个表达式，换了阅读方向。
 
-$\hat\theta$ 不是似然函数 $L(\theta)$ 的最大值本身，而是\textbf{取得最大值时对应的 $\theta$}，即 $\arg\max_\theta L(\theta)$，不是 $\max_\theta L(\theta)$。
+$\hat\theta$ 不是似然函数 $L(\theta)$ 的最大值本身，而是\textbf{取得最大值时对应的 $\theta$}
 
 "最优" $=$ 让\textbf{当前这组数据}最可能发生的 $\theta$，是基于这组样本的估计值，不是真实 $\theta$；换一组样本，$\hat\theta$ 会变，所以它本身是随机变量。
 \end{dxtips}
+\subsection{如何算mle}
+\begin{definition}[支撑集]
+对于随机变量 $X$ 的密度函数（或概率质量函数）$f(x;\theta)$，称集合
+\[
+\mathrm{supp}(f)=\{x\in\mathbb{R}: f(x;\theta)>0\}
+\]
+为其支撑集——即该分布真正可能取到的 $x$ 值的全体；在支撑集之外，$f(x;\theta)=0$。
+
+\begin{itemize}
+    \item $N(\mu,\sigma^2)$：支撑集 $=\mathbb{R}$ —— 不依赖参数
+    \item $U(0,\theta)$：支撑集 $=[0,\theta]$ —— \textbf{依赖 $\theta$}
+\end{itemize}
+\end{definition}
+\begin{note}[MLE 的两种算法：看 $\theta$ 是否出现在支撑集里]
+\begin{itemize}
+    \item \textbf{$\theta$ 不出现在支撑集里}（支撑集不依赖 $\theta$，如 $N(\mu,\sigma^2)$、$\mathrm{Exp}(\lambda)$、泊松等）：
+
+    $f(x;\theta)$ 关于 $\theta$ 处处光滑，直接用\textbf{求导法}：
+    \[
+    \ell(\theta)=\sum_{i=1}^n\ln f(x_i;\theta),\qquad \ell'(\theta)=0\ \Longrightarrow\ \hat\theta.
+    \]
+    解似然方程即可（必要时验证 $\ell''(\hat\theta)<0$）。
+
+    \item \textbf{$\theta$ 出现在支撑集里}（支撑集依赖 $\theta$，如 $U(0,\theta)$、两参数指数 $x\ge\mu$）：
+
+    $L(\theta)$ 含指示函数 $\mathbb{1}[\cdots]$，求导法通常无解。改用\textbf{边界分析}：
+    \begin{enumerate}
+        \item \textbf{可行域}：把支撑集条件翻译成"$\theta$ 必须满足的范围"（由观测数据反过来限制 $\theta$）
+        \item \textbf{单调性}：在可行域内看 $L(\theta)$ 关于 $\theta$ 是增还是减
+        \item \textbf{边界}：$\hat\theta$ 取可行域中朝增长方向的那一端（通常是某个顺序统计量 $X_{(1)}$ 或 $X_{(n)}$）
+    \end{enumerate}
+\end{itemize}
+\end{note}
+\begin{note}[MLE 的不变性]
+若 $\hat\theta$ 是 $\theta$ 的MLE，则对任意函数 $g$，$g(\hat\theta)$ 就是 $g(\theta)$ 的MLE：
+\[
+\widehat{g(\theta)}_{\mathrm{MLE}}=g\big(\hat\theta_{\mathrm{MLE}}\big).
+\]
+
+直觉：似然函数 $L(\theta)$ 的峰在 $\theta=\hat\theta$ 处；把横轴从 $\theta$ 换成 $\eta=g(\theta)$，只是给同一个峰换了坐标标签，峰的位置不变——只是从 $\hat\theta$ 变成 $g(\hat\theta)$。
+
+例：$X\sim\mathrm{Exp}(\lambda)$ 的 MLE 为 $\hat\lambda=1/\bar X$，则总体均值 $1/\lambda$ 的MLE直接是 $1/\hat\lambda=\bar X$，不需要重新求解。
+\end{note}
+\section{贝叶斯}
+\begin{note}
+贝叶斯的世界里，$\theta$ 不是固定的未知数，而是一个\textbf{随机变量}，有自己的分布。
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{名称} & \textbf{符号} & \textbf{含义} \\
+\midrule
+先验分布 & $\pi(\theta)$ & 观测数据\textbf{之前}，你对 $\theta$ 的信念 \\
+似然函数 & $f(X\mid\theta)$ & 给定 $\theta$，数据出现的概率 \\
+后验分布 & $p(\theta\mid X)$ & 看到数据\textbf{之后}，更新后的信念 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{note}
+\begin{note}[MLE 与 Bayes 的关系]
+两者目标相同——都给出 $\theta$ 的估计值，区别在于"用什么信息、怎么组合"：
+\begin{itemize}
+  \item MLE：只用数据，找"最能解释数据"的 $\theta$
+  \item Bayes：先验(预想) + 数据 $\to$ \textbf{融合}成新估计
+\end{itemize}
+
+Bayes 不是"判断预想对不对"（假设检验式的二元框架），而是把先验和数据按可信度\textbf{加权融合}出一个新数值：硬币例子中先验 $p\approx0.5$，数据显示 $\approx0.8$，融合后 $\hat p\approx0.7$——数据越多越靠近数据，先验越强越靠近先验。
+\end{note}
+\begin{example}
+抛硬币 $n=10$ 次，观测正面 $k=7$ 次，估计正面概率 $\theta$。
+设先验 $\pi(\theta)\sim\mathrm{Beta}(2,2)$，即 $\pi(\theta)\propto\theta(1-\theta)$。
+
+似然函数为
+\[
+f(X\mid\theta)=\binom{10}{7}\theta^7(1-\theta)^3\propto\theta^7(1-\theta)^3.
+\]
+
+后验分布为
+\[
+p(\theta\mid X)\propto\theta^7(1-\theta)^3\cdot\theta(1-\theta)=\theta^8(1-\theta)^4,
+\]
+认出这是 $\mathrm{Beta}(9,5)$，故 Bayes 估计（后验均值）为
+\[
+\hat{\theta}=E[\theta\mid X]=\frac{9}{9+5}=\frac{9}{14}\approx 0.643.
+\]
+相比频率估计 $7/10=0.7$，先验将结果向 $0.5$ 拉近了一点。
+\end{example}
+\subsection{beta函数}
+\begin{definition}{Beta 函数}{}
+Beta 函数（大写 $B$）定义为
+\[
+B(\alpha,\beta) = \int_0^1 t^{\alpha-1}(1-t)^{\beta-1}\,dt, \quad \alpha,\beta>0.
+\]
+它本身是一个数，用来对 Beta 分布做归一化。例如
+$B(2,2)=\int_0^1 t(1-t)\,dt=\dfrac{1}{6}$。
+
+与 Gamma 函数的关系：
+\[
+B(\alpha,\beta)=\frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}.
+\]
+\end{definition}
+\begin{note}
+\textbf{Beta 函数更深的意义}
+
+\textbf{1.~它是 $[0,1]$ 上的 Gamma}
+
+Gamma 函数管的是 $(0,\infty)$ 上的幂次积分：
+\[
+\Gamma(\alpha) = \int_0^\infty x^{\alpha-1}e^{-x}\,dx
+\]
+Beta 函数管的是 $(0,1)$ 上的幂次积分：
+\[
+B(\alpha,\beta) = \int_0^1 x^{\alpha-1}(1-x)^{\beta-1}\,dx
+\]
+$x$ 和 $1-x$ 加起来等于 $1$——这正是它天然描述``比例、概率''的原因。
+
+\textbf{2.~它是组合数的连续推广}
+
+注意二项式系数：
+\[
+\binom{n}{k} = \frac{n!}{k!(n-k)!} = \frac{1}{(n+1)\,B(k+1,\,n-k+1)}
+\]
+Beta 函数就是把离散的组合数\textbf{连续化}了。抛硬币用 Beta 先验，本质上是在做连续版本的计数。
+\end{note}
+\begin{dxtips}
+$B(\alpha,\beta)$ 两个参数的含义：类比抛硬币，$\alpha$ 和 $\beta$ 可理解为\textbf{虚拟的历史数据}。
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{参数} & \textbf{位置} & \textbf{含义} \\
+\midrule
+$\alpha$ & 第一个 & 历史上观测到正面的次数 $+1$ \\
+$\beta$  & 第二个 & 历史上观测到反面的次数 $+1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item $\mathrm{Beta}(2,2)$：相当于"我之前\textbf{好像见过1次正面、1次反面}"，感觉差不多均匀。
+    \item $\mathrm{Beta}(1,1)$：0次正面、0次反面——\textbf{什么都不知道}，即均匀分布 $U(0,1)$。
+\end{itemize}
+
+每次观测到新数据，$\alpha$ 或 $\beta$ 加一，后验就是把虚拟历史与真实数据\textbf{合并计数}，这就是共轭更新的本质。
+\end{dxtips}
+\begin{note}
+\textbf{共轭更新}：先验与后验属于\textbf{同一族分布}，后验参数 $=$ 先验参数 $+$ 数据计数，无需计算积分。
+
+以 Beta--Binomial 为例，观测到 $k$ 次正面、$n-k$ 次反面：
+\[
+\underbrace{\mathrm{Beta}(\alpha,\beta)}_{\text{先验}}
+\xrightarrow{\text{观测}\ n\ \text{次}}
+\underbrace{\mathrm{Beta}(\alpha+k,\ \beta+n-k)}_{\text{后验}}
+\]
+原因：似然与先验相乘后指数直接合并，
+\[
+\theta^{\alpha-1}(1-\theta)^{\beta-1}\cdot\theta^{k}(1-\theta)^{n-k}
+=\theta^{(\alpha+k)-1}(1-\theta)^{(\beta+n-k)-1},
+\]
+形状仍是 Beta，故参数直接相加即得后验。
+\end{note}
+\begin{dxtips}
+    也就是根据实际情况给第一个位置和第二个位置加数字就行了
+\end{dxtips}
+
+\begin{note}
+\textbf{共轭先验配对表}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{llll}
+\toprule
+\textbf{似然（数据分布）} & \textbf{先验} & \textbf{后验} & \textbf{Bayes 估计（后验均值）} \\
+\midrule
+二项 $B(n,\theta)$
+    & $\mathrm{Beta}(\alpha,\beta)$
+    & $\mathrm{Beta}(\alpha+k,\ \beta+n-k)$
+    & $\dfrac{\alpha+k}{\alpha+\beta+n}$ \\
+
+泊松 $P(\lambda)$
+    & $\Gamma(\alpha,\beta)$
+    & $\Gamma(\alpha+n\bar{x},\ \beta+n)$
+    & $\dfrac{\alpha+n\bar{x}}{\beta+n}$ \\
+
+指数 $\mathrm{Exp}(\lambda)$
+    & $\Gamma(\alpha,\beta)$
+    & $\Gamma(\alpha+n,\ \beta+n\bar{x})$
+    & $\dfrac{\alpha+n}{\beta+n\bar{x}}$ \\
+
+正态 $N(\theta,\sigma^2)$（$\sigma^2$ 已知）
+    & $N(\mu_0,\tau_0^2)$
+    & $N(\mu_1,\tau_1^2)$
+    & $\mu_1$（需配方求）\\
+
+均匀 $U(0,\theta)$
+    & $\mathrm{Pareto}(\alpha,\beta)$
+    & $\mathrm{Pareto}\!\left(\alpha+n,\ \max(\beta,x_{(n)})\right)$
+    & $\dfrac{\alpha+n}{\alpha+n-1}\max(\beta,x_{(n)})$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{记忆规律：}
+\begin{itemize}
+    \item 二项、泊松、指数：后验参数 $=$ 先验参数 $+$ 数据的某种计数，直接相加。
+    \item 正态：两个精度加权平均，需单独配方处理。
+    \item 均匀--帕累托：一个参数加 $n$，另一个取 $\max$。
+\end{itemize}
+\end{note}
+\begin{note}
+Gamma 分布 $\Gamma(\alpha,\beta)$ 的密度为 $\pi(\lambda)\propto\lambda^{\alpha-1}e^{-\beta\lambda}$，
+两个参数可类比泊松场景理解：$\alpha$ 为历史观测到的\textbf{事件总次数}，
+$\beta$ 为历史\textbf{观测总时长}，均值为 $\alpha/\beta$。
+
+与 $\mathrm{Beta}(\alpha,\beta)$ 对比：
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{lll}
+\toprule
+& $\mathrm{Beta}(\alpha,\beta)$ & $\Gamma(\alpha,\beta)$ \\
+\midrule
+$\alpha$ & 正面次数 $+1$ & 历史事件总数 \\
+$\beta$  & 反面次数 $+1$ & 历史观测总时长 \\
+均值     & $\dfrac{\alpha}{\alpha+\beta}$ & $\dfrac{\alpha}{\beta}$ \\
+支撑     & $(0,1)$ & $(0,\infty)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Beta 分母是 $\alpha+\beta$（比例归一到1）；Gamma 分母只有 $\beta$（发生率可任意大）。
+\end{note}
+\subsection{帕累托}
+\begin{note}
+帕累托分布 $\mathrm{Pareto}(a,b)$ 的标准密度为
+\[
+\pi(\theta)=\frac{ba^b}{\theta^{b+1}},\quad\theta>a.
+\]
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{lll}
+\toprule
+\textbf{参数} & \textbf{位置} & \textbf{含义} \\
+\midrule
+$a$ & 第一个 & \textbf{支撑下界}，$\theta$ 最小能取什么值 \\
+$b$ & 第二个 & \textbf{形状参数}，控制尾部厚薄 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+所以后验 $\mathrm{Pareto}\!\left(\max(x_{(n)},a),\ n+b\right)$ 中：
+\begin{itemize}
+    \item 第一个位置 $\max(x_{(n)},a)$：后验中 $\theta$ 的\textbf{下界}；
+    \item 第二个位置 $n+b$：更新后的\textbf{形状参数}。
+\end{itemize}
+\end{note}
+
+
+
 \chapter{能力二}
 \section{无偏估计}
 很好的问题，这是入门时最容易懵的地方。

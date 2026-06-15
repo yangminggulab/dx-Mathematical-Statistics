@@ -843,52 +843,27 @@ Z=\frac{\sum_{i=1}^{n-1}X_i}{X_n}
 Z\sim C(0,\sqrt{n-1}).
 \]
 \end{solution}
+\begin{dxtips}
+   其实就是要弄成两个标准正态分布想除就是标准柯西，柯西分布很特殊他压根没有方差那个1不是方差所以乘系数不用平方 
+\end{dxtips}
 \begin{homework}[1]
 （泊松分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim P(\lambda)\)，分别用一阶矩和二阶矩求 \(\lambda\) 的矩估计量。
 \end{homework}
 \begin{solution}
-设总体服从泊松分布 \(P(\lambda)\)。
-
-由泊松分布的性质，
-\[
-E(X)=\lambda,\qquad E(X^2)=\lambda^2+\lambda.
-\]
+由 $E(X)=\lambda,\ E(X^2)=\lambda^2+\lambda$：
 
 \begin{enumerate}
-    \item 用一阶矩求矩估计量
-
-    由矩估计法，令样本一阶原点矩等于总体一阶原点矩，即
+    \item 一阶矩：令 $\bar X=\lambda$，得 $\hat\lambda_1=\bar X$。
+    \item 二阶矩：令 $\dfrac1n\displaystyle\sum_{i=1}^n X_i^2=\lambda^2+\lambda$，解得（舍负根）
     \[
-    \bar X=E(X)=\lambda.
+    \hat\lambda_2=\frac{-1+\sqrt{1+\dfrac{4}{n}\sum_{i=1}^n X_i^2}}{2}.
     \]
-    因而 \(\lambda\) 的一阶矩估计量为
-    \[
-    \hat\lambda_1=\bar X.
-    \]
-
-    \item 用二阶矩求矩估计量
-
-    令样本二阶原点矩等于总体二阶原点矩，即
-    \[
-    \frac{1}{n}\sum_{i=1}^n X_i^2=E(X^2)=\lambda^2+\lambda.
-    \]
-    于是 \(\lambda\) 满足方程
-    \[
-    \lambda^2+\lambda-\frac{1}{n}\sum_{i=1}^n X_i^2=0.
-    \]
-    解得
-    \[
-    \hat\lambda_2=\frac{-1+\sqrt{1+4\left(\frac{1}{n}\sum_{i=1}^n X_i^2\right)}}{2}.
-    \]
-    由于 \(\lambda>0\)，舍去负根。
 \end{enumerate}
-\begin{dxtips}
-    也就是解方程把应该的期望与方差与实际的期望也就是平均数和方差也就是平方和建立等式然后解方程xi都可以视作已经知道的。	•	
-\end{dxtips}
 \end{solution}
 \begin{dxtips}
-   其实就是要弄成两个标准正态分布想除就是标准柯西，柯西分布很特殊他压根没有方差那个1不是方差所以乘系数不用平方 
+本质就是列"理论矩=样本矩"的方程，$x_i$ 全部视为已知数，解出未知参数即可。
 \end{dxtips}
+
 \begin{homework}[2]
 （二项分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d., \(X_1\sim B(k,p)\)，求 \(p\) 的矩估计量。
 \end{homework}
@@ -914,40 +889,28 @@ E(X)=kp.
 \end{homework}
 
 \begin{solution}
-由 \(X_1\sim U(\theta_1,\theta_2)\) 知
-\[
-E(X)=\frac{\theta_1+\theta_2}{2},\qquad E(X^2)=\frac{\theta_1^2+\theta_1\theta_2+\theta_2^2}{3}.
-\]
-由矩估计法，令样本一阶、二阶原点矩分别等于总体一阶、二阶原点矩，即
-\[
-\bar X=\frac{\theta_1+\theta_2}{2},\qquad \frac{1}{n}\sum_{i=1}^n X_i^2=\frac{\theta_1^2+\theta_1\theta_2+\theta_2^2}{3}.
-\]
-记
-\[
-m_2=\frac{1}{n}\sum_{i=1}^n X_i^2,
-\]
-则
+由 \(E(X)=\dfrac{\theta_1+\theta_2}{2}\)，\(E(X^2)=\dfrac{\theta_1^2+\theta_1\theta_2+\theta_2^2}{3}\)，记 \(m_2=\dfrac1n\displaystyle\sum_{i=1}^n X_i^2\)，令
 \[
 \theta_1+\theta_2=2\bar X,\qquad \theta_1^2+\theta_1\theta_2+\theta_2^2=3m_2.
 \]
-又因为
+由恒等式 \((\theta_1+\theta_2)^2=\theta_1^2+2\theta_1\theta_2+\theta_2^2\) 得
 \[
-(\theta_1+\theta_2)^2=\theta_1^2+2\theta_1\theta_2+\theta_2^2,
+\theta_1\theta_2=(2\bar X)^2-3m_2=4\bar X^2-3m_2.
 \]
-故
+故 \(\theta_1,\theta_2\) 是方程 \(t^2-2\bar Xt+(4\bar X^2-3m_2)=0\) 的两根，解得
 \[
-\theta_1\theta_2=(\theta_1+\theta_2)^2-(\theta_1^2+\theta_1\theta_2+\theta_2^2)=4\bar X^2-3m_2.
-\]
-于是 \(\theta_1,\theta_2\) 是方程
-\[
-t^2-2\bar Xt+(4\bar X^2-3m_2)=0
-\]
-的两根，解得矩估计量
-\[
-\hat\theta_1=\bar X-\sqrt{3\left(m_2-\bar X^2\right)},\qquad
-\hat\theta_2=\bar X+\sqrt{3\left(m_2-\bar X^2\right)}.
+\hat\theta_{1,2}=\bar X\mp\sqrt{3\left(m_2-\bar X^2\right)}.
 \]
 \end{solution}
+\begin{note}[U(θ₁,θ₂)的矩]
+\[
+E(X^k)=\int_{\theta_1}^{\theta_2}x^k\cdot\frac{1}{\theta_2-\theta_1}\,dx=\frac{\theta_2^{k+1}-\theta_1^{k+1}}{(k+1)(\theta_2-\theta_1)}.
+\]
+用因式分解约去 \((\theta_2-\theta_1)\)：\(a^2-b^2=(a-b)(a+b)\)，\(a^3-b^3=(a-b)(a^2+ab+b^2)\)，得
+\[
+E(X)=\frac{\theta_1+\theta_2}{2},\qquad E(X^2)=\frac{\theta_1^2+\theta_1\theta_2+\theta_2^2}{3}.
+\]
+\end{note}
 \begin{note}
 用的是一元二次方程的根与系数关系，也叫\textbf{韦达定理}。
 
@@ -990,6 +953,12 @@ E(X)=0,\qquad E(X^2)=2\sigma^2.
 \hat{\sigma}=\sqrt{\frac{1}{2n}\sum_{i=1}^n X_i^2 }.
 \]
 \end{solution}
+\begin{dxtips}
+    就是要最后得出一个σ和真是函数的关系
+\end{dxtips}
+\begin{note}[$\hat\theta$ 的含义]
+写"解"之前，\(\theta\) 是理论世界里那个抽象常数；写"解"之后，式子已经变成纯粹由数据 \(X_1,\dots,X_n\) 算出来的东西——这是个新对象（统计量），\(\hat{\ }\) 就是标记"这个东西变了"的符号。
+\end{note}
 \section{第五周作业}
 \begin{homework}[7]
 设 \(X_1,X_2,\cdots,X_n\) i.i.d.，试分别求下列总体中 \(\theta\) 的最大似然估计量。
@@ -1030,6 +999,9 @@ f(x;\theta) = \begin{cases} 1 & \theta - \frac{1}{2} \leq x \leq \theta + \frac{
 \]
 即 $x_{(n)} - \frac{1}{2} \leq \theta \leq x_{(1)} + \frac{1}{2}$，故对任意 $T \in \left[X_{(n)}-\frac{1}{2},\ X_{(1)}+\frac{1}{2}\right]$，均有 $L(T) = 1 = \max_\theta L(\theta)$，即 $T$ 为 $\theta$ 的最大似然估计量。
 \end{proof}
+\begin{dxtips}
+    注意需要所有xi都落在[θ-1/2，θ+1/2]
+\end{dxtips}
 \begin{homework}[10]
 （双参数指数分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x;\alpha,\beta)\)，
 \[
@@ -1041,9 +1013,7 @@ f(x;\alpha,\beta)=
 \]
 其中 \(\beta>0\)。试求 \(\alpha,\beta\) 的最大似然估计量。
 \end{homework}
-\begin{dxtips}
-    我明白了因为关于α是单增的所以压根没有极值点.其实就是为了让似然函数最大然后找极值点或者最大值
-\end{dxtips}
+
 \begin{solution}
 似然函数为
 \[
@@ -1058,6 +1028,21 @@ L(\alpha,\beta) = \prod_{i=1}^n \beta e^{-\beta(x_i-\alpha)} \cdot \mathbf{1}(\a
 \hat{\beta} = \frac{n}{\sum_{i=1}^n(X_i - X_{(1)})}
 \]
 \end{solution}
+\begin{dxtips}
+    我明白了因为关于α是单增的所以压根没有极值点.其实就是为了让似然函数最大然后找极值点或者最大值
+\end{dxtips}
+ \begin{note}[截尾几何分布]
+$X=r+1$ 表示"截尾"：前 $r$ 次全部失败（$T>r$）才记为 $r+1$，并非"第 $r+1$ 次恰好成功"。
+
+\[
+P(X=r+1)=P(T>r)=\theta^r,
+\qquad
+\sum_{k=1}^r\theta^{k-1}(1-\theta)+\theta^r=1\ \checkmark
+\]
+\end{note}
+\begin{dxtips}
+  这个 $P(X=k)$ 其实就是第 $k$ 次成功，也就是 $1-\theta$；前面 $k-1$ 次都不成功，就是 $\theta$。
+\end{dxtips}
 \begin{homework}[11]
 （截尾几何分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，为来自截尾几何分布总体 \(X\) 的样本：
 \[
@@ -1077,47 +1062,58 @@ M=\#\{\,i: X_i=r+1,\ i=1,2,\cdots,n\,\},
 \frac{\sum_{i=1}^n X_i-n}{\sum_{i=1}^n X_i-M}.
 \]
 \end{homework}
-\begin{dxtips}
-    \#代表基数也就后面集合多少个元素
- 关于 $\sum_{x_i \leq r}(x_i - 1) + rM = \sum_{i=1}^n x_i - n$ 的推导：将求和拆分为
-\[
-\sum_{x_i \leq r}(x_i - 1) = \sum_{i=1}^n(x_i - 1) - \sum_{x_i = r+1}(x_i - 1) = \left(\sum_{i=1}^n x_i - n\right) - rM
-\]
-其中 $\sum_{x_i=r+1}(x_i-1) = (r+1-1)\cdot M = rM$，故
-\[
-\sum_{x_i \leq r}(x_i-1) + rM = \sum_{i=1}^n x_i - n - rM + rM = \sum_{i=1}^n x_i - n
-\]
-    
-\end{dxtips}
 
 
 \begin{proof}
-注意到 $k$ 为 PMF 的哑变量，写似然函数时将 $k$ 替换为实际观测值 $x_i$，似然函数为
+注意 $k$ 是 PMF 的哑变量，写似然函数时用观测值 $x_i$ 代入。记截尾个数
+$M=\#\{i: x_i=r+1\}$，$S=\sum_{i=1}^n x_i$。似然函数为
 \[
-L(\theta) = \prod_{x_i \leq r} \theta^{x_i-1}(1-\theta) \cdot \prod_{x_i = r+1} \theta^r
-= \theta^{\sum_{x_i \leq r}(x_i-1)}(1-\theta)^{n-M} \cdot \theta^{rM}
+L(\theta)=\prod_{x_i\le r}\theta^{x_i-1}(1-\theta)\cdot\prod_{x_i=r+1}\theta^{r}
+=\theta^{\sum_{x_i\le r}(x_i-1)+rM}(1-\theta)^{\,n-M}
 \]
-取对数得
+
+由于每个截尾观测都记为 $x_i=r+1$，有 $\sum_{x_i=r+1}x_i=(r+1)M$，于是
 \[
-\ln L(\theta) = \left[\sum_{x_i \leq r}(x_i-1) + rM\right]\ln\theta + (n-M)\ln(1-\theta)
+\sum_{x_i\le r}(x_i-1)+rM
+=\underbrace{\sum_{x_i\le r}x_i-(n-M)}_{=\sum_{x_i\le r}(x_i-1)}+rM
+=\underbrace{\sum_{x_i\le r}x_i+(r+1)M}_{=\,S}-\,n
+=S-n
 \]
-注意到 $\sum_{x_i \leq r}(x_i - 1) + rM = \sum_{i=1}^n x_i - n + (r-r)M + rM - rM$，化简得
+
+故对数似然
 \[
-\sum_{x_i \leq r}(x_i-1) + rM = \sum_{i=1}^n x_i - n - M(r+1-r) + rM = \sum_{i=1}^n x_i - n
+\ln L(\theta)=(S-n)\ln\theta+(n-M)\ln(1-\theta)
 \]
-故
+
+令 $\dfrac{d\ln L}{d\theta}=\dfrac{S-n}{\theta}-\dfrac{n-M}{1-\theta}=0$，即 $(S-n)(1-\theta)=(n-M)\theta$，解得
 \[
-\ln L(\theta) = \left(\sum_{i=1}^n x_i - n\right)\ln\theta + (n-M)\ln(1-\theta)
-\]
-对 $\theta$ 求导令其为零：
-\[
-\frac{d\ln L}{d\theta} = \frac{\sum_{i=1}^n x_i - n}{\theta} - \frac{n-M}{1-\theta} = 0
-\]
-解得
-\[
-\hat{\theta} = \frac{\sum_{i=1}^n X_i - n}{\sum_{i=1}^n X_i - M}
+\hat\theta=\frac{S-n}{S-M}=\frac{\sum_{i=1}^n X_i-n}{\sum_{i=1}^n X_i-M}
 \]
 \end{proof}
+\begin{dxtips}
+
+$P\{X=k\}$ 告诉我们每个 $x_i$ 服从什么分布。
+具体的 $x_i$ 在 $\theta$ 下出现的概率取决于它是否超过 $r$：
+
+\begin{itemize}
+    \item 若 $x_i \leq r$，贡献为 $\theta^{x_i-1}(1-\theta)$。
+    例如 $x_i=1$，贡献就是 $(1-\theta)$。
+    \item 若 $x_i = r+1$（截尾），贡献为 $\theta^r$。
+\end{itemize}
+
+$M = \#\{i: x_i = r+1\}$ 是截尾样本的\textbf{个数}。
+截尾的含义是：真实值 $\geq r+1$ 的观测（如 $5,6,7,8,\cdots$）
+统统被记录为 $r+1$，一共有 $M$ 个。
+
+每个截尾样本贡献 $\theta^r$，共 $M$ 个，
+所以指数上多出 $rM$：
+\[
+\prod_{x_i = r+1} \theta^r = \theta^{rM}
+\]
+
+\textbf{牢记：$M$ 是个数，不是某个 $x_i$ 的值。}
+
+\end{dxtips}
 \begin{homework}[12]
 设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x,\theta_1,\theta_2)\)，
 \[
@@ -1129,9 +1125,7 @@ f(x,\theta_1,\theta_2)=
 \]
 其中 \(\theta_1\) 已知，求 \(\theta_2\) 的最大似然估计量。
 \end{homework}
-\begin{dxtips}
-    计算要点就是别着急算连乘不好算就先取对数取完对数还是恶性就是求完到再算先把不相关的像全部删除
-\end{dxtips}
+
 \begin{solution}
 似然函数为
 \[
@@ -1150,6 +1144,9 @@ L(\theta_2) = \prod_{i=1}^{n} \frac{\theta_1}{\theta_2} x_i^{\theta_1-1} \exp\!\
 \hat{\theta}_2 = \frac{1}{n}\sum_{i=1}^n X_i^{\theta_1}
 \]
 \end{solution}
+\begin{dxtips}
+    计算要点就是别着急算连乘不好算就先取对数取完对数还是恶性就是求完到再算先把不相关的像全部删除
+\end{dxtips}
 \begin{homework}[18]
 设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim N(\mu,\sigma^2)\)，其中 \(\sigma^2\) 已知，\(\mu\) 的先验分布为 \(N(\nu,\tau^2)\)。
 
@@ -1240,47 +1237,31 @@ p(\theta|\boldsymbol{X}) \propto \theta^{-n}\cdot\theta^{-(b+1)}\cdot\mathbf{1}(
 \]
 \end{solution}
 \end{homework}
-\begin{definition}[帕累托分布]
-若随机变量 $\theta$ 的概率密度函数为
+\begin{solution}
+后验分布满足
 \[
-\pi(\theta) = \frac{ba^b}{\theta^{b+1}}, \quad \theta > a,\ a > 0,\ b > 0
+p(\theta\mid\boldsymbol{X})\propto\theta^{-n}\cdot\theta^{-(b+1)}\cdot\mathbf{1}(\theta\geq\max(x_{(n)},a)).
 \]
-则称 $\theta$ 服从参数为 $(a,b)$ 的帕累托分布，记为 $\theta \sim \mathrm{Pareto}(a, b)$。其直觉来源于"二八定律"，是一种重尾分布。$a$、$b$ 的含义：
-\begin{itemize}
-  \item $a$：帕累托分布的最小值，$\theta$ 只能取 $\theta > a$ 的值
-  \item $b$：形状参数，控制尾巴有多重，$b$ 越小尾巴越重
-\end{itemize}
-在本题中 $a, b$ 是先验的已知参数，就像正态先验里的 $\nu, \tau^2$ 一样，是出发前对 $\theta$ 的主观判断的量化。
-帕累托分布 $\mathrm{Pareto}(a', b')$ 的均值公式为
+
+\textbf{第一步：}合并指数，
 \[
-E[\theta] = \frac{b'a'}{b'-1}, \quad b' > 1
+p(\theta\mid\boldsymbol{X})\propto\theta^{-(n+b+1)}\cdot\mathbf{1}(\theta\geq\max(x_{(n)},a)).
 \]
-代入 $a' = \max(x_{(n)}, a)$，$b' = n+b$：
+
+\textbf{第二步：}对比帕累托标准形式
+$\mathrm{Pareto}(a',b')\propto\theta^{-(b'+1)}\cdot\mathbf{1}(\theta>a')$，
+比较指数得 $b'=n+b$，比较指示函数得 $a'=\max(x_{(n)},a)$。
+
+\textbf{第三步：}后验分布为
 \[
-\hat{\theta} = \frac{(n+b)\max(x_{(n)}, a)}{n+b-1}
+\theta\mid\boldsymbol{X}\sim\mathrm{Pareto}\!\left(\max(x_{(n)},a),\ n+b\right).
 \]
-\end{definition}
 
-\begin{note}[共轭先验 Conjugate Prior]
-\textbf{定义：}先验和后验属于同一分布族，参数可以不同。这是数学上可以证明的结论，实际使用时记住配对直接用。
-
-常用共轭先验配对：
-\begin{center}
-\begin{tabular}{cc}
-\hline
-似然 & 共轭先验 \\
-\hline
-正态（方差已知） & 正态 \\
-均匀 $U(0,\theta)$ & 帕累托 \\
-二项 & Beta \\
-泊松 & Gamma \\
-指数 & Gamma \\
-\hline
-\end{tabular}
-\end{center}
-
-看见什么似然就条件反射想到对应的先验，这是贝叶斯计算的基本功。看见均匀似然 + 帕累托先验，直接知道后验还是帕累托，只需要找新参数就行了。
-\end{note}
+\textbf{第四步：}套帕累托均值公式 $E[\theta]=\dfrac{b'a'}{b'-1}$，得 Bayes 估计
+\[
+\hat{\theta}=\frac{(n+b)\max(x_{(n)},a)}{n+b-1}.
+\]
+\end{solution}
 \section{无偏估计}
 \begin{homework}{1}
 （泊松分布）设 $X \sim P(\lambda)$，试求样本量为 $1$ 时 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量，并说明该估计的不合理性。
