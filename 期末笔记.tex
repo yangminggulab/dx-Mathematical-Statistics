@@ -2041,3 +2041,251 @@ $T(X)$ 只含数据，代入样本即可算出具体拒绝域。
     \item \textbf{实际判断：}计算 $T(X)$，与 $c$ 比较，判断样本是否落入拒绝域
 \end{itemize}
 \end{note}
+\section{卡方拟合优度检验}
+\begin{note}
+为什么拟合优度检验要引入 $F_0$、$F_n$ 这套新符号？核心原因只有一个：\textbf{检验的对象变了}。
+
+之前检验的是一个数，例如 $H_0: \mu = \mu_0$，统计量是拿样本统计量和这个数比。
+现在要检验的是一整个分布，分布是函数，所以假设必须写成：
+\[
+H_0: F = F_0, \quad H_1: F \neq F_0
+\]
+其中 $F_0$ 是假设的理论分布，$F_n$ 是经验分布函数（用手头数据估计出来的分布）。
+逻辑链升了一个层次：原来比一个数 $(\bar{X}$ vs $\mu_0)$，现在比两条曲线 $(F_n$ vs $F_0)$。
+
+三种方法度量 $F_n$ 与 $F_0$ 的差距，方式不同：
+\begin{itemize}
+  \item \textbf{卡方检验}：将曲线切成 $k$ 段逐段比频数差，有拒绝域，结论客观
+  \item \textbf{K-S 检验}：取 $\sup_x|F_n(x)-F_0(x)|$ 最大垂直距离，对尾部更敏感
+  \item \textbf{Q-Q 图}：比分位数是否对齐画图看直线，直观但主观
+\end{itemize}
+
+这不是新体系，逻辑框架和参数检验完全一样：构造在 $H_0$ 下分布已知的统计量，超过临界值就拒绝。
+\end{note}
+\begin{dxtips}[P-P图的直觉理解]
+
+我们要比较的是：\textbf{样本自己说的概率}和\textbf{理论分布说的概率}是不是一回事。
+
+对于同一个数值 $x_{(i)}$：
+\begin{itemize}
+    \item 横轴 $x$：经验概率 $F_n(x_{(i)}) = i/n$，
+    这个是确定的，只和排名有关。
+    比如10个人最后一名55分，他就告诉了我们后百分之10对应的分位数是10\%。
+    
+    \item 纵轴 $y$：理论概率 $F(x_{(i)})$，
+    查表得55分的分位数应该是0.045。
+\end{itemize}
+
+配对描点为 $\left(\dfrac{i}{n},\ F(x_{(i)})\right)$，
+如果两者相等就能画出一条 $y = x$ 的图像。
+
+\end{dxtips}
+\begin{note}[$F_n(x_{(i)}) = i/n$ 的含义]
+
+\begin{itemize}
+    \item $n$：样本总数，比如一共10个人，$n = 10$
+    \item $i$：排序后第 $i$ 个数，比如55分排第1，$i = 1$；70分排第5，$i = 5$
+\end{itemize}
+
+所以 $F_n(x_{(i)}) = i/n$ 就是「第 $i$ 个数在 $n$ 个数里的排名百分比」。
+
+\end{note}
+\begin{note}[正态分布理论分位数公式推导]
+
+正态分布的CDF定义为：
+$$F(x) = \Phi\!\left(\frac{x - \mu}{\sigma}\right)$$
+
+已知概率 $p$，反过来问：对应的 $x$ 是多少？这就是求反函数 $F^{-1}(p)$，解得：
+
+$$F^{-1}\!\left(\frac{i}{n}\right) = \hat{\mu} + \hat{\sigma} \cdot \Phi^{-1}\!\left(\frac{i}{n}\right)$$
+
+其中各部分含义如下：
+
+\begin{itemize}
+    \item $\Phi^{-1}(p)$：标准正态分布的分位数，
+    即标准正态分布里有 $p$ 的概率低于这个值。
+    比如 $\Phi^{-1}(0.1) = -1.28$，
+    意思是标准正态里有10\%的概率低于 $-1.28$。
+
+    \item $\hat{\sigma} \cdot \Phi^{-1}(p)$：标准正态是均值0方差1的，
+    乘以 $\hat{\sigma}$ 是把尺度\textbf{还原到原始数据的尺度}。
+
+    \item $\hat{\mu} + \hat{\sigma} \cdot \Phi^{-1}(p)$：
+    再加上 $\hat{\mu}$ 是把中心\textbf{平移回原始数据的均值}。
+\end{itemize}
+
+\end{note}
+\begin{note}[Q-Q图（Quantile-Quantile Plot，分位数-分位数图）的横纵坐标]
+
+\begin{itemize}
+    \item 横轴 $x$：理论分位数 $F^{-1}(i/n)$，
+    即理论分布说排名第 $i/n$ 的人应该是多少。
+
+    \item 纵轴 $y$：样本分位数 $x_{(i)}$，
+    即样本里实际排名第 $i$ 的人是多少。
+\end{itemize}
+
+若样本来自该分布，两者相等，点落在对角线 $y = x$ 上。
+
+\end{note}
+\begin{definition}[Kolmogorov-Smirnov 检验]
+设 $X_1, \ldots, X_n \overset{i.i.d.}{\sim} F(x)$，经验分布函数为
+$F_n(x) = \frac{1}{n}\sum_{i=1}^n \mathbf{1}(X_i \leq x)$。
+对假设 $H_0: F(x) = F_0(x)$（$F_0$ 完全已知且连续），定义统计量
+$$D_n = \sup_{x\in\mathbb{R}} |F_n(x) - F_0(x)|$$
+在 $H_0$ 下，$\sqrt{n}\,D_n \xrightarrow{d} K(\lambda)$，其中
+$K(\lambda) = \sum_{k=-\infty}^{+\infty}(-1)^k e^{-2k^2\lambda^2}$。
+给定显著性水平 $\alpha$，拒绝域为 $\sqrt{n}\,D_n > \lambda_\alpha$。
+\end{definition}
+\chapter{能力五综合应用}
+\section{最小二乘与检验}
+\begin{note}
+\textbf{模型在说什么}
+
+你观测到一堆点 $(x_i, Y_i)$，假设它们之间有线性关系，但不是完美的直线，每个点都有误差：
+\[
+Y = \beta_0 + \beta_1 x + \varepsilon
+\]
+$\varepsilon$ 是随机噪声，假设服从 $N(0,\sigma^2)$。$x$ 是你控制的（比如广告投入），$Y$ 是结果（比如销量），随机性全来自 $\varepsilon$。
+
+\textbf{最终要检验的是什么}
+
+核心假设是 $H_0: \beta_1 = 0$，翻译成人话：$x$ 对 $Y$ \textbf{根本没有线性影响}，你以为有关系，其实是噪声造成的。
+\begin{itemize}
+  \item 拒绝 $H_0$：$x$ 和 $Y$ 之间的线性关系是显著的，这条直线是有意义的
+  \item 不能拒绝 $H_0$：你拟合的直线可能就是在拟合噪声，$\hat{\beta}_1$ 虽然不等于零但完全可能是随机波动
+\end{itemize}
+
+所以整个流程是：先假设线性 $\to$ 用 OLS 估出直线 $\to$ 检验这条直线是否真的有意义（$\beta_1 \neq 0$）$\to$ 如果有意义再去做预测和区间估计。
+\end{note}
+\begin{dxtips}
+    回归模型就是y=kx+b，k也就是x对y对影响程度b也就是为了让某些是0的时刻有初始条件
+\end{dxtips}
+
+    \begin{note}
+记忆：$\hat\beta_1=S_{xy}/S_{xx}=\widehat{\mathrm{Cov}}(x,Y)/\widehat{\mathrm{Var}}(x)$，
+即斜率 $=$ 协方差 $\div$ 方差，与相关系数公式同根，仅少除 $\sigma_Y$。
+截距由回归直线过中心点 $(\bar x,\bar Y)$ 反推：$\hat\beta_0=\bar Y-\hat\beta_1\bar x$。
+\end{note}
+
+\begin{dxtips}
+   最小二乘就是为了残差平方和最小，也就是 $(Y - kx - b)^2$ 再求和，由于这里面有两个变量，最小值就是先对两个变量分别求偏导都是 $0$。
+\end{dxtips}
+\begin{note}
+最小二乘的目的就是算出 $x$ 前面的系数 $\hat{\beta}_1$，$H_0$ 默认是 $0$，也就是不相关。但 $\hat{\beta}_1 \neq 0$ 不够——万一只是随机波动碰巧算出来的呢？
+
+核心问题是：$\hat{\beta}_1$ 离零有多远，远到不像噪声造成的？
+
+光看 $\hat{\beta}_1$ 本身没意义，单位不同你不知道大还是小，所以标准化：
+\[
+T = \frac{\hat{\beta}_1}{\hat{\sigma}/\sqrt{S_{xx}}} \sim t(n-2) \quad (H_0 \text{ 下})
+\]
+$T$ 超过临界值就拒绝 $H_0$，本质在问：\textbf{估出来的斜率，相对于数据的噪声水平，够不够大？}
+\end{note}
+\begin{itemize}
+  \item $S_{xx} = \sum(x_i - \bar{x})^2$ 是 $x$ 的离散程度。直觉：$x$ 取值越分散，斜率估计越准——如果所有 $x$ 都挤在一起，根本看不出斜率是多少。
+  \item $\hat{\sigma} = \sqrt{SS_e/(n-2)}$ 是噪声的估计，即残差的标准差——数据点离拟合直线平均有多远，越大说明数据越乱。
+  \item $T$ 的直觉：分子 $\hat{\beta}_1$ 是斜率有多大，分母 $\hat{\sigma}/\sqrt{S_{xx}}$ 是考虑到数据有多乱、$x$ 有多散之后斜率估计的不确定性。$T$ 大 $=$ 斜率相对于噪声够显著 $\Rightarrow$ 拒绝 $H_0$。
+\[
+T = \frac{\hat{\beta}_1}{\hat{\sigma}/\sqrt{S_{xx}}} \sim t(n-2) \quad (H_0 \text{ 下})
+\]
+\end{itemize}
+\begin{dxtips}
+检验统计量 $T = \hat{\beta}_1 / (\hat{\sigma}/\sqrt{S_{xx}})$ 里需要 $\sigma$，但 $\sigma$ 未知，要从数据估计。用残差来估：
+\[
+\hat{\sigma}^2 = \frac{SS_e}{n-2}, \qquad SS_e = \sum(Y_i - \hat{Y}_i)^2 = S_{yy} - \frac{S_{xy}^2}{S_{xx}}
+\]
+直觉：$S_{yy}$ 是 $Y$ 的总变动，$S_{xy}^2/S_{xx}$ 是被直线解释掉的部分，剩下的就是残差。
+
+所以流程是：$SS_e \to \hat{\sigma} \to T \to$ 查 $t(n-2)$ 表 $\to$ 拒绝或不拒绝 $H_0$。
+\end{dxtips}
+\begin{itemize}
+  \item \textbf{背景}：已有 $\hat{Y} = 43.5 + 7.5x$，新来 $x^* = 3$，有两个不同的问题：
+  \begin{enumerate}
+    \item $x=3$ 时，所有学生的平均成绩是多少？（均值置信区间）
+    \item $x=3$ 时，新来一个具体学生会考多少分？（个体预测区间）
+  \end{enumerate}
+
+  \item \textbf{均值置信区间}：估的是直线上那个点 $E(Y|x^*) = \beta_0 + \beta_1 x^*$，不确定性只来自 $\hat{\beta}_0, \hat{\beta}_1$ 的估计误差：
+  \[
+  \hat{Y}^* \pm t_{\alpha/2}(n-2) \cdot \hat{\sigma}\sqrt{\frac{1}{n} + \frac{(x^*-\bar{x})^2}{S_{xx}}}
+  \]
+
+  \item \textbf{个体预测区间}：估的是新个体 $Y^* = \beta_0 + \beta_1 x^* + \varepsilon^*$，不确定性来自两处：参数估计误差 $+$ 新个体自己的随机噪声 $\varepsilon^*$：
+  \[
+  \hat{Y}^* \pm t_{\alpha/2}(n-2) \cdot \hat{\sigma}\sqrt{1 + \frac{1}{n} + \frac{(x^*-\bar{x})^2}{S_{xx}}}
+  \]
+  多出来的"$1$"就是 $\varepsilon^*$ 贡献的方差，所以预测区间永远比置信区间宽。
+\end{itemize}
+\begin{note}
+两种区间形式完全一样：
+\[
+\hat{Y}^* \pm t_{\alpha/2}(n-2) \cdot SE
+\]
+查的是同一张 $t(n-2)$ 表，区别只在 $SE$ 公式不同。
+\end{note}
+\section{方差分析}
+\begin{note}
+\textbf{为什么不直接两两 $t$ 检验？}
+
+有 $k$ 个组，两两检验需要做 $\binom{k}{2}$ 次。每次 $\alpha = 0.05$，但整体至少犯一次错的概率：
+\[
+1 - (1-0.05)^{\binom{k}{2}}
+\]
+组数越多错误率膨胀越离谱，$k=4$ 时已经达到 $26\%$。
+
+\textbf{ANOVA（Analysis of Variance，方差分析）}的思路是一次检验解决问题：
+\[
+H_0: \mu_1 = \mu_2 = \cdots = \mu_k
+\]
+用一个统计量 $F$ 判断，整体错误率就是设定的 $\alpha$，不会膨胀。
+
+名字叫"方差分析"而不叫"均值分析"，是因为它的做法是把数据总变动拆成两部分来比较，用的是方差的语言（$SS_T = SS_A + SS_E$）。
+\end{note}
+\begin{definition}[单因子方差分析模型]
+\[
+y_{ij} = \mu + \mu_i + e_{ij}, \quad e_{ij} \sim N(0, \sigma^2) \text{ iid}
+\]
+$k$ 个组，第 $i$ 组有 $n_i$ 个观测，$N = \sum n_i$，约束 $\sum \mu_i = 0$。
+\end{definition}
+
+\begin{itemize}
+  \item $\mu$：所有组共同的总体均值，"基准线"
+  \item $\mu_i$：第 $i$ 组相对于基准线的偏移，"这组特别在哪"
+  \item $e_{ij}$：个体随机噪声
+  \item 约束 $\sum \mu_i = 0$ 是为了让分解唯一——否则 $\mu$ 加大、$\mu_i$ 减小，无数种组合都能表示同一个值
+  \item $H_0: \mu_1 = \cdots = \mu_k = 0$，即所有组偏移为零，没有组间差异
+\end{itemize}
+\begin{note}
+平方和分解 $SS_T = SS_A + SS_E$，数据的总波动拆成组间和组内两部分：
+\begin{itemize}
+  \item $SS_T = \sum_i\sum_j (y_{ij} - \bar{y})^2$：所有观测值离总均值的距离，衡量数据整体有多散
+  \item $SS_A = \sum_i n_i(\bar{y}_i - \bar{y})^2$：每组均值离总均值的距离，衡量各组之间差异有多大，各组均值差不多则 $SS_A$ 小
+  \item $SS_E = \sum_i\sum_j (y_{ij} - \bar{y}_i)^2$：每个观测值离自己组均值的距离，衡量组内随机噪声，纯粹是误差
+\end{itemize}
+
+核心逻辑：用 $F$ 统计量比较组间和组内：
+\[
+F = \frac{MS_A}{MS_E} = \frac{SS_A/(k-1)}{SS_E/(N-k)}
+\]
+\begin{itemize}
+  \item $H_0$ 下：$MS_A$ 和 $MS_E$ 都是 $\sigma^2$ 的无偏估计，比值应该接近 $1$
+  \item $H_1$ 下：组间差异让 $MS_A$ 偏大，$F \gg 1$ 说明不像随机波动
+\end{itemize}
+$F > F_\alpha(k-1, N-k)$ 则拒绝 $H_0$。
+\end{note}
+\begin{dxtips}
+平方和分解类比柯赫伦定理：$SS_T$ 自由度 $N-1$ 被正交拆成两块：
+\[
+\underbrace{SS_T}_{N-1} = \underbrace{SS_A}_{k-1} + \underbrace{SS_E}_{N-k}
+\]
+柯赫伦定理保证 $H_0$ 下 $SS_A$ 与 $SS_E$ 相互独立，且：
+\[
+\frac{SS_A}{\sigma^2} \sim \chi^2(k-1), \qquad \frac{SS_E}{\sigma^2} \sim \chi^2(N-k)
+\]
+于是 $F$ 统计量服从 $F$ 分布直接来自 $F$ 分布的定义——两个独立卡方除以各自自由度之比：
+\[
+F = \frac{MS_A}{MS_E} = \frac{SS_A/(k-1)}{SS_E/(N-k)} \sim F(k-1, N-k)
+\]
+不是凭空规定的，是柯赫伦定理的直接推论。
+\end{dxtips}

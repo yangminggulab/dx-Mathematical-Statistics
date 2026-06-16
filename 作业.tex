@@ -3431,72 +3431,8 @@ $i$ & $x_{(i)}$ & $F_n(x_{(i)}) = i/10$ & $F(x_{(i)}) = x_{(i)}$ \\
     \includegraphics[width=0.25\linewidth]{figure/1.png}
     
 \end{center}
-\begin{dxtips}[P-P图的直觉理解]
 
-我们要比较的是：\textbf{样本自己说的概率}和\textbf{理论分布说的概率}是不是一回事。
 
-对于同一个数值 $x_{(i)}$：
-\begin{itemize}
-    \item 横轴 $x$：经验概率 $F_n(x_{(i)}) = i/n$，
-    这个是确定的，只和排名有关。
-    比如10个人最后一名55分，他就告诉了我们后百分之10对应的分位数是10\%。
-    
-    \item 纵轴 $y$：理论概率 $F(x_{(i)})$，
-    查表得55分的分位数应该是0.045。
-\end{itemize}
-
-配对描点为 $\left(\dfrac{i}{n},\ F(x_{(i)})\right)$，
-如果两者相等就能画出一条 $y = x$ 的图像。
-
-\end{dxtips}
-\begin{note}[$F_n(x_{(i)}) = i/n$ 的含义]
-
-\begin{itemize}
-    \item $n$：样本总数，比如一共10个人，$n = 10$
-    \item $i$：排序后第 $i$ 个数，比如55分排第1，$i = 1$；70分排第5，$i = 5$
-\end{itemize}
-
-所以 $F_n(x_{(i)}) = i/n$ 就是「第 $i$ 个数在 $n$ 个数里的排名百分比」。
-
-\end{note}
-\begin{note}[正态分布理论分位数公式推导]
-
-正态分布的CDF定义为：
-$$F(x) = \Phi\!\left(\frac{x - \mu}{\sigma}\right)$$
-
-已知概率 $p$，反过来问：对应的 $x$ 是多少？这就是求反函数 $F^{-1}(p)$，解得：
-
-$$F^{-1}\!\left(\frac{i}{n}\right) = \hat{\mu} + \hat{\sigma} \cdot \Phi^{-1}\!\left(\frac{i}{n}\right)$$
-
-其中各部分含义如下：
-
-\begin{itemize}
-    \item $\Phi^{-1}(p)$：标准正态分布的分位数，
-    即标准正态分布里有 $p$ 的概率低于这个值。
-    比如 $\Phi^{-1}(0.1) = -1.28$，
-    意思是标准正态里有10\%的概率低于 $-1.28$。
-
-    \item $\hat{\sigma} \cdot \Phi^{-1}(p)$：标准正态是均值0方差1的，
-    乘以 $\hat{\sigma}$ 是把尺度\textbf{还原到原始数据的尺度}。
-
-    \item $\hat{\mu} + \hat{\sigma} \cdot \Phi^{-1}(p)$：
-    再加上 $\hat{\mu}$ 是把中心\textbf{平移回原始数据的均值}。
-\end{itemize}
-
-\end{note}
-\begin{note}[Q-Q图（Quantile-Quantile Plot，分位数-分位数图）的横纵坐标]
-
-\begin{itemize}
-    \item 横轴 $x$：理论分位数 $F^{-1}(i/n)$，
-    即理论分布说排名第 $i/n$ 的人应该是多少。
-
-    \item 纵轴 $y$：样本分位数 $x_{(i)}$，
-    即样本里实际排名第 $i$ 的人是多少。
-\end{itemize}
-
-若样本来自该分布，两者相等，点落在对角线 $y = x$ 上。
-
-\end{note}
 \begin{homework}[2]
 有一样本的观测值为：$0.54$，$0.32$，$0.68$，$0.71$，$1.04$，$0.94$，$1.34$，$1.10$，$0.44$，$1.01$，试用作图法检验该样本是否抽自正态总体．
 \end{homework}
@@ -3545,82 +3481,43 @@ $i$ & $x_{(i)}$ & $F_n(x_{(i)}) = i/10$ & $F(x_{(i)})$ \\
 故认为该样本\textbf{来自正态总体}。
 
 \end{solution}
+
 \begin{homework}[extra]
 对第 1 题做 Kolmogorov 检验．
 
 掷骰子 $30$ 次，掷出 $1$、$2$、$3$、$4$、$5$、$6$ 点的次数分别为 $3$、$6$、$4$、$7$、$4$、$6$，请检验骰子出现各点概率是否相等？
 \end{homework}
 \begin{solution}
+建立假设 $H_0: p_1 = \cdots = p_6 = \frac{1}{6}$，在 $H_0$ 下理论分布函数为
+$F_0(x) = \lfloor x \rfloor / 6$。
 
-\textbf{第一步：建立假设}
-
-$$H_0: p_1 = p_2 = p_3 = p_4 = p_5 = p_6 = \frac{1}{6}$$
-
-\textbf{第二步：计算经验分布函数与理论分布函数}
-
-在 $H_0$ 下，各点概率相等，理论分布函数为：
-$$F_0(x) = \frac{\lfloor x \rfloor}{6}, \quad x \in [1,6]$$
-
-观测频数与累计频率如下：
+根据观测数据（$n=30$）计算各点累计差异：
 
 \begin{table}[h]
 \centering
 \begin{tabular}{ccccc}
 \hline
-点数 $k$ & 观测频数 $n_k$ & 累计频数 & $F_n(k) = \frac{\sum_{j\leq k} n_j}{30}$ & $F_0(k) = \frac{k}{6}$ \\
+$k$ & $n_k$ & $F_n(k)$ & $F_0(k)$ & $|F_n(k)-F_0(k)|$ \\
 \hline
-1 & 3  & 3  & 0.100 & 0.1667 \\
-2 & 6  & 9  & 0.300 & 0.3333 \\
-3 & 4  & 13 & 0.433 & 0.5000 \\
-4 & 7  & 20 & 0.667 & 0.6667 \\
-5 & 4  & 24 & 0.800 & 0.8333 \\
-6 & 6  & 30 & 1.000 & 1.0000 \\
-\hline
-\end{tabular}
-\end{table}
-
-\textbf{第三步：计算 Kolmogorov 统计量}
-
-$$D_n = \sup_x |F_n(x) - F_0(x)|$$
-
-各点的 $|F_n(k) - F_0(k)|$：
-
-\begin{table}[h]
-\centering
-\begin{tabular}{ccc}
-\hline
-$k$ & $F_n(k)$ & $|F_n(k) - F_0(k)|$ \\
-\hline
-1 & 0.100 & $|0.100 - 0.1667| = 0.0667$ \\
-2 & 0.300 & $|0.300 - 0.3333| = 0.0333$ \\
-3 & 0.433 & $|0.433 - 0.5000| = 0.0667$ \\
-4 & 0.667 & $|0.667 - 0.6667| = 0.0003$ \\
-5 & 0.800 & $|0.800 - 0.8333| = 0.0333$ \\
-6 & 1.000 & $|1.000 - 1.0000| = 0.0000$ \\
+1 & 3 & 0.1000 & 0.1667 & 0.0667 \\
+2 & 6 & 0.3000 & 0.3333 & 0.0333 \\
+3 & 4 & 0.4333 & 0.5000 & 0.0667 \\
+4 & 7 & 0.6667 & 0.6667 & 0.0000 \\
+5 & 4 & 0.8000 & 0.8333 & 0.0333 \\
+6 & 6 & 1.0000 & 1.0000 & 0.0000 \\
 \hline
 \end{tabular}
 \end{table}
 
-因此：
-$$D_{30} = \max_k |F_n(k) - F_0(k)| = 0.0667$$
+故 $D_{30} = 0.0667$，检验统计量为
+$$\sqrt{n}\cdot D_n = \sqrt{30}\times 0.0667 \approx 0.365$$
 
-\textbf{第四步：查表判断}
-
-计算检验统计量：
-$$\sqrt{n} \cdot D_n = \sqrt{30} \times 0.0667 = 0.3651$$
-
-取显著性水平 $\alpha = 0.05$，查 Kolmogorov 分布表得临界值：
-$$\lambda_{0.05} = 1.358$$
-
-由于：
-$$\sqrt{n} \cdot D_n = 0.3651 < 1.358 = \lambda_{0.05}$$
-
-\textbf{结论：}
-
-在显著性水平 $\alpha = 0.05$ 下，不拒绝 $H_0$，
-认为骰子出现各点的概率相等。
-
+取 $\alpha=0.05$，查表得 $\lambda_{0.05}=1.358$。因 $0.365 < 1.358$，
+不拒绝 $H_0$，认为骰子各点出现概率相等。
 \end{solution}
+\begin{dxtips}
+    fn就是实际累积频率f0就是假设累积概率，Dn就是他们的最大差值乘根号n就算k分布就可以和拒绝域对应的分位数比较了。
+\end{dxtips}
 \begin{homework}[3]
 有一样本的观测值为 $9, 6, 13, 22, 18, 37, 36, 52, 41, 36$，
 试检验该样本是否抽自两参数的韦布尔（Weibull）分布。
@@ -3707,19 +3604,7 @@ $$\hat{\beta}_1=\frac{67.85}{71.025}\approx0.9553,\qquad\hat{\beta}_0=107.0-0.95
 
 预测贮存 $9$ 年：$\hat{y}=103.513+0.9553\times9\approx112.1\times10^{-6}$。
 \end{solution}
-\begin{dxtips}
-    回归模型就是y=kx+b，k也就是x对y对影响程度b也就是为了让某些是0的时刻有初始条件
-\end{dxtips}
-\begin{dxtips}
-    \begin{note}
-记忆：$\hat\beta_1=S_{xy}/S_{xx}=\widehat{\mathrm{Cov}}(x,Y)/\widehat{\mathrm{Var}}(x)$，
-即斜率 $=$ 协方差 $\div$ 方差，与相关系数公式同根，仅少除 $\sigma_Y$。
-截距由回归直线过中心点 $(\bar x,\bar Y)$ 反推：$\hat\beta_0=\bar Y-\hat\beta_1\bar x$。
-\end{note}
-\end{dxtips}
-\begin{dxtips}
-    最小二乘就是为了残差平方和最小也就是（y-kx-b）平方再求和，由于这里面有两个变量最小值就是先对两个变量分别求偏导都是0
-\end{dxtips}
+
 \begin{homework}[5.2.2]
 设 $X_1, X_2, \cdots, X_n$ i.i.d.，
 $X_1 \sim N(0,\sigma^2)$，$u \in \mathbb{R}^n$，$u^T u = 1$，证明：
@@ -3753,53 +3638,27 @@ P^2 = (I_n-uu^T)^2 = I_n - 2uu^T + u\underbrace{(u^Tu)}_{=1}u^T = I_n - uu^T = P
 对第 $1$ 题的结果作显著性检验，并对贮存 $9$ 年后的浓度进行置信度为 $90\%$ 的区间预测。
 \end{homework}
 \begin{solution}
-沿用第1题结果：$n=10$，$\bar x=3.65$，$\bar y=107.0$，$S_{xx}=71.025$，$S_{xy}=67.85$，
-$\hat\beta_1=0.9553$，$\hat\beta_0=103.513$。
+沿用第1题：$n=10$，$\bar x=3.65$，$\bar y=107.0$，$S_{xx}=71.025$，$S_{xy}=67.85$，
+$\hat\beta_1=0.9553$，$\hat\beta_0=103.513$。由原始数据得
+$S_{yy} = \sum y_i^2 - n\bar y^2 = 114558.32 - 114490 = 68.32$。
 
-由原始数据计算 $S_{yy}$：
-\[
-\sum y_i^2 = 114558.32,\qquad
-S_{yy} = \sum y_i^2 - n\bar y^2 = 114558.32 - 10\times107^2 = 68.32.
-\]
+\textbf{（一）显著性检验}（$\alpha=0.05$，$H_0:\beta_1=0$）
 
-\textbf{（一）显著性检验}（取 $\alpha=0.05$）
+$$SS_e = S_{yy} - \frac{S_{xy}^2}{S_{xx}} = 68.32 - \frac{67.85^2}{71.025} \approx 3.503,\qquad
+S = \sqrt{\frac{SS_e}{n-2}} \approx 0.6617$$
 
-$H_0:\beta_1=0$，$H_1:\beta_1\neq0$。
+$$T = \frac{\hat\beta_1}{S/\sqrt{S_{xx}}} = \frac{0.9553}{0.6617/\sqrt{71.025}} \approx 12.17$$
 
-残差平方和与估计标准差：
-\[
-SS_e = S_{yy} - \frac{S_{xy}^2}{S_{xx}} = 68.32 - \frac{67.85^2}{71.025} \approx 3.503,\qquad
-S = \sqrt{\frac{SS_e}{n-2}} = \sqrt{\frac{3.503}{8}} \approx 0.6617.
-\]
+因 $|T|=12.17 > t_{0.025}(8)=2.306$，拒绝 $H_0$，线性关系显著。
 
-检验统计量：
-\[
-T = \frac{\hat\beta_1}{S/\sqrt{S_{xx}}} = \frac{0.9553}{0.6617/\sqrt{71.025}} \approx 12.17.
-\]
+\textbf{（二）90\% 预测区间}（$x^*=9$）
 
-$t_{0.025}(8)=2.306$，$|T|=12.17>2.306$，拒绝 $H_0$，线性关系显著。
+$\hat y(9)=103.513+0.9553\times9\approx112.11$，预测误差因子
+$$\sqrt{1+\frac{1}{n}+\frac{(x^*-\bar x)^2}{S_{xx}}}=\sqrt{1+0.1+0.4031}\approx1.226$$
 
-\textbf{（二）90\% 区间预测}（$x^*=9$）
+$$\Delta = t_{0.05}(8)\cdot S\cdot1.226 = 1.860\times0.6617\times1.226\approx1.509$$
 
-$\hat y(9)=103.513+0.9553\times9\approx112.11$。
-
-预测区间公式：
-\[
-\hat y(x^*)\pm t_{\alpha/2}(n-2)\cdot S\cdot\sqrt{1+\frac{1}{n}+\frac{(x^*-\bar x)^2}{S_{xx}}}.
-\]
-
-代入 $t_{0.05}(8)=1.860$：
-\[
-1+\frac{1}{10}+\frac{(9-3.65)^2}{71.025}=1+0.1+0.4031=1.5031,\qquad\sqrt{1.5031}\approx1.226.
-\]
-\[
-\Delta = 1.860\times0.6617\times1.226\approx1.509.
-\]
-
-贮存9年浓度的90\%预测区间为
-\[
-(112.11-1.509,\ 112.11+1.509)=(110.60,\ 113.62)\times10^{-6}.
-\]
+故贮存9年浓度的90\%预测区间为 $(110.60,\ 113.62)\times10^{-6}$。
 \end{solution}
 \begin{homework}[7]
 下面数据是 $18$ 名 $5$--$8$ 岁儿童的体重和体积。
