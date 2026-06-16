@@ -559,7 +559,7 @@ $\hat\theta$ 不是似然函数 $L(\theta)$ 的最大值本身，而是\textbf{�
 \begin{note}
 贝叶斯的世界里，$\theta$ 不是固定的未知数，而是一个\textbf{随机变量}，有自己的分布。
 
-\begin{table}[h]
+\begin{center}
 \centering
 \begin{tabular}{lll}
 \toprule
@@ -570,7 +570,7 @@ $\hat\theta$ 不是似然函数 $L(\theta)$ 的最大值本身，而是\textbf{�
 后验分布 & $p(\theta\mid X)$ & 看到数据\textbf{之后}，更新后的信念 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 \end{note}
 \begin{note}[MLE 与 Bayes 的关系]
 两者目标相同——都给出 $\theta$ 的估计值，区别在于"用什么信息、怎么组合"：
@@ -662,7 +662,7 @@ Beta 函数就是把离散的组合数\textbf{连续化}了。抛硬币用 Beta 
 \begin{dxtips}
 $B(\alpha,\beta)$ 两个参数的含义：类比抛硬币，$\alpha$ 和 $\beta$ 可理解为\textbf{虚拟的历史数据}。
 
-\begin{table}[h]
+\begin{center}
 \centering
 \begin{tabular}{lll}
 \toprule
@@ -672,7 +672,7 @@ $\alpha$ & 第一个 & 历史上观测到正面的次数 $+1$ \\
 $\beta$  & 第二个 & 历史上观测到反面的次数 $+1$ \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 
 \begin{itemize}
     \item $\mathrm{Beta}(2,2)$：相当于"我之前\textbf{好像见过1次正面、1次反面}"，感觉差不多均匀。
@@ -704,7 +704,7 @@ $\beta$  & 第二个 & 历史上观测到反面的次数 $+1$ \\
 \begin{note}
 \textbf{共轭先验配对表}
 
-\begin{table}[h]
+\begin{center}
 \centering
 \renewcommand{\arraystretch}{2}
 \begin{tabular}{llll}
@@ -737,7 +737,7 @@ $\beta$  & 第二个 & 历史上观测到反面的次数 $+1$ \\
     & $\dfrac{\alpha+n}{\alpha+n-1}\max(\beta,x_{(n)})$ \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 
 \textbf{记忆规律：}
 \begin{itemize}
@@ -753,7 +753,7 @@ $\beta$ 为历史\textbf{观测总时长}，均值为 $\alpha/\beta$。
 
 与 $\mathrm{Beta}(\alpha,\beta)$ 对比：
 
-\begin{table}[h]
+\begin{center}
 \centering
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{lll}
@@ -766,7 +766,7 @@ $\beta$  & 反面次数 $+1$ & 历史观测总时长 \\
 支撑     & $(0,1)$ & $(0,\infty)$ \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 
 Beta 分母是 $\alpha+\beta$（比例归一到1）；Gamma 分母只有 $\beta$（发生率可任意大）。
 \end{note}
@@ -795,7 +795,7 @@ p(\theta|\boldsymbol{X}) \propto \theta^{S+a-1}(1-\theta)^{n-S+b-1}
 \pi(\theta)=\frac{ba^b}{\theta^{b+1}},\quad\theta>a.
 \]
 
-\begin{table}[h]
+\begin{center}
 \centering
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{lll}
@@ -806,7 +806,7 @@ $a$ & 第一个 & \textbf{支撑下界}，$\theta$ 最小能取什么值 \\
 $b$ & 第二个 & \textbf{形状参数}，控制尾部厚薄 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 
 所以后验 $\mathrm{Pareto}\!\left(\max(x_{(n)},a),\ n+b\right)$ 中：
 \begin{itemize}
