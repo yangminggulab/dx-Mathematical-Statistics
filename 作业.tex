@@ -1155,12 +1155,7 @@ L(\theta_2) = \prod_{i=1}^{n} \frac{\theta_1}{\theta_2} x_i^{\theta_1-1} \exp\!\
     \item 求 \(\mu\) 的后验均值估计。
 \end{enumerate}
 \end{homework}
-\begin{dxtips}
-所以他本质上就是求条件概率，也就是我认为是 $\mu$，算的是我认为是 $\mu$，现在出现的数据是事实，所以我们要求的是在事实的前提下，我认为的 $\theta$ 是 $\mu$ 的概率：
-\[
-p(\mu|\boldsymbol{X}) = \frac{f(\boldsymbol{X}|\mu)\cdot\pi(\mu)}{f(\boldsymbol{X})} \propto \underbrace{f(\boldsymbol{X}|\mu)}_{\text{似然}} \cdot \underbrace{\pi(\mu)}_{\text{先验}}
-\]这里为什么似然是这个公式，因为似然是我们每一个X1都按照假设的参数$\mu$计算的概率密度乘上的也就是$\mu$就是以知条件
-\end{dxtips}
+
 \begin{solution}
 似然函数为
 \[
@@ -1187,7 +1182,10 @@ f(\boldsymbol{X}|\mu) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi}\sigma}\exp\!\left(-\f
 \]
 \end{solution}
 \begin{dxtips}
-  恒等式其实就是裂项，$\bar{x}-\mu$ 求出来。最后我们要求的就是一个 $\mu$ 减一个数的东西，所以我们可以只看 $\mu^2$、$\mu$ 前面的系数再配方，最后变成 $\mu-\mu_1$。分母2旁边那个就是方差
+ 其实我们已经知道了正态分布是共轭更新了他的后验也一定是正态我们只是需要算后验正态的中心也就是μ和方差也就是σ平方是多少就行了，就是和μ没有关系的其实都是具体的数一顿算可以提取到外面的。他可以扔也是因为是幂指数加法拆开了以后其实还是乘法。
+\end{dxtips}
+\begin{dxtips}
+    其实算完后验以后我们就像弄出一个平方和然后剩下的部分直接当1/方差了exp里面就符合正态标准写的形式我们就能分清楚谁谁方差谁是μ了。自然后验是正态他的期望就是我们算出来的μ1
 \end{dxtips}
 \begin{note}
 \textbf{第一步：}利用恒等式
@@ -1199,11 +1197,7 @@ f(\boldsymbol{X}|\mu) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi}\sigma}\exp\!\left(-\f
 f(\boldsymbol{X}|\mu) \propto \exp\!\left(-\frac{n(\bar{x}-\mu)^2}{2\sigma^2}\right)
 \]
 
-\textbf{第二步：}将两个指数合并后，对 $\mu$ 做代数配方（无需任何定理，与高中配方 $ax^2+bx+c$ 本质相同），凑成
-\[
--\frac{n(\bar{x}-\mu)^2}{2\sigma^2} - \frac{(\mu-\nu)^2}{2\tau^2} = -\frac{1}{2\tau_1^2}(\mu-\mu_1)^2 + \text{常数}
-\]
-其中常数项与 $\mu$ 无关，用 $\propto$ 略去。
+
 \end{note}
 \begin{homework}[20]
 （帕雷托（Pareto）分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim U(0,\theta)\)，其中 \(\theta\) 的先验分布为 \(\mathrm{Pareto}(a,b)\)，其概率密度为
@@ -1237,7 +1231,10 @@ p(\theta|\boldsymbol{X}) \propto \theta^{-n}\cdot\theta^{-(b+1)}\cdot\mathbf{1}(
 \]
 \end{solution}
 \end{homework}
-\begin{solution}
+\begin{dxtips}
+    也就是用似然乘先验得倒后验以后对着标准的式子看看谁谁a谁是b然后求期望其实是固定的公式
+\end{dxtips}
+\begin{note}
 后验分布满足
 \[
 p(\theta\mid\boldsymbol{X})\propto\theta^{-n}\cdot\theta^{-(b+1)}\cdot\mathbf{1}(\theta\geq\max(x_{(n)},a)).
@@ -1261,7 +1258,7 @@ $\mathrm{Pareto}(a',b')\propto\theta^{-(b'+1)}\cdot\mathbf{1}(\theta>a')$，
 \[
 \hat{\theta}=\frac{(n+b)\max(x_{(n)},a)}{n+b-1}.
 \]
-\end{solution}
+\end{note}
 \section{无偏估计}
 \begin{homework}{1}
 （泊松分布）设 $X \sim P(\lambda)$，试求样本量为 $1$ 时 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量，并说明该估计的不合理性。
@@ -1874,14 +1871,15 @@ $$\rho(\hat{g}_1,\hat{g}_2) = \frac{\mathrm{Cov}(\hat{g}_1,\hat{g}_2)}{\sqrt{\ma
 所以需要构造一个 $\hat{g}_\alpha = (1-\alpha)\hat{g}_1 + \alpha\hat{g}_2$，
 系数之和 $(1-\alpha)+\alpha=1$ 是为了保证无偏性。
 \end{dxtips}
-[例 3.2.12（0-1 分布）]
+
+\begin{homework}[16]
+\begin{example}[例 3.2.12（0-1 分布）]
 设 $X_1,X_2,\cdots,X_n$ i.i.d.，都服从 $(0\text{-}1)$ 分布 $B(1,\theta)$，$\theta$ 的先验分布为 Beta 分布 $\mathrm{Beta}(a,b)$，其概率密度为
 $$
 \pi(\theta) = \begin{cases} \dfrac{1}{\mathrm{B}(a,b)}\theta^{a-1}(1-\theta)^{b-1}, & \theta \in (0,1); \\ 0, & \theta \notin (0,1), \end{cases}
 $$
 其中 $a>0,b>0$ 为给定的常数，$\mathrm{B}(a,b)$ 为 Beta 函数。求 $\theta$ 的后验均值估计。
-
-\begin{homework}[16]
+\end{example}
 （0-1 分布）考虑例 3.2.12 中的贝叶斯估计量，其中 $\theta$ 的贝叶斯估计量为
 $$
 \hat{\theta} = \frac{\sum_{i=1}^n X_i + a}{n + a + b}.
@@ -1909,7 +1907,11 @@ $$
 $$
 \end{solution}
 \begin{dxtips}
-    就是尽量引入期望或者方差因为有固定的公式，也是因为方差和期望是稳定的
+先验和后验都是贝塔分布的，但是具体数据也就是似然是二项分布的。所以nθ是用到二项分布公式S也是。
+    为什么要求和其实就是求和出来的就是一共成功了多少次，因为只有成功才算1.求期望就是把常数自然带，求方差的时候系数得平方
+\end{dxtips}
+\begin{dxtips}
+   贝叶斯估计量就是后验的期望，求期望的时候只有S求期望会变其他的其实都是常数
 \end{dxtips}
 \begin{note}
 拆分 $(\hat{\theta} - \theta) = (\hat{\theta} - E\hat{\theta}) + (E\hat{\theta} - \theta)$ 是为了把随机波动（方差）和系统误差（偏差）分开，展开后交叉项期望为 $0$，故

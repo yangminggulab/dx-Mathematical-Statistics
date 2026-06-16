@@ -475,6 +475,23 @@ g_k(\theta)=\frac1n\sum_{i=1}^n X_i^k,
 \begin{dxtips}
 一堆数字，我知道它们服从一个特定的分布，比如泊松分布 $P(\lambda)$，但直接看不出来 $\lambda$ 是多少。所以我们需要找一个含有 $\lambda$ 的公式，同时这个公式也能用真实数据算出来——含有 $\lambda$ 的公式，我们选取的是 $\lambda$ 的（总体）矩 $E(X)=\lambda$；能用真实数据算的公式，则是样本矩 $\bar X=\dfrac1n\sum_{i=1}^n X_i$。
     \end{dxtips}
+    \begin{note}
+$\hat{\theta}$ 中的 hat 表示\textbf{对 $\theta$ 的点估计}，不特指某种方法，任何估计方法给出的点估计都可以戴 hat。
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{方法} & \textbf{写法} & \textbf{本质} \\
+\midrule
+MLE & $\hat{\theta}_{\mathrm{MLE}}$ & 最大化似然 \\
+矩估计 & $\hat{\theta}_{M}$ & 样本矩 $=$ 总体矩 \\
+贝叶斯估计 & $\hat{\theta}_{B}$ & 后验期望 $E(\theta\mid\boldsymbol{X})$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+hat 表示身份（点估计），不表示计算方式。
+\end{note}
 \section{MLE}
 \begin{definition}[最大似然估计]
 设 $X_1,\ldots,X_n$ 是来自总体 $f(x;\theta)$（$\theta\in\Theta$）的简单随机样本，$x_1,\ldots,x_n$ 为观测值。称
@@ -538,6 +555,7 @@ $\hat\theta$ 不是似然函数 $L(\theta)$ 的最大值本身，而是\textbf{�
 例：$X\sim\mathrm{Exp}(\lambda)$ 的 MLE 为 $\hat\lambda=1/\bar X$，则总体均值 $1/\lambda$ 的MLE直接是 $1/\hat\lambda=\bar X$，不需要重新求解。
 \end{note}
 \section{贝叶斯}
+\subsection{后验}
 \begin{note}
 贝叶斯的世界里，$\theta$ 不是固定的未知数，而是一个\textbf{随机变量}，有自己的分布。
 
@@ -582,6 +600,28 @@ p(\theta\mid X)\propto\theta^7(1-\theta)^3\cdot\theta(1-\theta)=\theta^8(1-\thet
 \]
 相比频率估计 $7/10=0.7$，先验将结果向 $0.5$ 拉近了一点。
 \end{example}
+\begin{note}
+在贝叶斯推导中，后验分布的完整表达式为
+\[
+p(\mu|\boldsymbol{X}) = \frac{f(\boldsymbol{X}|\mu)\cdot\pi(\mu)}{f(\boldsymbol{X})}
+\]
+其中分母 $f(\boldsymbol{X}) = \int f(\boldsymbol{X}|\mu)\,\pi(\mu)\,d\mu$ 对 $\mu$ 而言是常数，
+故只需保留含 $\mu$ 的部分：
+\[
+p(\mu|\boldsymbol{X}) \propto f(\boldsymbol{X}|\mu)\cdot\pi(\mu)
+\]
+这一步的合理性在于：概率密度满足归一化条件 $\int p(\mu|\boldsymbol{X})\,d\mu = 1$，
+因此\textbf{一旦认出核函数的形状，归一化常数即被唯一确定}，无需显式计算。
+
+例如，配方后若发现
+\[
+p(\mu|\boldsymbol{X}) \propto \exp\!\left(-\frac{(\mu-\mu_1)^2}{2\tau_1^2}\right)
+\]
+则立即断定后验为 $N(\mu_1,\tau_1^2)$，归一化常数 $\dfrac{1}{\sqrt{2\pi}\,\tau_1}$ 自动补齐。
+
+\textbf{本质：}$\propto$ 不是"不关心常数"，而是"先认出分布族，再补常数"。
+此技巧在共轭先验推导中极为常用。
+\end{note}
 \subsection{beta函数}
 \begin{definition}{Beta 函数}{}
 Beta 函数（大写 $B$）定义为
@@ -730,6 +770,24 @@ $\beta$  & 反面次数 $+1$ & 历史观测总时长 \\
 
 Beta 分母是 $\alpha+\beta$（比例归一到1）；Gamma 分母只有 $\beta$（发生率可任意大）。
 \end{note}
+\begin{solution}
+\textbf{第一步：认出共轭族。}
+数据 $B(1,\theta)$ + 先验 $\text{Beta}(a,b)$ 构成 Binomial/Beta 共轭，后验必为 Beta 分布。
+
+\textbf{第二步：推导后验参数，得贝叶斯估计量。}
+\[
+p(\theta|\boldsymbol{X}) \propto \theta^{S+a-1}(1-\theta)^{n-S+b-1}
+\implies \theta|\boldsymbol{X} \sim \text{Beta}(S+a,\ n-S+b)
+\]
+取后验期望（Beta 期望公式 $E[\text{Beta}(\alpha,\beta)]=\frac{\alpha}{\alpha+\beta}$）：
+\[
+\hat{\theta}_B = \frac{S+a}{n+a+b}, \quad S = \sum_{i=1}^n X_i
+\]
+
+\textbf{第三步：将 $\hat{\theta}_B$ 视为普通估计量计算 MSE。}
+由 $S \sim B(n,\theta)$ 知 $ES = n\theta$，$\text{Var}(S) = n\theta(1-\theta)$，
+后续偏差、方差、MSE 均对 $S$ 求期望。
+\end{solution}
 \subsection{帕累托}
 \begin{note}
 帕累托分布 $\mathrm{Pareto}(a,b)$ 的标准密度为
