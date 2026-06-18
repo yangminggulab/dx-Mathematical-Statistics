@@ -1,35 +1,5 @@
 \chapter{纯作业}
 \section{第一周作业}
-\begin{homework}{3}
-    汽车制造商的生产记录表明了每个班的产品数量（每个班的最大产量是 720 辆汽车）。
-    \begin{center}
-        \begin{tabular}{ccccccccccccc}
-            668 & 711 & 625 & 701 & 688 & 667 & 694 & 630 & 547 & 703 & 688 & 697 & 703 \\
-            656 & 677 & 700 & 702 & 688 & 691 & 664 & 688 & 679 & 708 & 699 & 667 & 703 \\
-        \end{tabular}
-    \end{center}
-    \begin{enumerate}
-        \item 画出茎叶图。
-        \item 计算样本均值和样本中位数。
-        \item 均值和中位数间的关系关于数据的形状说明了什么？
-    \end{enumerate}
-\end{homework}
-
-\begin{homework}{4}
-    在一项血清胆固醇含量 (mg/L) 的研究中，记录了 20 个成年患者的胆固醇含量：
-    \begin{center}
-        \begin{tabular}{cccccccccc}
-            133 & 137 & 148 & 149 & 152 & 167 & 174 & 179 & 189 & 192 \\
-            201 & 209 & 210 & 211 & 218 & 238 & 245 & 248 & 253 & 257 \\
-        \end{tabular}
-    \end{center}
-    试求 (1) 样本均值和样本中位数；(2) 极差、四分位数间距和样本方差。
-\end{homework}
-
-\begin{homework}{5}
-    用上题中的观测值画出箱线图，并由此说明总体分布的形状。
-\end{homework}
-
 \subsection*{page44}
 
 \begin{homework}[3]
@@ -79,8 +49,8 @@ $X_1,X_2,\cdots,X_n$ 是抽自 $X$ 的简单随机样本，求 $X_{(1)},X_{(n)}$
 \begin{homework}[3]
 （均匀分布）设 $X_1,X_2,\cdots,X_n$ i.i.d., $X_1\sim U\!\left[\theta-\frac12,\theta+\frac12\right]$，试分别求出 $X_{(1)}$ 和 $X_{(n)}$ 的概率密度。
 \end{homework}
-\section{第二次作业}
-\subsection{45,3,4,6}
+\section{第二周作业}
+\subsection*{page45}
 
 \begin{homework}[4]
 设 $X_1,X_2,\cdots,X_n$ i.i.d., $X_1\sim F(x)$，$F(x)$ 有概率密度 $f(x)$，求：
@@ -104,7 +74,7 @@ $X_1,X_2,\cdots,X_n$ 是抽自 $X$ 的简单随机样本，求 $X_{(1)},X_{(n)}$
 z_\alpha=\mu+\sigma u_\alpha.
 \]
 \end{homework}
-\subsection{46,1,2,3}
+\subsection*{page46}
 
 \begin{homework}[1]
 （$\chi^2$ 分布）设 $X\sim \chi^2(n)$，证明：
@@ -166,7 +136,7 @@ A^2=A,
 \operatorname{rank}(A)=r.
 \]
 \end{homework}
-\section{第三次作业}
+\section{第三周}
 \begin{homework}
 设 \(X_1,\dots,X_n\) i.i.d., \(X_i\sim N(\mu,\sigma^2)\)，又设 \(X_{n+1}\sim N(\mu,\sigma^2)\)，且与 \(X_1,\dots,X_n\) 相互独立。记
 \[
@@ -314,7 +284,6 @@ f(x,\theta_1,\theta_2)=
     \item 求 \(\theta\) 的后验均值估计。
 \end{enumerate}
 \end{homework}
-\section{无偏估计}
 \begin{homework}[1]
 （泊松分布）设 $X \sim P(\lambda)$，试求样本量为 $1$ 时 $g(\lambda) = e^{-2\lambda}$ 的无偏估计量，并说明该估计的不合理性。
 \end{homework}
@@ -339,13 +308,6 @@ f(x,\theta_1,\theta_2)=
 设 $X \sim U(0,\theta)$，$X_1, X_2, \cdots, X_n$ i.i.d. 为来自 $X$ 的样本，试分别求 $\theta^2, \theta^{-1}$ 的无偏估计量。
 \end{homework}
 \section{第七周作业}
-\begin{homework}{1}
-证明：
-\[
-I(\theta) = \operatorname{Var}\left(\frac{\partial}{\partial\theta}\ln f(X;\theta)\right) = -E\left(\frac{\partial^2}{\partial\theta^2}\ln f(X;\theta)\right)
-\]
-\end{homework}
-
 \begin{homework}[7]
 设 $W$ 是 $\theta$ 的无偏估计量，若 $W$ 满足
 \begin{enumerate}[(1)]
@@ -395,7 +357,6 @@ $$
     \item 求该估计量的均方误差。
 \end{enumerate}
 \end{homework}
-\subsection{3.4}
 
 \begin{homework}[1]
 设 $X_n \xrightarrow{d} X$，$Y_n \xrightarrow{a.s.} a > 0$，证明：
@@ -489,7 +450,7 @@ f(x) = \begin{cases} \dfrac{1}{\theta} \mathrm{e}^{-x/\theta}, & x > 0; \\ 0, & 
 
 \textbf{(3)} 若 $\mu_1, \mu_2, \sigma_1^2, \sigma_2^2$ 都未知，求 $\sigma_2^2/\sigma_1^2$ 的一个 $1-\alpha$ 置信度的置信区间。
 \end{homework}
-\subsection{4.1}
+\section{4.1}
 \begin{homework}{1}
 设 $X_1, X_2, \cdots, X_n$ 为独立同分布样本，$X_1 \sim N(\mu, 1)$。对检验问题 $H_0: \mu = 0$；$H_1: \mu > 0$，用检验函数
 $$\phi(\boldsymbol{X}) = \phi(X_1, X_2, \cdots, X_n) = \begin{cases} 1, & \text{若 } \bar{X}_n > 1.3 \\ 0, & \text{若 } \bar{X}_n \leq 1.3 \end{cases}$$
@@ -517,18 +478,7 @@ $$\phi(\boldsymbol{X}) = \begin{cases} 1, & \text{若 } X_{(10)} > 0.95 \\ 0, & 
 \begin{homework}{3}
 证明：二项分布 $B(n,p)$ 的分布函数 $P\{X \leq x\} = \displaystyle\sum_{i=0}^{x}\binom{n}{i}p^i(1-p)^{n-i}$ 是 $p$ 的单调减函数。
 \end{homework}
-\subsection{4.2}
-\begin{homework}[1]
-若在例 4.2.1 中，方差 $\sigma^2$ 未知，取检验水平 $\alpha = 0.10$，试检验假设
-$$H_0: \mu = 14; \quad H_1: \mu \neq 14$$
-\end{homework}
-
-\begin{homework}[2]
-设 $X_1, X_2, \cdots, X_{10}$ 是抽自 $N(\mu, \sigma^2)$ 的样本。
-
-(1) 试写出检验问题 $H_0: \mu \leq 1$；$H_1: \mu > 1$ 的检验函数，取 $\alpha = 0.1$；
-\end{homework}
-
+\section{4.2}
 \begin{homework}[2]
 设 $X_1, X_2, \cdots, X_{10}$ 是抽自 $N(\mu, \sigma^2)$ 的样本．
 
@@ -579,6 +529,10 @@ $$H_0: \mu = 14; \quad H_1: \mu \neq 14$$
 
     \item[(2)] 若已知没有系统误差，仪器 $A$ 和仪器 $B$ 的测量精度是否一致？
 \end{enumerate}
+
+\begin{note}
+"无系统误差"等同于 $\mu_B = \mu_A$，"测量精度一致"等同于 $\sigma_B^2 = \sigma_A^2$，$\mu_A, \mu_B, \sigma_A^2, \sigma_B^2$ 分别是两台仪器测量值分布的均值和方差．
+\end{note}
 \end{homework}
 \section{第10周作业}
 \subsection{4.3}
@@ -590,7 +544,7 @@ $$H_0: \mu = 14; \quad H_1: \mu \neq 14$$
 设 $X_1, X_2, \cdots, X_n$ 为来自 $P(\lambda)$ 的样本，试给出检验 $H_0: \lambda = \lambda_0$；$H_1: \lambda \neq \lambda_0$ 的检验函数．若有观测值 $5, 7, 8, 6, 9, 10$，在检验水平 $\alpha = 0.05$ 下，能接受 $\lambda = 3$ 吗？
 \end{homework}
 \section{第11周作业}
-\subsection{4.4}
+\section{4.4}
 \begin{homework}{1}
 设总体 $X$ 服从参数为 $\lambda$ 的泊松分布
 $$f(x,\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}, \quad x = 0,1,2,\cdots$$
@@ -674,7 +628,7 @@ $$H_0: \lambda \leq \lambda_0; \quad H_1: \lambda > \lambda_0$$
     \item 若 (1) 回答是肯定的，请写出检验函数的形式。
 \end{enumerate}
 \end{homework}
-\section{12周}
+\section{12周作业}
 \begin{homework}[1]
 有一样本的观测值为：$0.473$，$0.224$，$0.827$，$0.223$，$0.867$，$0.779$，$0.554$，$0.529$，$0.705$，$0.656$，试用作图法检验该样本是否抽自 $U(0,1)$．
 \end{homework}
@@ -687,115 +641,4 @@ $$H_0: \lambda \leq \lambda_0; \quad H_1: \lambda > \lambda_0$$
 对第 1 题做 Kolmogorov 检验．
 
 掷骰子 $30$ 次，掷出 $1$、$2$、$3$、$4$、$5$、$6$ 点的次数分别为 $3$、$6$、$4$、$7$、$4$、$6$，请检验骰子出现各点概率是否相等？
-\end{homework}
-
-\begin{homework}[3]
-有一样本的观测值为 $9, 6, 13, 22, 18, 37, 36, 52, 41, 36$，
-试检验该样本是否抽自两参数的韦布尔（Weibull）分布。
-\end{homework}
-
-\section{13周}
-\begin{homework}[5.2.1]
-酒精贮存：一些化学元素将发生变化，威士忌经贮存颜色变深，味道更鲜美。
-下表给出了威士忌酒的贮存年限及相应的浓度。试给出原始数据散点图和拟合的直线。
-给出威士忌酒浓度和贮存年限的关系，预测一下贮存 $9$ 年的威士忌的浓度是多少？
-
-\[
-\begin{array}{c|cccccccccc}
-\hline
-\text{年限} & 0 & 0.5 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
-\hline
-\text{浓度}/10^{-6} & 104.6 & 104.1 & 104.4 & 105.0 & 106.0 & 106.8 & 107.7 & 108.7 & 110.6 & 112.1 \\
-\hline
-\end{array}
-\]
-\end{homework}
-
-\begin{homework}[5.2.2]
-设 $X_1, X_2, \cdots, X_n$ i.i.d.，
-$X_1 \sim N(0,\sigma^2)$，$u \in \mathbb{R}^n$，$u^T u = 1$，证明：
-\[
-\frac{X^T(I_n - uu^T)X}{\sigma^2}
-\]
-服从自由度为 $n-1$ 的 $\chi^2$ 分布，其中
-\[
-X^T = (X_1, X_2, \cdots, X_n),
-\]
-$I_n$ 是 $n$ 阶单位阵。
-\end{homework}
-
-\begin{homework}[6]
-对第 $1$ 题的结果作显著性检验，并对贮存 $9$ 年后的浓度进行置信度为 $90\%$ 的区间预测。
-\end{homework}
-
-\begin{homework}[7]
-下面数据是 $18$ 名 $5$--$8$ 岁儿童的体重和体积。
-
-\[
-\begin{array}{cc|cc|cc|cc}
-\hline
-\text{体重} & \text{体积} & \text{体重} & \text{体积} & \text{体重} & \text{体积} & \text{体重} & \text{体积} \\
-(\mathrm{kg}) & ((\mathrm{dm})^3) & (\mathrm{kg}) & ((\mathrm{dm})^3) & (\mathrm{kg}) & ((\mathrm{dm})^3) & (\mathrm{kg}) & ((\mathrm{dm})^3) \\
-\hline
-17.1 & 16.7 & 15.8 & 15.2 & 15.0 & 14.5 & 16.7 & 16.6 \\
-10.5 & 10.4 & 15.1 & 14.8 & 16.0 & 15.8 & 16.5 & 15.9 \\
-13.8 & 13.5 & 12.1 & 11.9 & 17.8 & 17.6 & 15.1 & 15.1 \\
-11.9 & 11.6 & 18.4 & 18.3 & 15.7 & 15.7 & 15.1 & 14.5 \\
-10.4 & 10.2 & 17.1 & 16.7 &      &      &      &      \\
-\hline
-\end{array}
-\]
-
-\begin{enumerate}
-    \item 找出儿童的平均体积和体重间的关系。
-    \item 给出置信度为 $90\%$ 的体重为 $14\,\mathrm{kg}$ 的儿童平均体积的置信区间。
-    \item 给出置信度为 $90\%$ 的体重为 $14\,\mathrm{kg}$ 的儿童的体积的预测区间。
-    \item 想想该题意义所在。
-\end{enumerate}
-\end{homework}
-
-\section{14周}
-\begin{homework}[1]
-在单因子方差分析中，到新参数下的统计模型：
-\begin{equation}
-    y_{ij} = \mu + \mu_i + e_{ij}, \tag{6.2.4}
-\end{equation}
-用
-\[
-\bar{\mu} = \frac{1}{k}\sum_{i=1}^{k}\mu_i'
-\]
-
-代替(6.2.4)式中的$\mu$，则$y_{ij}$仍可写做
-\[
-y_{ij} = \bar{\mu} + \mu_i + e_{ij},
-\]
-其中$\mu_i = \mu_i' - \bar{\mu}$.
-\begin{enumerate}
-    \item $\{\mu_i\}$应满足什么约束条件？
-    \item 证明假设$H_0: \mu_1' = \mu_2' = \cdots = \mu_k'$与假设$H_0: \mu_1 = \mu_2 = \cdots = \mu_k = 0$等价．
-\end{enumerate}
-\end{homework}
-
-\begin{homework}[2]
-对某种疾病有五种治疗方式，包括一种安慰剂．下面数据给出由疾病出现到治愈所需天数．
-
-\begin{table}[h]
-\centering
-\begin{tabular}{c|cccccc}
-\hline
-治疗方式 & \multicolumn{6}{c}{痊愈所需天数} \\
-\hline
-1(安慰剂) & 5 & 8 & 7 & 7 & 10 & 8 \\
-2         & 4 & 6 & 6 & 3 & 5  & 6 \\
-3         & 6 & 4 & 4 & 5 & 4  & 3 \\
-4         & 7 & 4 & 6 & 6 & 3  & 5 \\
-5         & 9 & 3 & 5 & 7 & 7  & 6 \\
-\hline
-\end{tabular}
-\end{table}
-
-\begin{enumerate}
-    \item 对每种治疗方式计算痊愈所需天数的均值和标准差．
-    \item 对给定数据作方差分析．
-\end{enumerate}
 \end{homework}

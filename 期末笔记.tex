@@ -559,7 +559,7 @@ $\hat\theta$ 不是似然函数 $L(\theta)$ 的最大值本身，而是\textbf{�
 \begin{note}
 贝叶斯的世界里，$\theta$ 不是固定的未知数，而是一个\textbf{随机变量}，有自己的分布。
 
-\begin{center}
+\begin{table}[h]
 \centering
 \begin{tabular}{lll}
 \toprule
@@ -570,7 +570,7 @@ $\hat\theta$ 不是似然函数 $L(\theta)$ 的最大值本身，而是\textbf{�
 后验分布 & $p(\theta\mid X)$ & 看到数据\textbf{之后}，更新后的信念 \\
 \bottomrule
 \end{tabular}
-\end{center}
+\end{table}
 \end{note}
 \begin{note}[MLE 与 Bayes 的关系]
 两者目标相同——都给出 $\theta$ 的估计值，区别在于"用什么信息、怎么组合"：
@@ -662,7 +662,7 @@ Beta 函数就是把离散的组合数\textbf{连续化}了。抛硬币用 Beta 
 \begin{dxtips}
 $B(\alpha,\beta)$ 两个参数的含义：类比抛硬币，$\alpha$ 和 $\beta$ 可理解为\textbf{虚拟的历史数据}。
 
-\begin{center}
+\begin{table}[h]
 \centering
 \begin{tabular}{lll}
 \toprule
@@ -672,7 +672,7 @@ $\alpha$ & 第一个 & 历史上观测到正面的次数 $+1$ \\
 $\beta$  & 第二个 & 历史上观测到反面的次数 $+1$ \\
 \bottomrule
 \end{tabular}
-\end{center}
+\end{table}
 
 \begin{itemize}
     \item $\mathrm{Beta}(2,2)$：相当于"我之前\textbf{好像见过1次正面、1次反面}"，感觉差不多均匀。
@@ -704,7 +704,7 @@ $\beta$  & 第二个 & 历史上观测到反面的次数 $+1$ \\
 \begin{note}
 \textbf{共轭先验配对表}
 
-\begin{center}
+\begin{table}[h]
 \centering
 \renewcommand{\arraystretch}{2}
 \begin{tabular}{llll}
@@ -737,7 +737,7 @@ $\beta$  & 第二个 & 历史上观测到反面的次数 $+1$ \\
     & $\dfrac{\alpha+n}{\alpha+n-1}\max(\beta,x_{(n)})$ \\
 \bottomrule
 \end{tabular}
-\end{center}
+\end{table}
 
 \textbf{记忆规律：}
 \begin{itemize}
@@ -753,7 +753,7 @@ $\beta$ 为历史\textbf{观测总时长}，均值为 $\alpha/\beta$。
 
 与 $\mathrm{Beta}(\alpha,\beta)$ 对比：
 
-\begin{center}
+\begin{table}[h]
 \centering
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{lll}
@@ -766,7 +766,7 @@ $\beta$  & 反面次数 $+1$ & 历史观测总时长 \\
 支撑     & $(0,1)$ & $(0,\infty)$ \\
 \bottomrule
 \end{tabular}
-\end{center}
+\end{table}
 
 Beta 分母是 $\alpha+\beta$（比例归一到1）；Gamma 分母只有 $\beta$（发生率可任意大）。
 \end{note}
@@ -795,7 +795,7 @@ p(\theta|\boldsymbol{X}) \propto \theta^{S+a-1}(1-\theta)^{n-S+b-1}
 \pi(\theta)=\frac{ba^b}{\theta^{b+1}},\quad\theta>a.
 \]
 
-\begin{center}
+\begin{table}[h]
 \centering
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{lll}
@@ -806,7 +806,7 @@ $a$ & 第一个 & \textbf{支撑下界}，$\theta$ 最小能取什么值 \\
 $b$ & 第二个 & \textbf{形状参数}，控制尾部厚薄 \\
 \bottomrule
 \end{tabular}
-\end{center}
+\end{table}
 
 所以后验 $\mathrm{Pareto}\!\left(\max(x_{(n)},a),\ n+b\right)$ 中：
 \begin{itemize}
@@ -1503,9 +1503,7 @@ $$\sqrt{n}(g(\hat{\theta}) - g(\theta)) \approx g'(\theta) \cdot \sqrt{n}(\hat{\
 \end{dxtips}
 \begin{note}[中心极限定理详解]
  Central Limit Theorem
-\[
-\text{Var}\!\left(\sum X_i - n\mu\right) = \text{Var}\!\left(\sum X_i\right) = \sum_{i=1}^n \text{Var}(X_i) = n\sigma^2
-\]
+ \text{Var}\!\left(\sum X_i - n\mu\right) = \text{Var}\!\left(\sum X_i\right) = \sum_{i=1}^n \text{Var}(X_i) = n\sigma^2
 
 % 常数不影响方差；独立 → 方差可以直接加；n 个 σ² 加起来 = nσ²
 
@@ -1516,7 +1514,7 @@ $$\sqrt{n}(g(\hat{\theta}) - g(\theta)) \approx g'(\theta) \cdot \sqrt{n}(\hat{\
   \item 除以 $\sqrt{n}$：$\dfrac{1}{\sqrt{n}}\displaystyle\sum(X_i-\mu)$，方差 $= \sigma^2$（稳定！）
 \end{itemize}
 
-$\sqrt{n}$ 是让方差既不爆炸也不消失的唯一选择。
+\sqrt{n} \text{ 是让方差既不爆炸也不消失的唯一选择。}
 \end{note}
 \begin{dxtips}
 因为 $n$ 个方差之和才是 $n\sigma^2$，
@@ -2290,4 +2288,34 @@ $F > F_\alpha(k-1, N-k)$ 则拒绝 $H_0$。
 F = \frac{MS_A}{MS_E} = \frac{SS_A/(k-1)}{SS_E/(N-k)} \sim F(k-1, N-k)
 \]
 不是凭空规定的，是柯赫伦定理的直接推论。
+\end{dxtips}
+\chapter{一些思考}
+\section{posong与二项}
+\begin{dxtips}
+泊松分布和二项分布中都出现阶乘，自然想问：背后是否对应某个函数？
+\[
+    \frac{x^k}{k!}\Rightarrow e^x,\qquad
+    C_n^k x^k\Rightarrow (1+x)^n.
+\]
+阶乘来自对 $f(x)$ 反复微分：Taylor 展开系数 $a_n=\frac{f^{(n)}(0)}{n!}$，故看见阶乘求和，天然对应微分结构。
+\end{dxtips}
+
+\begin{note}
+\begin{itemize}
+    \item \textbf{泊松分布}：$P(X=k)=e^{-\lambda}\frac{\lambda^k}{k!}$，归一化来自 $e^{-\lambda}\cdot e^{\lambda}=1$，背后函数为 $e^x$。
+    \item \textbf{二项分布}：$P(X=k)=C_n^k p^k(1-p)^{n-k}$，归一化来自 $(p+1-p)^n=1$，背后函数为 $(1+x)^n$。
+    \item \textbf{极限关系}：$\operatorname{Bin}(n,p)\to\operatorname{Poisson}(\lambda)$，函数层面对应 $\left(1+\frac{x}{n}\right)^n\to e^x$。
+    \item \textbf{推广}：$n!\Rightarrow\Gamma(n+1)$，带阶乘的分布背后往往与 Gamma 函数有关。
+\end{itemize}
+\end{note}
+\begin{dxtips}
+\begin{itemize}
+    \item $e$ 最先发现是为了构造一个函数让他的导数等于本身，然后他才和 $\frac{1}{n!}$ 的阶乘求和扯上关系。
+    \item 或者说，看见底下的阶乘的求和我们天然要想到微分。
+    \item 所以级数的发明是为了描述函数吗？其实级数研究的就是函数项级数的系数问题
+    \item 因为 $a_n$ 其实就是相当于微分的系数，而 $x^n$ 是固定的。
+\end{itemize}
+\end{dxtips}
+\begin{dxtips}
+    然后从哲学上讲他们的核心思想就是把系数和本体拆开来看
 \end{dxtips}
