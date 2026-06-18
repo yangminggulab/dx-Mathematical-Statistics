@@ -1001,6 +1001,14 @@ $$\frac{\partial}{\partial\theta}\int_0^\theta \frac{1}{\theta}\,dx = \frac{\par
 $$\int_0^\theta \frac{\partial}{\partial\theta}\frac{1}{\theta}\,dx = \int_0^\theta -\frac{1}{\theta^2}\,dx = -\frac{1}{\theta}$$
 两边不相等，所以 $E[S] = -\dfrac{1}{\theta} \neq 0$，C-R 下界对 $U(0,\theta)$ 直接失效。
 \end{note}
+\begin{dxtips}[得分函数和fisher函数的关系]
+
+得分取对数是为了让 $L(\theta)$ 连乘变连加，而且对 $\ln$ 求导自然出现 $\dfrac{1}{f}$，直接完成归一化。
+
+$\dfrac{\partial}{\partial\theta}\ln f$ 叫做\textbf{得分函数（score function）}，它衡量的是：当 $\theta$ 变化时，观测到当前数据 $X$ 的"惊讶程度"变化有多快。
+
+$I(\theta)$$fisher$函数 就是这个得分函数的方差也是二阶矩（因为可以证明得分函数期望为 $0$，所以它的二阶矩就等于方差）。
+\end{dxtips}
 \subsection{CR}
 \begin{note}
 \textbf{C-R 下界在说什么：}
@@ -1429,7 +1437,7 @@ MLE 算出确定值但不知道好不好，渐近正态就是用来回答「好�
     MLE就是算得分函数什么时候是0
 \end{dxtips}
 \subsection{渐近正态}
-\begin{definition}[渐近正态性]
+\begin{definition}[渐近正态性与渐近方差]
 设 $\hat{\theta}_n$ 是 $\theta$ 的估计量，若存在 $\sigma^2(\theta)$ 使得：
 $$\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{d} N(0,\, \sigma^2(\theta))$$
 则称 $\hat{\theta}_n$ 是 $\theta$ 的\textbf{渐近正态估计量}，
@@ -1526,6 +1534,21 @@ $$\text{Var}\!\left(\sqrt{n}\,(\bar{X}-\mu)\right)
 = n \cdot \text{Var}(\bar{X})
 = n \cdot \frac{\sigma^2}{n} = \sigma^2$$
 \end{dxtips}
+\subsection{渐近效率}
+
+\begin{definition}[渐近效率]
+设 $\hat{\theta}_{1n}$、$\hat{\theta}_{2n}$ 是 $\theta$ 的两个渐近正态估计量，渐近方差分别为 $\sigma_1^2$、$\sigma_2^2$，则称
+$$e(\hat{\theta}_{2n},\, \hat{\theta}_{1n}) = \frac{\sigma_1^2}{\sigma_2^2}$$
+为 $\hat{\theta}_{2n}$ 相对于 $\hat{\theta}_{1n}$ 的\textbf{渐近效率}。
+
+以 MLE（渐近方差 $= 1/I(\theta)$）为基准：$e = 1/I(\theta)/\sigma_2^2$，当 $e=1$ 时称 $\hat{\theta}_{2n}$ \textbf{渐近有效}。
+\end{definition}
+
+\begin{note}
+含义：$e$ 就是"换这个估计量等价于把样本量乘以 $e$"。$e<1$ 说明它比 MLE 差，需要更多数据才能追上。
+
+正态总体估计 $\mu$：$\overline{X}$ 渐近方差 $\sigma^2$，中位数渐近方差 $\pi\sigma^2/2$，故中位数的渐近效率 $= 2/\pi \approx 0.637$，需要多用约 $57\%$ 的样本。
+\end{note}
 \chapter{能力三}
 \dirtree{%
 .1 能力三\quad 区间估计.
@@ -2291,6 +2314,12 @@ F = \frac{MS_A}{MS_E} = \frac{SS_A/(k-1)}{SS_E/(N-k)} \sim F(k-1, N-k)
 \end{dxtips}
 \chapter{一些思考}
 \section{posong与二项}
+\begin{itemize}
+  \item $E[X] = \lambda$
+  \item $E[X^2] = E[X(X-1)] + E[X] = \lambda^2 + \lambda$
+  \item $E[X^3] = E[X(X-1)(X-2)] + 3E[X(X-1)] + E[X] = \lambda^3 + 3\lambda^2 + \lambda$
+  \item $E[X^4] = E[X(X-1)(X-2)(X-3)] + 6E[X(X-1)(X-2)] + 7E[X(X-1)] + E[X] = \lambda^4 + 6\lambda^3 + 7\lambda^2 + \lambda$
+\end{itemize}
 \begin{dxtips}
 泊松分布和二项分布中都出现阶乘，自然想问：背后是否对应某个函数？
 \[
@@ -2318,4 +2347,25 @@ F = \frac{MS_A}{MS_E} = \frac{SS_A/(k-1)}{SS_E/(N-k)} \sim F(k-1, N-k)
 \end{dxtips}
 \begin{dxtips}
     然后从哲学上讲他们的核心思想就是把系数和本体拆开来看
+\end{dxtips}
+\section{ump与umvue}
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\hline
+ & \textbf{UMVUE} & \textbf{UMP} \\
+\hline
+\textbf{目标} & 找用哪个统计量估计 $\theta$ & 找拒绝域放在哪里 \\
+\textbf{所在领域} & 点估计 & 假设检验 \\
+\textbf{核心条件} & 指数族 + 完备充分统计量 & 似然比关于 $T(X)$ 单调（MLR） \\
+\textbf{最优标准} & 无偏中方差最小 & $\alpha$ 约束下功效最大 \\
+\textbf{构造方法} & Rao-Blackwell + Lehmann-Scheff\'{e} & N-P 引理 / MLR 定理 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{dxtips}
+    \textbf{相同点：}两者都依赖完备充分统计量 $T(X)$，且都在指数族中最容易找到——指数族同时保证了完备充分统计量的存在（为 UMVUE 服务）和 MLR 的成立（为 UMP 服务）。"一致"（uniform）的含义也相同：对参数空间中所有 $\theta$ 成立，而非只在某个点最优。
+
+    \textbf{不同点：}UMVUE 的约束是无偏性，优化目标是方差；UMP 的约束是第一类错误 $\leq \alpha$，优化目标是功效 $\beta(\theta)$。当 UMP 不存在时（如双侧检验），加上无偏约束得到 UMPU，此时 UMVUE 与 UMPU 完全对称：前者是"无偏估计中方差最小"，后者是"无偏检验中功效最大"。
 \end{dxtips}

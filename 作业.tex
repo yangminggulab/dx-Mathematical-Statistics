@@ -1339,6 +1339,9 @@ E[\hat{g}(\boldsymbol{X})] = \int_{-\infty}^{\infty} \hat{g}(x) \frac{1}{\sqrt{2
 \]
 右边作为 $\mu$ 的函数，可以验证它关于 $\mu$ 是\textbf{解析函数}（光滑且可展开为幂级数）。但 $|\mu|$ 在 $\mu = 0$ 处\textbf{不可导}，因此不是解析函数，矛盾。故 $g(\mu) = |\mu|$ 没有无偏估计量。
 \end{solution}
+\begin{dxtips}
+    无偏估计量关于μ无穷可微
+\end{dxtips}
 \begin{homework}{4}
 （均匀分布）设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim U(\theta_1, \theta_2)$，求 $\theta_1, \theta_2$ 的无偏估计量。
 \end{homework}
@@ -1699,18 +1702,17 @@ $$
 \begin{homework}[12]
 设 $X_1, X_2, \cdots, X_n$ i.i.d.，$X_1 \sim N(\mu, \sigma^2)$，已知 $\overline{X} = \dfrac{1}{n}\sum_{i=1}^{n} X_i$ 和 $s^2 = \dfrac{1}{n-1}\sum_{i=1}^{n}(X_i - \overline{X})^2$ 分别是 $\mu$ 和 $\sigma^2$ 的 UMVUE。计算 $\mu$ 和 $\sigma^2$ 的 C-R 下界。
 \end{homework}
-\begin{dxtips}[得分函数和fisher函数的关系]
-
-得分取对数是为了让 $L(\theta)$ 连乘变连加，而且对 $\ln$ 求导自然出现 $\dfrac{1}{f}$，直接完成归一化。
-
-$\dfrac{\partial}{\partial\theta}\ln f$ 叫做\textbf{得分函数（score function）}，它衡量的是：当 $\theta$ 变化时，观测到当前数据 $X$ 的"惊讶程度"变化有多快。
-
-$I(\theta)$$fisher$函数 就是这个得分函数的方差也是二阶矩（因为可以证明得分函数期望为 $0$，所以它的二阶矩就等于方差）。
+\begin{dxtips}
+    $f$ 是单个观测 $X_1$ 的密度：
+$$f(x, \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+算单个观测的 Fisher 信息 $I(\theta)$，C-R 下界是 $\dfrac{1}{nI(\theta)}$，$n$ 在分母上体现。
+Fisher 信息的等价形式为：
+$$I(\theta) = -E\left[\frac{\partial^2}{\partial \theta^2} \ln f(X, \theta)\right]$$
+用二阶导数的期望来算，实际计算更方便。
 \end{dxtips}
+
 \begin{solution}
-\begin{dxtips}[原始式子先去对数]
-    $$f(x;\mu,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
-\end{dxtips}
+
 正态总体 $X \sim N(\mu, \sigma^2)$ 的对数密度为
 $$
 \ln f(x;\mu,\sigma^2) = -\frac{1}{2}\ln(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}.
@@ -2123,6 +2125,9 @@ P(|T - \mu| \geq \varepsilon) \leq \frac{E(T-\mu)^2}{\varepsilon^2} = \frac{\mat
 \begin{homework}[9]
 在习题 3.3.11 中，估计 $\lambda^2$ 时，求 $\overline{X}^2$ 相对于 $\tilde{\lambda}^2$ 的渐近效率．
 \end{homework}
+\begin{dxtips}
+Delta 方法是以最原始的 $X_i$ 为基础的，所以方差也是乘它的方差；Delta 里面的 $\mu$ 本来就是期望，所以导完了带入的就是原始的期望。
+\end{dxtips}
 \begin{solution}
 设 $X_1, X_2, \ldots, X_n \overset{\text{i.i.d.}}{\sim} P(\lambda)$，习题 3.3.11 中 $\lambda^2$ 的无偏估计量为
 \[
@@ -2161,14 +2166,7 @@ e\!\left(\overline{X}^2,\ \tilde{\lambda}^2\right) = \frac{4\lambda^3/n}{(4\lamb
 \]
 \end{solution}
 \begin{dxtips}
-    渐近方差是方差，但渐近效率是\textbf{两个渐近方差的比值}：
-$$e(\hat{\theta}_1, \hat{\theta}_2) = \frac{V_2}{V_1}$$
-$V_1$ 小 $\Rightarrow e > 1 \Rightarrow \hat{\theta}_1$ 更好；
-$V_1$ 大 $\Rightarrow e < 1 \Rightarrow \hat{\theta}_1$ 更差。
-
-八周(9) 就是求：
-$$e(\bar{X}^2,\, \tilde{\lambda}^2) = \frac{V(\tilde{\lambda}^2)}{V(\bar{X}^2)}$$
-先各算出渐近方差，再做比。
+    这里之所以要重新设Y和Y的均值因为中心极限定理clt也只能作用在样本均值上，他描述的是样本均值和期望差的分布。
 \end{dxtips}
 \begin{dxtips}
 \begin{itemize}
@@ -3076,13 +3074,24 @@ Z = \frac{7.5 - 3}{\sqrt{3/6}} = \frac{4.5}{\sqrt{0.5}} \approx 6.36
 因为 $|Z| \approx 6.36 > 1.96$，拒绝 $H_0$，在显著性水平 $\alpha = 0.05$ 下，不能接受 $\lambda = 3$。
 \end{solution}
 \begin{dxtips}
-    比大小的核心是把他们拉到同一个尺度，因为查表是01正态尺度所以夜要把观测值拉到这个尺度所以需要标准化
+    比大小的核心是把它们拉到同一个尺度。因为查表是标准正态尺度，所以也要把观测值拉到这个尺度，这就需要标准化。CLT 只是描述样本均值与期望之间服从正态分布——减去期望只完成了把中心移动到 $0$，方差部分还要根据原始 $X$ 的分布来决定除以什么：Poisson 分布除以 $\sqrt{\lambda}$，正态分布除以 $\sqrt{\sigma^2} = \sigma$。
 \end{dxtips}
+\begin{itemize}
+    \item $z_{0.025} = 1.96$（双侧 $\alpha = 0.05$）
+    \item $z_{0.05} = 1.645$（单侧 $\alpha = 0.05$）
+\end{itemize}
 \section{第11周作业}
 \subsection{4.4}
 
-
-
+\begin{dxtips}
+    \begin{itemize}
+    \item \textbf{UMP}：找拒绝域放在哪里。
+    \item \textbf{UMVUE}：找用哪个统计量来估计 $\theta$。
+\end{itemize}
+\end{dxtips}
+\begin{dxtips}
+    这里f本质其实就是Px=k那个
+\end{dxtips}
 \begin{homework}{1}
 设总体 $X$ 服从参数为 $\lambda$ 的泊松分布
 $$f(x,\lambda) = \frac{\lambda^x}{x!}e^{-\lambda}, \quad x = 0,1,2,\cdots$$
@@ -3167,6 +3176,9 @@ $$\sqrt{n} \times 2.872 = 4.652$$
 $$\sqrt{n} \approx 1.620 \implies n \approx 25$$
 故需观察 $n = 25$ 日。
 \end{solution}
+\begin{dxtips}
+    首先看到 UMP 检验就要弄 MLR 才证明是，然后列出 $P_{H_0}(\sum X_i < c) = 0.01$ 和 $P_{H_1}(\sum X_i > c) = 0.01$，因为 $c$ 也就是拒绝域左沿是从来不变的，变的只是中心轴，然后列出两个方程，对左边 $\sum X_i$ 归一化的时候右边也得跟着归一化，右边其实就分别等于 $z_{\alpha=0.01}$ 和 $-z_{\alpha=0.01}$。
+\end{dxtips}
 \begin{note}
     两道题情况不同。上面那题 $n=10$，$\lambda_0=0.1$，所以 $n\lambda_0 = 1$，参数很小，可以直接查泊松分布表。这道题 $n$ 是未知的，而且 $\theta=10$ 或 $\theta=15$，所以 $n\theta$ 很大，泊松分布参数很大时没法直接查表，只能用正态近似：
 $$\sum X_i \sim P(n\theta) \approx N(n\theta,\ n\theta)$$
