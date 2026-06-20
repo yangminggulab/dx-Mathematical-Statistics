@@ -902,6 +902,9 @@ E(X)=kp.
 \hat\theta_{1,2}=\bar X\mp\sqrt{3\left(m_2-\bar X^2\right)}.
 \]
 \end{solution}
+\begin{dxtips}
+  求解的时候平均数和二阶平均数都确定，给他们一个代号就行了，一阶就用 $\bar{X}$，二阶就用 $m_2$，然后这里记住 $\theta_1^2 + \theta_1\theta_2 + \theta_2^2$ 就行了。
+\end{dxtips}
 \begin{note}[U(θ₁,θ₂)的矩]
 \[
 E(X^k)=\int_{\theta_1}^{\theta_2}x^k\cdot\frac{1}{\theta_2-\theta_1}\,dx=\frac{\theta_2^{k+1}-\theta_1^{k+1}}{(k+1)(\theta_2-\theta_1)}.
@@ -1000,7 +1003,7 @@ f(x;\theta) = \begin{cases} 1 & \theta - \frac{1}{2} \leq x \leq \theta + \frac{
 即 $x_{(n)} - \frac{1}{2} \leq \theta \leq x_{(1)} + \frac{1}{2}$，故对任意 $T \in \left[X_{(n)}-\frac{1}{2},\ X_{(1)}+\frac{1}{2}\right]$，均有 $L(T) = 1 = \max_\theta L(\theta)$，即 $T$ 为 $\theta$ 的最大似然估计量。
 \end{proof}
 \begin{dxtips}
-    注意需要所有xi都落在[θ-1/2，θ+1/2]
+    注意需要所有xi都落在[θ-1/2，θ+1/2]，不然有一个点落在外面f（x；θ）就是0整个就是0，f（x；θ）在连续性的时候是概率密度离散性的时候就是概率
 \end{dxtips}
 \begin{homework}[10]
 （双参数指数分布）设 \(X_1,X_2,\cdots,X_n\) i.i.d.，\(X_1\sim f(x;\alpha,\beta)\)，
@@ -1373,12 +1376,14 @@ $\hat{\theta}_1$ 不是一个具体数字，而是公式本身，是随机变量
 故 $X_{(1)}$ 仍为大写，我们还在实验前。
 \end{note}
 \begin{dxtips}[均匀分布必记]
-\[
-f(x) = \frac{1}{\theta_2-\theta_1}, \quad F(x) = \frac{x-\theta_1}{\theta_2-\theta_1}
-\]
-\[
-E[X_{(1)}] = \frac{n\theta_1+\theta_2}{n+1}, \quad E[X_{(n)}] = \frac{\theta_1+n\theta_2}{n+1}
-\]
+    密度函数与分布函数：
+    \[
+    f(x) = \frac{1}{\theta_2-\theta_1}, \quad F(x) = \frac{x-\theta_1}{\theta_2-\theta_1}
+    \]
+    次序统计量期望（直觉：$X_{(n)}$ 靠近 $\theta_2$，所以分子里 $\theta_2$ 的系数是 $n$；$X_{(1)}$ 靠近 $\theta_1$，同理）：
+    \[
+    E[X_{(1)}] = \frac{n\theta_1+\theta_2}{n+1}, \quad E[X_{(n)}] = \frac{\theta_1+n\theta_2}{n+1}
+    \]
 \end{dxtips}
 \begin{note}
 将期望 $E[X_{(1)}]$ 和 $E[X_{(n)}]$ 直接替换为样本观测值 $X_{(1)}$ 和 $X_{(n)}$，即可得到无偏估计量。本质上就是用样本值替换期望值，这是构造无偏估计量的标准操作。
@@ -1756,6 +1761,10 @@ $$
 $$
 而 $\mathrm{Var}(s^2) = \dfrac{2\sigma^4}{n-1} > \dfrac{2\sigma^4}{n}$，故 $s^2$ 未达到 C-R 下界，但仍是 $\sigma^2$ 的 UMVUE。
 \end{solution}
+\begin{note}
+    标准正态的四阶矩 $E[Z^4] = 3$，这是个记住的结论（正态分布的矩公式：$E[Z^{2k}] = (2k-1)!!$，$k=2$ 时就是 $3!! = 3$）。所以整个链条是：
+$$(X-\mu)^2 = \lambda \cdot Z^2 \implies (X-\mu)^4 = \lambda^2 \cdot Z^4 \implies E(X-\mu)^4 = \lambda^2 \cdot 3$$
+\end{note}
 \begin{dxtips}
    这里用到的就是标准正态分布的平方服从 $\chi^2(1)$。
 $-\mu$ 是减去均值，分母的 $\lambda$ 就是方差 $\sigma^2$，
@@ -2000,6 +2009,10 @@ E_\theta(X_{(n)} - \theta)^2 = E(X_{(n)}^2) - 2\theta E(X_{(n)}) + \theta^2
 故 $X_{(n)}$ 是 $\theta$ 的均方相合估计量。
 \end{solution}
 \begin{dxtips}
+    要求的是MSE随着n变大趋近于0不要求就是0.
+    求概率密度是为了求期望的时候里面有东西就是拿Px<k再求导的。mse是方差+偏差的平方
+\end{dxtips}
+\begin{dxtips}
     思路：直接算 $\mathrm{MSE} = E[(X_{(n)} - \theta)^2]$，若结果 $\to 0$ 则均方相合。
 \end{dxtips}
 \begin{homework}[4]
@@ -2061,6 +2074,16 @@ T = \exp\!\left(\frac{1}{n}\sum_{i=1}^n \ln X_i\right) = \sqrt[n]{X_1 X_2 \cdots
 故 $T$ 是 $g(\theta)$ 的相合估计量。
 \end{proof}
 \begin{dxtips}
+    $$\sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}$$
+
+所以：
+
+$$\text{Var}(T) = \frac{4}{n^2(n+1)^2} \cdot \sigma^2 \cdot \frac{n(n+1)(2n+1)}{6} = \frac{2\sigma^2(2n+1)}{3n(n+1)} \to 0$$
+\end{dxtips}
+\begin{dxtips}
+    取ln是为了出一个平均方便用大数，方差小于无穷也是为了用大数，注意这里收敛到的期望已尽是lnx了不是原来的x，最后再用指数连续把P收敛传递下去
+\end{dxtips}
+\begin{dxtips}
 就是想看T能不能通过大数定理证明是依概率收敛的然后再通过线性变化继承这个收敛。
     看见连乘就想ln先变成累加，为了切比雪夫大数定理所以需要方差小于无穷这步是为了大数定理吗，由大数定律：
 $$\frac{1}{n}\sum_{i=1}^n Y_i \xrightarrow{P} E[Y_1]$$
@@ -2085,6 +2108,15 @@ E(T) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot E(X_i) = \frac{2\mu}{n(n+1)} \sum_{
 \]
 由 Chebyshev 不等式，$T \xrightarrow{P} \mu$，故 $T$ 是一阶原点矩的相合估计量。
 \end{proof}
+\begin{dxtips}[平方和]
+实在忘了就能n=1 n=2 n=3试一下
+，反正是三个n然后。也就是一阶求和在加一项2n+1，下面变成6
+    $$\sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}$$
+
+所以：
+
+$$\text{Var}(T) = \frac{4}{n^2(n+1)^2} \cdot \sigma^2 \cdot \frac{n(n+1)(2n+1)}{6} = \frac{2\sigma^2(2n+1)}{3n(n+1)} \to 0$$
+\end{dxtips}
 \begin{dxtips}
 Chebyshev 把"概率问题"转成"矩问题"：
 \[
@@ -2236,6 +2268,14 @@ $$\left[\sqrt{n}(\hat{\theta} - \theta_0)\right]^2 \xrightarrow{d} A(\theta_0)\c
 $$n(h(\hat{\theta}) - h(\theta_0)) \xrightarrow{d} \frac{1}{2}A(\theta_0)h''(\theta_0)\chi^2(1).$$
 \end{proof}
 \begin{dxtips}
+    其实h二阶导哪一项就是常数他就是负责收敛到常数的，前面就是负责收敛到卡方分布的。一句话总结：
+\begin{itemize}
+    \item $\hat{\theta} \xrightarrow{P} \theta_0$ $\rightarrow$ 保证\textbf{点在动}
+    \item $h''$ 连续 $\rightarrow$ 保证\textbf{函数值跟着动}
+\end{itemize}
+两个条件合起来才能得到 $R \xrightarrow{P} 0$。
+\end{dxtips}
+\begin{dxtips}
 $A(\theta_0)$ 就是 MLE 的渐近方差，等于 Fisher 信息的倒数：
 $$A(\theta_0) = \frac{1}{I(\theta_0)}$$
 \end{dxtips}
@@ -2320,6 +2360,16 @@ X_{(1)} - b \leqslant \theta \leqslant X_{(1)} - a.
 \]
 \end{solution}
 \begin{dxtips}
+    构造枢轴估计量的本质就就是让分布从原来的位置变成已知,所以要Xi-θ。其实不要beta函数也没什么问题因为我们就把新变量当成一个整体又是经典顺序统计量问题。p里面是a所以Fu的u应该带入a
+\end{dxtips}
+\begin{note}
+   
+因为 $X_i \sim U(\theta, \theta+1)$，所以 $X_i - \theta \sim U(0,1)$。
+$U(0,1)$ 的最小次序统计量 $X_{(1)} - \theta$ 就是 $n$ 个 $U(0,1)$ 样本的最小值，它的分布是 $\text{Beta}(1,n)$，密度是 $f(u) = n(1-u)^{n-1}$。
+这是次序统计量的标准结论：$U(0,1)$ 的第 $k$ 个次序统计量服从 $\text{Beta}(k, n-k+1)$。
+
+\end{note}
+\begin{dxtips}
 只是从原来正态的一连串操作变成了把最小值-θ
 
 $Y_i = X_i - \theta \sim U(0,1)$，分布不含 $\theta$，所以它本身其实也可以做 pivot。
@@ -2368,13 +2418,20 @@ P\!\left(\chi^2_{1-\alpha/2}(n) \leqslant \frac{\sum_{i=1}^n(X_i-\mu)^2}{\sigma^
 自由度从 $n$ 减少为 $n-1$，损失了一个自由度．这导致 $\chi^2$ 分布的分位数变大，置信区间变宽，即 $\mu$ 未知时对 $\sigma^2$ 的估计精度更低．
 \end{solution}
 \begin{dxtips}
-   正确的理解是：
-
-这 $n$ 个偏差 $(X_1-\bar{X}),\ldots,(X_n-\bar{X})$ 之间有一个约束：
-$$\sum_{i=1}^n (X_i - \bar{X}) = 0$$
-所以前 $n-1$ 个偏差可以随意取，但第 $n$ 个被前面所有人决定了，不自由了。
-
-类比：$n$ 个数加起来必须等于 $0$，你只能自由选 $n-1$ 个，最后一个没有选择权。
+    求μ还是求σ一定得看清楚
+    \begin{itemize}
+    \item 卡方分布不对称，所以没有 $-\alpha/2$ 这种说法。
+    \item 正态分布对称，所以 $z_{\alpha/2}$ 和 $-z_{\alpha/2}$ 成对出现。
+    \item 卡方只有正值，两个分位数都是正的，分别是 $\chi^2_{\alpha/2}(n)$（右尾）和 $\chi^2_{1-\alpha/2}(n)$（左尾），两个都要查表。
+\end{itemize}
+\end{dxtips}
+\begin{dxtips}[n-1去哪里了]
+    S²是求平均所以得用平方和除以n-1 ，因为平均值确定了自由度少一个，然后在构造卡方分布的时候为了构造平方和就得乘n-1和前面的n-1消掉，但是t分布又要求处于卡方分布的位置的除以这个自由度所以又除掉了所以，n-1不见了。这个的s²替代σ平方的时候，这里是μ不知道
+\end{dxtips}
+\begin{dxtips}
+用 $S^2$ 本身就是用了 $\bar{X}$ 替代 $\mu$：
+$$S^2 = \frac{1}{n-1}\sum(X_i - \bar{X})^2$$
+正是因为把 $\mu$ 换成了 $\bar{X}$，自由度从 $n$ 变成 $n-1$，所以卡方分布也从 $\chi^2(n)$ 变成 $\chi^2(n-1)$。两者是同一件事——因为有一个约束 $\sum(X_i - \bar{X}) = 0$，自由度损失 $1$。
 \end{dxtips}
 \begin{note}
 \[
@@ -2559,6 +2616,14 @@ $$P(|U| \leq z_{\alpha/2}) = 1-\alpha$$
     $$\left(\frac{S_2^2}{S_1^2} \cdot \frac{1}{F_{1-\alpha/2}(n-1,m-1)},\ \frac{S_2^2}{S_1^2} \cdot \frac{1}{F_{\alpha/2}(n-1,m-1)}\right)$$
 \end{itemize}
 \end{solution}
+\begin{dxtips}
+    \begin{note}
+    置信区间的长度 $=$ 上限 $-$ 下限 $= 2z_{\alpha/2} \times \text{标准误}$，没有额外公式，直接从置信区间结构来的。已知长度反解样本量 $n$ 时，令长度等于目标值，解方程即可。
+\end{note}
+\end{dxtips}
+\begin{dxtips}
+    只要和卡方分布扯上关系——$t$ 分布、$F$ 分布——都不对称，所以两侧分位数不能正负配对，一侧是 $z_{\alpha/2}$，另一侧是 $z_{1-\alpha/2}$，两个都要查表。
+\end{dxtips}
 \begin{dxtips}
     第一问$\mu_2-\mu_1$就是要求的所以他们两未知没关系，但是要求的是σ2²/σ1平方的置信区间μ1μ2不知道就不行，得想办法找一个分布不受μ1μ2影响所以只能找F分布于我他两个变量n-1和m-1都是我们已经知道的查表解就行了
 \end{dxtips}
