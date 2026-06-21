@@ -220,6 +220,12 @@ $$F_{1-\alpha}(m,n) = \frac{1}{F_{\alpha}(n,m)}$$
 \end{note}
 
 \subsection{卡方t与伽马函数}
+\begin{dxtips}
+    若 $X \sim \chi^2(n)$，则
+\begin{equation*}
+    E(X) = n, \quad \text{Var}(X) = 2n.
+\end{equation*}
+\end{dxtips}
 \begin{note}
 密度函数的统一结构：\(f(x)=\text{归一化系数}\times\text{核（决定形状的部分）}\)。
 
@@ -316,6 +322,9 @@ $$T = \frac{\bar{X}-\mu}{s/\sqrt{n}} \sim t(n-1)$$
 \textbf{定理三（两独立正态总体，$Y_1,\ldots,Y_m \overset{\text{i.i.d.}}{\sim} N(\mu_2,\sigma_2^2)$）：}
 $$F = \frac{s_1^2/\sigma_1^2}{s_2^2/\sigma_2^2} \sim F(n-1,\, m-1)$$
 \end{note}
+\begin{dxtips}
+    本来乘1/n里面应该是1/n²的但是由于有n个σ平方消掉了一个n
+\end{dxtips}
 \begin{definition}[样本方差]
 $$s^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$$
 分母用 $n-1$ 而非 $n$，使得 $E(s^2) = \sigma^2$（无偏）。

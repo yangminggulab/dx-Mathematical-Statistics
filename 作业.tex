@@ -235,12 +235,13 @@ f_{\overline X}(x)
 
 \begin{homework}[1]
 证明 $(2.2.3)$ 式。
-\end{homework}
+
 \[
 \sum_{k=r}^{n} C_n^k p^k(1-p)^{n-k}
 =
 rC_n^r\int_0^p t^{r-1}(1-t)^{n-r}\,dt.
 \]
+\end{homework}
 \begin{solution}
 令 $S(p)=\displaystyle\sum_{k=r}^{n} C_n^k p^k(1-p)^{n-k}$，对 $p$ 求导，利用
 $$kC_n^k = nC_{n-1}^{k-1}, \qquad (n-k)C_n^k = nC_{n-1}^k$$
@@ -372,6 +373,9 @@ f_R(r)=\int_{-\infty}^{\infty} f_{U,V}(t,t+r)\,dt
 \]
 $r\le0$ 时 $f_R(r)=0$。
 \end{solution}
+\begin{dxtips}
+    x,y都是具体数，限制的积分中t变量的范围，f（x）经过积分要写成大F（x）先对X求导只含有y内向就没有了，然后馁导就是对应的f（x）f（y），第二问算完雅各比
+\end{dxtips}
 \begin{dxtips}
 联合分布也是我们想要求具体的，也就是 $X_{(1)}\le x$ 且 $X_{(n)}\le y$ 的概率。
 
@@ -763,6 +767,9 @@ U=\frac{(n-1)s^2}{\sigma^2}\sim\chi^2(n-1),
 \]
 \end{solution}
 \begin{dxtips}
+    记得说独立
+\end{dxtips}
+\begin{dxtips}
 $t$ 分布需要标准正态和卡方。标准正态自然就是 $\bar X-X_{n+1}$ 提供，减法只是把均值拉到了 $0$，但还要把方差归一，所以还要除以 $\sqrt{\frac{n+1}{n}}$。下面卡方分布总是要除以 $n-1$，然后它除以 $\sigma^2$ 的部分总要和分子消掉——每次分母都只会剩一个 $s$，也只会提供一个 $s$。公式中剩下的部分都是正态分布提供的。
 \end{dxtips}
 \begin{homework}[2.4第1题]
@@ -783,6 +790,9 @@ s^2=\frac{1}{n-1}\sum_{i=1}^n (X_i-\overline{X})^2,
 (n-1)^2D(s^2)=2(n-1)\implies \boxed{D(s^2)=\frac{2}{n-1}}.
 \]
 \end{solution}
+\begin{dxtips}
+    记得s²前面要乘n-1
+\end{dxtips}
 \begin{dxtips}
 卡方分布 $\chi^2(n-1)$ 的方差就是 $2(n-1)$，也就是"2倍自由度"。然后 $(n-1)s^2$ 是把 $s^2$ 乘了 $(n-1)$ 倍，方差就会变大 $(n-1)^2$ 倍，即 $D\big((n-1)s^2\big)=(n-1)^2D(s^2)$。两边一约，剩下 $D(s^2)=\dfrac{2}{n-1}$。
 \end{dxtips}
@@ -813,12 +823,13 @@ s_2^2=\frac{1}{n-1}\sum_{i=1}^n (Y_i-\overline{Y})^2.
 \frac{(m-1)s_1^2+(n-1)s_2^2}{\sigma^2}\sim\chi^2(m+n-2).
 \]
 
-\item 记 \(W=\dfrac{(m-1)s_1^2+(n-1)s_2^2}{m+n-2}\)。由 \(\chi^2(k)\) 方差为 \(2k\) 及 \(D(aX)=a^2D(X)\)：
+\item 记 $W=\dfrac{(m-1)s_1^2+(n-1)s_2^2}{m+n-2}$，则
 \[
-\frac{(m-1)s_1^2}{\sigma^2}\sim\chi^2(m-1)\implies D(s_1^2)=\frac{2\sigma^4}{m-1},
+W = \frac{\sigma^2}{m+n-2}\cdot\frac{(m-1)s_1^2+(n-1)s_2^2}{\sigma^2}.
 \]
+由第(1)问知 $\dfrac{(m-1)s_1^2+(n-1)s_2^2}{\sigma^2}\sim\chi^2(m+n-2)$，其方差为 $2(m+n-2)$，故
 \[
-\frac{(m+n-2)W}{\sigma^2}\sim\chi^2(m+n-2)\implies D(W)=\frac{2\sigma^4}{m+n-2}.
+D(W)=\left(\frac{\sigma^2}{m+n-2}\right)^2\cdot 2(m+n-2)=\frac{2\sigma^4}{m+n-2}.
 \]
 由 \(m+n-2>m-1\)，得 \(D(W)<D(s_1^2)\)，即 \(W\) 的方差更小。
 \end{enumerate}
@@ -844,6 +855,11 @@ Z\sim C(0,\sqrt{n-1}).
 \]
 \end{solution}
 \begin{dxtips}
+   若 $X, Y$ 独立且都 $\sim N(0,1)$，则
+\[
+\frac{X}{Y} \sim \text{Cauchy}(0,1).
+\]
+这就是标准柯西分布的定义。它没有期望和方差（积分不收敛）。
    其实就是要弄成两个标准正态分布想除就是标准柯西，柯西分布很特殊他压根没有方差那个1不是方差所以乘系数不用平方 
 \end{dxtips}
 \begin{homework}[1]
