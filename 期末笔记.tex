@@ -2173,6 +2173,59 @@ $$D_n = \sup_{x\in\mathbb{R}} |F_n(x) - F_0(x)|$$
 $K(\lambda) = \sum_{k=-\infty}^{+\infty}(-1)^k e^{-2k^2\lambda^2}$。
 给定显著性水平 $\alpha$，拒绝域为 $\sqrt{n}\,D_n > \lambda_\alpha$。
 \end{definition}
+\section{系统误差与精度}
+\begin{note}
+\textbf{两正态总体均值检验的普世流程}（$\sigma_1^2, \sigma_2^2$ 未知）
+
+构造统计量的核心步骤：
+\begin{enumerate}
+    \item \textbf{中心化}：$\bar{X} - \bar{Y}$ 在 $H_0: \mu_1=\mu_2$ 下期望为 0．
+    \item \textbf{计算方差}：$\text{Var}(\bar{X}-\bar{Y}) = \dfrac{\sigma_1^2}{m}+\dfrac{\sigma_2^2}{n}$，利用题目条件化简．
+    \item \textbf{估计未知方差}：目标是用 $S_1^2$、$S_2^2$ 估计方差中的未知参数。原理是：若题目给出 $\sigma_1^2$ 与 $\sigma_2^2$ 的关系，可将两者统一化为对同一参数的估计，再以各自自由度为权重做加权平均：
+    \[
+    \hat{\sigma}^2 = \frac{(m-1)\cdot\text{（}S_1^2\text{ 的折算）} + (n-1)\cdot\text{（}S_2^2\text{ 的折算）}}{m+n-2}
+    \]
+    自由度越大，该估计量越可靠，权重越高。例如 $\sigma_1^2 = k\sigma_2^2$ 时，$\frac{S_1^2}{k}$ 与 $S_2^2$ 均估计 $\sigma_2^2$，合并得：
+    \[
+    \hat{\sigma}_2^2 = \frac{(m-1)\dfrac{S_1^2}{k}+(n-1)S_2^2}{m+n-2}
+    \]
+    $k=1$ 时退化为等方差情形的合并估计量 $S_p^2$．
+    \item \textbf{标准化}：$T = \dfrac{\bar{X}-\bar{Y}}{\sqrt{\hat{\sigma}^2 \cdot\left(\dfrac{\sigma_1^2/\sigma^2}{m}+\dfrac{\sigma_2^2/\sigma^2}{n}\right)}} \sim t(m+n-2)$，分母即第 2、3 步结果的平方根．
+    \item \textbf{写检验函数}：查 $t_{\alpha/2}(m+n-2)$，$|T|$ 超过临界值则拒绝 $H_0$．
+\end{enumerate}
+
+\textbf{关键：}第 2 步中的 $\dfrac{1}{m}, \dfrac{1}{n}$ 已包含在分母内，无需额外再除．
+\end{note} 
+\begin{dxtips}
+\textbf{分母的构造逻辑}：$\text{Var}(\bar{X}-\bar{Y}) = \dfrac{\sigma_1^2}{m}+\dfrac{\sigma_2^2}{n}$，分母即其平方根．
+
+\textbf{情形一：$\sigma_1^2, \sigma_2^2$ 均已知}，直接代入：
+$$Z = \frac{\bar{X}-\bar{Y}}{\sqrt{\dfrac{\sigma_1^2}{m}+\dfrac{\sigma_2^2}{n}}} \sim N(0,1)，\quad \text{查 } z_{\alpha/2}$$
+
+\textbf{情形二：$\sigma_1^2, \sigma_2^2$ 未知，但 $\sigma_1^2 = k\sigma_2^2$}，提出唯一未知量：
+$$\frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n} = \sigma_2^2\left(\frac{k}{m}+\frac{1}{n}\right)$$
+以自由度为权重合并估计 $\sigma_2^2$：
+$$\hat{\sigma}_2^2 = \frac{(m-1)\dfrac{S_1^2}{k}+(n-1)S_2^2}{m+n-2}$$
+$$T = \frac{\bar{X}-\bar{Y}}{\sqrt{\hat{\sigma}_2^2\left(\dfrac{k}{m}+\dfrac{1}{n}\right)}} \sim t(m+n-2)，\quad \text{查 } t_{\alpha/2}(m+n-2)$$
+特别地，$k=1$ 时 $\hat{\sigma}_2^2 = S_p^2$，退化为等方差情形．
+\end{dxtips}
+\begin{note}
+\textbf{$F$ 检验的构造逻辑}
+
+首先构造统计量：$S_1^2$ 除以其方差 $\sigma_1^2$ 得卡方分布，$S_2^2$ 除以其方差 $\sigma_2^2$ 得卡方分布，两者相除得 $F$ 分布。原本 $S_1^2$ 需乘 $m-1$ 变成卡方分布，但 $F$ 分布又需除以自由度，故 $m-1$ 恰好消去：
+
+$$F = \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2} \sim F(m-1,\, n-1)$$
+
+若 $H_0: \sigma_1^2 = \sigma_2^2$，则 $\sigma_1^2/\sigma_2^2 = 1$，变量直接消去：
+$$F = \frac{S_1^2}{S_2^2} \sim F(m-1,\, n-1)$$
+
+若 $H_0: \sigma_1^2 = k\sigma_2^2$，则代入 $k$ 后：
+$$F = \frac{S_1^2}{kS_2^2} \sim F(m-1,\, n-1)$$
+
+双侧检验时，拒绝域为 $F > F_{\alpha/2}(m-1,n-1)$ 或 $F < F_{1-\alpha/2}(m-1,n-1)$，
+
+其中 $F_{1-\alpha/2}(m-1,n-1) = \dfrac{1}{F_{\alpha/2}(n-1,m-1)}$（注意自由度互换）．
+\end{note}
 \chapter{能力五综合应用}
 \section{最小二乘与检验}
 \begin{note}
@@ -2381,4 +2434,22 @@ F = \frac{MS_A}{MS_E} = \frac{SS_A/(k-1)}{SS_E/(N-k)} \sim F(k-1, N-k)
     \textbf{相同点：}两者都依赖完备充分统计量 $T(X)$，且都在指数族中最容易找到——指数族同时保证了完备充分统计量的存在（为 UMVUE 服务）和 MLR 的成立（为 UMP 服务）。"一致"（uniform）的含义也相同：对参数空间中所有 $\theta$ 成立，而非只在某个点最优。
 
     \textbf{不同点：}UMVUE 的约束是无偏性，优化目标是方差；UMP 的约束是第一类错误 $\leq \alpha$，优化目标是功效 $\beta(\theta)$。当 UMP 不存在时（如双侧检验），加上无偏约束得到 UMPU，此时 UMVUE 与 UMPU 完全对称：前者是"无偏估计中方差最小"，后者是"无偏检验中功效最大"。
+\end{dxtips}
+\section{几何分布}
+几何分布 $X\sim Geom(p)$，$P\{X=k\}=p(1-p)^{k-1}$，$k=1,2,\cdots$：
+\begin{itemize}
+    \item \textbf{期望}：$E(X) = \dfrac{1}{p}$
+    \item \textbf{方差}：$\text{Var}(X) = \dfrac{1-p}{p^2}$
+    \item \textbf{CDF}：$P\{X\leq k\} = 1-(1-p)^k$，由余事件得：前 $k$ 次都失败的概率是 $(1-p)^k$，用1减掉就是至少成功一次的概率，即
+    \[
+    P\{X \leq k\} = 1 - P\{X > k\} = 1-(1-p)^k.
+    \]
+    \item \textbf{与二项分布的联系}：$P\{X \leq k\} = P\{B(k,p) \geq 1\}$，"前 $k$ 次里首次成功发生"与"$k$ 次试验里至少有一次成功"是同一件事。
+    \item \textbf{无记忆性}：$P\{X>m+n \mid X>m\} = P\{X>n\}$
+\end{itemize}
+\begin{dxtips}[几何分布就是k次完成一次的概率]
+   
+几何分布的 CDF 推导：提取公因子 $p$，剩余部分为首项 $1$、公比 $(1-p)$ 的等比数列，错位相减后分子为 $1-(1-p)^k$，分母为 $1-(1-p)=p$，与外面的 $p$ 恰好消去：
+$$F(k) = \sum_{i=1}^{k} p(1-p)^{i-1} = p \cdot \frac{1-(1-p)^k}{1-(1-p)} = p \cdot \frac{1-(1-p)^k}{p} = 1-(1-p)^k$$
+
 \end{dxtips}
