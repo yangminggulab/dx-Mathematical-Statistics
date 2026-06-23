@@ -3133,7 +3133,7 @@ p \leq \hat{p} + z_{0.05}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \frac{1}{12} + 1.
 即认为次品率不超过 $16.0\%$。
 \end{solution}
 \begin{dxtips}
-    第一步先确定是什么分布如果合格不合格就是二项分布把n和p算出来p就是我们要求的不合格率的概率要求什么算什么。然后
+    第一步先确定是什么分布如果合格不合格就是二项分布把n和p算出来p就是我们要求的不合格率的概率要求什么算什么。次品率就是要问我们置信上限不超过就是上限，没有假设置信区间就得自己假设本质就是知道zα求p，也就是zα乘根号方差除以n
 \end{dxtips}
 \begin{dxtips}
    $\bar{X}$ 是 $n$ 个数的平均，方差比单个 $X_i$ 小 $n$ 倍：
@@ -3392,22 +3392,24 @@ $$\frac{\sum(X_i-\mu_0)^2}{\sigma^2} \sim \chi^2(n)$$
     \text{(b)}\quad H_0: \theta \geqslant \theta_0, \quad H_1: \theta < \theta_0
     \]
     双侧检验问题 $H_0: \theta = \theta_0$，$H_1: \theta \neq \theta_0$ 一般不存在 UMP 检验。
-
-    \item[(2)] 由于似然比关于 $\sum X_i$ 单调递减：
+    \item[(2)] 由于似然比关于 $\sum X_i$ 单调递减，且 $2\theta_0\sum_{i=1}^n X_i \sim \chi^2(2n)$：
 
     对假设 (a) $H_0: \theta \leqslant \theta_0$，$H_1: \theta > \theta_0$，$\theta$ 越大 $\sum X_i$ 越小，拒绝域为左侧：
     \[
     \varphi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i < c_1 \\ 0, & \sum_{i=1}^n X_i \geqslant c_1 \end{cases}
     \]
-    其中 $c_1$ 由 $P_{\theta_0}\!\left(\sum X_i < c_1\right) = \alpha$ 确定。
+    其中 $c_1 = \dfrac{\chi^2_{1-\alpha}(2n)}{2\theta_0}$，由 $P_{\theta_0}\!\left(\sum X_i < c_1\right) = \alpha$ 确定。
 
     对假设 (b) $H_0: \theta \geqslant \theta_0$，$H_1: \theta < \theta_0$，拒绝域为右侧：
     \[
     \varphi(\boldsymbol{X}) = \begin{cases} 1, & \sum_{i=1}^n X_i > c_2 \\ 0, & \sum_{i=1}^n X_i \leqslant c_2 \end{cases}
     \]
-    其中 $c_2$ 由 $P_{\theta_0}\!\left(\sum X_i > c_2\right) = \alpha$ 确定。注意 $\sum_{i=1}^n X_i \sim \Gamma(n, \theta)$，临界值可由伽马分布表确定。
+    其中 $c_2 = \dfrac{\chi^2_{\alpha}(2n)}{2\theta_0}$，由 $P_{\theta_0}\!\left(\sum X_i > c_2\right) = \alpha$ 确定。
 \end{enumerate}
 \end{solution}
+\begin{dxtips}
+    这个没求导所以必须是关于T（x）单调，然后这个不是xbar所以他压根没有除以n所以就不需要除n了，他的θ对应的是1/θ所以他需要除以1/θ也就是乘θ。
+\end{dxtips}
 \begin{dxtips}
     对 $\theta_1 > \theta_0$，N-P 最优拒绝域为 $T > c$；对 $\theta_2 < \theta_0$，N-P 最优拒绝域为 $T < c'$。两者矛盾：不存在单一检验函数 $\phi$ 使得对所有 $\theta \neq \theta_0$ 同时达到最大功效，故 UMP 检验一般不存在。
 \end{dxtips}
@@ -3485,6 +3487,9 @@ $$\frac{\sum(X_i-\mu_0)^2}{\sigma^2} \sim \chi^2(n)$$
     \]
 \end{enumerate}
 \end{solution}
+\begin{dxtips}
+    指数分布是c=1的维布尔,指数分布是拿xi的一次方的和维布尔是c次方的和其他的都可以拿指数的做
+\end{dxtips}
 \begin{homework}[7]
 设分布族
 \[

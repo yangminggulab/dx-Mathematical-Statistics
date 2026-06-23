@@ -2453,3 +2453,33 @@ F = \frac{MS_A}{MS_E} = \frac{SS_A/(k-1)}{SS_E/(N-k)} \sim F(k-1, N-k)
 $$F(k) = \sum_{i=1}^{k} p(1-p)^{i-1} = p \cdot \frac{1-(1-p)^k}{1-(1-p)} = p \cdot \frac{1-(1-p)^k}{p} = 1-(1-p)^k$$
 
 \end{dxtips}
+\section{维布尔}
+\begin{note}
+\textbf{韦布尔分布核心：变换链 $X_i^c \to \text{Exp} \to \chi^2(2n)$}
+
+设 $X_i \sim \text{Weibull}$，密度为
+\[
+f(x,\lambda) = \lambda c\, x^{c-1} e^{-\lambda x^c}, \quad x > 0
+\]
+其中 $c$ 已知，$\lambda > 0$。令 $Y_i = X_i^c$，则 $Y_i \sim \text{Exp}(\lambda)$，从而
+\[
+2\lambda \sum_{i=1}^n X_i^c \sim \chi^2(2n).
+\]
+指数分布是韦布尔 $c=1$ 时的特例。
+
+\textbf{UMP 检验（十一周6）：}似然比关于 $T = \sum X_i^c$ 单调，拒绝域为 $T > c_0$，临界值
+\[
+c_0 = \frac{\chi^2_\alpha(2n)}{2\lambda_0}.
+\]
+定样本量 $n$：由功效条件 $P_{\lambda_1}(T > c_0) \geq 1-\beta$ 化为
+\[
+\chi^2_\beta(2n) \leq \frac{\lambda_1}{\lambda_0} \cdot \chi^2_\alpha(2n),
+\]
+逐步增大 $n$ 查表直到满足。
+
+\textbf{拟合优度（十二周3）：}Pearson $\chi^2$ 统计量自由度为
+\[
+M - 1 - k,
+\]
+其中 $M$ 为分组数，$k$ 为估计参数个数（两参数韦布尔 $k=2$，故自由度为 $M-3$）。
+\end{note}
