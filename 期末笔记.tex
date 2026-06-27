@@ -671,8 +671,7 @@ Beta 函数就是把离散的组合数\textbf{连续化}了。抛硬币用 Beta 
 \begin{dxtips}
 $B(\alpha,\beta)$ 两个参数的含义：类比抛硬币，$\alpha$ 和 $\beta$ 可理解为\textbf{虚拟的历史数据}。
 
-\begin{table}[h]
-\centering
+\begin{center}
 \begin{tabular}{lll}
 \toprule
 \textbf{参数} & \textbf{位置} & \textbf{含义} \\
@@ -681,7 +680,7 @@ $\alpha$ & 第一个 & 历史上观测到正面的次数 $+1$ \\
 $\beta$  & 第二个 & 历史上观测到反面的次数 $+1$ \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
 
 \begin{itemize}
     \item $\mathrm{Beta}(2,2)$：相当于"我之前\textbf{好像见过1次正面、1次反面}"，感觉差不多均匀。
@@ -1520,18 +1519,18 @@ $$\sqrt{n}(g(\hat{\theta}) - g(\theta)) \approx g'(\theta) \cdot \sqrt{n}(\hat{\
 \end{dxtips}
 \begin{note}[中心极限定理详解]
  Central Limit Theorem
- \text{Var}\!\left(\sum X_i - n\mu\right) = \text{Var}\!\left(\sum X_i\right) = \sum_{i=1}^n \text{Var}(X_i) = n\sigma^2
+$$\text{Var}\!\left(\sum X_i - n\mu\right) = \text{Var}\!\left(\sum X_i\right) = \sum_{i=1}^n \text{Var}(X_i) = n\sigma^2$$
 
 % 常数不影响方差；独立 → 方差可以直接加；n 个 σ² 加起来 = nσ²
 
-\text{三种情况：}
+三种情况：
 \begin{itemize}
   \item 直接看和：$\displaystyle\sum X_i - n\mu$，方差 $= n\sigma^2 \to \infty$（爆炸）
   \item 除以 $n$（样本均值）：$\bar{X} - \mu$，方差 $= \dfrac{\sigma^2}{n} \to 0$（塌缩成一个点，LLN）
   \item 除以 $\sqrt{n}$：$\dfrac{1}{\sqrt{n}}\displaystyle\sum(X_i-\mu)$，方差 $= \sigma^2$（稳定！）
 \end{itemize}
 
-\sqrt{n} \text{ 是让方差既不爆炸也不消失的唯一选择。}
+$\sqrt{n}$ 是让方差既不爆炸也不消失的唯一选择。
 \end{note}
 \begin{dxtips}
 因为 $n$ 个方差之和才是 $n\sigma^2$，
